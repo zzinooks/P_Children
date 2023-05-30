@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 
+import com.web.root.session.name.MemberSession;
+
 @Controller
 @RequestMapping("member")
-public class MemberController {
+public class MemberController implements MemberSession {
 
 	//============================ 박성수 ===========================================
 	
@@ -46,7 +48,10 @@ public class MemberController {
 	
 	
 	
-	//============================ 박성수 ===========================================
+	//============================ 최윤희 ===========================================
+	
+
+	
 	
 	
 	
