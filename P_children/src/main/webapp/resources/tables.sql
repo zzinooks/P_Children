@@ -8,6 +8,7 @@ CREATE TABLE member(
     phone NUMBER(11) NOT NULL,
     email NVARCHAR2(50) NOT NULL,
     addr NVARCHAR2(50) NOT NULL
+    grade Nvarchar2(20) DEFAULT 'bronze'
 );
 
 
