@@ -23,20 +23,6 @@
 	
 	<context:component-scan base-package="com.web.root" />
 	
-	<!-- <beans:bean id="memberInterceptor" class="com.web.root.member.interceptor.MemberInterceptor"/>
-	<beans:bean id="boardInterceptor" class="com.web.root.board.interceptor.BoardInterceptor"/>
-	
-	<interceptors>
-		<interceptor>
-			<mapping path="/member/memberInfo"/>
-			<beans:ref bean="memberInterceptor"/>
-		</interceptor>
-		<interceptor>
-			<mapping path="/board/writeForm"/>
-			<beans:ref bean="boardInterceptor"/>
-		</interceptor>
-	</interceptors> -->
-	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="52428800"/>
 	</beans:bean>
