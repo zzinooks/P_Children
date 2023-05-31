@@ -57,6 +57,28 @@ function findUserPwdCheck() {
 }
 
 
+// 비밀번호 찾고 비밀번호 수정 입력 체크
+function userRePwdCheck(){
+	if(document.findUserPwdResult.newPwd.value == ""){
+		alert("새 비밀번호를 입력하세요");
+		document.findUserPwdResult.newPwd.focus();
+	} 
+	else if(document.findUserPwdResult.newRePwd.value == "") {
+		alert("새 비밀번호 확인을 입력하세요");
+		document.findUserPwdResult.newRePwd.focus();
+	}
+	else if(document.findUserPwdResult.newPwd.value != document.findUserPwdResult.newRePwd.value) {
+		alert("비밀번호가 일치하지 않습니다.");
+		document.findUserPwdResult.newRePwd.focus();
+	}
+	else {
+		document.findUserPwdResult.submit();
+	}
+}
+
+
+
+
 
 
 

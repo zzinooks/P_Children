@@ -36,4 +36,7 @@ public interface MemberService {
 
 	
 	
+	// 비밀번호 찾고 비밀번호 수정
+	// public void userRePwd(HttpServletRequest request);
+	
 }
