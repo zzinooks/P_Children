@@ -14,4 +14,7 @@ public interface MemberMapper {
 	// 비밀번호 찾기
 	public MemberDTO findUserPwd(String findUserId);
 	
+	// 비밀번호 찾고 비밀번호 수정
+	//public void userRePwd(String id, String newPwd);
+	
 }

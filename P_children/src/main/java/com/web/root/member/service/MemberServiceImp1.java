@@ -65,6 +65,13 @@ public class MemberServiceImp1 implements MemberService {
 	
 	
 	
+	// 비밀번호 찾고 비밀번호 수정
+	/*
+	@Override
+	public void userRePwd(HttpServletRequest request) {
+		 mapper.userRePwd(request.getParameter("id"), request.getParameter("newPwd")); 
+	}
+	*/
 	
 	
 	

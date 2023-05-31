@@ -15,20 +15,20 @@
 <body>
 
 	<h1>로그인</h1>
-	<form name="memberLoginForm" action="userCheck" method="post">
-		<input type="text" name="id" placeholder="아이디" value="${rememberCookie.getValue() }"><br>
+	<form name="memberLoginForm" action="${contextPath}/yoonhee/userCheck" method="post">
+		<input type="text" name="id" value="${cookie.id.value}" placeholder="아이디"><br> <!-- 쿠키 아이디 값이 있을 경우 value 저장 -->
 		<br>
 		<input type="password" name="pwd" placeholder="비밀번호"><br>
 		<br>
 		<input type="button" value="로그인" onclick="checkLogin()"> 
 		<br>
 		<!-- 체크박스 생성 -->
-		<input type="checkbox" class="custom-control-nput" id="customCheck" name="customCheck" value="true" ${checked} />
-		<label for="customCheck">아이디 기억하기</label>
+		<input type="checkbox" id="checkbox" name="rememberId" ${empty cookie.id.value ? "":"checked"}/>
+		<label for="checkbox">아이디 기억하기</label>
 	</form>
 		
 	<span><a href="findUserIdForm">아이디 찾기</a></span>
-	<span><a href="">비밀번호 찾기</a></span>
+	<span><a href="findUserPwdForm">비밀번호 찾기</a></span>
 	<span><a href="">회원가입</a></span>
 	
 	

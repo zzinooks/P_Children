@@ -14,7 +14,7 @@
 </head>
 <body>
 	<h1>비밀번호 찾기</h1>
-	<form name="findUserPwdForm" action="findUserPwd" method="post">
+	<form name="findUserPwdForm" action="${contextPath}/yoonhee/findUserPwd" method="post">
 		<input type="text" name="findUserId" placeholder="아이디"><br>
 		<br>
 		<input type="text" name="findUserEmail" placeholder="이메일"><br>
