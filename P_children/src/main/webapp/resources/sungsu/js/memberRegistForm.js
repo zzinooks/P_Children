@@ -6,7 +6,7 @@ if(k&&j[k]&&(e||j[k].data)||void 0!==d||"string"!=typeof b)return k||(k=i?a[h]=c
 
 
 
-
+// form 값 들어왔는지 확인.
 function valueCheck() {
 	let id = document.querySelector("span#id_");
 	let pwd = document.querySelector("span#pwd_");
@@ -57,6 +57,7 @@ function valueCheck() {
 	
 }
 
+// 아이디 중복 체크 확인
 function idCheck(){
 	let id = $("#userid").val();
 	
@@ -83,16 +84,19 @@ function idCheck(){
 }
 
 
-$("#pwdCheck").keyup(function(){
-	let check = $("#pwdCheck").val();
-	let pwd = $("#pwd").val();
-	
-	if(check == pwd) {
-		$("#pwdCheck_").text("비밀번호가 일치합니다.");
-		$("#pwdCheck_").css("color", "white");
-	} else {
-		$("#pwdCheck_").text("비밀번호가 일치하지 않습니다.");
-		$("#pwdCheck_").css("color", "white");
-	}
-	
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -28,6 +28,29 @@
 	<!-- 마이바티스 xml 파일과 dao 빈 연결 -->
 	<mybatis-spring:scan base-package="com.web.root.mybatis"/>
 	
+	<!-- 이메일 빈 등록 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.naver.com" />
+        <property name="port" value="587" />
+        <property name="username" value="sungsu930@naver.com" />
+        <property name="password" value="ffsic@)$#0" />
+        
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+                <prop key="mail.smtps.ssl.trust">smtp.naver.com</prop>
+                <prop key="mail.smtps.checkserveridentity">true</prop>
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+            </props>
+        </property>
+    </bean>
+    
+    
+    
 </beans>
 
 
