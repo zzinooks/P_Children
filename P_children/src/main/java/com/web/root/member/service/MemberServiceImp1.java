@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.web.root.member.dto.HostDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.mybatis.member.MemberMapper;
 
@@ -94,6 +95,16 @@ public class MemberServiceImp1 implements MemberService {
 	}
 	
 	@Override
+	public String registHost(HostDTO dto) {
+		String message = "";
+		int result = mapper.registHost(dto);
+		if(result == 1) {
+			message = "회원가입 완료.";
+		}
+		return message;
+	}
+	
+	@Override
 	public String getMemberInfo(String id) {
 		MemberDTO dto = new MemberDTO();
 		dto = mapper.getMemberInfo(id);
@@ -104,9 +115,29 @@ public class MemberServiceImp1 implements MemberService {
 	}
 	
 	@Override
+	public String getHostInfo(String id) {
+		MemberDTO dto = new MemberDTO();
+		dto = mapper.getHostInfo(id);
+		if(dto == null) {
+			return "OK";
+		}
+		return "NO";
+	}
+	
+	@Override
 	public String checkEmail(String email) {
 		MemberDTO dto = new MemberDTO();
 		dto = mapper.checkEmail(email);
+		if(dto == null) {
+			return "OK";
+		}
+		return "NO";
+	}
+	
+	@Override
+	public String checkEmail_host(String email) {
+		MemberDTO dto = new MemberDTO();
+		dto = mapper.checkEmail_host(email);
 		if(dto == null) {
 			return "OK";
 		}
