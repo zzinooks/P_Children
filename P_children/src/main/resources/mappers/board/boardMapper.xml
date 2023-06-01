@@ -2,30 +2,117 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<<<<<<< HEAD
 <mapper namespace="com.web.root.mybatis.member.MemberMapper">
+=======
+<!-- mappers/file/boardMapper.xml -->
+<mapper namespace="com.web.root.mybatis.board.BoardMapper">
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 
+<<<<<<< HEAD
 	<resultMap type="com.web.root.board.dto.BoardDTO" id="board">
 		<id property="write_no"  column="write_no"/>
+=======
+	<resultMap  id="board" type="com.web.root.board.dto.BoardDTO">
+		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="savedate" column="savedate"/>
 		<result property="hit" column="hit"/>
+<<<<<<< HEAD
 		<result property="image_file_name" column="image_file_name"/>
+=======
+		<result property="file_name" column="file_name"/>
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 		<result property="id" column="id"/>
 	</resultMap>
 	
+<<<<<<< HEAD
+=======
+ 	<resultMap id="reply" type="com.web.root.board.dto.BoardRepDTO">
+ 		<result property="reply_no" column="reply_no"/>
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="write_group" column="write_group"/>
+		<result property="write_date" column="write_date"/>
+	</resultMap>
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 	
+<<<<<<< HEAD
 	<select id="manager_board" resultMap="board">
+=======
+	<select id="boardAllList" resultMap="board">
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
 		(SELECT * FROM board ORDER BY write_no DESC)A )B
+<<<<<<< HEAD
 		WHERE rn BETWEEN #{s} and #{e}
+=======
+		WHERE rn BETWEEN #{s} AND #{e}
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 	</select>
 	
+<<<<<<< HEAD
 	<select id="selectBoardCount" resultType="Integer">
+		SELECT COUNT(*) FROM board
+=======
+ 	<select id="selectBoardCount" resultType="Integer">
 		SELECT COUNT(*) FROM board
 	</select>
 	
+	<insert id="saveData">
+		INSERT INTO board VALUES(board_seq.NEXTVAL, #{title}, #{content}, SYSDATE, 0, #{file}, #{id})
+	</insert>
+	
+	<insert id="writeSave">
+		INSERT INTO board(write_no, id, title, content, file_name)
+		VALUES(board_seq.NEXTVAL, #{id}, #{title}, #{content}, #{file_name})
+	</insert>
+	
+	<select id="contentView" resultMap="board">
+		SELECT * FROM board WHERE write_no=#{write_no}
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
+	</select>
+	
+<<<<<<< HEAD
 
 
 </mapper>
+=======
+	<update id="hitplus" parameterType="com.web.root.board.dto.BoardDTO">
+		UPDATE board SET hit = hit+1 WHERE write_no=#{write_no}
+	</update>
+	
+	<update id="modifySave" parameterType="com.web.root.board.dto.BoardDTO">
+		UPDATE board SET title=#{title}, content=#{content} WHERE write_no=#{write_no}
+	</update>
+	
+	<update id="modifySaveWithFile" parameterType="com.web.root.board.dto.BoardDTO">
+		UPDATE board SET title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE FROM board WHERE write_no=#{write_no}
+	</delete>
+	
+	<insert id="addReply">
+		INSERT INTO reply VALUES(reply_seq.NEXTVAL, #{id}, #{title}, #{content},#{write_no} ,SYSDATE)
+	</insert>
+	
+	<select id="getRepList" resultMap="reply">
+		SELECT * FROM reply WHERE write_group=#{write_group}
+		ORDER BY write_date DESC
+	</select>
+
+	<delete id="deleteReply">
+		DELETE FROM reply WHERE id=#{id} AND content=#{content} AND title=#{title}
+	</delete>
+	
+	<update id="updateReply">
+		UPDATE reply SET content=#{updateContent}, title=#{updateTitle} WHERE id=#{id} AND title=#{beforeTitle} AND content=#{beforeContent}
+	</update>
+</mapper>
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git

@@ -21,6 +21,7 @@
 		<table >
 			<tr>
 				<th>아이디</th>
+<<<<<<< HEAD
 				<th>${info.id }</th>
 			</tr>
 			<tr>
@@ -42,6 +43,29 @@
 			<tr>
 				<th>주소</th>
 				<th>${info.addr }</th>
+=======
+				<th>null</th>
+			</tr>
+			<tr>
+				<th>등급</th>
+				<th>null</th>
+			</tr>
+			<tr>
+				<th>닉네임</th>
+				<th>null</th>
+			</tr>
+			<tr>
+				<th>이메일</th>
+				<th>null</th>
+			</tr>
+			<tr>
+				<th>휴대전화</th>
+				<th>null</th>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<th>null</th>
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 			</tr>
 		</table>
 		
