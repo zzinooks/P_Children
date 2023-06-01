@@ -6,25 +6,38 @@
 
 	<resultMap type="com.web.root.member.dto.MemberDTO" id="member">
 		<id property="id" column="id"/>
-		<result property="pw" column="pw"/>
+		<result property="pwd" column="pwd"/>
+		<result property="nickname" column="nickname"/>
+		<result property="phone" column="phone"/>
+		<result property="email" column="email"/>
 		<result property="addr" column="addr"/>
+		<result property="grade" column="grade"/>
 	</resultMap>
 	
 	<select id="userCheck" resultMap="member">
-		SELECT * FROM membership WHERE id=#{id}
-	</select>
-	
-	<select id="memberInfo" resultMap="member">
-		SELECT * FROM membership
+		SELECT * FROM member WHERE id=#{id}
 	</select>
 	
 	<select id="getMember" resultMap="member">
-	    SELECT * FROM membership WHERE id=#{userid}
+	    SELECT * 
+	      FROM member 
+	    WHERE id=#{userid}
 	</select>
 	
-	<insert id="register">
-		INSERT INTO membership VALUES(#{id}, #{pw}, #{addr})
-	</insert>
+	<select id="memberInfo" resultMap="member">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM member ORDER BY grade DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<select id="selectMemberCount" resultType="Integer">
+		SELECT COUNT(*) FROM member
+	</select>
+
+	
+	
+	
 </mapper>
 
 

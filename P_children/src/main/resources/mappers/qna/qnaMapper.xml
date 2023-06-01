@@ -4,28 +4,24 @@
 
 <mapper namespace="com.web.root.mybatis.member.MemberMapper">
 
-	<resultMap type="com.web.root.board.dto.BoardDTO" id="board">
-		<id property="write_no"  column="write_no"/>
+	<resultMap type="com.web.root.qna.dto.QnaDTO" id="qna">
+		<id property="id"  column="id"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="savedate" column="savedate"/>
-		<result property="hit" column="hit"/>
-		<result property="image_file_name" column="image_file_name"/>
-		<result property="id" column="id"/>
+		<result property="status" column="status"/>
 	</resultMap>
 	
-	
-	<select id="manager_board" resultMap="board">
+	<select id="manager_qna" resultMap="qna">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
-		(SELECT * FROM board ORDER BY write_no DESC)A )B
+		(SELECT * FROM qna ORDER BY savedate DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 	
-	<select id="selectBoardCount" resultType="Integer">
-		SELECT COUNT(*) FROM board
+	<select id="selectQnaCount" resultType="Integer">
+		SELECT COUNT(*) FROM qna
 	</select>
-	
 
 
 </mapper>
