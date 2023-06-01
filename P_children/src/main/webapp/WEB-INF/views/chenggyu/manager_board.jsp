@@ -13,6 +13,7 @@
 table{
 	border: 1px solid;
 	border-collapse: collapse;
+<<<<<<< HEAD
 	height: 75px;
 	width: 1000px;
 }
@@ -55,6 +56,29 @@ th, td {
 				<c:forEach  var="num" begin="1" end="${repeat }">
 						<a href="manager_board?num=${num }">[ ${num } ]</a>
 			</c:forEach>
+=======
+	height: 50px;
+	width: 500px;
+}
+th, td {
+	border: 1px solid ;
+}
+</style>
+</head>
+<body>
+
+	<c:import url="../default/header.jsp"/>
+	
+	<div align="center">
+	<br>
+	<h1>게시물 관리</h1>
+	<br>
+	<table>
+		<tr>
+			<th>글 번호</th><th>제목</th><th>조회수</th><th>작성일</th><th>관리</th>
+		</tr>
+	</table>
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 	<br><br>
 	<a href="/root/member/manager_information">관리자 정보</a>
 	

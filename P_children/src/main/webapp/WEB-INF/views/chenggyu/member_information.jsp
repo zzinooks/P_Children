@@ -46,7 +46,11 @@ th, td {
 			</tr>
 			<tr>
 				<th>이메일</th>
+<<<<<<< HEAD
 				<th>${info.email }</th>
+=======
+				<th>${info.emali }</th>
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 			</tr>
 			<tr>
 				<th>휴대전화</th>
