@@ -2,34 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<<<<<<< HEAD
-<mapper namespace="com.web.root.mybatis.member.MemberMapper">
-=======
 <!-- mappers/file/boardMapper.xml -->
 <mapper namespace="com.web.root.mybatis.board.BoardMapper">
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 
-<<<<<<< HEAD
-	<resultMap type="com.web.root.board.dto.BoardDTO" id="board">
-		<id property="write_no"  column="write_no"/>
-=======
 	<resultMap  id="board" type="com.web.root.board.dto.BoardDTO">
 		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="savedate" column="savedate"/>
 		<result property="hit" column="hit"/>
-<<<<<<< HEAD
-		<result property="image_file_name" column="image_file_name"/>
-=======
 		<result property="file_name" column="file_name"/>
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 		<result property="id" column="id"/>
 	</resultMap>
 	
-<<<<<<< HEAD
-=======
+
  	<resultMap id="reply" type="com.web.root.board.dto.BoardRepDTO">
  		<result property="reply_no" column="reply_no"/>
 		<result property="id" column="id"/>
@@ -38,27 +24,21 @@
 		<result property="write_group" column="write_group"/>
 		<result property="write_date" column="write_date"/>
 	</resultMap>
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
-	
-<<<<<<< HEAD
+
 	<select id="manager_board" resultMap="board">
-=======
-	<select id="boardAllList" resultMap="board">
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
 		(SELECT * FROM board ORDER BY write_no DESC)A )B
-<<<<<<< HEAD
 		WHERE rn BETWEEN #{s} and #{e}
-=======
-		WHERE rn BETWEEN #{s} AND #{e}
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 	</select>
 	
-<<<<<<< HEAD
-	<select id="selectBoardCount" resultType="Integer">
-		SELECT COUNT(*) FROM board
-=======
+	<select id="boardAllList" resultMap="board">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM board ORDER BY write_no DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+
  	<select id="selectBoardCount" resultType="Integer">
 		SELECT COUNT(*) FROM board
 	</select>
@@ -74,14 +54,9 @@
 	
 	<select id="contentView" resultMap="board">
 		SELECT * FROM board WHERE write_no=#{write_no}
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 	</select>
-	
-<<<<<<< HEAD
 
 
-</mapper>
-=======
 	<update id="hitplus" parameterType="com.web.root.board.dto.BoardDTO">
 		UPDATE board SET hit = hit+1 WHERE write_no=#{write_no}
 	</update>
@@ -114,5 +89,5 @@
 	<update id="updateReply">
 		UPDATE reply SET content=#{updateContent}, title=#{updateTitle} WHERE id=#{id} AND title=#{beforeTitle} AND content=#{beforeContent}
 	</update>
+	
 </mapper>
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git

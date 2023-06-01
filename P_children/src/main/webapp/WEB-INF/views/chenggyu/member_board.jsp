@@ -22,8 +22,6 @@ th, td {
 </style>
 </head>
 <body>
-
-	<c:import url="../default/header.jsp"/>
 		
 		<div align="center">
 		<br>
@@ -39,8 +37,6 @@ th, td {
 		<a href="/root/member/member_information ">개인 정보</a>
 		
 		</div>
-	
-	<c:import url="../default/footer.jsp"/>
 	
 	
 

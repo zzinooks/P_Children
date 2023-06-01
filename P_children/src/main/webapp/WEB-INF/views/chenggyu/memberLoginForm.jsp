@@ -28,10 +28,11 @@
 		<input type="checkbox" class="custom-control-nput" id="customCheck" name="customCheck" value="true"/>
 		<label for="customCheck">아이디 기억하기</label>
 	</form>
-		
+	<a href="/root/index">index</a>
+	<br>
 	<span><a href="findUserIdForm">아이디 찾기</a></span>
 	<span><a href="findUserPwdForm">비밀번호 찾기</a></span>
-	<span><a href="">회원가입</a></span>
+	<span><a href="emailCheck">회원가입</a></span>
 	
 	</div>
 	

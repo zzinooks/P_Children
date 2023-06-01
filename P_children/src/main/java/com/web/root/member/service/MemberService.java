@@ -1,16 +1,14 @@
 package com.web.root.member.service;
 
 import javax.servlet.http.HttpServletRequest;
-<<<<<<< HEAD
 
 import org.springframework.ui.Model;
-=======
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
 import com.web.root.member.dto.MemberDTO;
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
+
 
 public interface MemberService {
 	
@@ -38,7 +36,6 @@ public interface MemberService {
 	
 	//============================ 최윤희 ===========================================
 	
-	public int userCheck(HttpServletRequest request);
 	
 	// 아이디 찾기
 	public int findUserId(HttpServletRequest request, Model model);

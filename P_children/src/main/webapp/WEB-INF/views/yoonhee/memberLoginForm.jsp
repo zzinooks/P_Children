@@ -26,7 +26,8 @@
 		<input type="checkbox" id="checkbox" name="rememberId" ${empty cookie.id.value ? "":"checked"}/>
 		<label for="checkbox">아이디 기억하기</label>
 	</form>
-		
+	<a href="/root/index">index</a>
+	<br>
 	<span><a href="findUserIdForm">아이디 찾기</a></span>
 	<span><a href="findUserPwdForm">비밀번호 찾기</a></span>
 	<span><a href="">회원가입</a></span>

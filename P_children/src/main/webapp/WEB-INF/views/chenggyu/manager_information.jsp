@@ -9,10 +9,19 @@
 <head>
 <meta charset="UTF-8">
 <title>manager_information</title>
+<style type="text/css">
+table{
+	border: 1px solid;
+	border-collapse: collapse;
+	height: 200px;
+	width: 500px;
+}
+th, td {
+	border: 1px solid ;
+}
+</style>
 </head>
 <body>
-
-	<c:import url="../default/header.jsp"/>
 	
 		<div align="center">
 		<br>
@@ -21,7 +30,6 @@
 		<table >
 			<tr>
 				<th>아이디</th>
-<<<<<<< HEAD
 				<th>${info.id }</th>
 			</tr>
 			<tr>
@@ -43,29 +51,6 @@
 			<tr>
 				<th>주소</th>
 				<th>${info.addr }</th>
-=======
-				<th>null</th>
-			</tr>
-			<tr>
-				<th>등급</th>
-				<th>null</th>
-			</tr>
-			<tr>
-				<th>닉네임</th>
-				<th>null</th>
-			</tr>
-			<tr>
-				<th>이메일</th>
-				<th>null</th>
-			</tr>
-			<tr>
-				<th>휴대전화</th>
-				<th>null</th>
-			</tr>
-			<tr>
-				<th>주소</th>
-				<th>null</th>
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 			</tr>
 		</table>
 		
@@ -80,7 +65,6 @@
 		
 		</div>
 	
-	<c:import url="../default/footer.jsp"/>
 
 </body>
 </html>

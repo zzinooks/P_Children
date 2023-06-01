@@ -14,7 +14,7 @@
 	<h3>비밀번호 재설정</h3>
 	<c:if test="${findPwd != null }">
 		<p>I Run it 아이디 : ${findPwd.id }</p>
-		<form name="findUserPwdResult" action="${contextPath }/yoonhee/userRePwd" method="post">
+		<form name="findUserPwdResult" action="${contextPath }/member/userRePwd" method="post">
 			<input type="hidden" name="id" value="${findPwd.id }">
 			<input type="password" name="newPwd" placeholder="새 비밀번호 입력"><br>
 			<br>
@@ -27,8 +27,8 @@
 		<p>회원 정보가 없습니다.</p>
 	</c:if>
 	
-	<a href="${contextPath }/yoonhee/memberLoginForm">로그인하기</a>
-	<a href="${contextPath }/yoonhee/findUserPwdForm">비밀번호 찾기</a>
+	<a href="${contextPath }/member/memberLoginForm">로그인하기</a>
+	<a href="${contextPath }/member/findUserPwdForm">비밀번호 찾기</a>
 	<a href="${contextPath }/index">메인</a>
 </body>
 </html>

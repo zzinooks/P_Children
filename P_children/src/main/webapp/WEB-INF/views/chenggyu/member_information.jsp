@@ -16,7 +16,7 @@ table{
 	border: 1px solid;
 	border-collapse: collapse;
 	height: 200px;
-	width: 200px;
+	width: 500px;
 }
 th, td {
 	border: 1px solid ;
@@ -24,8 +24,6 @@ th, td {
 </style>
 </head>
 <body>
-	
-	<c:import url="../default/header.jsp"/>
 	
 		<div align="center">
 		<br>
@@ -46,11 +44,7 @@ th, td {
 			</tr>
 			<tr>
 				<th>이메일</th>
-<<<<<<< HEAD
 				<th>${info.email }</th>
-=======
-				<th>${info.emali }</th>
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 			</tr>
 			<tr>
 				<th>휴대전화</th>
@@ -77,7 +71,6 @@ th, td {
 	
 	</div>
 
-	<c:import url="../default/footer.jsp"/>
 	
 </body>
 </html>

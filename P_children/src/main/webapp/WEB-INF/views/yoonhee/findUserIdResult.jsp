@@ -17,8 +17,8 @@
 		<p>회원 정보가 없습니다.</p>
 	</c:if>
 	
-	<a href="${contextPath }/yoonhee/memberLoginForm">로그인하기</a>
-	<a href="${contextPath }/yoonhee/findUserPwdForm">비밀번호 찾기</a>
+	<a href="${contextPath }/member/memberLoginForm">로그인하기</a>
+	<a href="${contextPath }/member/findUserPwdForm">비밀번호 찾기</a>
 	
 </body>
 </html>

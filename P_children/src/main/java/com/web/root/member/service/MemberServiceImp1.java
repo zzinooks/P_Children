@@ -1,9 +1,11 @@
 package com.web.root.member.service;
 
-<<<<<<< HEAD
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -11,24 +13,17 @@ import com.web.root.member.dto.MemberDTO;
 import com.web.root.mybatis.member.MemberMapper;
 
 @Service
-public class MemberServiceImp1 implements MemberService{
+public class MemberServiceImp1 implements MemberService {
+
+	@Autowired
+	MemberMapper mapper;
 	
 	@Autowired
-	private MemberMapper mapper;
+	CheckMailService cms;
 	
-	// 로그인 유저 체크
-	@Override
-	public int userCheck(HttpServletRequest request) {
-		MemberDTO dto = mapper.userCheck(request.getParameter("id"));
+	@Inject
+	JavaMailSender mailSender;
 
-		if(dto != null) {
-			if(request.getParameter("pwd").equals(dto.getPwd())) {
-				return 1; // 로그인 성공
-			}
-		}
-		return 0; // 로그인 실패
-		
-	}
 	
 	@Override
 	public void info(String userid, Model model) {
@@ -84,40 +79,7 @@ public class MemberServiceImp1 implements MemberService{
 		
 	}
 	
-
-
-	
-	
-=======
-import java.util.Random;
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-
-import com.web.root.member.dto.MemberDTO;
-import com.web.root.mybatis.member.MemberMapper;
-
-@Service
-public class MemberServiceImp1 implements MemberService {
-
-	@Autowired
-	MemberMapper mapper;
-	
-	@Autowired
-	CheckMailService cms;
-	
-	@Inject
-	JavaMailSender mailSender;
-	
 	//============================ 박성수 시작 ===========================================
-	
 	
 	
 	@Override

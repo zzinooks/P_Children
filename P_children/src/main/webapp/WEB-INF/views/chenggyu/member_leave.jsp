@@ -12,8 +12,6 @@
 </head>
 <body>
 
-	<c:import url="../default/header.jsp" />
-
 	<div align="center">
 		<br>
 		<h1>회원 탈퇴</h1>
@@ -36,7 +34,6 @@
 
 	</div>
 
-	<c:import url="../default/footer.jsp" />
 
 </body>
 </html>

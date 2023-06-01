@@ -241,7 +241,7 @@ h1 {
 	</div>
 	
 	<!-- 본문 -->
-	<c:import url="../default/header.jsp"/>
+	<%-- <c:import url="../default/header.jsp"/> --%>
 	<h1> 글보기 </h1>
 	<br><br>
 	<div class="wrap contentView">
@@ -281,6 +281,6 @@ h1 {
 			</tr>
 		</table>
 	</div>
-	<c:import url="../default/footer.jsp"/>
+	<%-- <c:import url="../default/footer.jsp"/> --%>
 </body>
 </html>

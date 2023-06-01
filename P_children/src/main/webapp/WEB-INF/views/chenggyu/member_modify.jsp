@@ -13,7 +13,6 @@
 </head>
 <body>
 
-	<c:import url="../default/header.jsp" />
 	<div align="center">
 		<br>
 		<h1>개인정보 수정</h1>
@@ -51,7 +50,6 @@
 
 	</div>
 
-	<c:import url="../default/footer.jsp" />
 
 </body>
 </html>

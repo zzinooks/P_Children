@@ -57,7 +57,6 @@ public class BoardController implements MemberSession{
 	
 	@GetMapping("boardAllList")
 	public String boardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
-		session.setAttribute(LOGIN, "sungsu");
 		bs.boardAllList(model, num, request);
 		return "/board/boardAllList"; 
 	}
