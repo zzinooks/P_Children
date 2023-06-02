@@ -39,16 +39,15 @@ public interface MemberMapper {
 	
 	public MemberDTO userCheck(String id);
 	
-	// 아이디 찾기
 	public MemberDTO findUserId(String findUserEmail);
 	
-	// 비밀번호 찾기
 	public MemberDTO findUserPwd(String findUserId);
 
+	public void userRePwd(MemberDTO dto);
 	
+	public MemberDTO userCheckHost(String id); // hostDTO 만들기
 	
-	// 비밀번호 찾고 비밀번호 수정
-	//public void userRePwd(String id, String newPwd);
+	//============================ 최윤희 끝 ===========================================
 	
 
 }

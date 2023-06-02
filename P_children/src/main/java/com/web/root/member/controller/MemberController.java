@@ -1,7 +1,10 @@
 package com.web.root.member.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.Spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,12 +27,6 @@ public class MemberController implements MemberSession{
 	@Autowired
 	private MemberService ms;
 	
-	// 인덱스 + 로그인 여부
-	@GetMapping("index")
-	public String index() {
-		return "index";
-	}
-	
 	
 	//============================ 임청규 ===========================================
 	
@@ -38,11 +35,6 @@ public class MemberController implements MemberSession{
 		ms.userInfo(id,model);
 	} 
 	
-	// 로그인 입력창
-	@RequestMapping("memberLoginForm")
-	public String memberLoginForm() {
-		return "chenggyu/memberLoginForm";
-	}
 	
 	// 로그인 정보가져오기
 	@RequestMapping("member_information")
@@ -99,7 +91,12 @@ public class MemberController implements MemberSession{
 		return "chenggyu/manager_qna";
 	}
 	
-	//=======================================================================================
+	
+	//============================ 임청규 끝 ===========================================
+	
+	
+	
+	//============================ 박성수 시작 ===========================================
 	
 	@RequestMapping("registForm")
 	public String memberRegistFrom(@RequestParam("email") String email, Model model) {
@@ -144,141 +141,139 @@ public class MemberController implements MemberSession{
 	
 	
 	
+	
 	//============================ 최윤희 ===========================================
 	
+	
+	// 로그인 입력창
+	@RequestMapping("memberLoginForm")
+	public String memberLoginForm() {
+		return "yoonhee/memberLoginForm";
+	}
 
 		
-		// 로그인 시 아이디 체크
-		@PostMapping("userCheck")
-		public String userCheck(HttpServletRequest request, RedirectAttributes ra) {
+	// 로그인 시 아이디 체크
+	@RequestMapping("userCheck")
+	public String userCheck(HttpServletRequest request, RedirectAttributes ra, Model m, HttpServletResponse response) {
+		
+		int result = 0;
+		
+		String userSelect = request.getParameter("userSelect");
+		System.out.println(userSelect);
+		
+		// member랑 host 구분
+		if(userSelect.equals("member")) {
+			result = ms.userCheck(request);
+		} else if(userSelect.equals("host")) {
+			result = ms.userCheckHost(request);
+		}
+		
+		
+		if(result == 1) { // 아이디를 성공적으로 찾았으면
+			ra.addAttribute("id", request.getParameter("id"));
 			
-			int result = ms.userCheck(request);
+			String checked = request.getParameter("testChek");  // 확인
+			// System.out.println(checked);
 			
-			if(result == 1) {
-				ra.addAttribute("id", request.getParameter("id"));
-				return "redirect:memberLoginSuccess";  // 로그인 성공
+			if(checked.equals("true")) { // 아이디 기억하기가 check 이면
+				//System.out.println("쿠키 생성 성공");
+	            Cookie cookie = new Cookie("CookieId", request.getParameter("id"));
+	            response.addCookie(cookie);
 			} else {
-				return "yoonhee/memberLoginForm";  // 로그인 실패
+				//System.out.println("쿠키 생성 실패");
+	            Cookie cookie = new Cookie("CookieId", null);
+	            cookie.setMaxAge(0);
+	            response.addCookie(cookie);
 			}
-			
+			return "redirect:memberLoginSuccess";  // 로그인 성공
+		} else {
+			return "yoonhee/memberLoginForm";  // 로그인 실패
 		}
-		
-		// 로그인 시 아이디 체크
-		@RequestMapping("userCheck")
-		public String userCheck(HttpServletRequest request, RedirectAttributes ra, Model m) {
-			
-			int result = ms.userCheck(request);
-			
-			if(result == 1) {
-				ra.addAttribute("id", request.getParameter("id"));
-				return "redirect:memberLoginSuccess";  // 로그인 성공
-			} else {
-				return "chenggyu/memberLoginForm";  // 로그인 실패
-			}
-			
-		}
-		
-		// 로그인 성공
-		@RequestMapping("memberLoginSuccess")
-		public String memberLoginSuccess(@RequestParam("id") String id, HttpSession session, Model model) {
-			session.setAttribute(LOGIN, id);  // 아이디 세션 저장
-			userInfo(id, model);
-			return "chenggyu/memberLoginSuccess";
-		}
-		
-		
-		// 로그아웃 -> 인덱스 페이지로
-		@GetMapping("memberLogout")
-		public String memberLogout(HttpSession session) {
-			if(session.getAttribute("loginUser") != null) {
-				session.invalidate();  // 아이디 세션 무효화
-			}
-			return "index";
-		}
-		
-		// 아이디 찾기 창
-		@RequestMapping("findUserIdForm")
-		public String findUserIdForm() {
-			return "yoonhee/findUserIdForm";
-		}
-		
-		// 아이디 찾기 -> 이메일, 휴대폰 번호
-		@PostMapping("findUserId")
-		public String findUserId(HttpServletRequest request, RedirectAttributes ra, Model model) {
-			int result = ms.findUserId(request, model);
-			if(result == 1) {
-				ra.addFlashAttribute("findId", model.getAttribute("findUserId"));
-				return "redirect:findUserIdResult";
-			}
-			return "redirect:findUserIdResult";
-			
-		}
-		
-		// 아이디 찾기 결과
-		@RequestMapping("findUserIdResult")
-		public String findUserIdResult() {
-			return "yoonhee/findUserIdResult";
-		}
-		
-		// 비밀번호 찾기 페이지
-		@RequestMapping("findUserPwdForm")
-		public String findUserPwdForm() {
-			return "yoonhee/findUserPwdForm";
-		}
-		
-		// 비밀번호 찾기
-		@PostMapping("findUserPwd")
-		public String findUserPwd(HttpServletRequest request, RedirectAttributes ra, Model model) {
-			int result = ms.findUserPwd(request, model);
-			if(result == 1) {
-				ra.addFlashAttribute("findPwd", model.getAttribute("findUserPwd"));
-				return "redirect:findUserPwdResult";  // 비밀번호 찾기 성공하면 결과 페이지로
-			}
-			return "yoonhee/findUserPwdForm"; // 비밀번호 찾기 실패하면 찾기 form 페이지로
-			
-		}
-		
-		
-		// 비밀번호 찾기 결과 페이지
-		@GetMapping("findUserPwdResult")
-		public String findUserPwdResult() {
-			return "yoonhee/findUserPwdResult";
-		}
+	}
 	
-		
-		
-		// 비밀번호 찾기에서 비밀번호 수정
-		/*
-		@PostMapping("yoonhee/userRePwd")
-		public String userRePwd(HttpServletRequest request) {
-			ms.userRePwd(request);
-			return "yoonhee/findUserPwdForm";
+	// 로그인 성공
+	@RequestMapping("memberLoginSuccess")
+	public String memberLoginSuccess(@RequestParam("id") String id, HttpSession session, Model model) {
+		session.setAttribute(LOGIN, id);  // 아이디 세션 저장
+		userInfo(id, model);
+		return "chenggyu/index";
+	}
+	
+	
+	// 로그아웃 -> 인덱스 페이지로
+	@GetMapping("memberLogout")
+	public String memberLogout(HttpSession session) {
+		if(session.getAttribute("loginUser") != null) {
+			session.invalidate();  // 아이디 세션 무효화
 		}
-		*/
-		
-		
-		/*
-		// 로그인 성공 + 쿠키 생성 
-		@GetMapping("yoonhee/memberLoginSuccess")
-		public String memberLoginSuccess(HttpServletRequest request, @RequestParam("id") String id, @RequestParam("rememberId")boolean check, HttpSession session) {
-			String id = request.getParameter("id");
-			String check = request.getParameter("id");
-			session.setAttribute(LOGIN, id);  // 아이디 세션 저장
-			
-			if(check == true){
-				Cookie CookieCode = new Cookie("CookieId", String.valueOf(디티오.Id);
-				HttpServletResponse.addCookie(CookieCode);
-			}
-			
-			return "index";
+		return "chenggyu/index";
+	}
+	
+	// 아이디 찾기 창
+	@RequestMapping("findUserIdForm")
+	public String findUserIdForm() {
+		return "yoonhee/findUserIdForm";
+	}
+	
+	// 아이디 찾기 -> 이메일, 휴대폰 번호
+	@PostMapping("findUserId")
+	public String findUserId(HttpServletRequest request, RedirectAttributes ra, Model model) {
+		int result = ms.findUserId(request, model);
+		if(result == 1) {
+			ra.addFlashAttribute("findId", model.getAttribute("findUserId"));
+			return "redirect:findUserIdResult";
 		}
-		*/
+		return "redirect:findUserIdResult";
 		
-		// 아이디 기억하기(쿠키)
-//		@PostMapping("")
-//		public boolean cookieCheck(@RequestParam("rememberId")boolean check) {
-//			
-//		}
+	}
+	
+	// 아이디 찾기 결과
+	@RequestMapping("findUserIdResult")
+	public String findUserIdResult() {
+		return "yoonhee/findUserIdResult";
+	}
+	
+	// 비밀번호 찾기 페이지
+	@RequestMapping("findUserPwdForm")
+	public String findUserPwdForm() {
+		return "yoonhee/findUserPwdForm";
+	}
+	
+	// 비밀번호 찾기
+	@PostMapping("findUserPwd")
+	public String findUserPwd(HttpServletRequest request, RedirectAttributes ra, Model model) {
+		int result = ms.findUserPwd(request, model);
+		if(result == 1) {
+			ra.addFlashAttribute("findPwd", model.getAttribute("findUserPwd"));
+			return "redirect:findUserPwdResult";  // 비밀번호 찾기 성공하면 결과 페이지로
+		}
+		return "yoonhee/findUserPwdForm"; // 비밀번호 찾기 실패하면 찾기 form 페이지로
+		
+	}
+	
+	
+	// 비밀번호 찾기 결과 페이지
+	@GetMapping("findUserPwdResult")
+	public String findUserPwdResult() {
+		return "yoonhee/findUserPwdResult";
+	}
+	
+	
+	// 비밀번호 찾기에서 비밀번호 수정
+	@PostMapping("userRePwd")
+	public String userRePwd(HttpServletRequest request) {
+		MemberDTO dto = new MemberDTO();
+		dto.setId(request.getParameter("id"));
+		dto.setPwd(request.getParameter("newPwd"));
+		ms.userRePwd(dto);
+		return "chenggyu/index";
+		
+	}
+	
+	
+	
+	//============================ 최윤희 끝 ===========================================
+	
 		
 		
 		

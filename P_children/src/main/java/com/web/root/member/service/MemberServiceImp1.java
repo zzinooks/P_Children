@@ -140,7 +140,6 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
-	
 	// 아이디 찾기
 	@Override
 	public int findUserId(HttpServletRequest request, Model model) {
@@ -155,7 +154,6 @@ public class MemberServiceImp1 implements MemberService {
 		
 		return 0;
 	}
-	
 	
 	// 비밀번호 찾기
 	@Override
@@ -172,17 +170,23 @@ public class MemberServiceImp1 implements MemberService {
 		return 0;
 	}
 	
-	
-	
-	// 비밀번호 찾고 비밀번호 수정
-	/*
 	@Override
-	public void userRePwd(HttpServletRequest request) {
-		 mapper.userRePwd(request.getParameter("id"), request.getParameter("newPwd")); 
+	public void userRePwd(MemberDTO dto) {
+		mapper.userRePwd(dto); 
 	}
-	*/
 	
+	@Override
+	public int userCheckHost(HttpServletRequest request) {
+		MemberDTO dto = mapper.userCheckHost(request.getParameter("id"));
+		if(dto != null) {
+			if(request.getParameter("pwd").equals(dto.getPwd())) {
+				return 1; // 로그인 성공
+			}
+		}
+		return 0; // 로그인 실패
+	}
 	
+	//============================ 최윤희 끝 ===========================================
 	
 	
 	

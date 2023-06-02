@@ -70,25 +70,30 @@
 	<!-- ==================== 청규 끝 ======================= -->
 	
 	
-	<!-- 로그인 -->
+	
+	<!-- ==================== 윤희 시작 ======================= -->
+	
 	<select id="userCheck" resultMap="member">
 		SELECT * FROM member WHERE id=#{id}
 	</select>
 	
-	<!-- 아이디 찾기 -->
 	<select id="findUserId" resultMap="member">
 		SELECT * FROM member WHERE email=#{findUserEmail}
 	</select>
 	
-	<!-- 비밀번호 찾기 -->
 	<select id="findUserPwd" resultMap="member">
 		SELECT * FROM member WHERE id=#{findUserId}
 	</select>
 	
-	<!-- 비밀번호 찾고 비밀번호 수정 -->
-	<!-- <update id="userRePwd">
-		UPDATE member SET pwd=#{newPwd} WHERE id=#{id}
-	</update> -->
+	<update id="userRePwd"> 
+		UPDATE member SET pwd=#{pwd} WHERE id=#{id} 
+	</update>
+	
+	<select id="userCheckHost" resultMap="member">
+		SELECT * FROM host WHERE id=#{id}
+	</select>
+	
+	<!-- ==================== 윤희 끝 ======================= -->
 	
 
 </mapper>
