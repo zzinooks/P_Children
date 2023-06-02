@@ -42,5 +42,9 @@ public interface BoardService {
 	
 	public String updateReply(HttpServletRequest request);
 
+	// 답글(대댓글) 기능 -------------------------------------------------
 	public List<BoardRepDTO> getReCommentList(int reply_no);
+	
+	public int addReComment(Map<String, Object> map);
 }
+

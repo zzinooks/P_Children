@@ -258,9 +258,16 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardRepDTO> getReCommentList(int reply_no) {
-		// TODO Auto-generated method stub
 		return mapper.getReCommentList(reply_no);
 	}
+
+
+	@Override
+	public int addReComment(Map<String, Object> map) {
+		return mapper.addReComment(map);
+	}
+	
+	
 	
 	
 	

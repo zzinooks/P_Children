@@ -37,11 +37,13 @@
 		
 	}
 	
+	// 댓글 입력창 보이기
 	function slide_click() {
 		$("#first").slideDown("slow");
 		$("#modal_wrap").show();
 	}
 	
+	// 댓글 입력창 숨기기
 	function slide_hide() {
 		$("#first").slideUp("fast");
 		$("#modal_wrap").hide();
@@ -149,6 +151,7 @@
 		$('#rep'+count).children('#updateContent').focus();	
 	}
 	
+	// 댓글 수정 확인
 	function updateReplyConfirm(){
 		/* alert('수정?');
 		 */
@@ -159,6 +162,8 @@
 		}
 	}
 	
+	
+	// 답글 리스트업
 	function reComment(reply_no){ // 댓글 reply_no(cGroup)에 해당하는 select 문, 자기 reply_no 순서대로 부르면 된다.
 		if($("#reComment" + reply_no).text() != null) {
 			$(".reComment").html("");
@@ -213,18 +218,18 @@
 	
 	function ShowAddReCommentForm(reply_no){ // 답글 삽입 폼 생성
 		 if($(".ShowAddReComment").text() != null) {
-			$(".ShowAddReComment").html("");
+			 cancelAddReComment();
 		}
 		
 		let htm = "";
 		
 		htm += "<div class='ShowAddReComment'>";
-		htm += "<form method='post' id='addReCommentFrm' action='addReComment'><b> "+$("#user").val()+"</b>";
+		htm += "<form method='post' id='addReCommentFrm' action='#'><b> "+$("#user").val()+"</b>";
 		htm += "<input type='hidden' id='cGroup' name='cGroup' value='"+ reply_no +"'>"; 			// cGroup
 		htm += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"		// write_Group
 		htm += "</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>"; // id
 		htm += "<textarea name='reCommentContent'></textarea>"
-		htm += "<input type='button' onclick='addReComment()' value='답글쓰기'>  &nbsp; "
+		htm += "<input type='button' onclick='addReComment("+ reply_no +")' value='답글쓰기'>  &nbsp; "
 		htm += "</form><button onclick='cancelAddReComment()'> 취소 </button></div>"
 		
 		$("#rep" + reply_no).append(htm);
@@ -236,6 +241,7 @@
 	function cancelAddReComment(){
 		$(".ShowAddReComment").html(" ");
 	}
+	
 	// 답글 추가
 	function addReComment(cGroup) {
 		let form = {}
@@ -243,25 +249,28 @@
 		for( i = 0; i <arr.length ; i++) {
 			form[arr[i].name] = arr[i].value
 		}
-		// console.log(form);
 		
-		$.ajax({
-			url: "addReComment",
-			type: "POST", 
-			data: JSON.stringify(form),
-			contentType: "application/json; charset=utf-8",
-			success: function(data) {
-				if(data == 1)
-					alert("답글 추가 성공~!")
-					cancelAddReComment();
-					reComment(cGroup);
-			},
-			error: function() {
-				alert("Error !!")
-			}
-			
-			
-		})
+		// console.log(arr[3].value + "입니다");
+		
+		if(arr[3].value != "") {
+			$.ajax({
+				url: "addReComment",
+				type: "POST", 
+				data: JSON.stringify(form),
+				contentType: "application/json; charset=utf-8",
+				success: function(data) {
+					if(data == 1)
+						alert("답글 추가 성공~!")
+						cancelAddReComment();  	// 추가 성공 후 답글 입력창 종료
+						reComment(cGroup);
+				},
+				error: function() {
+				}
+				
+			})
+		} else {
+			alert("입력값이 없습니다");
+		}
 		
 	} // rep() end
 

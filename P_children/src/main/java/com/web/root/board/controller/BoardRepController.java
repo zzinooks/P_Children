@@ -70,4 +70,11 @@ public class BoardRepController {
 		return bs.getReCommentList(reply_no);
 	}
 	
+	// 대댓글 입력
+	@PostMapping(value="addReComment", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public int addReComment(@RequestBody Map<String, Object> map) {
+		int result = bs.addReComment(map);
+		return result;
+	}
 }

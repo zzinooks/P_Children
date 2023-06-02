@@ -29,7 +29,7 @@ public interface BoardMapper {
 	
 	public int deleteBoard(int write_no);
 	
-	// 답글 기능 ------------------------------------------------
+	// 댓글 기능 ------------------------------------------------
 	
 	public int addReply(Map<String, Object> map);
 	
@@ -39,8 +39,10 @@ public interface BoardMapper {
 	
 	public int updateReply(Map<String, String> map);
 	
+	// 답글(대댓글) 기능 -----------------------------------------------
 	public List<BoardRepDTO> getReCommentList(int reply_no);
 	
+	public int addReComment(Map<String, Object> map);
 
 
 }
