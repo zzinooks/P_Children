@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
+import com.web.root.member.dto.HostDTO;
 import com.web.root.member.dto.MemberDTO;
 
 
@@ -28,10 +29,16 @@ public interface MemberService {
 	
 	//============================ 박성수 시작 ===========================================
 	String registMember(HttpSession session, MemberDTO dto);
+	
+	public String registHost(HostDTO dto);
 
 	String getMemberInfo(String id);
 	
+	public String getHostInfo(String id);
+	
 	String checkEmail(String email);
+	
+	public String checkEmail_host(String email);
 	
 	int sendEmail(String email);
 	
@@ -48,6 +55,9 @@ public interface MemberService {
 	public int findUserId(HttpServletRequest request, Model model);
 	
 	public int findUserPwd(HttpServletRequest request, Model model);
+	
+	
+	
 
 	public void userRePwd(MemberDTO dto);
 	

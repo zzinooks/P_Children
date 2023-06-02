@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.web.root.member.dto.HostDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
@@ -91,9 +92,10 @@ public class MemberController implements MemberSession{
 		return "chenggyu/manager_qna";
 	}
 	
-	
+
 	//============================ 임청규 끝 ===========================================
 	
+
 	
 	
 	//============================ 박성수 시작 ===========================================
@@ -104,9 +106,21 @@ public class MemberController implements MemberSession{
 		return "member/memberRegistForm";
 	}
 	
+	@RequestMapping("registForm_host")
+	public String hostRegistFrom(@RequestParam("email") String email, Model model) {
+		model.addAttribute("checkedEmail", email);
+		return "member/hostRegistForm";
+	}
+	
 	@PostMapping("regist")
 	public String memberRegist(HttpSession session, MemberDTO dto) {
 		String message = ms.registMember(session, dto);
+		return "sungsu/main";
+	}
+	
+	@PostMapping("regist_host")
+	public String hostRegist(HostDTO dto) {
+		String message = ms.registHost(dto);
 		return "sungsu/main";
 	}
 	
@@ -117,15 +131,34 @@ public class MemberController implements MemberSession{
 		return result;
 	}
 	
+	@RequestMapping("checkId_host")
+	@ResponseBody
+	public String check_id_host(@RequestParam("id") String id) {
+		String result = ms.getHostInfo(id);
+		return result;
+	}
+	
 	@GetMapping("emailCheck")
 	public String emailCheckForm() {
 		return "member/emailCheck";
+	}
+	
+	@GetMapping("emailCheck_host")
+	public String emailCheckForm_host() {
+		return "member/emailCheck_host";
 	}
 	
 	@RequestMapping("checkEmail")
 	@ResponseBody
 	public String check_email(@RequestParam("email") String email) {
 		String result = ms.checkEmail(email);
+		return result;
+	}
+	
+	@RequestMapping("checkEmail_host")
+	@ResponseBody
+	public String check_email_host(@RequestParam("email") String email) {
+		String result = ms.checkEmail_host(email);
 		return result;
 	}
 	
@@ -140,9 +173,7 @@ public class MemberController implements MemberSession{
 	//============================ 박성수 끝 ===========================================
 	
 	
-	
-	
-	//============================ 최윤희 ===========================================
+	//============================ 최윤희 시작 ===========================================
 	
 	
 	// 로그인 입력창
@@ -190,6 +221,7 @@ public class MemberController implements MemberSession{
 			return "yoonhee/memberLoginForm";  // 로그인 실패
 		}
 	}
+
 	
 	// 로그인 성공
 	@RequestMapping("memberLoginSuccess")
@@ -271,14 +303,8 @@ public class MemberController implements MemberSession{
 	}
 	
 	
-	
 	//============================ 최윤희 끝 ===========================================
 	
-		
-		
-		
-		
-		
 	
 	
 }

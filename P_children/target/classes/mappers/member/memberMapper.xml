@@ -14,6 +14,19 @@
 		<result property="grade" column="grade"/>
 	</resultMap>
 	
+	<resultMap type="com.web.root.member.dto.HostDTO" id="host">
+		<id property="id" column="id"/>
+		<result property="pwd" column="pwd"/>
+		<result property="nickname" column="nickname"/>
+		<result property="phone" column="phone"/>
+		<result property="email" column="email"/>
+		<result property="addr" column="addr"/>
+		<result property="grade" column="grade"/>
+		<result property="mateName" column="mateName"/>
+		<result property="mateBreed" column="mateBreed"/>
+		<result property="certified" column="certified"/>
+	</resultMap>
+	
 	<resultMap type="com.web.root.board.dto.BoardDTO" id="board">
 		<id property="write_no"  column="write_no"/>
 		<result property="title" column="title"/>
@@ -23,6 +36,37 @@
 		<result property="image_file_name" column="image_file_name"/>
 		<result property="id" column="id"/>
 	</resultMap>
+	
+	<!-- ======================== 성수 시작 ==========================  -->
+
+	<insert id="registMember">
+		INSERT INTO member VALUES(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT)
+	</insert>
+	
+	<insert id="registHost">
+		INSERT INTO host VALUES
+		(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT, #{mateName}, #{mateBreed}, DEFAULT)
+	</insert>
+	
+	<select id="getMemberInfo" resultMap="member">
+		SELECT * FROM member WHERE id=#{id}
+	</select>
+	
+	<select id="getHostInfo" resultMap="host">
+		SELECT * FROM host WHERE id=#{id}
+	</select>
+	
+	<select id="checkEmail" resultMap="member">
+		SELECT * FROM member WHERE email=#{email}
+	</select>
+	
+	<select id="checkEmail_host" resultMap="host">
+		SELECT * FROM host WHERE email=#{email}
+	</select>
+
+
+
+	<!-- ======================== 성수 끝 ==========================  -->
 
 	<!-- ==================== 청규 시작 ======================= -->
 
@@ -44,18 +88,6 @@
 		SELECT COUNT(*) FROM member
 	</select>
 
-	<insert id="registMember">
-		INSERT INTO member VALUES(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT)
-	</insert>
-	
-	<select id="getMemberInfo" resultMap="member">
-		SELECT * FROM member WHERE id=#{id}
-	</select>
-	
-	<select id="checkEmail" resultMap="member">
-		SELECT * FROM member WHERE email=#{email}
-	</select>
-	
 	<select id="manager_board" resultMap="board">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM

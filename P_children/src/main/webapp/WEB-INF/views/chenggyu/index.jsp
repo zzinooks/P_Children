@@ -17,6 +17,7 @@
 		<br>
 		<h1>index</h1>
 		<br>
+
 		
 		<h3>로그인 결과</h3>
 		<c:if test="${loginUser != null }">
@@ -39,6 +40,7 @@
 				<a href="/root/member/member_information">개인 정보</a>
 			</c:otherwise>
 		</c:choose>
+
 	</div>
 	
 </body>
