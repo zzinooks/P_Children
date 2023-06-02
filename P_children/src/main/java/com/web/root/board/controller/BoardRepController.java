@@ -34,7 +34,7 @@ public class BoardRepController {
 	@ResponseBody
 	public int addReply(@RequestBody Map<String, Object> map) {
 		int result = bs.addReply(map);
-		return result;	
+		return result;
 	}
 	
 	@GetMapping(value="replyData/{write_group}", produces="application/json; charset=utf-8")
@@ -61,6 +61,13 @@ public class BoardRepController {
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.println(message);
+	}
+	
+	// 대댓글 불러오기
+	@PostMapping(value="reCommentData/{reply_no}", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public List<BoardRepDTO> reCommentData(@PathVariable("reply_no") int reply_no){
+		return bs.getReCommentList(reply_no);
 	}
 	
 }

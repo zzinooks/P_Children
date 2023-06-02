@@ -107,6 +107,10 @@ table tr:last-child {
 			</tr>
 		</table>
 	</div>
+	<br><br>
+	<div>
+	 <a href="https://unite-db.com/pokemon/lapras"><img alt="" src="https://d275t8dp8rxb42.cloudfront.net/pokemon/thumbnail/Lapras.png" width="50" height="50"></a>
+	</div>
 <%-- 	<c:import url="../default/footer.jsp"/> --%>
 </body>
 </html>

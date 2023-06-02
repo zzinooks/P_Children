@@ -33,6 +33,7 @@ public interface BoardService {
 	
 	public String deleteBoard(Model model, HttpServletRequest request);
 	
+	// 댓글 기능 ----------------------------------------------------------
 	public int addReply(Map<String, Object> map);
 	
 	public List<BoardRepDTO> getRepList(int write_group);
@@ -41,4 +42,5 @@ public interface BoardService {
 	
 	public String updateReply(HttpServletRequest request);
 
+	public List<BoardRepDTO> getReCommentList(int reply_no);
 }

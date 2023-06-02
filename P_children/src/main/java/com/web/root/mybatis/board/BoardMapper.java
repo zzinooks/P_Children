@@ -29,6 +29,8 @@ public interface BoardMapper {
 	
 	public int deleteBoard(int write_no);
 	
+	// 답글 기능 ------------------------------------------------
+	
 	public int addReply(Map<String, Object> map);
 	
 	public List<BoardRepDTO> getRepList(int write_group);
@@ -36,6 +38,8 @@ public interface BoardMapper {
 	public int deleteReply(BoardRepDTO dto);
 	
 	public int updateReply(Map<String, String> map);
+	
+	public List<BoardRepDTO> getReCommentList(int reply_no);
 	
 
 

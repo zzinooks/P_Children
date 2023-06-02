@@ -18,8 +18,9 @@
 
  	<resultMap id="reply" type="com.web.root.board.dto.BoardRepDTO">
  		<result property="reply_no" column="reply_no"/>
+ 		<result property="depth" column="depth"/>
+ 		<result property="cGroup" column="cGroup"/>
 		<result property="id" column="id"/>
-		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="write_group" column="write_group"/>
 		<result property="write_date" column="write_date"/>
@@ -73,21 +74,27 @@
 		DELETE FROM board WHERE write_no=#{write_no}
 	</delete>
 	
+	<!-- 댓글 기능 -->
 	<insert id="addReply">
-		INSERT INTO reply VALUES(reply_seq.NEXTVAL, #{id}, #{title}, #{content},#{write_no} ,SYSDATE)
+		INSERT INTO reply2 VALUES(reply_seq.NEXTVAL, 0, 0, #{id}, #{content},#{write_no} ,SYSDATE)
 	</insert>
 	
 	<select id="getRepList" resultMap="reply">
-		SELECT * FROM reply WHERE write_group=#{write_group}
+		SELECT * FROM reply2 WHERE write_group=#{write_group}
 		ORDER BY write_date DESC
 	</select>
 
 	<delete id="deleteReply">
-		DELETE FROM reply WHERE id=#{id} AND content=#{content} AND title=#{title}
+		DELETE FROM reply2 WHERE reply_no=#{reply_no} AND write_group=#{write_group}
 	</delete>
 	
 	<update id="updateReply">
-		UPDATE reply SET content=#{updateContent}, title=#{updateTitle} WHERE id=#{id} AND title=#{beforeTitle} AND content=#{beforeContent}
+		UPDATE reply2 SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
 	</update>
+	
+	<select id="getReCommentList" resultMap="reply">
+		SELECT * FROM reply2 WHERE cGroup = #{reply_no}
+		ORDER BY write_date
+	</select>
 	
 </mapper>

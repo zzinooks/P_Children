@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
 import com.web.root.board.dto.BoardDTO;
+import com.web.root.member.dto.HostDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.qna.dto.QnaDTO;
 
@@ -26,10 +27,17 @@ public interface MemberMapper {
 	//============================ 박성수 시작 ===========================================
 	
 	int registMember(MemberDTO dto);
+	
+	public int registHost(HostDTO dto);
 
 	MemberDTO getMemberInfo(String id);
 	
+	public MemberDTO getHostInfo(String id);
+	
 	MemberDTO checkEmail(String email);
+	
+	public MemberDTO checkEmail_host(String email);
+	
 	
 	//============================ 박성수 끝 ===========================================
 	
@@ -39,16 +47,15 @@ public interface MemberMapper {
 	
 	public MemberDTO userCheck(String id);
 	
-	// 아이디 찾기
 	public MemberDTO findUserId(String findUserEmail);
 	
-	// 비밀번호 찾기
 	public MemberDTO findUserPwd(String findUserId);
 
+	public void userRePwd(MemberDTO dto);
 	
-	
-	// 비밀번호 찾고 비밀번호 수정
-	//public void userRePwd(String id, String newPwd);
+	public MemberDTO userCheckHost(String id); // hostDTO 만들기
+
+	//============================ 최윤희 끝 ===========================================
 	
 
 }

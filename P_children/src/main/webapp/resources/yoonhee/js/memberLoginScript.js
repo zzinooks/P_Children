@@ -6,7 +6,7 @@
  /* 로그인 form 확인 */
 
 function checkLogin() {
-
+	console.log('aaa');
 	if(document.memberLoginForm.id.value == ""){
 		alert("아이디를 입력해주세요");
 		document.memberLoginForm.id.focus();
@@ -74,6 +74,23 @@ function userRePwdCheck(){
 	else {
 		document.findUserPwdResult.submit();
 	}
+}
+
+
+
+// 체크박스
+
+function rememberCheckId(){
+	const checkbox = document.getElementById('checkbox');
+	
+	const testChek = document.getElementById('testChek');
+	if(checkbox.checked){
+		testChek.value = "true"; 
+	} else {
+		testChek.value = "false";
+	}
+	
+	console.log(testChek.value);
 }
 
 

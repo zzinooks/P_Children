@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.Spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -118,7 +119,7 @@ public class MemberController implements MemberSession{
 	}
 	
 	@PostMapping("regist_host")
-	public String hostRegist(HostDTO  dto) {
+	public String hostRegist(HostDTO dto) {
 		String message = ms.registHost(dto);
 		return "sungsu/main";
 	}

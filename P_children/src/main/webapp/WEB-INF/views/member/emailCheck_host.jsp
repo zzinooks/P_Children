@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>email 인증 페이지</title>
+<title>email 인증 페이지 _ host</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script>
 	//이메일 중복체크
@@ -15,7 +15,7 @@
 			let email = $("#input_email").val();
 			
 			$.ajax({
-				url: "checkEmail",
+				url: "checkEmail_host",
 				type: "get",
 				data: {"email" : email},
 				success: function(data){
@@ -68,7 +68,7 @@
 </script>
 </head>
 <body>
-	<form action="${path }/member/registForm" method="get" id="emailCheckForm" >
+	<form action="${path }/member/registForm_host" method="get" id="emailCheckForm" >
 		이메일 : <input type="email" id="input_email" name="email">
 		<input type="button" value="인증코드 보내기" onclick="sendEmail()" >
 		<br>

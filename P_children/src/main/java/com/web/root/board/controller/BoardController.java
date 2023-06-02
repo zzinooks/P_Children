@@ -83,7 +83,6 @@ public class BoardController implements MemberSession{
 	
 	@RequestMapping("contentView")
 	public String contentView(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
-		// 선생님께서 하신 contentView로 불러오는 과정이 더 쉽다
 		
 		BoardDTO dto = bs.contentView(model, request);
 		String user = (String) session.getAttribute(LOGIN);

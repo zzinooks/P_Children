@@ -187,6 +187,8 @@ public class BoardServiceImpl implements BoardService {
 		return bfs.getMessage(request, msg, url);
 	}
 
+	// 댓글 기능 ---------------------------------------------------------
+	
 	@Override
 	public int addReply(Map<String, Object> map) {
 		int result = mapper.addReply(map);
@@ -203,20 +205,20 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public String deleteReply(HttpServletRequest request) {
 		BoardRepDTO dto = new BoardRepDTO();
-		dto.setId(request.getParameter("id"));
-		dto.setContent(request.getParameter("content"));
-		dto.setTitle(request.getParameter("title"));
+		dto.setReply_no(Integer.parseInt(request.getParameter("reply_no")));
+		dto.setWrite_group(Integer.parseInt(request.getParameter("write_group")));
 		
+		System.out.println(dto.getReply_no() + " , " + dto.getWrite_group());
 		int su = mapper.deleteReply(dto);
 		
 		String msg, url;
 		if(su == 1) {
 			msg = "댓글이 삭제 되었습니다";
-			url = "/board/contentView?write_no=" + request.getParameter("write_no");
+			url = "/board/contentView?write_no=" + request.getParameter("write_group");
 			// 선생님은 이자리에 bfs.delete(image_file_name); 을 넣으셨다.
 		} else {
 			msg = "댓글 삭제 실패~";
-			url = "/board/contentView?write_no=" + request.getParameter("write_no");
+			url = "/board/contentView?write_no=" + request.getParameter("write_group");
 		}
 		return bfs.getMessage(request, msg, url);
 		
@@ -228,10 +230,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		Map<String, String> map = new HashMap<String, String>();
 		
-		map.put("updateTitle", request.getParameter("updateTitle"));
 		map.put("write_no", request.getParameter("write_no"));
-		map.put("beforeTitle", request.getParameter("beforeTitle"));
-		map.put("beforeContent", request.getParameter("beforeContent"));
+		map.put("updateReply_no", request.getParameter("updateReply_no"));
 		map.put("updateContent", request.getParameter("updateContent"));
 		map.put("id", request.getParameter("id"));
 
@@ -254,6 +254,14 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return bfs.getMessage(request, msg, url);
 	}
+
+
+	@Override
+	public List<BoardRepDTO> getReCommentList(int reply_no) {
+		// TODO Auto-generated method stub
+		return mapper.getReCommentList(reply_no);
+	}
+	
 	
 	
 	

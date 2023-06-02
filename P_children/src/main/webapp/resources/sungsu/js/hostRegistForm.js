@@ -15,7 +15,8 @@ function valueCheck() {
 	let phone = document.querySelector("span#phone_");
 	let email = document.querySelector("span#email_");
 	let addr = document.querySelector("span#addr_");
-
+	let mateName = document.querySelector("span#mateName_");
+	let mateBreed = document.querySelector("span#mateBreed_");
 	
 	if(document.form.userid.value == ""){
 		id.style.color = "red";
@@ -47,16 +48,47 @@ function valueCheck() {
 		email.innerHTML = "이메일을 입력해 주세요.";
 		document.form.email.focus();
 	}
-	else if(document.form.addr.value == ""){
+	else if(document.form.addr2.value == ""){
 		addr.style.color = "red";
-		addr.innerHTML = "주소를 입력해 주세요.";
-		document.form.addr.focus();
+		addr.innerHTML = "상세주소를 입력해 주세요. 없으면 '없음'을 입력해 주세요.";
+		document.form.addr2.focus();
+	}
+	else if(document.form.mateName.value == ""){
+		mateName.style.color = "red";
+		mateName.innerHTML = "메이트 이름을 입력해 주세요.";
+		document.form.mateName.focus();
+	}
+	else if(document.form.mateBreed.value == ""){
+		mateBreed.style.color = "red";
+		mateBreed.innerHTML = "메이트 이름을 입력해 주세요.";
+		document.form.mateBreed.focus();
 	}
 	else {
 		document.form.submit();
 	}
 	
 }
+
+// 안내 메세지 삭제
+function deleteSpan_nickname(){
+		$("#nickname_").empty();
+	}
+	
+	function deleteSpan_phone(){
+		$("#phone_").empty();
+	}
+	
+	function deleteSpan_mateName(){
+		$("#mateName_").empty();
+	}
+	
+	function deleteSpan_mateBreed(){
+		$("#mateBreed_").empty();
+	}
+	
+	function deleteSpan_addr2(){
+		$("#addr_").empty();
+	}
 
 // 아이디 중복 체크 확인
 function idCheck(){
@@ -66,13 +98,15 @@ function idCheck(){
 		$("#id_").text("아이디는 4~14 글자여야 합니다.");
 	} else {
 		$.ajax({
-			url: "checkId",
+			url: "checkId_host",
 			type: "post",
 			data: {"id" : id},
 			success: function(data){
 				if(data == "OK"){
+					$("#id_").css("color", "white");
 					$("#id_").text("사용가능한 아이디 입니다.");
 				} else {
+					$("#id_").css("color", "white");
 					$("#id_").text("중복된 아이디 입니다.");
 				}
 			},

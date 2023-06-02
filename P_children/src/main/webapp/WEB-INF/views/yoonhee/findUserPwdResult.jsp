@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>I Run it : 비밀번호 찾기 결과</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<script src="${contextPath}/resources/yoonhee/memberLoginScript.js?v=1"></script>
+<script src="${contextPath}/resources/js/yoonhee/memberLoginScript.js?v=1"></script>
 </head>
 <body>
 	<h3>비밀번호 재설정</h3>
