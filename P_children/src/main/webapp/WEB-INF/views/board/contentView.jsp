@@ -47,13 +47,14 @@
 		$("#modal_wrap").hide();
 	}
 	
+	// 댓글 추가
 	function rep() {
 		let form = {}
 		let arr = $("#frm").serializeArray();
 		for( i = 0; i <arr.length ; i++) {
 			form[arr[i].name] = arr[i].value
 		}
-		console.log(form);
+		// console.log(form);
 		
 		$.ajax({
 			url: "addReply",
@@ -62,7 +63,7 @@
 			contentType: "application/json; charset=utf-8",
 			success: function(data) {
 				if(data == 1)
-					alert("답글 추가 성공~!")
+					alert("댓글 추가 성공~!")
 					slide_hide();
 					replyData();
 			},
@@ -73,8 +74,9 @@
 			
 		})
 		
-	}
+	} // rep() end
 	
+	// 댓글 리스트업 기능(댓글 보이게 하는 기능)
 	function replyData() {
 		$.ajax({
 			url: "replyData/"+$("#write_no").val(), //val() = value
@@ -82,58 +84,69 @@
 			dataType: "json",
 			success: function(rep) {
 				let htm = ""
-				let count = 0;
-				rep.forEach(function(redata){
-					let date = new Date(redata.write_date)
-					let writeDate = date.getFullYear()+"년 " +(date.getMonth() + 1) + "월 "
-					writeDate += date.getDate() + "일 " + date.getHours() + " 시 "
-					writeDate += date.getMinutes() + "분 " + date.getSeconds() + "초"
-					count += 1;
-					
-					htm += "<div align='left' id='rep" + count + "'><b>아이디 : </b>" + redata.id + "님 / ";
-					htm += "<b>작성일 : </b>" + writeDate + "<br>"
-					htm += "<b>제 목 : </b><div class='repTitle'>" + redata.title + "</div><br>"
-					htm += "<b>내 용 : </b><div class='repContent'>" + redata.content + "</div><br>"
-					
-					if(redata.id == $("#user").val()) {
-						htm += "<a href='${contextPath }/board/deleteReply?id="
-								+redata.id +"&content=" + redata.content + "&title="+ redata.title
-								+ "&write_no=" + redata.write_group + "'>[삭제]</a>"
-								var modifyId = redata.id;
-								var modifyTitle = redata.title;
-								var modifyContent = redata.content;
-						htm += "<a href='#' onclick='updateReply("+ count +")'>[수정]</a></div>"
-					} else {
-						htm += "</div>"
-					}
-							
+				let count = 0;  // 해당 게시판의 모든 댓글과 대댓글 수
+				if(rep.length > 0) {
+					rep.forEach(function(redata){
+						let date = new Date(redata.write_date)
+						let writeDate = date.getFullYear()+"년 " +(date.getMonth() + 1) + "월 "
+						writeDate += date.getDate() + "일 " + date.getHours() + " 시 "
+						writeDate += date.getMinutes() + "분 " + date.getSeconds() + "초"
+						count += 1;
+						
+						if(redata.depth == 0){ // 댓글인 경우 : depth == 0
+							htm += "<div class='reply' align='left' id='rep" + redata.reply_no + "'><b> " + redata.id + " </b>님 / ";
+							htm += "<span style='float:right;' align='right'><b>작성일 : " + writeDate + "</b></span><br>"
+							htm += "<span class='repContent'>" + redata.content + "</span><br>"
+							htm += "<input type='hidden' class='replyNo' value='" + redata.reply_no + "'/>"
+							htm += "<button onclick='reComment("+ redata.reply_no +")'> 답글 보기</button>"
+							htm += "<button onclick='ShowAddReCommentForm("+ redata.reply_no+")'>답글 달기</button>"
+						} 
+						
+						// 댓글(답글) 작성자와 현재 유저가 일치하는 경우
+						if(redata.id == $("#user").val()) {
+							htm += "<a href='${contextPath }/board/deleteReply?reply_no="
+									+ redata.reply_no
+									+ "&write_group=" + redata.write_group + "'>[삭제]</a>"
+							htm += "<a href='#' onclick='updateReply("+ count +")'>[수정]</a></div>"
+						} else {
+							htm += "</div>"
+						}
 				})
+				} // if(rep.list.length > 0) end
+				else { // 댓글이 없는 경우
+					 htm += "<div align='left'>";
+					 htm += "<h6>등록된 댓글이 없습니다.</h6>";
+					 htm += "</div>";
+				}
+				
 				$("#reply").html(htm)
-			},
+
+			} // success end
+			,
 			error: function() {
-				alert("답글 가져오기 실패 !!")
+				alert("댓글 가져오기 실패 !!")
 			}
 		})
 		
 	}
 	
+	// 댓글(답글) 수정하기
 	function updateReply(count){
 		
-		if($('#updateTitle').val() != null){
+		// 다른 댓글(답글) 켜져있을 경우 종료
+		if($('#updateContent').val() != null){
 			replyData();
 		}
 		
 		let replyView = ""
-		replyView += "<div align='left'><form id='updateResultFrm' action='${contextPath }/board/updateReply'><b>아이디 : </b><input type='text' name='id' value='" + $("#user").val() + "' readonly><br>";
-		replyView += "<b>제 목 : </b> <input type='text' id='updateTitle' name='updateTitle' size='30' value='" + $('#rep' + count).children('.repTitle').text() + "'><br>"
+		replyView += "<div align='left'><form id='updateResultFrm' action='${contextPath }/board/updateReply'><b>"+ $("#user").val() +"</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
 		replyView += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"
-		replyView += "<input type='hidden' id='beforeTitle' name='beforeTitle' value='" + $('#rep' + count).children('.repTitle').text() + "'>"
-		replyView += "<input type='hidden' id='beforeContent' name='beforeContent' value='" + $('#rep' + count).children('.repContent').text() + "'>"
-		replyView += "<b>내 용 : </b><textarea id='updateContent' name='updateContent' rows='5' cols='30' autofocus>" + $('#rep' + count).children('.repContent').text() + "</textarea><br></div>"
+		replyView += "<input type='hidden' id='updateReply_no' name='updateReply_no' value='" + $('#rep' + count).children('.replyNo').val() + "'>"
+		replyView += "<b> 의 수 정 내 용 : </b><textarea id='updateContent' name='updateContent' rows='5' cols='30' autofocus>" + $('#rep' + count).children('.repContent').text() + "</textarea><br></div>"
 		replyView += "<input type='button' onclick='updateReplyConfirm()' value='수정 완료'>"
 		replyView += "<input type='button' onclick='replyData()' value='취소'></form><br>"
 		$('#rep'+count).replaceWith(replyView);
-		$('#rep'+count).children('#updateTitle').focus();	
+		$('#rep'+count).children('#updateContent').focus();	
 	}
 	
 	function updateReplyConfirm(){
@@ -145,6 +158,112 @@
 			$("#updateResultFrm").submit();
 		}
 	}
+	
+	function reComment(reply_no){ // 댓글 reply_no(cGroup)에 해당하는 select 문, 자기 reply_no 순서대로 부르면 된다.
+		if($("#reComment" + reply_no).text() != null) {
+			$(".reComment").html("");
+		}
+		$.ajax({
+			url: "reCommentData/" + reply_no,
+			type: "POST", 
+			dataType: "json",	
+			contentType: "application/json; charset=utf-8",
+			success: function(reComment) {
+				let htm = ""
+				let count = 0;  // 해당 댓글의 대댓글 수
+				if(reComment.length > 0) {
+					reComment.forEach(function(redata){
+						let date = new Date(redata.write_date)
+						let writeDate = date.getFullYear()+"년 " +(date.getMonth() + 1) + "월 "
+						writeDate += date.getDate() + "일 " + date.getHours() + " 시 "
+						writeDate += date.getMinutes() + "분 " + date.getSeconds() + "초"
+						count += 1;
+						
+						if(redata.depth == 1){ // 답글인 경우 : depth == 1
+							htm += "<div class='reComment' align='left' id='reComment" + redata.reply_no + "'><b> " + redata.id + " </b>님 / ";
+							htm += "<span style='float:right;' align='right'><b>작성일 : " + writeDate + "</b></span><br>"
+							htm += "<span class='repContent'>" + redata.content + "</span><br>"
+							htm += "<input type='hidden' class='replyNo' value='" + redata.reply_no + "'/>"
+						} 
+						
+						// 댓글(답글) 작성자와 현재 유저가 일치하는 경우
+						if(redata.id == $("#user").val()) {
+							htm += "<a href='${contextPath }/board/deleteReply?reply_no="
+									+ redata.reply_no
+									+ "&write_group=" + redata.write_group + "'>[삭제]</a>"
+							htm += "<a href='#' onclick='updateReComment("+ count +")'>[수정]</a></div>"
+						} else {
+							htm += "</div>"
+						}
+				})
+				} // if(rep.list.length > 0) end
+				else { // 댓글이 없는 경우
+					 htm += "<div class='reComment' align='left'>";
+					 htm += "<h6>등록된 답글이 없습니다.</h6>";
+					 htm += "</div>";
+				}
+				
+				$("#rep" + reply_no).append(htm)
+			}, //success end
+			error: function() {
+				alert("Error !!")
+			}
+		})
+	} // reComment end
+	
+	function ShowAddReCommentForm(reply_no){ // 답글 삽입 폼 생성
+		 if($(".ShowAddReComment").text() != null) {
+			$(".ShowAddReComment").html("");
+		}
+		
+		let htm = "";
+		
+		htm += "<div class='ShowAddReComment'>";
+		htm += "<form method='post' id='addReCommentFrm' action='addReComment'><b> "+$("#user").val()+"</b>";
+		htm += "<input type='hidden' id='cGroup' name='cGroup' value='"+ reply_no +"'>"; 			// cGroup
+		htm += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"		// write_Group
+		htm += "</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>"; // id
+		htm += "<textarea name='reCommentContent'></textarea>"
+		htm += "<input type='button' onclick='addReComment()' value='답글쓰기'>  &nbsp; "
+		htm += "</form><button onclick='cancelAddReComment()'> 취소 </button></div>"
+		
+		$("#rep" + reply_no).append(htm);
+		
+		
+	} // ShowAddReCommentForm end
+	
+	// 답글 생성 화면 지우기
+	function cancelAddReComment(){
+		$(".ShowAddReComment").html(" ");
+	}
+	// 답글 추가
+	function addReComment(cGroup) {
+		let form = {}
+		let arr = $("#addReCommentFrm").serializeArray();
+		for( i = 0; i <arr.length ; i++) {
+			form[arr[i].name] = arr[i].value
+		}
+		// console.log(form);
+		
+		$.ajax({
+			url: "addReComment",
+			type: "POST", 
+			data: JSON.stringify(form),
+			contentType: "application/json; charset=utf-8",
+			success: function(data) {
+				if(data == 1)
+					alert("답글 추가 성공~!")
+					cancelAddReComment();
+					reComment(cGroup);
+			},
+			error: function() {
+				alert("Error !!")
+			}
+			
+			
+		})
+		
+	} // rep() end
 
 </script>
 <style type="text/css">
@@ -189,22 +308,37 @@ h1 {
 	display: flex;
 	justify-content: center;
 }
+
+.reply {
+	width: 1000px;
+	border: 1px solid red;
+}
+
+#updateResultFrm {
+	display: flex;
+	justify-content: center;
+}
+
+#updateResultFrm textarea {
+	display: block;
+}
+
+.reComment {
+	background-color: cookie;
+}
 </style>
 </head>
 <body onload="replyData()">
 	<!-- 답글 작성 페이지 -->
 	<div id="modal_wrap">
 		<div id="first">
-			<div style="width: 400px; margin: 0 auto; padding-top: 20px;">
+			<div style="width: 600px; margin: 0 auto; padding-top: 20px;">
 				<form id="frm" action="#">
 					<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
 					<input type="hidden" id="user" name="id" value="${user }">
-					<b>답글 작성 페이지</b>
+					<b>답글(댓글) 작성 페이지</b>
 					<hr>
 					<b>작성자 : ${user }</b>
-					<hr>
-					<b>제 목</b><br>
-					<input type="text" id="title" name="title" size="30">
 					<hr>
 					<b>내 용</b><br>
 					<textarea id="content" name="content" rows="5" cols="30"></textarea>
@@ -223,12 +357,10 @@ h1 {
 				<form id="updateFrm" action="#">
 					<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
 					<input type="hidden" id="user" name="id" value="${user }">
-					<b>답글 수정 페이지</b>
+					<b>답글(댓글) 수정 페이지</b>
 					<hr>
 					<b>작성자 : ${user }</b>
 					<hr>
-					<b>제 목</b><br>
-					<input type="text" id="title" name="title" size="30">
 					<hr>
 					<b>내 용</b><br>
 					<textarea id="content" name="content" rows="5" cols="30"></textarea>
