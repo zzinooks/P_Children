@@ -5,7 +5,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +37,7 @@
 				<a href="/root/member/member_information">회원 정보</a>
 			</c:otherwise>
 		</c:choose>
-				<a href="#">로그아웃</a>
+				<a href="${contextPath }/member/memberLogout">로그아웃</a>
 			</c:otherwise>
 		</c:choose>
 		</nav>
@@ -66,5 +65,6 @@
 		<a>Copyright &copy; P_children</a> 
 	</div>
 	</section>
+	
 </body>
 </html>

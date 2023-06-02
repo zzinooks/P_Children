@@ -13,6 +13,7 @@
 <body>
 
 	<div align="center">
+
 		<br>
 		<h1>회원 탈퇴</h1>
 		<br>

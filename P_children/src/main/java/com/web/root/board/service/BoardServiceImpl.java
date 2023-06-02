@@ -234,16 +234,11 @@ public class BoardServiceImpl implements BoardService {
 		map.put("updateReply_no", request.getParameter("updateReply_no"));
 		map.put("updateContent", request.getParameter("updateContent"));
 		map.put("id", request.getParameter("id"));
-
-		
 		
 		int su = mapper.updateReply(map);
 		String write_noStr = (String) map.get("write_no");
 		int write_no = Integer.parseInt(write_noStr);
-		
-		System.out.println(map.get("updateTitle"));
-		
-		
+	
 		String msg, url;
 		if(su == 1) {
 			msg = "댓글이 수정 되었습니다";
@@ -266,6 +261,36 @@ public class BoardServiceImpl implements BoardService {
 	public int addReComment(Map<String, Object> map) {
 		return mapper.addReComment(map);
 	}
+
+
+	@Override
+	public String updateReComment(HttpServletRequest request) {
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("write_no", request.getParameter("write_no"));
+		map.put("updateReply_no", request.getParameter("updateReCommentReply_no"));
+		map.put("updateContent", request.getParameter("updateReCommentContent"));
+		map.put("id", request.getParameter("id"));
+
+		
+		
+		int su = mapper.updateReComment(map);
+		String write_noStr = (String) map.get("write_no");
+		int write_no = Integer.parseInt(write_noStr);
+		
+		
+		String msg, url;
+		if(su == 1) {
+			msg = "대댓글이 수정 되었습니다";
+			url = "/board/contentView?write_no=" + write_no;
+		} else {
+			msg = "대댓글 수정 실패~";
+			url = "/board/contentView?write_no=" + write_no;
+		}
+		return bfs.getMessage(request, msg, url);
+	}
+
 	
 	
 	

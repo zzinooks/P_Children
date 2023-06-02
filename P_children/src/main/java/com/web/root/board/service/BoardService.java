@@ -46,5 +46,8 @@ public interface BoardService {
 	public List<BoardRepDTO> getReCommentList(int reply_no);
 	
 	public int addReComment(Map<String, Object> map);
+	
+	public String updateReComment(HttpServletRequest request);
+	
 }
 

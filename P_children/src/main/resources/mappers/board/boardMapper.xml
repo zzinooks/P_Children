@@ -102,4 +102,8 @@
 		INSERT INTO reply2 VALUES(reply_seq.NEXTVAL, 1, #{cGroup}, #{id}, #{reCommentContent},#{write_no} ,SYSDATE)
 	</insert>
 	
+	<update id="updateReComment">
+		UPDATE reply2 SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
+	</update>
+	
 </mapper>

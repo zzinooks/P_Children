@@ -77,4 +77,15 @@ public class BoardRepController {
 		int result = bs.addReComment(map);
 		return result;
 	}
+	
+	// 대댓글 수정
+	@RequestMapping("updateReComment")
+	public void updateReComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		String message = bs.updateReComment(request);
+		
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println(message);
+	}
 }
