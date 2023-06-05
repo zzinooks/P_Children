@@ -1,5 +1,7 @@
 package com.web.root.member.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -167,6 +169,30 @@ public class MemberController implements MemberSession{
 	public int sendEmail(@RequestParam("email") String email) {
 		return ms.sendEmail(email);
 		
+	}
+	
+	@GetMapping("kakaoLoginButton")
+	public String kakaoLoginButton() {
+		return "sungsu/kakaoLogin";
+	}
+	
+	private static final String tokenURL = "https://kauth.kakao.com/oauth/token";
+		
+	
+	@GetMapping("kakaoCode")
+	public String getKakaoCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String code = request.getParameter("code");
+		String token = ms.getkakaoToken(code, tokenURL);
+//		String userId = ms.getUserId(token);
+//		String kakaoMemberInfo = ms.getKakaoInfo()
+		System.out.println(token);
+		return "redirect:/index";
+		
+	}
+	
+	@PostMapping("kakaoToken")
+	public String getToken(HttpServletRequest request) {
+		return "redirect:/index";
 	}
 	
 	

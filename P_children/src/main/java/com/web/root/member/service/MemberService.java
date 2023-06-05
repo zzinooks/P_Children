@@ -1,5 +1,7 @@
 package com.web.root.member.service;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
@@ -42,6 +44,7 @@ public interface MemberService {
 	
 	int sendEmail(String email);
 	
+	public String getkakaoToken(String code, String tokenurl) throws IOException;
 	
 	//============================ 박성수 끝 ===========================================
 

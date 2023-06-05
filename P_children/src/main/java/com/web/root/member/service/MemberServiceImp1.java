@@ -1,14 +1,23 @@
 package com.web.root.member.service;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.root.member.dto.HostDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.mybatis.member.MemberMapper;
@@ -147,6 +156,36 @@ public class MemberServiceImp1 implements MemberService {
 	@Override
 	public int sendEmail(String email) {
 		return cms.sendEmail(email); 
+		
+	}
+	
+	@Override
+	public String getkakaoToken(String code, String tokenURL) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> params =
+				new LinkedMultiValueMap<String, String>();
+		params.add("grant_type", "authorization_code");		
+		params.add("client_id", "50cc79dc82404d34d4da829c82e31cd2");		
+		params.add("redirect_uri", "http://localhost:8080/root/member/kakaoCode");		
+		params.add("code", code);
+		
+		
+		HttpEntity<MultiValueMap<String, String>> entity =
+				new HttpEntity<>(params, headers);
+		
+		ResponseEntity<String> response = restTemplate.postForEntity(
+				tokenURL, entity, String.class);
+		
+		System.out.println(response);
+		System.out.println();
+		
+		return objectMapper.readTree(response.getBody())
+					.get("access_token").asText();
 		
 	}
 	
