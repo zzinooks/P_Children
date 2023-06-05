@@ -109,21 +109,34 @@
 		SELECT * FROM member WHERE id=#{id}
 	</select>
 	
+	<select id="userCheckHost" resultMap="host">
+		SELECT * FROM host WHERE id=#{id}
+	</select>
+	
 	<select id="findUserId" resultMap="member">
 		SELECT * FROM member WHERE email=#{findUserEmail}
+	</select>
+	
+	<select id="findUserHostId" resultMap="host">
+		SELECT * FROM host WHERE email=#{findUserEmail}
 	</select>
 	
 	<select id="findUserPwd" resultMap="member">
 		SELECT * FROM member WHERE id=#{findUserId}
 	</select>
 	
-	<update id="userRePwd"> 
+	<select id="findUserHostPwd" resultMap="host">
+		SELECT * FROM host WHERE id=#{findUserId}
+	</select>
+	
+	<update id="userUpdatePwd"> 
 		UPDATE member SET pwd=#{pwd} WHERE id=#{id} 
 	</update>
 	
-	<select id="userCheckHost" resultMap="member">
-		SELECT * FROM host WHERE id=#{id}
-	</select>
+	<update id="userUpdateHostPwd"> 
+		UPDATE host SET pwd=#{pwd} WHERE id=#{id} 
+	</update>
+	
 	
 	<!-- ==================== 윤희 끝 ======================= -->
 	

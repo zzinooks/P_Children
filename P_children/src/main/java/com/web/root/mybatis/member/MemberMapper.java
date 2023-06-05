@@ -47,13 +47,21 @@ public interface MemberMapper {
 	
 	public MemberDTO userCheck(String id);
 	
+	public HostDTO userCheckHost(String id);
+	
 	public MemberDTO findUserId(String findUserEmail);
 	
-	public MemberDTO findUserPwd(String findUserId);
-
-	public void userRePwd(MemberDTO dto);
+	public HostDTO findUserHostId(String findUserEmail);
 	
-	public MemberDTO userCheckHost(String id); // hostDTO 만들기
+	public MemberDTO findUserPwd(String findUserId);
+	
+	public HostDTO findUserHostPwd(String findUserEmail);
+
+	public void userUpdatePwd(MemberDTO dto);
+	
+	public void userUpdateHostPwd(HostDTO hostDTO);
+	
+	
 
 	//============================ 최윤희 끝 ===========================================
 	

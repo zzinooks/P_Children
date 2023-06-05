@@ -8,22 +8,23 @@
 <meta charset="UTF-8">
 <title>I Run it : 비밀번호 찾기 결과</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<script src="${contextPath}/resources/js/yoonhee/memberLoginScript.js?v=1"></script>
+<script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=1"></script>
 </head>
 <body>
 	<h3>비밀번호 재설정</h3>
-	<c:if test="${findPwd != null }">
-		<p>I Run it 아이디 : ${findPwd.id }</p>
-		<form name="findUserPwdResult" action="${contextPath }/member/userRePwd" method="post">
-			<input type="hidden" name="id" value="${findPwd.id }">
+	<c:if test="${findUserPwd != null }">
+		<p>I Run it 아이디 : ${findUserPwd.id }</p>
+		<form name="findUserPwdResult" action="${contextPath }/member/userUpdatePwd" method="post">
+			<input type="hidden" name="id" value="${findUserPwd.id }">
+			<input type="hidden" name="userSelect" value="${userSelect }">
 			<input type="password" name="newPwd" placeholder="새 비밀번호 입력"><br>
 			<br>
 			<input type="password" name="newRePwd" placeholder="새 비밀번호 확인"><br>
 			<br>
-			<input type="button" value="확인" onclick="userRePwdCheck()">
+			<input type="button" value="확인" onclick="userUpdatePwdCheck()">
 		</form>
 	</c:if>
-	<c:if test="${findPwd == null }">
+	<c:if test="${findUserPwd == null }">
 		<p>회원 정보가 없습니다.</p>
 	</c:if>
 	

@@ -10,10 +10,10 @@
 </head>
 <body>
 	<h3>고객님의 정보와 일치하는 아이디입니다.</h3>
-	<c:if test="${findId != null }">
-		<p>아이디 : ${findId.id }</p>
+	<c:if test="${findUserId != null }">
+		<p>아이디 : ${findUserId.id }</p>
 	</c:if>
-	<c:if test="${findId == null }">
+	<c:if test="${findUserId == null }">
 		<p>회원 정보가 없습니다.</p>
 	</c:if>
 	

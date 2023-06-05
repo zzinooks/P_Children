@@ -171,44 +171,10 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
-	// 아이디 찾기
-	@Override
-	public int findUserId(HttpServletRequest request, Model model) {
-		MemberDTO dto = mapper.findUserId(request.getParameter("findUserEmail"));
-		
-		if(dto != null) {
-			if(request.getParameter("findUserPhone").equals(dto.getPhone())) {
-				model.addAttribute("findUserId", dto);
-				return 1;
-			}
-		}
-		
-		return 0;
-	}
-	
-	// 비밀번호 찾기
-	@Override
-	public int findUserPwd(HttpServletRequest request, Model model) {
-		MemberDTO dto = mapper.findUserPwd(request.getParameter("findUserId"));
-		
-		if(dto != null) {
-			if(request.getParameter("findUserEmail").equals(dto.getEmail())) {
-				model.addAttribute("findUserPwd", dto);
-				return 1;
-			}
-		}
-		
-		return 0;
-	}
-	
-	@Override
-	public void userRePwd(MemberDTO dto) {
-		mapper.userRePwd(dto); 
-	}
-	
+	// 로그인 호스트 유저 체크
 	@Override
 	public int userCheckHost(HttpServletRequest request) {
-		MemberDTO dto = mapper.userCheckHost(request.getParameter("id"));
+		HostDTO dto = mapper.userCheckHost(request.getParameter("id"));
 		if(dto != null) {
 			if(request.getParameter("pwd").equals(dto.getPwd())) {
 				return 1; // 로그인 성공
@@ -216,6 +182,74 @@ public class MemberServiceImp1 implements MemberService {
 		}
 		return 0; // 로그인 실패
 	}
+	
+	// 아이디 찾기
+	@Override
+	public int findUserId(HttpServletRequest request, Model model) {
+		
+		if(request.getParameter("userSelect").equals("member")) { // 요청받은 내용이 member이면
+			MemberDTO dto = mapper.findUserId(request.getParameter("findUserEmail"));
+			
+			if(dto != null) {
+				if(request.getParameter("findUserPhone").equals(dto.getPhone())) {
+					model.addAttribute("findUserId", dto);
+					return 1;
+				}
+			} else {
+				return 0;
+			}
+			
+		} else if(request.getParameter("userSelect").equals("host")) { // 요청받은 내용이 host이면
+			HostDTO hostDTO = mapper.findUserHostId(request.getParameter("findUserEmail"));
+			if(hostDTO != null) {
+				if(request.getParameter("findUserPhone").equals(hostDTO.getPhone())) {
+					model.addAttribute("findUserId", hostDTO);
+					return 1;
+				}
+			}
+			return 0;
+		}
+		return 0;
+	}
+	
+	// 비밀번호 찾기
+	@Override
+	public int findUserPwd(HttpServletRequest request, Model model) {
+		
+		if(request.getParameter("userSelect").equals("member")) { // 요청받은 내용이 member이면
+			MemberDTO dto = mapper.findUserPwd(request.getParameter("findUserId"));
+			if(dto != null) {
+				if(request.getParameter("findUserEmail").equals(dto.getEmail())) {
+					model.addAttribute("findUserPwd", dto);
+					return 1;
+				}
+			} else {
+				return 0;
+			}
+			
+		} else if(request.getParameter("userSelect").equals("host")) { // 요청받은 내용이 host이면
+			HostDTO hostDTO = mapper.findUserHostPwd(request.getParameter("findUserId"));
+			if(hostDTO != null) {
+				if(request.getParameter("findUserEmail").equals(hostDTO.getEmail())) {
+					model.addAttribute("findUserPwd", hostDTO);
+					return 1;
+				}
+			}
+			return 0;
+		}
+		return 0;
+	}
+	
+	@Override
+	public void userUpdatePwd(MemberDTO dto) {
+		mapper.userUpdatePwd(dto); 
+	}
+	
+	@Override
+	public void userUpdateHostPwd(HostDTO hostDTO) {
+		mapper.userUpdateHostPwd(hostDTO);
+	}
+	
 	
 	//============================ 최윤희 끝 ===========================================
 	

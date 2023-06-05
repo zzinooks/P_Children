@@ -1,3 +1,4 @@
+	
 <!-- footer -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -8,21 +9,12 @@
 <head>
 <meta charset="UTF-8">
 <title>footer</title>
-<style type="text/css">
-.footer {
-	margin: 100px 0;
-	text-align: center;
-}
-span {
-	color: black;
-	font-size: 30px;
-}
-</style>
 </head>
 <body>
+
 	<div class="footer">
-		<hr>
-		<span> Copyright &copy; P_children</span>
+		<a>Copyright &copy; P_children</a> 
 	</div>
+	
 </body>
 </html>

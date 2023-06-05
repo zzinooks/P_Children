@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.SysexMessage;
 import javax.swing.Spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,6 @@ public class MemberController implements MemberSession{
 	public void userInfo(String id, Model model){
 		ms.userInfo(id,model);
 	} 
-	
 	
 	// 로그인 정보가져오기
 	@RequestMapping("member_information")
@@ -176,7 +176,7 @@ public class MemberController implements MemberSession{
 	//============================ 최윤희 시작 ===========================================
 	
 	
-	// 로그인 입력창
+	// 로그인 폼 
 	@RequestMapping("memberLoginForm")
 	public String memberLoginForm() {
 		return "yoonhee/memberLoginForm";
@@ -185,12 +185,12 @@ public class MemberController implements MemberSession{
 		
 	// 로그인 시 아이디 체크
 	@RequestMapping("userCheck")
-	public String userCheck(HttpServletRequest request, RedirectAttributes ra, Model m, HttpServletResponse response) {
+	public String userCheck(HttpServletRequest request, Model m, HttpServletResponse response, HttpSession session) {
 		
 		int result = 0;
 		
+		// member or host 선택
 		String userSelect = request.getParameter("userSelect");
-		System.out.println(userSelect);
 		
 		// member랑 host 구분
 		if(userSelect.equals("member")) {
@@ -199,49 +199,42 @@ public class MemberController implements MemberSession{
 			result = ms.userCheckHost(request);
 		}
 		
-		
 		if(result == 1) { // 아이디를 성공적으로 찾았으면
-			ra.addAttribute("id", request.getParameter("id"));
+			String id = request.getParameter("id");
+			session.setAttribute(LOGIN, id);  // 아이디 세션 저장
 			
-			String checked = request.getParameter("testChek");  // 확인
-			// System.out.println(checked);
+			userInfo(id, m);
+			MemberDTO dto = (MemberDTO)m.getAttribute("info");
+			//System.out.println(dto.getGrade());
+			session.setAttribute("grade", dto.getGrade());
 			
-			if(checked.equals("true")) { // 아이디 기억하기가 check 이면
-				//System.out.println("쿠키 생성 성공");
+			String checked = request.getParameter("testChek");  // 아이디 기억하기 체크박스 true/false
+			
+			if(checked.equals("true")) {
 	            Cookie cookie = new Cookie("CookieId", request.getParameter("id"));
 	            response.addCookie(cookie);
 			} else {
-				//System.out.println("쿠키 생성 실패");
 	            Cookie cookie = new Cookie("CookieId", null);
 	            cookie.setMaxAge(0);
 	            response.addCookie(cookie);
 			}
-			return "redirect:memberLoginSuccess";  // 로그인 성공
+			return "chenggyu/index";  // 로그인 성공
 		} else {
+			m.addAttribute("userCheckFalse", "id"); // false 값 담기위해 model 사용
 			return "yoonhee/memberLoginForm";  // 로그인 실패
 		}
 	}
-
-	
-	// 로그인 성공
-	@RequestMapping("memberLoginSuccess")
-	public String memberLoginSuccess(@RequestParam("id") String id, HttpSession session, Model model) {
-		session.setAttribute(LOGIN, id);  // 아이디 세션 저장
-		userInfo(id, model);
-		return "chenggyu/index";
-	}
-	
 	
 	// 로그아웃 -> 인덱스 페이지로
 	@GetMapping("memberLogout")
 	public String memberLogout(HttpSession session) {
 		if(session.getAttribute("loginUser") != null) {
-			session.invalidate();  // 아이디 세션 무효화
+			session.invalidate();
 		}
 		return "chenggyu/index";
 	}
 	
-	// 아이디 찾기 창
+	// 아이디 찾기 폼
 	@RequestMapping("findUserIdForm")
 	public String findUserIdForm() {
 		return "yoonhee/findUserIdForm";
@@ -249,14 +242,25 @@ public class MemberController implements MemberSession{
 	
 	// 아이디 찾기 -> 이메일, 휴대폰 번호
 	@PostMapping("findUserId")
-	public String findUserId(HttpServletRequest request, RedirectAttributes ra, Model model) {
-		int result = ms.findUserId(request, model);
-		if(result == 1) {
-			ra.addFlashAttribute("findId", model.getAttribute("findUserId"));
-			return "redirect:findUserIdResult";
-		}
-		return "redirect:findUserIdResult";
+	public String findUserId(HttpServletRequest request, Model model) {
 		
+		int result = 0;
+		
+		// member or host 선택
+		String userSelect = request.getParameter("userSelect");
+		
+		// member랑 host 구분
+		if(userSelect.equals("member")) {
+			result = ms.findUserId(request, model);
+		} else if(userSelect.equals("host")) {
+			result = ms.findUserId(request, model);
+		}
+		
+		// 아이디 찾은 결과
+		if(result == 1) {
+			return "yoonhee/findUserIdResult";
+		}
+		return "yoonhee/findUserIdResult";
 	}
 	
 	// 아이디 찾기 결과
@@ -265,7 +269,7 @@ public class MemberController implements MemberSession{
 		return "yoonhee/findUserIdResult";
 	}
 	
-	// 비밀번호 찾기 페이지
+	// 비밀번호 찾기 폼
 	@RequestMapping("findUserPwdForm")
 	public String findUserPwdForm() {
 		return "yoonhee/findUserPwdForm";
@@ -273,18 +277,30 @@ public class MemberController implements MemberSession{
 	
 	// 비밀번호 찾기
 	@PostMapping("findUserPwd")
-	public String findUserPwd(HttpServletRequest request, RedirectAttributes ra, Model model) {
-		int result = ms.findUserPwd(request, model);
+	public String findUserPwd(HttpServletRequest request, Model model) {
+		
+		int result = 0;
+		
+		// member or host 선택
+		String userSelect = request.getParameter("userSelect");
+		model.addAttribute("userSelect", userSelect);
+		
+		// member랑 host 구분
+		if(userSelect.equals("member")) {
+			result = ms.findUserPwd(request, model);
+		} else if(userSelect.equals("host")) {
+			result = ms.findUserPwd(request, model);
+		}
+		
 		if(result == 1) {
-			ra.addFlashAttribute("findPwd", model.getAttribute("findUserPwd"));
-			return "redirect:findUserPwdResult";  // 비밀번호 찾기 성공하면 결과 페이지로
+			return "yoonhee/findUserPwdResult";  // 비밀번호 찾기 성공하면 결과 페이지로
 		}
 		return "yoonhee/findUserPwdForm"; // 비밀번호 찾기 실패하면 찾기 form 페이지로
 		
 	}
 	
 	
-	// 비밀번호 찾기 결과 페이지
+	// 비밀번호 찾기 결과
 	@GetMapping("findUserPwdResult")
 	public String findUserPwdResult() {
 		return "yoonhee/findUserPwdResult";
@@ -292,14 +308,29 @@ public class MemberController implements MemberSession{
 	
 	
 	// 비밀번호 찾기에서 비밀번호 수정
-	@PostMapping("userRePwd")
-	public String userRePwd(HttpServletRequest request) {
-		MemberDTO dto = new MemberDTO();
-		dto.setId(request.getParameter("id"));
-		dto.setPwd(request.getParameter("newPwd"));
-		ms.userRePwd(dto);
-		return "chenggyu/index";
+	@PostMapping("userUpdatePwd")
+	public String userUpdatePwd(HttpServletRequest request) {
 		
+		// System.out.println(request.getParameter("userSelect"));
+		
+		String userSelect = request.getParameter("userSelect");
+		
+		if(userSelect.equals("member")) {
+			MemberDTO dto = new MemberDTO();
+			dto.setId(request.getParameter("id"));
+			dto.setPwd(request.getParameter("newPwd"));
+			ms.userUpdatePwd(dto);
+			return "chenggyu/index";
+			
+		} else if(userSelect.equals("host")) {
+			HostDTO hostDTO = new HostDTO();
+			hostDTO.setId(request.getParameter("id"));
+			hostDTO.setPwd(request.getParameter("newPwd"));
+			ms.userUpdateHostPwd(hostDTO);
+			return "chenggyu/index";
+		}
+		
+		return "chenggyu/index";
 	}
 	
 	

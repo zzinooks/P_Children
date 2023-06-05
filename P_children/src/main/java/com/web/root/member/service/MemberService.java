@@ -56,10 +56,9 @@ public interface MemberService {
 	
 	public int findUserPwd(HttpServletRequest request, Model model);
 	
+	public void userUpdatePwd(MemberDTO dto);
 	
-	
-
-	public void userRePwd(MemberDTO dto);
+	public void userUpdateHostPwd(HostDTO hostDTO);
 	
 	public int userCheckHost(HttpServletRequest request);
 	

@@ -6,7 +6,6 @@
  /* 로그인 form 확인 */
 
 function checkLogin() {
-	console.log('aaa');
 	if(document.memberLoginForm.id.value == ""){
 		alert("아이디를 입력해주세요");
 		document.memberLoginForm.id.focus();
@@ -58,7 +57,7 @@ function findUserPwdCheck() {
 
 
 // 비밀번호 찾고 비밀번호 수정 입력 체크
-function userRePwdCheck(){
+function userUpdatePwdCheck(){
 	if(document.findUserPwdResult.newPwd.value == ""){
 		alert("새 비밀번호를 입력하세요");
 		document.findUserPwdResult.newPwd.focus();
@@ -92,6 +91,10 @@ function rememberCheckId(){
 	
 	console.log(testChek.value);
 }
+
+
+
+
 
 
 
