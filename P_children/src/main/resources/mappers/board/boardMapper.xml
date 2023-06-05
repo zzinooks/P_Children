@@ -92,9 +92,18 @@
 		UPDATE reply2 SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
 	</update>
 	
+	<!-- 답글 기능 -->
 	<select id="getReCommentList" resultMap="reply">
 		SELECT * FROM reply2 WHERE cGroup = #{reply_no}
 		ORDER BY write_date
 	</select>
+	
+	<insert id="addReComment">
+		INSERT INTO reply2 VALUES(reply_seq.NEXTVAL, 1, #{cGroup}, #{id}, #{reCommentContent},#{write_no} ,SYSDATE)
+	</insert>
+	
+	<update id="updateReComment">
+		UPDATE reply2 SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
+	</update>
 	
 </mapper>
