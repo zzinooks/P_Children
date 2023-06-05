@@ -47,7 +47,7 @@ table tr:last-child {
 
 </head>
 <body>
-<c:import url="../default/header.jsp"/>
+<%-- <c:import url="../default/header.jsp"/> --%>
 	<h1> 게시판 </h1>
 	<div class="wrap board_table">
 		<table class="table table-striped">
@@ -73,7 +73,7 @@ table tr:last-child {
 						<tr>
 							<td>${dto.write_no}</td>
 							<td>${dto.id }</td>
-							<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}">${dto.title }</a></td>
+							<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
 							<td>${dto.savedate }</td>
 							<td>${dto.hit }</td>
 							<td>${dto.file_name }</td>
@@ -126,6 +126,6 @@ table tr:last-child {
 			</tr>
 		</table>
 	</div>
-<c:import url="../default/footer.jsp"/>
+<%-- <c:import url="../default/footer.jsp"/> --%>
 </body>
 </html>

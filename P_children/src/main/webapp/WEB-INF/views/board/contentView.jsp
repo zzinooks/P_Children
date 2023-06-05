@@ -9,6 +9,12 @@
 </script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
+<%
+	String num2 = request.getParameter("num");
+	if(num2.equals("null")){
+		num2 = "1";
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,7 +124,7 @@
 										+ "&write_group=" + redata.write_group + "'>[삭제]</a>"
 										
 								if(redata.id == $("#user").val()){
-									htm += "<a href='#' onclick='updateReply("+ redata.reply_no +")'>[수정]</a>"
+									htm += "<a onclick='updateReply("+ redata.reply_no +")'>[수정]</a>"
 								}
 										
 								htm += "</div>"
@@ -155,8 +161,18 @@
 			replyData();
 		}
 		
+		// 대댓글 수정 창 켜져있을 경우 종료
+		if($('#updateReCommentContent').val() != null){
+			$('.updateReComment').remove();
+		}
+		
+		// 대댓글 입력 창 켜져있을 경우 종료
+		if($(".ShowAddReComment").length > 0) {
+			 cancelAddReComment();
+		} 
+		
 		let replyView = ""
-		replyView += "<div align='left'><form id='updateResultFrm' action='${contextPath }/board/updateReply'><b>"+ $("#user").val() +"</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
+		replyView += "<div align='left'><form id='updateResultFrm' action='${contextPath }/board/updateReply?num= <%=num2%> '><b>"+ $("#user").val() +"</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
 		replyView += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"
 		replyView += "<input type='hidden' id='updateReply_no' name='updateReply_no' value='" + $('#rep' + reply_no).children('.replyNo').val() + "'>"
 		replyView += "<b> 의 수 정 내 용 : </b><textarea id='updateContent' name='updateContent' rows='5' cols='30' autofocus>" + $('#rep' + reply_no).children('.repContent').text() + "</textarea><br></div>"
@@ -214,7 +230,7 @@
 											+ "&write_group=" + redata.write_group + "'>[삭제]</a>"
 											// 대댓글 작성자와 현재 유저가 일치하는 경우
 									if(redata.id == $("#user").val()) {
-										htm += "<a href='#' onclick='updateReComment("+ redata.reply_no +")'>[수정]</a>"
+										htm += "<a onclick='updateReComment("+ redata.reply_no +")'>[수정]</a>"
 									}
 									
 									htm += "</div>"
@@ -246,9 +262,19 @@
 	
 	// 대댓글 삽입 폼
 	function ShowAddReCommentForm(reply_no){ // 답글 삽입 폼 생성
-		 if($(".ShowAddReComment").text() != null) {
-			 cancelAddReComment();
+		// 다른 댓글 켜져있을 경우 종료
+		if($('#updateContent').val() != null){
+			replyData();	
 		}
+		
+		// 대댓글 수정 창 켜져있을 경우 종료
+		if($('#updateReCommentContent').val() != null){
+			$('.updateReComment').remove();
+		}
+		
+		 if($(".ShowAddReComment").length > 0) {
+			 cancelAddReComment();
+		} else {
 		
 		let htm = "";
 		
@@ -263,12 +289,12 @@
 		
 		$("#rep" + reply_no).append(htm);
 		
-		
+		}
 	} // ShowAddReCommentForm end
 	
 	// 대댓글 생성 화면 지우기
 	function cancelAddReComment(){
-		$(".ShowAddReComment").html(" ");
+		$(".ShowAddReComment").remove();
 	}
 	
 	// 대댓글 생성
@@ -306,10 +332,20 @@
 	// 대댓글 수정하기
 	function updateReComment(reply_no){
 		
-		// 대댓글 해당하는 댓글(부모댓글)의 reply_no 값
+		// 댓글 수정 창 켜져있을 경우 종료
+		if($('#updateContent').val() != null){
+			replyData();	
+		}
+		
+		// 대댓글 입력창이 켜져있을 경우 종료
+		if($(".ShowAddReComment").length > 0) {
+			 cancelAddReComment();
+		}
+		
+		// 대댓글 해당하는 댓글(부모댓글)의 reply_no 값'
 		let cGroup = $('#reComment' + reply_no).closest('div').siblings('.replyNo').val();
 		
-		// 다른 댓글 켜져있을 경우 종료
+		// 다른 댓글 수정창이 켜져있을 경우 종료
 		if($('#updateReCommentContent').val() != null){
 			replyData();
 			console.log(cGroup);
@@ -317,7 +353,7 @@
 		}
 		
 		let replyView = ""
-		replyView += "<div align='left' class='updateReComment'><form id='updateReCommentResultFrm' action='${contextPath }/board/updateReComment'><b>"+ $("#user").val() +"</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
+		replyView += "<div align='left' class='updateReComment'><form id='updateReCommentResultFrm' action='${contextPath }/board/updateReComment?num=<%=num2%>'><b>"+ $("#user").val() +"</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
 		replyView += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"
 		replyView += "<input type='hidden' id='updateReCommentReply_no' name='updateReCommentReply_no' value='" + $('#reComment' + reply_no).children('.replyNo').val() + "'>"
 		replyView += "<b> 의 수 정 내 용 : </b><textarea id='updateReCommentContent' name='updateReCommentContent' rows='5' cols='30' autofocus>" + $('#reComment' + reply_no).children('.repContent').text() + "</textarea><br>"
@@ -333,8 +369,6 @@
 			return false;
 		} else {
 			$("#updateReCommentResultFrm").submit();
-			reComment(cGroup);
-			reComment(cGroup);
 		}
 	}
 	
@@ -495,7 +529,7 @@ h1 {
 						<input type="button" value="삭제하기" onclick="deleteConfirm()" /> &nbsp;
 					</c:if>
 					<input type="button" value="답글달기" onclick="slide_click()"> &nbsp;
-					<input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList'">
+					<input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList?num=<%=num2%>'">
 				</td>
 			</tr>
 		</table>
