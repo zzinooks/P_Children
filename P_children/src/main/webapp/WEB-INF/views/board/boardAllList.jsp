@@ -25,7 +25,7 @@ h1 {
 }
 
 .table {
-	display: flex;
+	display: block;
 	justify-content: center;
 }
 
@@ -43,9 +43,11 @@ table tr:last-child {
 }
 </style>
 
+
+
 </head>
 <body>
-<%-- 	<c:import url="../default/header.jsp"/> --%>
+<c:import url="../default/header.jsp"/>
 	<h1> 게시판 </h1>
 	<div class="wrap board_table">
 		<table class="table table-striped">
@@ -56,6 +58,9 @@ table tr:last-child {
 				<th width="200px"> 날 짜 </th>
 				<th width="70px"> 조회수 </th>
 				<th width="150px"> 이미지 </th>
+				<c:if test ="${info.grade == admin}">
+								<th>관리자 권한</th>
+				</c:if>
 			</tr>
 			<c:choose>
 				<c:when test="${empty boardList}"> <!-- ${boardList.size() == 0} -->
@@ -72,15 +77,22 @@ table tr:last-child {
 							<td>${dto.savedate }</td>
 							<td>${dto.hit }</td>
 							<td>${dto.file_name }</td>
+							<c:if test ="${info.grade == admin}">
+								<td><button onclick="location.href='${contextPath}/board/delete?write_no=${dto.write_no}&file_name=${dto.file_name }'">삭제</button></td>
+							</c:if>
 						<tr>
 					</c:forEach>
 				</c:otherwise>
 			</c:choose>
 			<tr>
-				<td colspan="6" align="center">
-					<%-- <c:forEach var="num" begin="1" end="${repeat }">
-						<a href="boardAllList?num=${num }">[ ${num }]</a>
-					</c:forEach> --%>
+				<c:choose>
+					<c:when test="${info.grade == admin}">
+						<td colspan="7" align="center">
+					</c:when>
+					<c:otherwise>
+						<td colspan="6" align="center">
+					</c:otherwise>
+				</c:choose>
 					<!-- 페이징 -->
 					<div id="paging_block">
 						<c:if test="${startPage > block }">
@@ -101,12 +113,19 @@ table tr:last-child {
 				</td>
 			</tr>
 			<tr>
-				<td colspan="6">
+				<c:choose>
+					<c:when test="${info.grade == admin}">
+						<td colspan="7" align="center">
+					</c:when>
+					<c:otherwise>
+						<td colspan="6" align="center">
+					</c:otherwise>
+				</c:choose>
 					<a href="${contextPath }/board/writeForm">글작성</a>
 				</td>
 			</tr>
 		</table>
 	</div>
-<%-- 	<c:import url="../default/footer.jsp"/> --%>
+<c:import url="../default/footer.jsp"/>
 </body>
 </html>

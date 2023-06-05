@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.service.BoardService;
+import com.web.root.member.service.MemberService;
 
 @RestController
 @RequestMapping("/board")
@@ -30,6 +31,11 @@ public class BoardRepController {
 	@Autowired
 	BoardService bs;
 	
+	@Autowired
+	MemberService ms;
+	
+	
+	// 댓글 기능 -----------------------------------------------------------------------------------------------
 	@PostMapping(value="addReply", produces="application/json; charset=utf-8")
 	@ResponseBody
 	public int addReply(@RequestBody Map<String, Object> map) {
@@ -63,6 +69,7 @@ public class BoardRepController {
 		out.println(message);
 	}
 	
+	// 대댓글 기능 -------------------------------------------------------------------------------------------
 	// 대댓글 불러오기
 	@PostMapping(value="reCommentData/{reply_no}", produces="application/json; charset=utf-8")
 	@ResponseBody

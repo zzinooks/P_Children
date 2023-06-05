@@ -58,6 +58,10 @@ public class BoardController implements MemberSession{
 	@GetMapping("boardAllList")
 	public String boardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		bs.boardAllList(model, num, request);
+		String id = (String) session.getAttribute(LOGIN);
+		
+		ms.userInfo(id, model);
+		model.addAttribute("admin", ADMIN);
 		return "/board/boardAllList"; 
 	}
 	
@@ -89,6 +93,13 @@ public class BoardController implements MemberSession{
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("user", user);
+		
+		ms.userInfo(user, model);
+		model.addAttribute("admin", ADMIN);
+		
+		//String id = (String) session.getAttribute(LOGIN);
+		//	ms.userInfo(id, model);
+		
 		bs.hitplus(dto);
 		return "/board/contentView";
 	}

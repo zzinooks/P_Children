@@ -251,6 +251,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 
+	// 대댓글 기능 -----------------------------------------------------------------------
 	@Override
 	public List<BoardRepDTO> getReCommentList(int reply_no) {
 		return mapper.getReCommentList(reply_no);

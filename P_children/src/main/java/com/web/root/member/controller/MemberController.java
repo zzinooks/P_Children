@@ -202,6 +202,7 @@ public class MemberController implements MemberSession{
 		
 		if(result == 1) { // 아이디를 성공적으로 찾았으면
 			ra.addAttribute("id", request.getParameter("id"));
+			ra.addAttribute("hello", "hoho");
 			
 			String checked = request.getParameter("testChek");  // 확인
 			// System.out.println(checked);
