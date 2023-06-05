@@ -6,8 +6,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.SysexMessage;
-import javax.swing.Spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.web.root.member.dto.HostDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
@@ -105,35 +101,21 @@ public class MemberController implements MemberSession{
 	@RequestMapping("registForm")
 	public String memberRegistFrom(@RequestParam("email") String email, Model model) {
 		model.addAttribute("checkedEmail", email);
-		return "member/memberRegistForm";
+		return "member/RegistForm";
 	}
 	
-	@RequestMapping("registForm_host")
-	public String hostRegistFrom(@RequestParam("email") String email, Model model) {
-		model.addAttribute("checkedEmail", email);
-		return "member/hostRegistForm";
-	}
-	
-	@PostMapping("regist")
-	public String memberRegist(HttpSession session, MemberDTO dto) {
-		String message = ms.registMember(session, dto);
-		return "sungsu/main";
-	}
-	
-	@PostMapping("regist_host")
-	public String hostRegist(HostDTO dto) {
+	@PostMapping("registMember")
+	public String hostRegist(MemberDTO dto, HttpServletRequest request) {
+		String addrMerge = request.getParameter("addr1") + "/" 
+				  +request.getParameter("addr2") + "/"
+				  +request.getParameter("addr3") + "/"
+				  +request.getParameter("zonecode") + "/";
+		dto.setAddr(addrMerge);
 		String message = ms.registHost(dto);
 		return "sungsu/main";
 	}
 	
 	@RequestMapping("checkId")
-	@ResponseBody
-	public String check_id(@RequestParam("id") String id) {
-		String result = ms.getMemberInfo(id);
-		return result;
-	}
-	
-	@RequestMapping("checkId_host")
 	@ResponseBody
 	public String check_id_host(@RequestParam("id") String id) {
 		String result = ms.getHostInfo(id);
@@ -141,26 +123,16 @@ public class MemberController implements MemberSession{
 	}
 	
 	@GetMapping("emailCheck")
-	public String emailCheckForm() {
+	public String emailCheckForm(@RequestParam String userSelect, HttpServletResponse response) {
+		Cookie cookie = new Cookie("userSelect", userSelect);
+		response.addCookie(cookie);
 		return "member/emailCheck";
-	}
-	
-	@GetMapping("emailCheck_host")
-	public String emailCheckForm_host() {
-		return "member/emailCheck_host";
 	}
 	
 	@RequestMapping("checkEmail")
 	@ResponseBody
 	public String check_email(@RequestParam("email") String email) {
 		String result = ms.checkEmail(email);
-		return result;
-	}
-	
-	@RequestMapping("checkEmail_host")
-	@ResponseBody
-	public String check_email_host(@RequestParam("email") String email) {
-		String result = ms.checkEmail_host(email);
 		return result;
 	}
 	
@@ -183,7 +155,7 @@ public class MemberController implements MemberSession{
 	public String getKakaoCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String code = request.getParameter("code");
 		String token = ms.getkakaoToken(code, tokenURL);
-//		String userId = ms.getUserId(token);
+		String userId = ms.getKakaoId(token);
 //		String kakaoMemberInfo = ms.getKakaoInfo()
 		System.out.println(token);
 		return "redirect:/index";
@@ -301,7 +273,7 @@ public class MemberController implements MemberSession{
 		return "yoonhee/findUserPwdForm";
 	}
 	
-	// 비밀번호 찾기
+	// 비밀번호 찾기 - 박성수: 수정필요.
 	@PostMapping("findUserPwd")
 	public String findUserPwd(HttpServletRequest request, Model model) {
 		
@@ -349,7 +321,7 @@ public class MemberController implements MemberSession{
 			return "chenggyu/index";
 			
 		} else if(userSelect.equals("host")) {
-			HostDTO hostDTO = new HostDTO();
+			MemberDTO hostDTO = new MemberDTO();
 			hostDTO.setId(request.getParameter("id"));
 			hostDTO.setPwd(request.getParameter("newPwd"));
 			ms.userUpdateHostPwd(hostDTO);

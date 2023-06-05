@@ -6,61 +6,31 @@ if(k&&j[k]&&(e||j[k].data)||void 0!==d||"string"!=typeof b)return k||(k=i?a[h]=c
 
 
 
-// form 값 들어왔는지 확인.
-function valueCheck() {
-	let id = document.querySelector("span#id_");
-	let pwd = document.querySelector("span#pwd_");
-	let pwdCheck = document.querySelector("span#pwdCheck_");
-	let nickname = document.querySelector("span#nickname_");
-	let phone = document.querySelector("span#phone_");
-	let email = document.querySelector("span#email_");
-	let addr = document.querySelector("span#addr_");
+	
+		
 
-	
-	if(document.form.userid.value == ""){
-		id.style.color = "red";
-		id.innerHTML = "아이디를 입력해 주세요.";
-		document.form.userid.focus();
-	}
-	else if(document.form.pwd.value == ""){
-		pwd.style.color = "red";
-		pwd.innerHTML = "비밀번호를 입력해 주세요.";
-		document.form.pwd.focus();
-	}
-	else if(document.form.pwdCheck.value == ""){
-		pwdCheck.style.color = "red";
-		pwdCheck.innerHTML = "비밀번호를 확인해 주세요.";
-		document.form.pwdCheck.focus();
-	}
-	else if(document.form.nickname.value == ""){
-		nickname.style.color = "red";
-		nickname.innerHTML = "닉네임을 입력해 주세요.";
-		document.form.nickname.focus();
-	}
-	else if(document.form.phone.value == ""){
-		phone.style.color = "red";
-		phone.innerHTML = "전화번호를 입력해 주세요.";
-		document.form.phone.focus();
-	}
-	else if(document.form.email.value == ""){
-		email.style.color = "red";
-		email.innerHTML = "이메일을 입력해 주세요.";
-		document.form.email.focus();
-	}
-	else if(document.form.addr.value == ""){
-		addr.style.color = "red";
-		addr.innerHTML = "주소를 입력해 주세요.";
-		document.form.addr.focus();
-	}
-	else {
-		document.form.submit();
+// 안내 메세지 삭제
+		function deleteSpan_nickname(){
+		$("#nickname_").empty();
 	}
 	
-}
+	function deleteSpan_phone(){
+		$("#phone_").empty();
+	}
+	
+	function deleteSpan_addr2(){
+		$("#addr_").empty();
+	}
 
 // 아이디 중복 체크 확인
-function idCheck(){
+function idCheck(event){
 	let id = $("#userid").val();
+	
+	const regExp = /[^0-9a-zA-Z]/g;
+	const ele = event.target;
+	if (regExp.test(ele.value)) {
+	  ele.value = ele.value.replace(regExp, '');
+	}
 	
 	if(id.length < 4){
 		$("#id_").text("아이디는 4~14 글자여야 합니다.");
@@ -71,8 +41,10 @@ function idCheck(){
 			data: {"id" : id},
 			success: function(data){
 				if(data == "OK"){
+					$("#id_").css("color", "white");
 					$("#id_").text("사용가능한 아이디 입니다.");
 				} else {
+					$("#id_").css("color", "white");
 					$("#id_").text("중복된 아이디 입니다.");
 				}
 			},

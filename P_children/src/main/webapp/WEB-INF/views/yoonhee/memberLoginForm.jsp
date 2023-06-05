@@ -29,7 +29,15 @@ $(document).ready(function(){
 	}else{
 		check.checked=false;
 	}
-}); 
+});
+
+function userSelect(){
+	const select = document.memberLoginForm.userSelect.value;
+	
+	location.href = "${contextPath}/member/emailCheck?userSelect="+select;
+	
+	
+}
 </script>
 
 </head>
@@ -66,11 +74,11 @@ $(document).ready(function(){
 				</div>
 				<button value="로그인" onclick="checkLogin()">로그인</button>
 				<div class="register">
-					<p><a href="${contextPath }/member/emailCheck">회원가입</a></p>
+					<p><a onclick="userSelect()">회원가입</a></p>
 				</div>
 				<div class="select">
-				<input type="radio" name="userSelect" value="member" id="member" checked><label for="member"><a>일반</a></label>
-				<input type="radio" name="userSelect" value="host" id="host"><label for="host"><a>호스트</a></label>
+				<input type="radio" name="userSelect" value="member"  checked><label for="member"><a>일반</a></label>
+				<input type="radio" name="userSelect" value="host" ><label for="host"><a>호스트</a></label>
 				</div>
 			</form>
 		</div>
