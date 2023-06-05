@@ -16,16 +16,16 @@ public class BoardInterceptor extends HandlerInterceptorAdapter implements Membe
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// TODO Auto-generated method stub
-//		HttpSession session = request.getSession();
-//		if(session.getAttribute(LOGIN) == null) {
-//			response.setContentType("text/html; charset=utf-8");
-//			PrintWriter out = response.getWriter();
-//			out.println("<script>alert('로그인 하세요~');"
-//					+"location.href='"
-//					+request.getContextPath()
-//					+"/member/login'</script>");
-//			return false;
-//		}
+		HttpSession session = request.getSession();
+		if(session.getAttribute(LOGIN) == null) {
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('로그인 하세요~');"
+					+"location.href='"
+					+request.getContextPath()
+					+"/member/memberLoginForm'</script>");
+			return false;
+		}
 		return true;
 	}
 	

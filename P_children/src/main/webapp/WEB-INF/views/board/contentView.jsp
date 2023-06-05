@@ -502,14 +502,36 @@ h1 {
 			<tr>
 				<th width="100px"> 글번호 </th><td width="200px" class="form-control input-sm">${dto.write_no }</td>
 				<th width="100px"> 작성자 </th><td width="200px" class="form-control input-sm">${dto.id }</td>
+				<th width="100px"> 분류 </th>
+				<td width="200px" class="form-control input-sm">
+					<c:if test="${dto.category == 'informationSharing' }">
+					 정보 공유 
+					</c:if>
+					<c:if test="${dto.category == 'friendshipPromotion' }">
+					 친목 도모 
+					</c:if>
+					<c:if test="${dto.category == 'petSneak' }">
+					 펫 간식 
+					</c:if>
+					<c:if test="${dto.category == 'smallChat' }">
+					 잡담 
+					</c:if>
+					<c:if test="${dto.category == 'lookForPetFriend' }">
+					 펫프랜드 구합니다 
+					</c:if>
+					<c:if test="${dto.category == 'BeingPetFriend' }">
+					 펫프랜드 합니다 
+					</c:if>
+				</td>
+				
 			</tr>
 			<tr>
-				<th width="100px"> 제 목 </th><td width="200px" class="form-control input-sm">${dto.title }</td>
+				<th width="100px" > 제 목 </th><td  width="200px" class="form-control input-sm">${dto.title }</td>
 				<th width="100px"> 작성일 </th><td width="200px" class="form-control input-sm">${dto.savedate }</td>
 			</tr>
 			<tr>
 				<th> 내 용 </th><td>${dto.content }</td>
-				<td colspan="2">
+				<td colspan="4">
 					<c:if test="${dto.file_name == 'nan'}">
 						<b>이미지가 없습니다...</b>
 					</c:if>

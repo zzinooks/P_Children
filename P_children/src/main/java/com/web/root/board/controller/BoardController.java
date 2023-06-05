@@ -47,15 +47,7 @@ public class BoardController implements MemberSession{
 	@Autowired
 	MemberService ms;
 	
-	/*
-	@GetMapping("boardAllList")
-	public String boardAllList(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
-		bs.boardAllList(model);
-		return "/board/boardAllList";
-	}
-	*/
-	
-	@GetMapping("boardAllList")
+	@GetMapping("boardAllList") 
 	public String boardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		bs.boardAllList(model, num, request);
 		String id = (String) session.getAttribute(LOGIN);
@@ -68,7 +60,6 @@ public class BoardController implements MemberSession{
 	@RequestMapping("writeForm")
 	public String writeForm(HttpSession session, Model model) {
 		String id = (String) session.getAttribute(LOGIN);
-		//MemberDTO dto = ms.getMember(id);
 		model.addAttribute("user", id);
 		return "/board/writeForm";
 	}

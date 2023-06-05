@@ -53,11 +53,11 @@ table tr:last-child {
 		<table class="table table-striped">
 			<tr>
 				<th width="70px"> 번 호 </th>
+				<th width="150px"> 분 류 </th>
 				<th width="150px"> ID </th>
 				<th width="200px"> 제 목 </th>
 				<th width="200px"> 날 짜 </th>
 				<th width="70px"> 조회수 </th>
-				<th width="150px"> 이미지 </th>
 				<c:if test ="${info.grade == admin}">
 								<th>관리자 권한</th>
 				</c:if>
@@ -72,11 +72,30 @@ table tr:last-child {
 					<c:forEach var="dto" items="${boardList }">
 						<tr>
 							<td>${dto.write_no}</td>
+							<td>
+								<c:if test="${dto.category == 'informationSharing' }">
+								 정보 공유 
+								</c:if>
+								<c:if test="${dto.category == 'friendshipPromotion' }">
+								 친목 도모 
+								</c:if>
+								<c:if test="${dto.category == 'petSneak' }">
+								 펫 간식 
+								</c:if>
+								<c:if test="${dto.category == 'smallChat' }">
+								 잡담 
+								</c:if>
+								<c:if test="${dto.category == 'lookForPetFriend' }">
+								 펫프랜드 구합니다 
+								</c:if>
+								<c:if test="${dto.category == 'BeingPetFriend' }">
+								 펫프랜드 합니다 
+								</c:if>
+							</td>
 							<td>${dto.id }</td>
 							<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
 							<td>${dto.savedate }</td>
 							<td>${dto.hit }</td>
-							<td>${dto.file_name }</td>
 							<c:if test ="${info.grade == admin}">
 								<td><button onclick="location.href='${contextPath}/board/delete?write_no=${dto.write_no}&file_name=${dto.file_name }'">삭제</button></td>
 							</c:if>
