@@ -41,7 +41,7 @@ public interface MemberService {
 	
 	public String getkakaoToken(String code, String tokenurl) throws IOException;
 	
-	public String getKakaoId(String token);
+	public String getKakaoId(String token, String kakaoidurl) throws IOException;
 	
 	//============================ 박성수 끝 ===========================================
 

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class MemberServiceImp1 implements MemberService {
 	
 	@Inject
 	JavaMailSender mailSender;
-
+	
 	
 	@Override
 	public void info(String userid, Model model) {
@@ -133,11 +134,12 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
+	ObjectMapper objectMapper = new ObjectMapper();
+	RestTemplate restTemplate = new RestTemplate();
+	HttpHeaders headers = new HttpHeaders();
+	
 	@Override
 	public String getkakaoToken(String code, String tokenURL) throws IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
 		
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -164,9 +166,16 @@ public class MemberServiceImp1 implements MemberService {
 	}
 	
 	@Override
-	public String getKakaoId(String token) {
-		
-		return null;
+	public String getKakaoId(String token, String kakaoIdURL) throws IOException {
+		headers.add("Authorization", "Bearer "+token);
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		ResponseEntity<String> response = 
+					 restTemplate.exchange(kakaoIdURL, HttpMethod.GET, entity, String.class);
+		System.out.println(response.getBody());
+		return objectMapper.readTree(response.getBody())
+				.get("id").asText();
+					
 	}
 	
 	

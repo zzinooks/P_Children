@@ -148,16 +148,16 @@ public class MemberController implements MemberSession{
 		return "sungsu/kakaoLogin";
 	}
 	
-	private static final String tokenURL = "https://kauth.kakao.com/oauth/token";
-		
 	
+	private static final String tokenURL = "https://kauth.kakao.com/oauth/token";
+	private static final String kakaoIdURL = "https://kapi.kakao.com/v2/user/me";
 	@GetMapping("kakaoCode")
 	public String getKakaoCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String code = request.getParameter("code");
 		String token = ms.getkakaoToken(code, tokenURL);
-		String userId = ms.getKakaoId(token);
+		String userId = ms.getKakaoId(token, kakaoIdURL);
+		System.out.println(userId);
 //		String kakaoMemberInfo = ms.getKakaoInfo()
-		System.out.println(token);
 		return "redirect:/index";
 		
 	}
