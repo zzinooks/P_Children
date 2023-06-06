@@ -11,7 +11,7 @@
 <title>P_children: 로그인</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=1"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=2" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/index.css" rel="stylesheet" type="text/css">
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
 
@@ -73,6 +73,10 @@ function userSelect(){
 					</label>
 				</div>
 				<button value="로그인" onclick="checkLogin()">로그인</button>
+				
+				<!-- 박성수 _ 카카오 로그인 버튼 _ 시작 -->
+				<c:import url="../sungsu/kakaoLogin.jsp"/>
+				
 				<div class="register">
 					<p><a onclick="userSelect()">회원가입</a></p>
 				</div>
@@ -88,3 +92,5 @@ function userSelect(){
 	
 </body>
 </html>
+
+
