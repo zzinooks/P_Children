@@ -22,7 +22,7 @@
 			<a href="${contextPath }/index" class="active">메인</a>
 			<a href="#">공지 사항</a>
 			<a href="${contextPath }/board/boardAllList">게시판</a>
-			<a href="#">프로그램</a>
+			<a href="${contextPath }/programBoard/writeFormForProgram">프로그램</a>
 			<a href="#">고객센터</a>
 		<c:choose>
 			<c:when test="${loginUser == null }">
