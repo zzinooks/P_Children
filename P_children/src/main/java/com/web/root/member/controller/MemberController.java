@@ -35,27 +35,56 @@ public class MemberController implements MemberSession{
 		ms.userInfo(id,model);
 	} 
 	
-	// 로그인 정보가져오기
+	// 개인정보 관리자정보 
 	@RequestMapping("member_information")
-	public String member_information( HttpSession session,Model model) {
-		Object objUserid = session.getAttribute(LOGIN);
-		String userid = String.valueOf(objUserid);
-		ms.info(userid, model);
+	public String member_information( Model model, HttpServletRequest request, HttpSession session) {
+		String id = (String) session.getAttribute(LOGIN);
+		MemberDTO dto = ms.member_information(id);
+		model.addAttribute("dto", dto);
 		return "chenggyu/member_information";
 	}
 	
+	// 개인정보 수정
 	@RequestMapping("member_modify")
-	public String member_modify() {
+	public String member_modify(HttpSession session,Model model) {
+		String id = (String) session.getAttribute(LOGIN);
+		MemberDTO dto = ms.member_information(id);
+		model.addAttribute("dto", dto);
 		return "chenggyu/member_modify";
 	}
 	
+	// 개인정보 수정
+	@PostMapping("modify_save")
+	@ResponseBody
+	public void modify_save(HttpServletRequest request) {
+		ms.modify_save(request);
+	}
+	
+	// 회원 탈퇴
 	@RequestMapping("member_leave")
-	public String member_leave() {
+	public String member_leave(HttpSession session,Model model) {
+		String id = (String) session.getAttribute(LOGIN);
+		MemberDTO dto = ms.member_information(id);
+		model.addAttribute("dto", dto);
 		return "chenggyu/member_leave";
 	}
 	
+	// 회원 탈퇴
+	@PostMapping("member_leave_save")
+	@ResponseBody
+	public void member_leave_save(HttpServletRequest request, HttpSession session) {
+		ms.member_leave_save(request);
+		if(session.getAttribute("loginUser") != null) {
+			session.invalidate();  // 아이디 세션 무효화
+		}
+	}
+	
 	@RequestMapping("member_board")
-	public String member_board() {
+	public String member_board(Model model, HttpSession session, @RequestParam(value="num", required = false, defaultValue="1" )int num ) {
+		String id = (String) session.getAttribute(LOGIN);
+		MemberDTO dto = ms.member_information(id);
+		ms.member_board(model, num);
+		model.addAttribute("dto", dto);
 		return "chenggyu/member_board";
 	}
 	
@@ -65,10 +94,10 @@ public class MemberController implements MemberSession{
 	}
 	
 	@RequestMapping("manager_information")
-	public String manager_information(HttpSession session,Model model) {
-		Object objUserid = session.getAttribute(LOGIN);
-		String userid = String.valueOf(objUserid);
-		ms.info(userid, model);
+	public String manager_information(HttpSession session, HttpServletRequest request, Model model) {
+		String id = (String) session.getAttribute(LOGIN);
+		MemberDTO dto = ms.member_information(id);
+		model.addAttribute("dto", dto);
 		return "chenggyu/manager_information";
 	}
 	

@@ -9,6 +9,12 @@ body{
 	background: #FFFFD3;
 	color: black;
 }
+.container {
+	border-left: 450px solid #C5FAD5;
+	border-bottom: 100vh solid #C5FAD5;
+	border-right: 400px solid transparent;
+	position: absolute;
+}
 section{
 	display: flex;
 	justify-content: center;
@@ -96,8 +102,7 @@ button {
 	cursor: pointer;
 	font-size: 1em;
 	font-weight: 600;
-	/* 박성수 _ 카카오 로그인 버튼 삽입을 위해서 공간 확보 */
-	margin-bottom: 50px;
+	margin-bottom: 40px;
 }
 .register{
 	font-size: .9em;

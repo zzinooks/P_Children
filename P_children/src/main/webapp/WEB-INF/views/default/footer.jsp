@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>footer</title>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/footer.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 

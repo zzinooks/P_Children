@@ -3,62 +3,77 @@
 *{
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;;
 	font-family: 'Poppins', sans-serif;
 }
-section{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 95vh;
+body{
+	background: #FFFFD3;
+	color: black;
+}
+.container {
+	border-left: 450px solid #C5FAD5;
+	border-bottom: 100vh solid #C5FAD5;
+	border-right: 400px solid transparent;
+	position: absolute;
+}
+.main-landing .main_box{
 	width: 100%;
-}
-.box{
-	text-align: left;
-	position: relative;
-	width: 600px;
-	height: 600px;
+	height: 80vh;
 	border: 2px solid #A996DB;
-	border-radius: 20px;
+	border-radius: 30px;
+	backdrop-filter: blur(0px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-h1{
-	font-size: 2em;
+.main-landing{
+	display:flex;
+	width: 100%;
+	height: 100vh;
+	justify-content: space-between;;
+	align-items: center;
+	padding: 20% 20% 20% 20%;
+}
+.main-landing .text-section{
+	max-width: 1200px;
+	position: absolute;
+	top: 50px;
+	left: 10%;
+}
+.text-section h2{
+	font-size: 56px;
+	text-transform: capitalize;
+	margin:  -3px 0;
+	margin-bottom: 10px;
 	color: #201F20;
-	text-align: left;
-	margin-bottom: px;
-	padding-right: 300px;
 }
-h3{
-	margin: 10px 10px 10px 0px;
+.text-section p{
+	font-size: 16px;	
 }
-.box_table{
-	text-align: left;
-	position: relative;
-	width: 1200px;
-	height: 600px;
-	border: 2px solid #A996DB;
-	border-radius: 20px;
-	display: inline;
-	justify-content: center;
-	align-items: center;
+.main-landing .table-section{
+	max-width: 1200px;
+	min-width: 600px;
+	position: absolute;
+	top: 200px;
+	left: 10%;
 }
-th, td{
-	border: 1px solid ;
-	text-align: center;
+.table-section h3{
+	font-size: 30px;
+	text-transform: capitalize;
+	margin-bottom: 5px;
+	color: #201F20;
 }
-.box_table table{
-	border-collapse: collapse;
-	position: relative;
-	width: 1200px;
-	height: 400px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.table-section a{
+	font-size: 20px;
+	text-transform: capitalize;
 }
-.table{
+.main-landing .table-member{
 	width: 100%;
-	height: 500px;
+	position: absolute;
+	top: 200px;
+	left: 10%;
+}
+.under-section {
+	position: absolute;
+	top: 600px;
+	left: 50%;
 }

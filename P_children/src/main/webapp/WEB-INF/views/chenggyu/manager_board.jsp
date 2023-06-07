@@ -10,16 +10,32 @@
 <meta charset="UTF-8">
 <title>manager_board</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+table{
+	text-align: center;
+	width: 80%;
+	position: absolute;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+td, th{
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+}
+</style>
 </head>
 <body>
 
 	<c:import url="../default/header.jsp"/>
-	
-	<section class="manager_board">
-	<div class="box_table">
-	<h1>게시판 관리</h1>
-	<h5>관리자 정보 > 게시판 관리</h5>
-		<table class="tablex">
+
+	<section class="main-landing">
+	<div class="main_box">
+		<div class="text-section">
+			<h2>게시물 관리</h2>
+			<p>관리자 정보 > 게시물 관리</p>
+		</div>
+		<div class="table-member">
+		<table class="member">
 			<tr>
 				<th>글 번호</th>
 				<th>아이디</th>
@@ -47,13 +63,19 @@
 			</c:forEach>
 		</table>
 		</div>
-	</section>
 
-	<div class="under_bar">
-		<c:forEach var="num" begin="1" end="${repeat }">
-		<a href="manager_board?num=${num }">[ ${num } ]</a>
-		</c:forEach>
+
+		<div class="under-section">
+			<c:forEach var="num" begin="1" end="${repeat }">
+				<a href="manager_board?num=${num }">[ ${num } ]</a>
+			</c:forEach>
+		</div>
+
+		<a href="/root/member/manager_memberList">회원 목록 관리</a> 
+		<a href="/root/member/manager_board">게시물 관리</a> 
+		<a href="/root/member/manager_qna">1대1문의</a>
 	</div>
+	</section>
 
 	<c:import url="../default/footer.jsp"/>
 

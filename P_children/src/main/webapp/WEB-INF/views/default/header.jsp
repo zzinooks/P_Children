@@ -10,8 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>header</title>
-<script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=1"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/index.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/header.css" rel="stylesheet" type="text/css">
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
 </head>
 <body>
@@ -21,7 +20,7 @@
 		<a href="${contextPath }/index" class="logo"><i class='bx bx-globe'></i><span>index </span></a>
 		<nav class="navbar">
 			<a href="${contextPath }/index" class="active">메인</a>
-			<a href="${contextPath }/board/notice/noticeBoardAllList">공지 사항</a>
+			<a href="#">공지 사항</a>
 			<a href="${contextPath }/board/boardAllList">게시판</a>
 			<a href="#">프로그램</a>
 			<a href="#">고객센터</a>
@@ -38,7 +37,7 @@
 				<a href="${contextPath }/member/member_information">회원 정보</a>
 			</c:otherwise>
 		</c:choose>
-				<a href="${contextPath }/member/memberLogout" onclick="memberLogoutMessage()">로그아웃</a>
+				<a href="${contextPath }/member/memberLogout">로그아웃</a>
 			</c:otherwise>
 		</c:choose>
 		</nav>

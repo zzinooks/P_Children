@@ -32,27 +32,27 @@ th, td {
 		<table >
 			<tr>
 				<th>아이디</th>
-				<th>${info.id }</th>
+				<th>${dto.id }</th>
 			</tr>
 			<tr>
 				<th>등급</th>
-				<th>${info.grade }</th>
+				<th>${dto.grade }</th>
 			</tr>
 			<tr>
 				<th>닉네임</th>
-				<th>${info.nickname }</th>
+				<th>${dto.nickname }</th>
 			</tr>
 			<tr>
 				<th>이메일</th>
-				<th>${info.email }</th>
+				<th>${dto.email }</th>
 			</tr>
 			<tr>
 				<th>휴대전화</th>
-				<th>${info.phone }</th>
+				<th>${dto.phone }</th>
 			</tr>
 			<tr>
 				<th>주소</th>
-				<th>${info.addr }</th>
+				<th>${dto.addr }</th>
 			</tr>
 		</table>
 		

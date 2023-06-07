@@ -37,11 +37,34 @@ public class MemberServiceImp1 implements MemberService {
 	
 	
 	@Override
-	public void info(String userid, Model model) {
-		MemberDTO dto = mapper.getMember(userid);
-		model.addAttribute("info", dto);
+	public MemberDTO member_information(String id) {
+		return mapper.member_information(id);
 	}
-	
+
+	@Override
+	public void modify_save(HttpServletRequest request) {
+		MemberDTO dto = new MemberDTO();
+		dto.setId(request.getParameter("id"));
+		dto.setPwd(request.getParameter("re_pwd"));
+		dto.setNickname(request.getParameter("nickname"));
+		dto.setPhone(request.getParameter("phone"));
+		dto.setAddr(request.getParameter("addr"));
+
+		mapper.modify_save(dto);
+	}
+
+	@Override
+	public void member_board(Model model, int num) {
+		int pageLetter = 5; 
+		int allCount = mapper.selectMember_boardCount(); 
+		int repeat = allCount/pageLetter;  
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("my_board_list", mapper.member_board(start, end));
+	}
 
 	@Override
 	public void memberInfo(Model model, int num) {
@@ -81,6 +104,16 @@ public class MemberServiceImp1 implements MemberService {
 		model.addAttribute("repeat", repeat);
 		model.addAttribute("qnaList", mapper.manager_qna(start, end));		
 		
+	}
+	
+	
+
+	@Override
+	public void member_leave_save(HttpServletRequest request) {
+		MemberDTO dto = new MemberDTO();
+		dto.setId(request.getParameter("id"));
+		dto.setPwd(request.getParameter("pwd"));
+		mapper.member_leave_save(dto);
 	}
 
 	@Override
