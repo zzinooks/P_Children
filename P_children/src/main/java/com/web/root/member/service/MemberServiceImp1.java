@@ -258,27 +258,27 @@ public class MemberServiceImp1 implements MemberService {
 		if(request.getParameter("userSelect").equals("member")) { // 요청받은 내용이 member이면
 			MemberDTO dto = mapper.findUserPwd(request.getParameter("findUserId"));
 			if(dto != null) {
-				if(request.getParameter("findUserEmail").equals(dto.getEmail())) {
-					model.addAttribute("findUserPwd", dto);
-					return 1;
-				}
-			} else {
-				return 0;
-			}
+				model.addAttribute("findUserPwd", dto);
+				return 1;
+			} 
 			
 		} else if(request.getParameter("userSelect").equals("host")) { // 요청받은 내용이 host이면
 			HostDTO hostDTO = mapper.findUserHostPwd(request.getParameter("findUserId"));
 			if(hostDTO != null) {
-				if(request.getParameter("findUserEmail").equals(hostDTO.getEmail())) {
-					model.addAttribute("findUserPwd", hostDTO);
-					return 1;
-				}
+				model.addAttribute("findUserPwd", hostDTO);
+				return 1;
 			}
-			return 0;
 		}
+		
 		return 0;
 	}
 	
+	// 비밀번호 찾기 메일 인증
+	@Override
+	public int sendFindPwdEmailCode(String email) {
+		return cms.sendFindPwdEmailCode(email);
+	}
+
 	@Override
 	public void userUpdatePwd(MemberDTO dto) {
 		mapper.userUpdatePwd(dto); 

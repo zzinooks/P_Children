@@ -24,10 +24,11 @@ $(document).ready(function(){
 		alert("아이디 또는 비밀번호가 틀렸습니다.");
 	}
 	
-	if(userInputId != ''){
-		check.checked=true;
+	// cookie 생성값 담기
+	if(userInputId != ''){ // 쿠키가 ''이 아니면
+		check.checked=true; // 성공
 	}else{
-		check.checked=false;
+		check.checked=false; // 실패
 	}
 }); 
 </script>

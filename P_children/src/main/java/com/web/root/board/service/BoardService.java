@@ -7,14 +7,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardRepDTO;
+import com.web.root.board.dto.NoticeBoardDTO;
 
 
 public interface BoardService {
+	
+	//============================ 주진욱 시작 ===========================================
 	
 	//public static final String IMAGE_REPO = "C:\\0900_JAVA_jjw\\6. Spring\\image-repo";
 	//public void boardAllList(Model model);
@@ -48,6 +50,35 @@ public interface BoardService {
 	public int addReComment(Map<String, Object> map);
 	
 	public String updateReComment(HttpServletRequest request);
+	
+	
+	//============================ 주진욱 끝 ===========================================
+	
+	
+	
+	
+	//============================ 최윤희 시작 ===========================================
+	
+	// 공지사항 게시판 리스트
+	public void noticeBoardAllList(Model model, int num, HttpServletRequest request); 
+	
+	// 공지사항 게시글 보기
+	public NoticeBoardDTO noticeBoardContentView(HttpServletRequest request);
+	
+	// 조회수 증가
+	public void noticeBoardHitplus(NoticeBoardDTO noticeBoardDTO);
+	
+	// 공지사항 게시글 작성
+	public String noticeBoardWriteSave(MultipartHttpServletRequest mul, HttpServletRequest request); 
+	
+	// 공지사항 게시글 수정
+	public String noticeBoardModifySave(MultipartHttpServletRequest mul, HttpServletRequest request);
+	
+	// 공지사항 게시글 삭제
+	public String noticeBoardDelete(HttpServletRequest request);
+		
+	//============================ 최윤희 끝 ===========================================
+	
 	
 }
 

@@ -121,7 +121,7 @@ table tr:last-child {
 						<td colspan="6" align="center">
 					</c:otherwise>
 				</c:choose>
-					<a href="${contextPath }/board/writeForm">글작성</a>
+					<a href="${contextPath }/board/notice/writeForm">글작성</a>
 				</td>
 			</tr>
 		</table>

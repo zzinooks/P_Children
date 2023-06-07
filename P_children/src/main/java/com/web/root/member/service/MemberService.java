@@ -52,12 +52,15 @@ public interface MemberService {
 	
 	
 	
-	//============================ 최윤희 ===========================================
+	//============================ 최윤희 시작 ===========================================
 	
 	
 	public int findUserId(HttpServletRequest request, Model model);
 	
 	public int findUserPwd(HttpServletRequest request, Model model);
+	
+	// 비밀번호 찾기 메일 인증
+	public int sendFindPwdEmailCode(String email);
 	
 	public void userUpdatePwd(MemberDTO dto);
 	

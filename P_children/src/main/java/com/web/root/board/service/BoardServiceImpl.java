@@ -2,6 +2,9 @@ package com.web.root.board.service;
 
 
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardRepDTO;
+import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.mybatis.board.BoardMapper;
 
 @Service
@@ -26,6 +30,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	BoardFileService bfs;
+	
+	
+	//============================ 주진욱 시작 ===========================================
+	
 	
 	/*
 	@Override
@@ -295,11 +303,160 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	
+	//============================ 주진욱 끝 ===========================================
 	
 	
 	
 	
 	
+	//============================ 최윤희 시작 ===========================================
+	
+	@Override
+	public void noticeBoardAllList(Model model, int num, HttpServletRequest request) {
+		
+		int pageLetter = 3;  // 한 페이지 당 글 목록수
+		int allCount = mapper.selectNoticeBoardCount(); // DB에 담겨있는 전체 글 수
+		int repeat = allCount/pageLetter; // 마지막 페이지 번호
+		if(allCount % pageLetter != 0) {
+			repeat += 1;
+		}
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		
+		// 페이징
+		int totalPage = (allCount - 1)/pageLetter + 1;
+		int block = 3;
+		int startPage = (num - 1)/block * block + 1;
+		int endPage = startPage + block - 1;
+		if (endPage > totalPage) endPage = totalPage;
+		
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("noticeBoardList", mapper.noticeBoardAllList(start, end)); // 시작과 끝 페이지 안에서 내용 가져오기
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("block", block);
+		model.addAttribute("totalPage", totalPage);
+		
+	}
+		
+	
+	// 공지사항 게시글 보기
+	public NoticeBoardDTO noticeBoardContentView(HttpServletRequest request) {
+		
+		int write_no = Integer.parseInt(request.getParameter("write_no"));  // 요청온 글 번호를 받고
+		
+		NoticeBoardDTO noticeBoardDTO = new NoticeBoardDTO();
+		noticeBoardDTO.setWrite_no(write_no);  // NoticeBoardDTO 안에 글번호 저장
+		
+		return mapper.noticeBoardContentView(noticeBoardDTO);
+	}
+	
+	// 조회수 증가
+	@Override
+	public void noticeBoardHitplus(NoticeBoardDTO noticeBoardDTO) {
+		mapper.noticeBoardHitplus(noticeBoardDTO);
+	}
+	
+	// 공지사항 게시글 작성
+	@Override
+	public String noticeBoardWriteSave(MultipartHttpServletRequest mul, HttpServletRequest request) {
+		
+		NoticeBoardDTO noticeBoardDTO = new NoticeBoardDTO();
+		// 요청온 내용 저장
+		noticeBoardDTO.setId(mul.getParameter("id"));				// 작성자(아이디) 저장
+		noticeBoardDTO.setTitle(mul.getParameter("title"));			// 제목 저장
+		noticeBoardDTO.setContent(mul.getParameter("content"));		// 내용 저장
+		MultipartFile file = mul.getFile("file");					// 파일 저장
+		
+		// 요청받은 파일이 있으면
+		if(file.getSize() != 0) {
+			noticeBoardDTO.setFile_name(bfs.noticeBoardSaveFile(file));
+		} else {
+			noticeBoardDTO.setFile_name("nan");
+		}
+		
+		int result = 0;
+		try {
+			result = mapper.noticeBoardWriteSave(noticeBoardDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		String msg, url;
+		if(result == 1) {
+			msg = "공지사항 게시글이 등록되었습니다.";
+			url = "/board/notice/noticeBoardAllList";
+		} else {
+			msg = "게시글 등록이 실패하였습니다.";
+			url = "/board/notice/noticeBoardWriteForm";
+		}
+		return bfs.getNoticeBoardMessage(request, msg, url);
+
+	}
+		
+		
+	// 공지사항 게시글 수정 작성
+	@Override
+	public String noticeBoardModifySave(MultipartHttpServletRequest mul, HttpServletRequest request) {
+		
+		// noticeBoardModifyForm 에서 받은 정보 DTO에 담기
+		NoticeBoardDTO noticeBoardDTO = new NoticeBoardDTO();
+		noticeBoardDTO.setTitle(mul.getParameter("title"));			// 수정 타이틀 저장
+		noticeBoardDTO.setContent(mul.getParameter("content"));		// 수정 내용 저장
+		noticeBoardDTO.setWrite_no(Integer.parseInt(mul.getParameter("write_no")));  // 수정 글번호
+		MultipartFile file = mul.getFile("file");  					// 기존 파일에서 수정 파일 저장
+
+		int result = 0;	// 수정 성공 여부 확인
+		
+		// 수정파일 존재시 file_name 설정 및 실제 파일 저장
+		if(file.getSize() != 0) {	// 이미지가 있는지 확인
+			noticeBoardDTO.setFile_name(bfs.noticeBoardSaveFile(file));
+			result = mapper.noticeBoardModifySaveWithFile(noticeBoardDTO);
+			
+		} else {
+			noticeBoardDTO.setFile_name("nan");
+			result = mapper.noticeBoardModifySaveWithFile(noticeBoardDTO);
+		}
+		
+		// 성공, 실패에 따라 url + msg 반환
+		String msg, url;
+		if(result == 1) {
+			msg = "공지사항 게시글이 수정되었습니다";
+			url = "/board/notice/noticeBoardAllList";
+		} else {
+			msg = "게시글 수정이 실패하였습니다.";
+			url = "/board/notice/noticeBoardModifyForm?write_no=" + noticeBoardDTO.getWrite_no();
+		}
+		return bfs.getNoticeBoardMessage(request, msg, url);
+	}
+
+	
+	// 공지사항 게시글 삭제
+	@Override
+	public String noticeBoardDelete(HttpServletRequest request) {
+		
+		int result = 0;
+		
+		int write_no = Integer.parseInt(request.getParameter("write_no"));
+		
+		result = mapper.noticeBoardDelete(write_no);  // 삭제 성공, 실패 값 받기
+		
+		// 삭제 성공, 실패 url + 문자열 반환
+		String msg, url;
+		if(result == 1) {
+			msg = "공지 게시글이 삭제되었습니다.";
+			url = "/board/notice/noticeBoardAllList";
+			// 선생님은 이자리에 bfs.delete(image_file_name); 을 넣으셨다.
+		} else {
+			msg = "공지 게시글 삭제가 실패되었습니다.";
+			url = "/board/notice/noticeBoardContentView?write_no=" + write_no;
+		}
+		return bfs.getNoticeBoardMessage(request, msg, url);
+	}
+	
+	
+		
+	//============================ 최윤희 끝 ===========================================
 	
 
 	

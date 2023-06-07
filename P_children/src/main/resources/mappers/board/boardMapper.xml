@@ -15,6 +15,18 @@
 		<result property="id" column="id"/>
 	</resultMap>
 	
+	
+	<!--  공지사항 게시판  -->
+	<resultMap id="notice" type="com.web.root.board.dto.NoticeBoardDTO">
+	<id property="write_no" column="write_no"/>
+	<result property="title" column="title"/>
+	<result property="content" column="content"/>
+	<result property="savedate" column="savedate"/>
+	<result property="hit" column="hit"/>
+	<result property="file_name" column="file_name"/>
+	<result property="id" column="id"/>
+	</resultMap>
+	
 
  	<resultMap id="reply" type="com.web.root.board.dto.BoardRepDTO">
  		<result property="reply_no" column="reply_no"/>
@@ -25,6 +37,10 @@
 		<result property="write_group" column="write_group"/>
 		<result property="write_date" column="write_date"/>
 	</resultMap>
+
+
+
+	<!--  ======================== 진욱 시작 ==========================   -->
 
 	<select id="manager_board" resultMap="board">
 		SELECT B.* FROM
@@ -105,5 +121,59 @@
 	<update id="updateReComment">
 		UPDATE reply2 SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
 	</update>
+	
+	
+	<!--  ======================== 진욱 끝 ==========================   -->
+	
+	
+	
+	
+	<!--  ======================== 윤희 시작 ==========================   -->
+	
+	
+	<!-- DB에 담겨있는 전체 게시글 수 (전체 글 수) -->
+	<select id="selectNoticeBoardCount" resultType="Integer"> 
+		SELECT COUNT(*) FROM notice 
+	</select>
+	
+	<!-- 페이징 -->
+	<select id="noticeBoardAllList" resultMap="notice"> 
+		SELECT B.* FROM 
+		(SELECT ROWNUM rn, A.* FROM 
+		(SELECT * FROM notice ORDER BY write_no DESC)A )B 
+		WHERE rn BETWEEN #{s} and #{e} 
+	</select>
+	
+	<!-- 공지사항 게시글 보기 -->
+	<select id="noticeBoardContentView" resultMap="notice">
+		SELECT * FROM notice WHERE write_no=#{write_no}
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="noticeBoardHitplus" parameterType="com.web.root.board.dto.NoticeBoardDTO">
+		UPDATE notice SET hit = hit+1 WHERE write_no=#{write_no}
+	</update>
+	
+	<!-- NoticeBoardDTO 에 있는 내용 DB에 저장 -->
+	<insert id="noticeBoardWriteSave">
+		INSERT INTO notice(write_no, id, title, content, file_name)
+		VALUES(noticeBoard_seq.NEXTVAL, #{id}, #{title}, #{content}, #{file_name})
+	</insert>
+	
+	<!-- 공지사항 게시글 수정 -->
+	<update id="noticeBoardModifySaveWithFile" parameterType="com.web.root.board.dto.BoardDTO">
+		UPDATE notice SET title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
+	</update>
+	
+	<!-- 공지사항 게시글 삭제 -->
+	<delete id="noticeBoardDelete">
+		DELETE FROM notice WHERE write_no=#{write_no}
+	</delete>
+	
+	
+	<!--  ======================== 윤희 끝 ==========================   -->
+	
+	
+	
 	
 </mapper>

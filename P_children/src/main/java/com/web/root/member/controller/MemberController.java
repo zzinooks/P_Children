@@ -326,6 +326,14 @@ public class MemberController implements MemberSession{
 	}
 	
 	
+	// 비밀번호 찾기 메일 인증
+	@GetMapping("sendFindPwdEmailCode")
+	@ResponseBody
+	public int sendFindPwdEmailCode(@RequestParam("email") String email) {
+		return ms.sendFindPwdEmailCode(email);
+	}
+	
+	
 	// 비밀번호 찾기 결과
 	@GetMapping("findUserPwdResult")
 	public String findUserPwdResult() {

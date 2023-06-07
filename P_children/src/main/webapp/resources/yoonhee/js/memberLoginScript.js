@@ -21,6 +21,12 @@ function checkLogin() {
 }
 
 
+// 로그아웃 알림창
+function memberLogoutMessage(){
+	alert('로그아웃 되었습니다.');
+}
+
+
 // 아이디 찾기
 
 function findUserIdCheck(){
@@ -46,14 +52,19 @@ function findUserPwdCheck() {
 		alert("아이디를 입력해주세요");
 		document.findUserPwdForm.findUserId.focus();
 	} 
-	else if(document.findUserPwdForm.findUserEmail.value == "") {
+	else if(document.findUserPwdForm.input_email.value == "") {
 		alert("이메일을 입력해주세요");
-		document.findUserPwdForm.findUserEmail.focus();
+		document.findUserPwdForm.input_email.focus();
+	}
+	else if(document.findUserPwdForm.input_code.value == "") {
+		alert("인증코드를 입력해주세요");
+		document.findUserPwdForm.input_code.focus();
 	}
 	else {
 		document.findUserPwdForm.submit();
 	}
 }
+
 
 
 // 비밀번호 찾고 비밀번호 수정 입력 체크

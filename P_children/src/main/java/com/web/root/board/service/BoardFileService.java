@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface BoardFileService {
+	
+	//============================ 주진욱 시작 ===========================================
 
 	// 파일 저장 위치
 	public static final String IMAGE_REPO = "C:\\0900_JAVA_jjw\\6. Spring\\web_repo";
@@ -16,5 +18,23 @@ public interface BoardFileService {
 	
 	public void deleteFile(String file_name);
 	
+	//============================ 주진욱 끝 ===========================================
 	
+	
+	
+	//============================ 최윤희 시작 ===========================================
+	
+	// 공지 게시판 파일 저장 위치
+	public static final String IMAGE_NOTICE_REPO = "C:\\P_Children_notice_board_image\\image_notice_repo";
+	
+	// 파일 이름 저장
+	public String noticeBoardSaveFile(MultipartFile file);
+	
+	// 메시지 출력
+	public String getNoticeBoardMessage(HttpServletRequest request, String msg, String url);
+	
+	// 파일 삭제
+	public void noticeBoardDeleteFile(String file_name);
+	
+	//============================ 최윤희 끝 ===========================================
 }
