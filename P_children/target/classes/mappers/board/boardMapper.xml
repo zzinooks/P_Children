@@ -7,6 +7,7 @@
 
 	<resultMap  id="board" type="com.web.root.board.dto.BoardDTO">
 		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
+		<result property="category" column="category"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="savedate" column="savedate"/>
@@ -45,49 +46,45 @@
 	<select id="manager_board" resultMap="board">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
-		(SELECT * FROM board ORDER BY write_no DESC)A )B
+		(SELECT * FROM board2 ORDER BY write_no DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 	
 	<select id="boardAllList" resultMap="board">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
-		(SELECT * FROM board ORDER BY write_no DESC)A )B
+		(SELECT * FROM board2 ORDER BY write_no DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 
  	<select id="selectBoardCount" resultType="Integer">
-		SELECT COUNT(*) FROM board
+		SELECT COUNT(*) FROM board2
 	</select>
 	
-	<insert id="saveData">
-		INSERT INTO board VALUES(board_seq.NEXTVAL, #{title}, #{content}, SYSDATE, 0, #{file}, #{id})
-	</insert>
-	
 	<insert id="writeSave">
-		INSERT INTO board(write_no, id, title, content, file_name)
-		VALUES(board_seq.NEXTVAL, #{id}, #{title}, #{content}, #{file_name})
+		INSERT INTO board2(write_no, category, id, title, content, file_name)
+		VALUES(board_seq.NEXTVAL, #{category}, #{id}, #{title}, #{content}, #{file_name})
 	</insert>
 	
 	<select id="contentView" resultMap="board">
-		SELECT * FROM board WHERE write_no=#{write_no}
+		SELECT * FROM board2 WHERE write_no=#{write_no}
 	</select>
 
 
 	<update id="hitplus" parameterType="com.web.root.board.dto.BoardDTO">
-		UPDATE board SET hit = hit+1 WHERE write_no=#{write_no}
+		UPDATE board2 SET hit = hit+1 WHERE write_no=#{write_no}
 	</update>
 	
 	<update id="modifySave" parameterType="com.web.root.board.dto.BoardDTO">
-		UPDATE board SET title=#{title}, content=#{content} WHERE write_no=#{write_no}
+		UPDATE board2 SET title=#{title}, content=#{content} WHERE write_no=#{write_no}
 	</update>
 	
 	<update id="modifySaveWithFile" parameterType="com.web.root.board.dto.BoardDTO">
-		UPDATE board SET title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
+		UPDATE board2 SET title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
 	</update>
 	
 	<delete id="deleteBoard">
-		DELETE FROM board WHERE write_no=#{write_no}
+		DELETE FROM board2 WHERE write_no=#{write_no}
 	</delete>
 	
 	<!-- 댓글 기능 -->

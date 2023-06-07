@@ -41,7 +41,6 @@ public class BoardController implements MemberSession{
 	@Autowired
 	MemberService ms;
 	
-	
 	//============================ 주진욱 시작 ===========================================
 	
 	
@@ -66,7 +65,6 @@ public class BoardController implements MemberSession{
 	@RequestMapping("writeForm")
 	public String writeForm(HttpSession session, Model model) {
 		String id = (String) session.getAttribute(LOGIN);
-		//MemberDTO dto = ms.getMember(id);
 		model.addAttribute("user", id);
 		return "/board/writeForm";
 	}

@@ -18,8 +18,6 @@ public interface BoardMapper {
 	
 	public int selectBoardCount();
 	
-	public void saveData(Map<String, String> map);
-	
 	public int writeSave(BoardDTO dto);
 	
 	public BoardDTO contentView(BoardDTO dto);

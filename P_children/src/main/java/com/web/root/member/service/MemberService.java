@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
-import com.web.root.member.dto.HostDTO;
+import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.dto.MemberDTO;
 
 
@@ -30,21 +30,18 @@ public interface MemberService {
 	
 	
 	//============================ 박성수 시작 ===========================================
-	String registMember(HttpSession session, MemberDTO dto);
 	
-	public String registHost(HostDTO dto);
+	public String registHost(MemberDTO dto);
 
-	String getMemberInfo(String id);
-	
 	public String getHostInfo(String id);
 	
 	String checkEmail(String email);
 	
-	public String checkEmail_host(String email);
-	
 	int sendEmail(String email);
 	
 	public String getkakaoToken(String code, String tokenurl) throws IOException;
+	
+	public String getKakaoId(String token, String kakaoidurl) throws IOException;
 	
 	//============================ 박성수 끝 ===========================================
 
@@ -64,9 +61,10 @@ public interface MemberService {
 	
 	public void userUpdatePwd(MemberDTO dto);
 	
-	public void userUpdateHostPwd(HostDTO hostDTO);
+	public void userUpdateHostPwd(MemberDTO hostDTO);
 	
 	public int userCheckHost(HttpServletRequest request);
+	
 	
 	
 	//============================ 최윤희 끝 ===========================================

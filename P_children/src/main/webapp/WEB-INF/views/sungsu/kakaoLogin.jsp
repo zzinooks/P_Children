@@ -5,6 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>카카오 로그인 페이지</title>
+<style>
+#kakao-login-btn-img {
+	width: 308px;
+	height: 40px;
+	border-radius: 40px;
+	position: absolute;
+	left: 45px;
+	top: 320px;	
+}
+</style>
 </head>
 <body>
 	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js"
@@ -14,9 +24,9 @@
 		Kakao.init('50cc79dc82404d34d4da829c82e31cd2');  // 사용하려는 앱의 RestAPI 키 입력
 	</script>
 
-	<a id="kakao-login-btn" href="javascript:loginWithKakao()"> <img
+	<a id="kakao-login-btn" href="javascript:loginWithKakao()"> <img id="kakao-login-btn-img"
 		src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
-		width="222" alt="카카오 로그인 버튼" />
+		alt="카카오 로그인 버튼" />
 	</a>
 	<p id="token-result"></p>
 

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.web.root.member.dto.HostDTO;
+import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.mybatis.member.MemberMapper;
 
@@ -33,7 +34,7 @@ public class MemberServiceImp1 implements MemberService {
 	
 	@Inject
 	JavaMailSender mailSender;
-
+	
 	
 	@Override
 	public void info(String userid, Model model) {
@@ -93,34 +94,18 @@ public class MemberServiceImp1 implements MemberService {
 	
 	
 	@Override
-	public String registMember(HttpSession session, MemberDTO dto) {
+	public String registHost(MemberDTO dto) {
 		String message = "";
-		int result = mapper.registMember(dto);
-		session.setAttribute("login_id", dto.getId());
+		int result = 0;
+		if(dto.getUserSelect().equals("member")) {
+			result = mapper.registMember(dto);
+			return message;
+		}
+		result = mapper.registHost(dto);
 		if(result == 1) {
 			message = "회원가입 완료.";
 		}
 		return message;
-	}
-	
-	@Override
-	public String registHost(HostDTO dto) {
-		String message = "";
-		int result = mapper.registHost(dto);
-		if(result == 1) {
-			message = "회원가입 완료.";
-		}
-		return message;
-	}
-	
-	@Override
-	public String getMemberInfo(String id) {
-		MemberDTO dto = new MemberDTO();
-		dto = mapper.getMemberInfo(id);
-		if(dto == null) {
-			return "OK";
-		}
-		return "NO";
 	}
 	
 	@Override
@@ -144,26 +129,17 @@ public class MemberServiceImp1 implements MemberService {
 	}
 	
 	@Override
-	public String checkEmail_host(String email) {
-		MemberDTO dto = new MemberDTO();
-		dto = mapper.checkEmail_host(email);
-		if(dto == null) {
-			return "OK";
-		}
-		return "NO";
-	}
-	
-	@Override
 	public int sendEmail(String email) {
 		return cms.sendEmail(email); 
 		
 	}
 	
+	ObjectMapper objectMapper = new ObjectMapper();
+	RestTemplate restTemplate = new RestTemplate();
+	HttpHeaders headers = new HttpHeaders();
+	
 	@Override
 	public String getkakaoToken(String code, String tokenURL) throws IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
 		
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -187,6 +163,19 @@ public class MemberServiceImp1 implements MemberService {
 		return objectMapper.readTree(response.getBody())
 					.get("access_token").asText();
 		
+	}
+	
+	@Override
+	public String getKakaoId(String token, String kakaoIdURL) throws IOException {
+		headers.add("Authorization", "Bearer "+token);
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		ResponseEntity<String> response = 
+					 restTemplate.exchange(kakaoIdURL, HttpMethod.GET, entity, String.class);
+		System.out.println(response.getBody());
+		return objectMapper.readTree(response.getBody())
+				.get("id").asText();
+					
 	}
 	
 	
@@ -213,7 +202,7 @@ public class MemberServiceImp1 implements MemberService {
 	// 로그인 호스트 유저 체크
 	@Override
 	public int userCheckHost(HttpServletRequest request) {
-		HostDTO dto = mapper.userCheckHost(request.getParameter("id"));
+		MemberDTO dto = mapper.userCheckHost(request.getParameter("id"));
 		if(dto != null) {
 			if(request.getParameter("pwd").equals(dto.getPwd())) {
 				return 1; // 로그인 성공
@@ -239,7 +228,7 @@ public class MemberServiceImp1 implements MemberService {
 			}
 			
 		} else if(request.getParameter("userSelect").equals("host")) { // 요청받은 내용이 host이면
-			HostDTO hostDTO = mapper.findUserHostId(request.getParameter("findUserEmail"));
+			MemberDTO hostDTO = mapper.findUserHostId(request.getParameter("findUserEmail"));
 			if(hostDTO != null) {
 				if(request.getParameter("findUserPhone").equals(hostDTO.getPhone())) {
 					model.addAttribute("findUserId", hostDTO);
@@ -263,7 +252,7 @@ public class MemberServiceImp1 implements MemberService {
 			} 
 			
 		} else if(request.getParameter("userSelect").equals("host")) { // 요청받은 내용이 host이면
-			HostDTO hostDTO = mapper.findUserHostPwd(request.getParameter("findUserId"));
+			MemberDTO hostDTO = mapper.findUserHostPwd(request.getParameter("findUserId"));
 			if(hostDTO != null) {
 				model.addAttribute("findUserPwd", hostDTO);
 				return 1;
@@ -285,7 +274,7 @@ public class MemberServiceImp1 implements MemberService {
 	}
 	
 	@Override
-	public void userUpdateHostPwd(HostDTO hostDTO) {
+	public void userUpdateHostPwd(MemberDTO hostDTO) {
 		mapper.userUpdateHostPwd(hostDTO);
 	}
 	

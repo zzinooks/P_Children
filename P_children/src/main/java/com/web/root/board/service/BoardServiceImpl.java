@@ -31,7 +31,7 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardFileService bfs;
 	
-	
+
 	//============================ 주진욱 시작 ===========================================
 	
 	
@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("boardList", mapper.boardAllList());
 	}
 	*/
-	
+
 	@Override
 	public void boardAllList(Model model, int num, HttpServletRequest request) {
 		
@@ -52,8 +52,6 @@ public class BoardServiceImpl implements BoardService {
 			repeat += 1;
 		int end = num * pageLetter;
 		int start = end +1 - pageLetter;
-		//int start = (num - 1)/pageLetter + 1;
-		//int end = start + pageLetter -1;
 		
 		// 페이징
 		int totalPage = (allCount - 1)/pageLetter + 1;
@@ -79,6 +77,7 @@ public class BoardServiceImpl implements BoardService {
 		dto.setId(mul.getParameter("id"));
 		dto.setTitle(mul.getParameter("title"));
 		dto.setContent(mul.getParameter("content"));
+		dto.setCategory(mul.getParameter("category"));
 		MultipartFile file = mul.getFile("file");
 		
 		if(file.getSize() != 0) {	// 이미지가 있는지 확인

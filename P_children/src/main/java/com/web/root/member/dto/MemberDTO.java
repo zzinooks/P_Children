@@ -9,6 +9,10 @@ public class MemberDTO {
 	private String email;
 	private String addr;
 	private String grade;
+	private String userSelect;
+	private String mateName;
+	private String mateBreed;
+	private String certified;
 	
 	public MemberDTO() {
 		super();
@@ -55,6 +59,37 @@ public class MemberDTO {
 	}
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+	
+	public String getUserSelect() {
+		return userSelect;
+	}
+	public void setUserSelect(String userSelect) {
+		this.userSelect = userSelect;
+	}
+
+	public String getMateName() {
+		return mateName;
+	}
+
+	public void setMateName(String mateName) {
+		this.mateName = mateName;
+	}
+
+	public String getMateBreed() {
+		return mateBreed;
+	}
+
+	public void setMateBreed(String mateBreed) {
+		this.mateBreed = mateBreed;
+	}
+
+	public String getCertified() {
+		return certified;
+	}
+
+	public void setCertified(String certified) {
+		this.certified = certified;
 	}
 
 	

@@ -96,6 +96,8 @@ button {
 	cursor: pointer;
 	font-size: 1em;
 	font-weight: 600;
+	/* 박성수 _ 카카오 로그인 버튼 삽입을 위해서 공간 확보 */
+	margin-bottom: 50px;
 }
 .register{
 	font-size: .9em;

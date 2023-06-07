@@ -34,21 +34,32 @@
 	
 	// 인증코드 전송
 	function sendEmail(){
+		if($("#email_").text() == "중복된 이메일 입니다."){
+			$("#input_email").focus();
+			return;
+		}
+		
 		let email = $("#input_email").val();
 		
-		$.ajax({
-			url: "sendEmail",
-			type: "get",
-			data: {"email" : email},
-			success: function(code){
-				alert("인증코드가 전송되었습니다. 입력한 메일주소를 확인해 주세요." );
-				$("#email_code").val(code);
-			},
-			error: function(){
-				alert("Error");
-			}	
-		});
+		if(!email == ""){
+			$.ajax({
+				url: "sendEmail",
+				type: "get",
+				data: {"email" : email},
+				success: function(code){
+					alert("인증코드가 전송되었습니다. 입력한 메일주소를 확인해 주세요." );
+					$("#email_code").val(code);
+				},
+				error: function(){
+					alert("Error");
+				}	
+			});
+		} else {
+			alert("이메일을 입력해 주세요!");
+			$("#input_email").focus();
+		}
 	}
+		
 	
 	// 인증코드 체크
 	function CheckCode(){

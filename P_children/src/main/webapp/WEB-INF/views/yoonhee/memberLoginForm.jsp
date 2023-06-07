@@ -11,7 +11,7 @@
 <title>P_children: 로그인</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=1"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=2" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/index.css" rel="stylesheet" type="text/css">
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
 
@@ -30,7 +30,15 @@ $(document).ready(function(){
 	}else{
 		check.checked=false; // 실패
 	}
-}); 
+});
+
+function userSelect(){
+	const select = document.memberLoginForm.userSelect.value;
+	
+	location.href = "${contextPath}/member/emailCheck?userSelect="+select;
+	
+	
+}
 </script>
 
 </head>
@@ -66,12 +74,16 @@ $(document).ready(function(){
 					</label>
 				</div>
 				<button value="로그인" onclick="checkLogin()">로그인</button>
+				
+				<!-- 박성수 _ 카카오 로그인 버튼 _ 시작 -->
+				<c:import url="../sungsu/kakaoLogin.jsp"/>
+				
 				<div class="register">
-					<p><a href="${contextPath }/member/emailCheck">회원가입</a></p>
+					<p><a onclick="userSelect()">회원가입</a></p>
 				</div>
 				<div class="select">
-				<input type="radio" name="userSelect" value="member" id="member" checked><label for="member"><a>일반</a></label>
-				<input type="radio" name="userSelect" value="host" id="host"><label for="host"><a>호스트</a></label>
+				<input type="radio" name="userSelect" value="member"  checked><label for="member"><a>일반</a></label>
+				<input type="radio" name="userSelect" value="host" ><label for="host"><a>호스트</a></label>
 				</div>
 			</form>
 		</div>
@@ -81,3 +93,5 @@ $(document).ready(function(){
 	
 </body>
 </html>
+
+

@@ -46,6 +46,15 @@ h1 {
 			<input type="text" name="id" value="${user }" readonly><br>
 			<b> 제 목 </b><br>
 			<input type="text" name="title"><br>
+			<b> 분 류 </b><br>
+			<select name="category" id="category">
+				<option value="informationSharing"> 정보 공유 </option>
+				<option value="friendshipPromotion"> 친목 도모 </option>
+				<option value="petSneak"> 펫 간식 </option>
+				<option value="smallChat"> 잡담 </option>
+				<option value="lookForPetFriend"> 펫프랜드 구합니다 </option>
+				<option value="BeingPetFriend"> 펫프랜드 합니다 </option>
+			</select> <br><br>
 			<b> 내 용 </b><br>
 			<textarea name="content" rows="10" cols="50"></textarea><br>
 			<h3> 파일 첨부 </h3>
