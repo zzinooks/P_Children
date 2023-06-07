@@ -10,7 +10,7 @@ if(k&&j[k]&&(e||j[k].data)||void 0!==d||"string"!=typeof b)return k||(k=i?a[h]=c
 		
 
 // 안내 메세지 삭제
-		function deleteSpan_nickname(){
+	function deleteSpan_nickname(){
 		$("#nickname_").empty();
 	}
 	
@@ -41,10 +41,10 @@ function idCheck(event){
 			data: {"id" : id},
 			success: function(data){
 				if(data == "OK"){
-					$("#id_").css("color", "white");
+					$("#id_").css("color", "black");
 					$("#id_").text("사용가능한 아이디 입니다.");
 				} else {
-					$("#id_").css("color", "white");
+					$("#id_").css("color", "black");
 					$("#id_").text("중복된 아이디 입니다.");
 				}
 			},
@@ -64,10 +64,10 @@ $(function(){
 		
 		if(check === pwd && check != "") {
 			$("#pwdCheck_").text("비밀번호가 일치합니다.");
-			$("#pwdCheck_").css("color", "white");
+			$("#pwdCheck_").css("color", "black");
 		} else {
 			$("#pwdCheck_").text("비밀번호가 일치하지 않습니다.");
-			$("#pwdCheck_").css("color", "white");
+			$("#pwdCheck_").css("color", "black");
 		}
 		
 	});

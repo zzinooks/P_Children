@@ -18,8 +18,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.web.root.member.dto.MemberDTO;
+import com.web.root.member.dto.KakaoLoginDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.mybatis.member.MemberMapper;
 
@@ -167,12 +168,13 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
-	ObjectMapper objectMapper = new ObjectMapper();
-	RestTemplate restTemplate = new RestTemplate();
-	HttpHeaders headers = new HttpHeaders();
+	
 	
 	@Override
 	public String getkakaoToken(String code, String tokenURL) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
 		
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -183,15 +185,11 @@ public class MemberServiceImp1 implements MemberService {
 		params.add("redirect_uri", "http://localhost:8080/root/member/kakaoCode");		
 		params.add("code", code);
 		
-		
 		HttpEntity<MultiValueMap<String, String>> entity =
 				new HttpEntity<>(params, headers);
 		
-		ResponseEntity<String> response = restTemplate.postForEntity(
-				tokenURL, entity, String.class);
-		
-		System.out.println(response);
-		System.out.println();
+		ResponseEntity<String> response = 
+				restTemplate.postForEntity(tokenURL, entity, String.class);
 		
 		return objectMapper.readTree(response.getBody())
 					.get("access_token").asText();
@@ -199,16 +197,55 @@ public class MemberServiceImp1 implements MemberService {
 	}
 	
 	@Override
-	public String getKakaoId(String token, String kakaoIdURL) throws IOException {
+	public int registKakaoUser(String token, String kakaoIdURL, HttpSession session) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
 		headers.add("Authorization", "Bearer "+token);
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		ResponseEntity<String> response = 
 					 restTemplate.exchange(kakaoIdURL, HttpMethod.GET, entity, String.class);
-		System.out.println(response.getBody());
-		return objectMapper.readTree(response.getBody())
-				.get("id").asText();
-					
+		
+		JsonNode responseBody = objectMapper.readTree(response.getBody());
+		String kakaoId = responseBody.get("id").asText();
+		String kakaoLoginEmail = null;
+		if(responseBody.get("kakao_account").get("email") != null) {
+			kakaoLoginEmail = responseBody.get("kakao_account").get("email").asText();
+		}
+		KakaoLoginDTO kakaoLogindto = new KakaoLoginDTO(kakaoId, kakaoLoginEmail);
+		KakaoLoginDTO kakaoUserCheck = mapper.kakaoUserCheck(kakaoId);
+		
+		int result = 0;
+		if(kakaoUserCheck == null) {
+			result = mapper.registKakaoUser(kakaoLogindto);
+		}
+		session.setAttribute("kakaoId", kakaoId);
+		session.setAttribute("kakaoAccessToken", token);
+		return result;
+	}
+	
+	@Override
+	public String kakaoLogout(String token, String kakaoLogouturl) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.add("Content-type", "application/x-www-form-urlencoded");
+		headers.add("Authorization", "Bearer "+token);
+		
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		ResponseEntity<String> response = 
+				restTemplate.postForEntity(kakaoLogouturl, entity, String.class);
+		
+		String kakaoLogoutId = "";
+		try {
+			kakaoLogoutId = objectMapper.readTree(response.getBody()).get("id").asText();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return kakaoLogoutId;
 	}
 	
 	
@@ -232,17 +269,6 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
-	// 로그인 호스트 유저 체크
-	@Override
-	public int userCheckHost(HttpServletRequest request) {
-		MemberDTO dto = mapper.userCheckHost(request.getParameter("id"));
-		if(dto != null) {
-			if(request.getParameter("pwd").equals(dto.getPwd())) {
-				return 1; // 로그인 성공
-			}
-		}
-		return 0; // 로그인 실패
-	}
 	
 	// 아이디 찾기
 	@Override
@@ -306,10 +332,6 @@ public class MemberServiceImp1 implements MemberService {
 		mapper.userUpdatePwd(dto); 
 	}
 	
-	@Override
-	public void userUpdateHostPwd(MemberDTO hostDTO) {
-		mapper.userUpdateHostPwd(hostDTO);
-	}
 	
 	
 	//============================ 최윤희 끝 ===========================================

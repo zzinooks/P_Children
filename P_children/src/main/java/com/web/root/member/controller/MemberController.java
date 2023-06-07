@@ -1,6 +1,7 @@
 package com.web.root.member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -172,29 +173,40 @@ public class MemberController implements MemberSession{
 		
 	}
 	
-	@GetMapping("kakaoLoginButton")
-	public String kakaoLoginButton() {
-		return "sungsu/kakaoLogin";
-	}
-	
-	
 	private static final String tokenURL = "https://kauth.kakao.com/oauth/token";
 	private static final String kakaoIdURL = "https://kapi.kakao.com/v2/user/me";
+	private static final String kakaoLogoutURL = "https://kapi.kakao.com/v1/user/logout";
 	@GetMapping("kakaoCode")
-	public String getKakaoCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String getKakaoCode(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			HttpSession session) throws IOException {
+		if(request.getParameter("kakaoLogout") != null && request.getParameter("kakaoLogout").equals("true")) {
+			String kakaoLogoutId = ms.kakaoLogout((String)session.getAttribute("kakaoAccessToken"), kakaoLogoutURL);
+			if(kakaoLogoutId.equals((String)session.getAttribute("kakaoId"))) {
+				session.invalidate();
+			}
+			return "redirect:/index";
+		}
 		String code = request.getParameter("code");
 		String token = ms.getkakaoToken(code, tokenURL);
-		String userId = ms.getKakaoId(token, kakaoIdURL);
-		System.out.println(userId);
+		int result = ms.registKakaoUser(token, kakaoIdURL, session);
+		if(result != 1) {
+			String message = null;
+			String path = request.getContextPath();
+			message = "<script>alert('로그인 실패. 재시도 해주세요.');";
+			message += "location.href='"+path+"member/emailCheck"+"';</script>";
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print(message);
+		}
 //		String kakaoMemberInfo = ms.getKakaoInfo()
 		return "redirect:/index";
-		
 	}
+
 	
-	@PostMapping("kakaoToken")
-	public String getToken(HttpServletRequest request) {
-		return "redirect:/index";
-	}
+	
+
 	
 	
 	//============================ 박성수 끝 ===========================================
@@ -213,18 +225,8 @@ public class MemberController implements MemberSession{
 	// 로그인 시 아이디 체크
 	@RequestMapping("userCheck")
 	public String userCheck(HttpServletRequest request, Model m, HttpServletResponse response, HttpSession session) {
-		
 		int result = 0;
-		
-		// member or host 선택
-		String userSelect = request.getParameter("userSelect");
-		
-		// member랑 host 구분
-		if(userSelect.equals("member")) {
-			result = ms.userCheck(request);
-		} else if(userSelect.equals("host")) {
-			result = ms.userCheckHost(request);
-		}
+		result = ms.userCheck(request); // 요청값 전달
 		
 		if(result == 1) { // 아이디를 성공적으로 찾았으면
 			String id = request.getParameter("id");
@@ -343,30 +345,30 @@ public class MemberController implements MemberSession{
 	
 	
 	// 비밀번호 찾기에서 비밀번호 수정
-	@PostMapping("userUpdatePwd")
-	public String userUpdatePwd(HttpServletRequest request) {
-		
-		// System.out.println(request.getParameter("userSelect"));
-		
-		String userSelect = request.getParameter("userSelect");
-		
-		if(userSelect.equals("member")) {
-			MemberDTO dto = new MemberDTO();
-			dto.setId(request.getParameter("id"));
-			dto.setPwd(request.getParameter("newPwd"));
-			ms.userUpdatePwd(dto);
-			return "chenggyu/index";
-			
-		} else if(userSelect.equals("host")) {
-			MemberDTO hostDTO = new MemberDTO();
-			hostDTO.setId(request.getParameter("id"));
-			hostDTO.setPwd(request.getParameter("newPwd"));
-			ms.userUpdateHostPwd(hostDTO);
-			return "chenggyu/index";
-		}
-		
-		return "chenggyu/index";
-	}
+//	@PostMapping("userUpdatePwd")
+//	public String userUpdatePwd(HttpServletRequest request) {
+//		
+//		// System.out.println(request.getParameter("userSelect"));
+//		
+//		String userSelect = request.getParameter("userSelect");
+//		
+//		if(userSelect.equals("member")) {
+//			MemberDTO dto = new MemberDTO();
+//			dto.setId(request.getParameter("id"));
+//			dto.setPwd(request.getParameter("newPwd"));
+//			ms.userUpdatePwd(dto);
+//			return "chenggyu/index";
+//			
+//		} else if(userSelect.equals("host")) {
+//			MemberDTO hostDTO = new MemberDTO();
+//			hostDTO.setId(request.getParameter("id"));
+//			hostDTO.setPwd(request.getParameter("newPwd"));
+//			ms.userUpdateHostPwd(hostDTO);
+//			return "chenggyu/index";
+//		}
+//		
+//		return "chenggyu/index";
+//	}
 	
 	
 	//============================ 최윤희 끝 ===========================================

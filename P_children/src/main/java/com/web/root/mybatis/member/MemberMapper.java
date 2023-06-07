@@ -1,13 +1,11 @@
 package com.web.root.mybatis.member;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.ui.Model;
 
 import com.web.root.board.dto.BoardDTO;
-import com.web.root.member.dto.MemberDTO;
+import com.web.root.member.dto.KakaoLoginDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.qna.dto.QnaDTO;
 
@@ -43,6 +41,11 @@ public interface MemberMapper {
 	
 	public MemberDTO checkEmail_host(String email);
 	
+	public int registKakaoUser(KakaoLoginDTO kakaoLogindto);
+	
+	public KakaoLoginDTO kakaoUserCheck(String kakaoId);
+	
+	
 	
 	//============================ 박성수 끝 ===========================================
 	
@@ -51,8 +54,6 @@ public interface MemberMapper {
 	//============================ 최윤희 ===========================================
 	
 	public MemberDTO userCheck(String id);
-	
-	public MemberDTO userCheckHost(String id);
 	
 	public MemberDTO findUserId(String findUserEmail);
 	
@@ -64,7 +65,6 @@ public interface MemberMapper {
 
 	public void userUpdatePwd(MemberDTO dto);
 	
-	public void userUpdateHostPwd(MemberDTO hostDTO);
 
 	
 	

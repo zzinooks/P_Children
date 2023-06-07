@@ -44,7 +44,9 @@ public interface MemberService {
 	
 	public String getkakaoToken(String code, String tokenurl) throws IOException;
 	
-	public String getKakaoId(String token, String kakaoidurl) throws IOException;
+	public int registKakaoUser(String token, String kakaoidurl, HttpSession session) throws IOException;
+	
+	public String kakaoLogout(String token, String kakaologouturl);
 	
 	//============================ 박성수 끝 ===========================================
 
@@ -64,9 +66,7 @@ public interface MemberService {
 	
 	public void userUpdatePwd(MemberDTO dto);
 	
-	public void userUpdateHostPwd(MemberDTO hostDTO);
 	
-	public int userCheckHost(HttpServletRequest request);
 	
 	
 	
