@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 /*
 CREATE TABLE board(
 write_no NUMBER(10) PRIMARY KEY,
+category VARCHAR2(100),
 title VARCHAR2(100),
 content VARCHAR2(300),
 savedate DATE DEFAULT SYSDATE,
@@ -19,6 +20,7 @@ public class BoardDTO {
 	
 	// 속성(property)
 	private int write_no;
+	private String category;
 	private String title;
 	private String content;
 	private String savedate;
@@ -31,9 +33,10 @@ public class BoardDTO {
 		super();
 	}
 	
-	public BoardDTO(int write_no, String title, String content, String savedate, int hit, String file_name, String id) {
+	public BoardDTO(int write_no, String category, String title, String content, String savedate, int hit, String file_name, String id) {
 		super();
 		this.write_no = write_no;
+		this.category = category;
 		this.title = title;
 		this.content = content;
 		this.savedate = savedate;
@@ -46,10 +49,18 @@ public class BoardDTO {
 	public int getWrite_no() {
 		return write_no;
 	}
-	
 	public void setWrite_no(int write_no) {
 		this.write_no = write_no;
 	}
+	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	public String getTitle() {
 		return title;
 	}

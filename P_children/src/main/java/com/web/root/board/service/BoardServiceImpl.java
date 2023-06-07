@@ -27,13 +27,6 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardFileService bfs;
 	
-	/*
-	@Override
-	public void boardAllList(Model model) {
-		model.addAttribute("boardList", mapper.boardAllList());
-	}
-	*/
-	
 	@Override
 	public void boardAllList(Model model, int num, HttpServletRequest request) {
 		
@@ -44,8 +37,6 @@ public class BoardServiceImpl implements BoardService {
 			repeat += 1;
 		int end = num * pageLetter;
 		int start = end +1 - pageLetter;
-		//int start = (num - 1)/pageLetter + 1;
-		//int end = start + pageLetter -1;
 		
 		// 페이징
 		int totalPage = (allCount - 1)/pageLetter + 1;
@@ -71,6 +62,7 @@ public class BoardServiceImpl implements BoardService {
 		dto.setId(mul.getParameter("id"));
 		dto.setTitle(mul.getParameter("title"));
 		dto.setContent(mul.getParameter("content"));
+		dto.setCategory(mul.getParameter("category"));
 		MultipartFile file = mul.getFile("file");
 		
 		if(file.getSize() != 0) {	// 이미지가 있는지 확인
@@ -235,6 +227,8 @@ public class BoardServiceImpl implements BoardService {
 		map.put("updateContent", request.getParameter("updateContent"));
 		map.put("id", request.getParameter("id"));
 		
+		String num = request.getParameter("num");
+		
 		int su = mapper.updateReply(map);
 		String write_noStr = (String) map.get("write_no");
 		int write_no = Integer.parseInt(write_noStr);
@@ -242,10 +236,10 @@ public class BoardServiceImpl implements BoardService {
 		String msg, url;
 		if(su == 1) {
 			msg = "댓글이 수정 되었습니다";
-			url = "/board/contentView?write_no=" + write_no;
+			url = "/board/contentView?write_no=" + write_no + "&num=" + num;
 		} else {
 			msg = "댓글 수정 실패~";
-			url = "/board/contentView?write_no=" + write_no;
+			url = "/board/contentView?write_no=" + write_no + "&num=" + num;
 		}
 		return bfs.getMessage(request, msg, url);
 	}
@@ -274,7 +268,7 @@ public class BoardServiceImpl implements BoardService {
 		map.put("updateContent", request.getParameter("updateReCommentContent"));
 		map.put("id", request.getParameter("id"));
 
-		
+		String num = request.getParameter("num");
 		
 		int su = mapper.updateReComment(map);
 		String write_noStr = (String) map.get("write_no");
@@ -284,10 +278,10 @@ public class BoardServiceImpl implements BoardService {
 		String msg, url;
 		if(su == 1) {
 			msg = "대댓글이 수정 되었습니다";
-			url = "/board/contentView?write_no=" + write_no;
+			url = "/board/contentView?write_no=" + write_no + "&num=" + num;
 		} else {
 			msg = "대댓글 수정 실패~";
-			url = "/board/contentView?write_no=" + write_no;
+			url = "/board/contentView?write_no=" + write_no + "&num=" + num;
 		}
 		return bfs.getMessage(request, msg, url);
 	}

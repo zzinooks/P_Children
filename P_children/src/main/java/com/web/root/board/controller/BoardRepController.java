@@ -60,8 +60,7 @@ public class BoardRepController {
 	}
 	
 	@RequestMapping("updateReply")
-	public void updateReply(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
+	public void updateReply(Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String message = bs.updateReply(request);
 		
 		response.setContentType("text/html; charset=utf-8");

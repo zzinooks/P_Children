@@ -27,6 +27,16 @@
 		<beans:property name="maxUploadSize" value="52428800"/>
 	</beans:bean>
 	
+	<!-- 게시판 접근 시 로그인 확인하는 인터셉터 -->
+	<beans:bean id="boardInterceptor" class="com.web.root.board.interceptor.BoardInterceptor"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/board/boardAllList"/>
+			<beans:ref bean="boardInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
 </beans:beans>
 
 
