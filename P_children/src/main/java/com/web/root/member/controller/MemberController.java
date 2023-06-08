@@ -215,16 +215,16 @@ public class MemberController implements MemberSession{
 	public String userCheck(HttpServletRequest request, Model m, HttpServletResponse response, HttpSession session) {
 		
 		int result = 0;
-		
+		result = ms.userCheck(request);
 		// member or host 선택
-		String userSelect = request.getParameter("userSelect");
+//		String userSelect = request.getParameter("userSelect");
 		
 		// member랑 host 구분
-		if(userSelect.equals("member")) {
-			result = ms.userCheck(request);
-		} else if(userSelect.equals("host")) {
-			result = ms.userCheckHost(request);
-		}
+//		if(userSelect.equals("member")) {
+//			result = ms.userCheck(request);
+//		} else if(userSelect.equals("host")) {
+//			result = ms.userCheckHost(request);
+//		}
 		
 		if(result == 1) { // 아이디를 성공적으로 찾았으면
 			String id = request.getParameter("id");

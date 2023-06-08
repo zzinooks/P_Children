@@ -5,6 +5,7 @@
 <!-- mappers/file/boardMapper.xml -->
 <mapper namespace="com.web.root.mybatis.board.BoardMapper">
 
+	<!-- 자유 게시판 -->
 	<resultMap  id="board" type="com.web.root.board.dto.BoardDTO">
 		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
 		<result property="category" column="category"/>
@@ -14,6 +15,27 @@
 		<result property="hit" column="hit"/>
 		<result property="file_name" column="file_name"/>
 		<result property="id" column="id"/>
+	</resultMap>
+	
+	<!-- 프로그램 게시판 -->
+	<resultMap  id="programBoard" type="com.web.root.board.dto.ProgramBoardDTO">
+		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="petKind" column="petKind"/>
+		<result property="mateName" column="mateName"/>
+		<result property="mateImage" column="mateImage"/>
+		<result property="content" column="content"/>
+		<result property="position1" column="position1"/>
+		<result property="position2" column="position2"/>
+		<result property="startDate" column="startDate"/>
+		<result property="startTime" column="startTime"/>
+		<result property="endDate" column="endDate"/>
+		<result property="endTime" column="endTime"/>
+		<result property="priceForProgram" column="priceForProgram"/>
+		<result property="savedate" column="savedate"/>
+		<result property="hit" column="hit"/>
+		<result property="state" column="state"/>
 	</resultMap>
 	
 	
@@ -29,6 +51,7 @@
 	</resultMap>
 	
 
+	<!-- 댓글과 대댓글 -->
  	<resultMap id="reply" type="com.web.root.board.dto.BoardRepDTO">
  		<result property="reply_no" column="reply_no"/>
  		<result property="depth" column="depth"/>
@@ -118,6 +141,12 @@
 	<update id="updateReComment">
 		UPDATE reply2 SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
 	</update>
+	
+	<!-- 프로그램 게시판 -->
+	<insert id="writeSaveForProgram">
+		INSERT INTO programBoard(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit)
+		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0)
+	</insert>
 	
 	
 	<!--  ======================== 진욱 끝 ==========================   -->

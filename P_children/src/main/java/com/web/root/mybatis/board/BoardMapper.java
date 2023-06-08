@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.board.dto.ProgramBoardDTO;
 
 public interface BoardMapper {
 	
@@ -46,6 +47,9 @@ public interface BoardMapper {
 	public int addReComment(Map<String, Object> map);
 	
 	public int updateReComment(Map<String, String> map);
+	
+	// 프로그램 보드
+	public int writeSaveForProgram(ProgramBoardDTO programBoardDTO);
 	
 	
 	//============================ 주진욱 끝 ===========================================
