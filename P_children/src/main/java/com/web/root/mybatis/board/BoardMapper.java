@@ -64,6 +64,9 @@ public interface BoardMapper {
 	// DB에 담겨있는 전체 게시글 수 (전체 글 수)
 	public int selectNoticeBoardCount();
 	
+	// DB에 담겨있는 카테고리 게시글 수 (카테고리)	
+	public int selectNoticeBoardCountCategory(String noticeCategoryOption);
+	
 	// 페이징
 	public List<NoticeBoardDTO> noticeBoardAllList(@Param("s") int start, @Param("e") int end);
 	
@@ -81,6 +84,13 @@ public interface BoardMapper {
 	
 	// 공지사항 게시글 삭제
 	public int noticeBoardDelete(int write_no);
+	
+	// 공지사항 게시글 카테고리 조회
+	public List<NoticeBoardDTO> noticeCategorySelect(String noticeCategoryOption);
+	
+	// 페이징
+	public List<NoticeBoardDTO> noticeCategorySelectCategory(String noticeCategoryOption);
+	
 	
 		
 	//============================ 최윤희 끝 ===========================================

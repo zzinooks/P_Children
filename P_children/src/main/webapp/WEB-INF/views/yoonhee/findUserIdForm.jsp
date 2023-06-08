@@ -25,8 +25,8 @@
 					<div class="ion-icon">
 					<i class='bx bx-envelope' ></i>
 					</div>
-					<input type="text"  name="id" value="${cookie.CookieId.value }" required="required">
-					<label for="">아이디</label>
+					<input type="text" name="findUserEmail" required="required">
+					<label for="">이메일</label>
 				</div>
 				<div class="inputbox">
 					<div class="ion-icon">

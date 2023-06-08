@@ -23,11 +23,11 @@
 	<dependencies>
 		
 		<!-- 부트페이 라이브러리 -->
-		<dependency>
+<!-- 		<dependency>
 		  <groupId>io.github.bootpay</groupId>
 		  <artifactId>backend</artifactId>
 		  <version>+</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>

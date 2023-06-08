@@ -38,16 +38,16 @@
 		<result property="state" column="state"/>
 	</resultMap>
 	
-	
 	<!--  공지사항 게시판  -->
 	<resultMap id="notice" type="com.web.root.board.dto.NoticeBoardDTO">
-	<id property="write_no" column="write_no"/>
-	<result property="title" column="title"/>
-	<result property="content" column="content"/>
-	<result property="savedate" column="savedate"/>
-	<result property="hit" column="hit"/>
-	<result property="file_name" column="file_name"/>
-	<result property="id" column="id"/>
+		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
+		<result property="category" column="category"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="savedate" column="savedate"/>
+		<result property="hit" column="hit"/>
+		<result property="file_name" column="file_name"/>
+		<result property="id" column="id"/>
 	</resultMap>
 	
 
@@ -159,7 +159,7 @@
 	
 	<!-- DB에 담겨있는 전체 게시글 수 (전체 글 수) -->
 	<select id="selectNoticeBoardCount" resultType="Integer"> 
-		SELECT COUNT(*) FROM notice 
+		SELECT COUNT(*) FROM notice
 	</select>
 	
 	<!-- 페이징 -->
@@ -182,13 +182,13 @@
 	
 	<!-- NoticeBoardDTO 에 있는 내용 DB에 저장 -->
 	<insert id="noticeBoardWriteSave">
-		INSERT INTO notice(write_no, id, title, content, file_name)
-		VALUES(noticeBoard_seq.NEXTVAL, #{id}, #{title}, #{content}, #{file_name})
+		INSERT INTO notice(write_no, category, id, title, content, file_name)
+		VALUES(noticeBoard_seq.NEXTVAL, #{category}, #{id}, #{title}, #{content}, #{file_name})
 	</insert>
 	
 	<!-- 공지사항 게시글 수정 -->
-	<update id="noticeBoardModifySaveWithFile" parameterType="com.web.root.board.dto.BoardDTO">
-		UPDATE notice SET title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
+	<update id="noticeBoardModifySaveWithFile" parameterType="com.web.root.board.dto.NoticeBoardDTO">
+		UPDATE notice SET category=#{category}, title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
 	</update>
 	
 	<!-- 공지사항 게시글 삭제 -->
@@ -196,6 +196,15 @@
 		DELETE FROM notice WHERE write_no=#{write_no}
 	</delete>
 	
+	<!-- 공지사항 게시글 카테고리 조회 -->
+	<select id="noticeCategorySelectCategory" resultMap="notice"> 
+		SELECT * FROM notice WHERE category like #{noticeCategoryOption} ORDER BY savedate DESC
+	</select>
+	
+	<!-- DB에 담겨있는 전체 게시글 수 (전체 글 수) -->
+	<select id="selectNoticeBoardCountCategory" resultType="Integer"> 
+		SELECT COUNT(*) FROM notice where category like #{noticeCategoryOption}
+	</select>
 	
 	<!--  ======================== 윤희 끝 ==========================   -->
 	

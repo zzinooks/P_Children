@@ -209,12 +209,13 @@ public class MemberController implements MemberSession{
 	private static final String RESTAPIKEY = "64805d1e755e27001e38da18";
 	private static final String PRIVATEKEY = "L1QtJDiTORLbREyvNQSxWJUeA8SiJX1xnkQ7tLYSRio=";
 	private static final String TOKENURL = "https://api.bootpay.co.kr/v2/request/token";
+	/*
 	@GetMapping("bootPay")
 	public String bootPayCode() {
 	String tmp = ms.connectBootPay(RESTAPIKEY, PRIVATEKEY, TOKENURL);	
 		return "redirect:/index";
 	}
-
+	*/
 	
 	
 

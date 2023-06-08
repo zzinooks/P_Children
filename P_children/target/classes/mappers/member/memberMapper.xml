@@ -46,18 +46,6 @@
 		INSERT INTO member VALUES
 		(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT, #{userSelect}, #{mateName}, #{mateBreed}, DEFAULT)
 	</insert>
-
-	<insert id="registKakaoUser">
-		INSERT INTO kakaoUser VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
-	</insert>	
-	
-	<select id="getHostInfo" resultMap="member">
-		SELECT * FROM member WHERE id=#{id}
-	</select>
-	
-	<select id="checkEmail" resultMap="member">
-		SELECT * FROM member WHERE email=#{email}
-	</select>
 	
 	<select id="kakaoUserCheck" resultMap="kakaoUser">
 		SELECT * FROM kakaoUser WHERE kakaoId=#{kakaoId}

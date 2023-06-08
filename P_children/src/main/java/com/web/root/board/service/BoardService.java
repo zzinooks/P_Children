@@ -65,7 +65,7 @@ public interface BoardService {
 	// 공지사항 게시글 보기
 	public NoticeBoardDTO noticeBoardContentView(HttpServletRequest request);
 	
-	// 조회수 증가
+	// 조회수 증가	
 	public void noticeBoardHitplus(NoticeBoardDTO noticeBoardDTO);
 	
 	// 공지사항 게시글 작성
@@ -76,6 +76,9 @@ public interface BoardService {
 	
 	// 공지사항 게시글 삭제
 	public String noticeBoardDelete(HttpServletRequest request);
+	
+	// 공지사항 게시글 카테고리 조회
+	public void noticeCategorySelect(String noticeCategoryOption, Model m, int num);
 		
 	//============================ 최윤희 끝 ===========================================
 	
