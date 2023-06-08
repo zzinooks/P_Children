@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>email 인증 페이지</title>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=3" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script>
 	//이메일 중복체크
@@ -20,9 +21,9 @@
 				data: {"email" : email},
 				success: function(data){
 					if(data === "OK"){
-						$("#email_").text("사용가능한 이메일 입니다.");
+						$("#email_").text("사용가능한 이메일");
 					} else {
-						$("#email_").text("중복된 이메일 입니다.");
+						$("#email_").text("중복된 이메일");
 					}
 				},
 				error: function(){
@@ -34,7 +35,7 @@
 	
 	// 인증코드 전송
 	function sendEmail(){
-		if($("#email_").text() == "중복된 이메일 입니다."){
+		if($("#email_").text() == "중복된 이메일"){
 			$("#input_email").focus();
 			return;
 		}
@@ -79,17 +80,42 @@
 </script>
 </head>
 <body>
-	<form action="${path }/member/registForm" method="get" id="emailCheckForm" >
-		이메일 : <input type="email" id="input_email" name="email">
-		<input type="button" value="인증코드 보내기" onclick="sendEmail()" >
-		<br>
-		<span id="email_"></span>
-		<br><br>
-		인증코드 : <input type="text" id="input_code" name="code" placeholder="받은 메일의 인증코드 입력."> &nbsp;
-		<input type="button" value="확인" onclick="CheckCode()">
-		<span id="result"></span>
-		<input type="hidden" id="email_code" >
-	</form>
+	
+	<c:import url="../default/header.jsp"/>
+	
+		<section>
+		<div class="form-box">
+			<form action="${path }/member/registForm" method="get" id="emailCheckForm">
+				<h2>Email</h2>
+				<div class="inputbox">
+					<div class="ion-icon">
+					<i class='bx bx-envelope' onclick="sendEmail()"></i>
+					</div>
+					<input type="text"  id="input_email"  name="email"  required="required">
+					<label for="">이메일</label>
+				</div>
+				<div class="main" id='main'>
+					<span id="email_"></span>
+				</div>
+				<div class="inputbox">
+					<div class="ion-icon">
+					<i class='bx bx-comment' ></i>
+					</div>
+					<input type="text" id="input_code" name="code" required="required">
+					<label for="">인증코드</label>
+				</div>
+				<div class="main" id='main'>
+						<span id="result"></span>
+				</div>
+					<input type="hidden" id="email_code" >
+				<span id="result"></span>
+				<input  type="button"  value="확인" class="but_1"  onclick="CheckCode()">
+			</form>
+		</div>
+	</section>
+	
+		<c:import url="../default/footer.jsp"/>
+	
 </body>
 </html>
 

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<script src="${contextPath }/resources/yoonhee/js/noticeBoardScript.js?v=1"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +39,7 @@ h1 {
 	<br><br>
 	<div class="wrap write_form">
 		<div class="write_save">
-		<form action="${contextPath }/board/notice/noticeBoardWriteSave" enctype="multipart/form-data" method="post">
+		<form name="noticeBoardWriteForm" action="${contextPath }/board/notice/noticeBoardWriteSave" enctype="multipart/form-data" method="post">
 			<!-- <b> 작성자 </b><br> --> <!-- 보통 작성시 작성자 표시안되어서 -->
 			<input type="hidden" name="id" value="${user }" readonly><br>
 			<b> 제 목 </b><br>
@@ -49,7 +50,8 @@ h1 {
 			<input type="file" name="file" onchange="readURL(this)"/>
 			<img src="#" id="preview" width="100px" height="100px"><br>
 			<br>
-			<input type="submit" value="완료"/> &nbsp; 
+			<!-- <input type="submit" value="완료"/> &nbsp; -->
+			<input type="button" onclick="noticeBoardWriteFormCheck()" value="완료"> &nbsp;
 			<input type="button" value="글목록" onclick="location.href='${contextPath}/board/notice/noticeBoardAllList'"/>
 		</form>
 		</div>

@@ -37,7 +37,6 @@ th, td {
 				</tr>
 			</c:if>
 			<c:forEach var="dto" items="${my_board_list }">
-				<c:when test="${loginUser }">
 				<tr>					
 					<th> ${dto.write_no }</th>
 					<th>${dto.title }</th>
@@ -45,7 +44,6 @@ th, td {
 					<th>${dto.savedate }</th>
 					<th>${dto.id }</th>
 				</tr>
-				</c:when>
 			</c:forEach>
 		</table>
 		

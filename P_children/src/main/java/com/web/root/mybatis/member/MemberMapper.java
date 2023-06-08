@@ -2,6 +2,8 @@ package com.web.root.mybatis.member;
 
 import java.util.List;
 
+//github.com/ssp930/P_Children
+
 import org.apache.ibatis.annotations.Param;
 
 import com.web.root.board.dto.BoardDTO;
@@ -23,11 +25,13 @@ public interface MemberMapper {
 	public int selectMemberCount();
 	public int selectQnaCount();
 	public int selectMember_boardCount();
+	public int selectMember_boardCountById(String id);
 	
 	public List<MemberDTO> memberInfo(@Param("s") int start, @Param("e") int end);
 	public List<BoardDTO> manager_board(@Param("s") int start, @Param("e") int end);
 	public List<QnaDTO>	manager_qna(@Param("s") int start, @Param("e") int end);
 	public List<MemberDTO> member_board(@Param("s") int start, @Param("e") int end);
+	
 
 	//============================ 박성수 시작 ===========================================
 	
@@ -53,21 +57,19 @@ public interface MemberMapper {
 	
 	//============================ 최윤희 ===========================================
 	
+    // 로그인 (아이디 전달)
 	public MemberDTO userCheck(String id);
-	
+
+	// 아이디 찾기 (이메일 전달)
 	public MemberDTO findUserId(String findUserEmail);
 	
-	public MemberDTO findUserHostId(String findUserEmail);
-	
+	// 비밀번호 찾기 (아이디 전달)
 	public MemberDTO findUserPwd(String findUserId);
-	
-	public MemberDTO findUserHostPwd(String findUserEmail);
 
+	// 비밀번호 수정
 	public void userUpdatePwd(MemberDTO dto);
 	
 
-	
-	
 	
 
 	//============================ 최윤희 끝 ===========================================

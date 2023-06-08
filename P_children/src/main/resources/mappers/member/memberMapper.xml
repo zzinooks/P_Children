@@ -63,9 +63,18 @@
 		SELECT * FROM kakaoUser WHERE kakaoId=#{kakaoId}
 	</select>
 	
-
-
-
+   <insert id="registKakaoUser">
+      INSERT INTO kakaoUser VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
+   </insert>   
+   
+   <select id="getHostInfo" resultMap="member">
+      SELECT * FROM member WHERE id=#{id}
+   </select>
+   
+   <select id="checkEmail" resultMap="member">
+      SELECT * FROM member WHERE email=#{email}
+   </select>
+   
 
 	<!-- ======================== 성수 끝 ==========================  -->
 
@@ -74,7 +83,7 @@
 	
 	<select id="getMember" resultMap="member">
 	    SELECT * 
-	      FROM member 
+	      FROM member
 	    WHERE id=#{userid}
 	</select>
 	
@@ -106,37 +115,25 @@
 	
 	<!-- ==================== 윤희 시작 ======================= -->
 	
+	<!-- 로그인(아이디로 검색) -->
 	<select id="userCheck" resultMap="member">
 		SELECT * FROM member WHERE id=#{id}
 	</select>
 	
-	<!-- <select id="userCheckHost" resultMap="host">
-		SELECT * FROM host WHERE id=#{id}
-	</select> -->
-	
+	<!-- 아이디 찾기 -->
 	<select id="findUserId" resultMap="member">
 		SELECT * FROM member WHERE email=#{findUserEmail}
 	</select>
 	
-	<!-- <select id="findUserHostId" resultMap="host">
-		SELECT * FROM host WHERE email=#{findUserEmail}
-	</select> -->
-	
+	<!-- 비밀번호 찾기 -->
 	<select id="findUserPwd" resultMap="member">
 		SELECT * FROM member WHERE id=#{findUserId}
 	</select>
 	
-<!-- 	<select id="findUserHostPwd" resultMap="host">
-		SELECT * FROM host WHERE id=#{findUserId}
-	</select> -->
-	
+	<!-- 새 비밀번호로 수정 -->
 	<update id="userUpdatePwd"> 
 		UPDATE member SET pwd=#{pwd} WHERE id=#{id} 
 	</update>
-	
-<!-- 	<update id="userUpdateHostPwd"> 
-		UPDATE host SET pwd=#{pwd} WHERE id=#{id} 
-	</update> -->
 	
 	
 	<!-- ==================== 윤희 끝 ======================= -->

@@ -2,12 +2,36 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>공지사항</title>
+<script type="text/javascript">
+	// 게시글 삭제 문구 알림창
+	function noticeBoardDeleteConfirm(write_no, file_name) {
+		
+		if(!confirm('삭제하시겠습니까?')){
+			return false;
+		} else {
+			location.href='${contextPath }/board/notice/noticeBoardDelete?write_no='+write_no +'&file_name='+file_name;
+		}
+		
+	}
+	
+	// 게시글 수정 문구 알림
+	function noticeBoardModifyConfirm(write_no) {
+		
+		if(!confirm('수정하시겠습니까?')){
+			return false;
+		} else {
+			location.href='${contextPath }/board/notice/noticeBoardModifyForm?write_no='+write_no;
+		}
+		
+	}
+</script>
 <style type="text/css">
 
 h1 {
@@ -40,6 +64,11 @@ table tr:last-child {
 body {
 	z-index: 
 }
+
+/* 파일 이름 숨기기 */
+.fileView {
+	display: none;
+}
 </style>
 
 </head>
@@ -69,13 +98,17 @@ body {
 				<c:otherwise>
 					<c:forEach var="noticeBoardDTO" items="${noticeBoardList }">
 						<tr>
-							<td>${noticeBoardDTO.write_no}</td>
+							<td id="write_no">${noticeBoardDTO.write_no}</td>
 							<td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}">${noticeBoardDTO.title }</a></td>
 							<td>${noticeBoardDTO.id }</td>
 							<td>${noticeBoardDTO.savedate }</td>
 							<td>${noticeBoardDTO.hit }</td>
+							<td class="fileView" id="file_name" value="${noticeBoardDTO.file_name }"></td>
 							<c:if test ="${info.grade == admin}">
-								<td><button onclick="location.href='${contextPath}/board/notice/noticeBoardDelete?write_no=${noticeBoardDTO.write_no}&file_name=${noticeBoardDTO.file_name }'">삭제</button></td>
+								<td>
+									<button onclick="noticeBoardDeleteConfirm('${noticeBoardDTO.write_no}','${noticeBoardDTO.file_name }')">삭제</button>
+									<button onclick="noticeBoardModifyConfirm('${noticeBoardDTO.write_no }')">수정</button>
+								</td>
 							</c:if>
 						<tr>	
 					</c:forEach>
