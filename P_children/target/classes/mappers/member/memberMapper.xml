@@ -31,26 +31,28 @@
 	<!-- ======================== 성수 시작 ==========================  -->
 
 	
-	<insert id="registMember">
-		INSERT INTO member2(id, pwd, nickname, phone, email, addr, userSelect)
-		VALUES(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, #{userSelect})
-	</insert>
-	
-	<insert id="registHost">
-		INSERT INTO member2 VALUES
-		(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT, #{userSelect}, #{mateName}, #{mateBreed}, DEFAULT)
-	</insert>
-	
-	<select id="getHostInfo" resultMap="member">
-		SELECT * FROM member2 WHERE id=#{id}
-	</select>
-	
-	<select id="checkEmail" resultMap="member">
-		SELECT * FROM member2 WHERE email=#{email}
-	</select>
-	
+<insert id="registMember">
+      INSERT INTO member(id, pwd, nickname, phone, email, addr, userSelect)
+      VALUES(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, #{userSelect})
+   </insert>
+   
+   <insert id="registHost">
+      INSERT INTO member VALUES
+      (#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT, #{userSelect}, #{mateName}, #{mateBreed}, DEFAULT)
+   </insert>
 
-
+   <insert id="registKakaoUser">
+      INSERT INTO kakaoUser VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
+   </insert>   
+   
+   <select id="getHostInfo" resultMap="member">
+      SELECT * FROM member WHERE id=#{id}
+   </select>
+   
+   <select id="checkEmail" resultMap="member">
+      SELECT * FROM member WHERE email=#{email}
+   </select>
+   
 
 	<!-- ======================== 성수 끝 ==========================  -->
 

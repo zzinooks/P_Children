@@ -31,16 +31,20 @@ $(document).ready(function(){
 		check.checked=false; // 실패
 	}
 });
-
-function userSelect(){
-	const select = document.memberLoginForm.userSelect.value;
-	
-	location.href = "${contextPath}/member/emailCheck?userSelect="+select;
-	
-	
-}
 </script>
-
+	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js"
+		integrity="sha384-x+WG2i7pOR+oWb6O5GV5f1KN2Ko6N7PTGPS7UlasYWNxZMKQA63Cj/B2lbUmUfuC"
+		crossorigin="anonymous"></script>
+	<script>
+		Kakao.init('50cc79dc82404d34d4da829c82e31cd2');  // 사용하려는 앱의 RestAPI 키 입력
+	</script>
+	<script>
+		function loginWithKakao() {
+			Kakao.Auth.authorize({
+				redirectUri : 'http://localhost:8080/root/member/kakaoCode',
+			});
+		}
+	</script>
 </head>
 <body>
 	
@@ -73,17 +77,12 @@ function userSelect(){
 					<a href="${contextPath }/member/findUserPwdForm">비밀번호 찾기</a>
 					</label>
 				</div>
-				<button value="로그인" onclick="checkLogin()">로그인</button>
-				
+				<button value="로그인"  class="but_1" onclick="checkLogin()">로그인</button>
 				<!-- 박성수 _ 카카오 로그인 버튼 _ 시작 -->
-				<c:import url="../sungsu/kakaoLogin.jsp"/>
+				<button value="카카오 로그인" class="but_2" onclick="loginWithKakao()">카카오 로그인</button>
 				
 				<div class="register">
-					<p><a onclick="userSelect()">회원가입</a></p>
-				</div>
-				<div class="select">
-				<input type="radio" name="userSelect" value="member"  checked><label for="member"><a>일반</a></label>
-				<input type="radio" name="userSelect" value="host" ><label for="host"><a>호스트</a></label>
+					<p><a href="${contextPath }/member/select">회원가입</a></p>
 				</div>
 			</form>
 		</div>

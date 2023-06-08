@@ -1,10 +1,12 @@
 package com.web.root.member.service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,7 +21,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.web.root.member.dto.MemberDTO;
+import com.web.root.board.dto.BoardDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.mybatis.member.MemberMapper;
 
@@ -52,7 +54,7 @@ public class MemberServiceImp1 implements MemberService {
 
 		mapper.modify_save(dto);
 	}
-
+	
 	@Override
 	public void member_board(Model model, int num) {
 		int pageLetter = 5; 

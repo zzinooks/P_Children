@@ -92,7 +92,7 @@ input:valid ~ label{
 .forget label a:hover{
 	text-decoration: underline;
 }
-button {
+.but_1 {
 	width: 100%;
 	height: 40px;
 	border-radius: 40px;
@@ -102,7 +102,18 @@ button {
 	cursor: pointer;
 	font-size: 1em;
 	font-weight: 600;
-	margin-bottom: 40px;
+	margin-bottom: 10px;
+}
+.but_2{
+	width: 100%;
+	height: 40px;
+	border-radius: 40px;
+	background: #FAE100;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-size: 1em;
+	font-weight: 600;
 }
 .register{
 	font-size: .9em;
@@ -125,4 +136,10 @@ button {
 .select a{
 	margin-left: 10px;
 	margin-right:  15px;
+}
+.main{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 20px;
+	text-align: center;
 }

@@ -14,6 +14,14 @@
 <script src="${contextPath}/resources/chenggyu/js/memberScript.js?v=2"></script>
 <script type="text/javascript">
 function modify(){
+	var pwd = $('#ck_pwd').val();
+	var re_pwd = $('#re_pwd').val();
+	var re_pwd_ck = $('#re_pwd_ck').val();
+	if( pwd != ${dto.pwd} ){
+		alert("비밀번호를 확인해주세요");
+	} else if( re_pwd != re_pwd_ck || re_pwd == "" ){
+		alert("새로운 비밀번호 확인해주세요");
+	} else {
 	$.ajax({
 		url: "modify_save",
 		type: "POST",
@@ -30,6 +38,7 @@ function modify(){
 		
 	})
 }
+}
 </script>
 </head>
 <body>
@@ -44,11 +53,11 @@ function modify(){
 					<a>비밀번호</a>
 					<p><input type="password" name="pwd" value="${dto.pwd }" readonly="readonly"></p>
 					<a>비밀번호 확인</a>
-					<p><input type="text" name="ck_pwd" ></p>
+					<p><input type="text" id="ck_pwd" name="ck_pwd"  value=""></p>
 					<a>새로운 비밀번호 </a>
-					<p><input type="text" name="re_pwd"  ></p>
+					<p><input type="text" id="re_pwd" name="re_pwd"  value=""></p>
 					<a>새로운 비밀번호 확인</a>
-					<p><input type="text" name="re_pwd_ck"  ></p>
+					<p><input type="text" id="re_pwd_ck" name="re_pwd_ck"  ></p>
 					<a>닉네임</a>
 					<p><input type="text" name="nickname" value="${dto.nickname }" ></p>
 					<a>이메일</a>

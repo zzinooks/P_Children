@@ -77,3 +77,10 @@ body{
 	top: 600px;
 	left: 50%;
 }
+section{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 95vh;
+	width: 100%;
+}
