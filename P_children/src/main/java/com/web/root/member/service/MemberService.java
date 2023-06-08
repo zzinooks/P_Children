@@ -48,6 +48,10 @@ public interface MemberService {
 	
 	public String kakaoLogout(String token, String kakaologouturl);
 	
+	public String connectBootPay(String restapikey, String privatekey, String tokenurl);
+	
+	
+	
 	//============================ 박성수 끝 ===========================================
 
 	
@@ -65,6 +69,7 @@ public interface MemberService {
 	public int sendFindPwdEmailCode(String email);
 	
 	public void userUpdatePwd(MemberDTO dto);
+	
 	
 	
 	

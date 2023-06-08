@@ -21,6 +21,8 @@ import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
 
+import oracle.jdbc.proxy.annotation.GetProxy;
+
 @Controller
 @RequestMapping("member")
 public class MemberController implements MemberSession{
@@ -200,7 +202,15 @@ public class MemberController implements MemberSession{
 			PrintWriter out = response.getWriter();
 			out.print(message);
 		}
-//		String kakaoMemberInfo = ms.getKakaoInfo()
+		return "redirect:/index";
+	}
+	
+	private static final String RESTAPIKEY = "64805d1e755e27001e38da18";
+	private static final String PRIVATEKEY = "L1QtJDiTORLbREyvNQSxWJUeA8SiJX1xnkQ7tLYSRio=";
+	private static final String TOKENURL = "https://api.bootpay.co.kr/v2/request/token";
+	@GetMapping("bootPay")
+	public String bootPayCode() {
+	String tmp = ms.connectBootPay(RESTAPIKEY, PRIVATEKEY, TOKENURL);	
 		return "redirect:/index";
 	}
 
