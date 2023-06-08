@@ -88,7 +88,6 @@ public class MemberController implements MemberSession{
 		return "chenggyu/member_board";
 	}
 	
-	
 	@RequestMapping("member_qna")
 	public String member_qna() {
 		return "chenggyu/member_qna";
@@ -127,17 +126,12 @@ public class MemberController implements MemberSession{
 	
 	
 	//============================ 박성수 시작 ===========================================
-	@RequestMapping("select")
-	public String select() {
-		return "member/select";	
-	}
 	
 	@RequestMapping("registForm")
 	public String memberRegistFrom(@RequestParam("email") String email, Model model) {
 		model.addAttribute("checkedEmail", email);
 		return "member/RegistForm";
 	}
-
 	
 	@PostMapping("registMember")
 	public String hostRegist(MemberDTO dto, HttpServletRequest request) {
@@ -221,8 +215,16 @@ public class MemberController implements MemberSession{
 	public String userCheck(HttpServletRequest request, Model m, HttpServletResponse response, HttpSession session) {
 		
 		int result = 0;
-		
 		result = ms.userCheck(request);
+		// member or host 선택
+//		String userSelect = request.getParameter("userSelect");
+		
+		// member랑 host 구분
+//		if(userSelect.equals("member")) {
+//			result = ms.userCheck(request);
+//		} else if(userSelect.equals("host")) {
+//			result = ms.userCheckHost(request);
+//		}
 		
 		if(result == 1) { // 아이디를 성공적으로 찾았으면
 			String id = request.getParameter("id");

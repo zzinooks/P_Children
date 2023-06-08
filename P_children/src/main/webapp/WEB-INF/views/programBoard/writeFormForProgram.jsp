@@ -5,9 +5,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
-<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,114 @@
 			}
 			
 		}
+	}
+	  $( function() {
+	    $( "#datepicker1" ).datepicker();
+	  } );
+	  $( function() {
+	    $( "#datepicker2" ).datepicker();
+	  } );
+</script>
+<script type="text/javascript">
+	function position_1Selected() {
+		let position1 = $("#position1").val();
+		$.ajax({
+			url: "position1Selected",
+			type: "POST", 
+			data: JSON.stringify(position1),
+			contentType: "application/json; charset=utf-8",
+			success: function(data) {
+				let htm = "";
+				if($("#smallScaleDiv").length > 0) { // 선택 후 수정 시 : 이전 목록 삭제
+					$("#smallScaleDiv").empty();
+				}
+				if(data == "서울") {
+					alert(data);
+					htm += "<datalist id='position_smallScale_list'>"
+					htm += "<option value='전체' label='전체'>"
+					htm += "<option value='강남구' label='강남구'>"
+					htm += "<option value='강동구' label='강동구'>"
+					htm += "<option value='강북구' label='강북구'>"
+					htm += "<option value='강서구' label='강서구'>"
+					htm += "<option value='관악구' label='관악구'>"
+					htm += "<option value='광진구' label='광진구'>"
+					htm += "<option value='구로구' label='구로구'>"
+					htm += "<option value='금천구' label='금천구'>"
+					htm += "<option value='노원구' label='노원구'>"
+					htm += "<option value='도봉구' label='도봉구'>"
+					htm += "<option value='동대문구' label='동대문구'>"
+					htm += "<option value='동작구' label='동작구'>"
+					htm += "<option value='마포구' label='마포구'>"
+					htm += "<option value='서대문구' label='서대문구'>"
+					htm += "<option value='서초구' label='서초구'>"
+					htm += "<option value='성동구' label='성동구'>"
+					htm += "<option value='성북구' label='성북구'>"
+					htm += "<option value='송파구' label='송파구'>"
+					htm += "<option value='양천구' label='양천구'>"
+					htm += "<option value='영등포구' label='영등포구'>"
+					htm += "<option value='용산구' label='용산구'>"
+					htm += "<option value='은평구' label='은평구'>"
+					htm += "<option value='종로구' label='종로구'>"
+					htm += "<option value='중구' label='중구'>"
+					htm += "<option value='중랑구' label='중랑구'>"
+					htm += "<option value='전지역' label='전지역'>"
+					htm += "</datalist>"
+				}
+				if(data == "경기") {
+					alert(data);
+					htm += "<datalist id='position_smallScale_list'>"
+					htm += "<option value='가평군' label='가평군'>";
+					htm += "<option value='고양시 덕양구' label='고양시 덕양구'>";
+					htm += "<option value='고양시 일산동구' label='고양시 일산동구'>";
+					htm += "<option value='고양시 일산서구' label='고양시 일산서구'>";
+					htm += "<option value='과천시' label='과천시'>";
+					htm += "<option value='광명시' label='광명시'>";
+					htm += "<option value='광주시' label='광주시'>";
+					htm += "<option value='구리시' label='구리시'>";
+					htm += "<option value='군포시' label='군포시'>";
+					htm += "<option value='김포시' label='김포시'>";
+					htm += "<option value='남양주시' label='남양주시'>";
+					htm += "<option value='동두천시' label='동두천시'>";
+					htm += "<option value='부천시' label='부천시'>";
+					htm += "<option value='성남시 분당구' label='성남시 분당구'>";
+					htm += "<option value='성남시 수정구' label='성남시 수정구'>";
+					htm += "<option value='성남시 증원구' label='성남시 증원구'>";
+					htm += "<option value='수원시 권선구' label='수원시 권선구'>";
+					htm += "<option value='수원시 장안구' label='수원시 장안구'>";
+					htm += "<option value='수원시 팔달구' label='수원시 팔달구'>";
+					htm += "<option value='수원시 영통구' label='수원시 영통구'>";
+					htm += "<option value='시흥시' label='시흥시'>";
+					htm += "<option value='안산시 단원구' label='안산시 단원구'>";
+					htm += "<option value='안산시 상록구' label='안산시 상록구'>";
+					htm += "<option value='안성시' label='안성시'>";
+					htm += "<option value='안양시 동안구' label='안양시 동안구'>";
+					htm += "<option value='안양시 만안구' label='안양시 만안구'>";
+					htm += "<option value='양주시' label='양주시'>";
+					htm += "<option value='양평군' label='양평군'>";
+					htm += "<option value='여주시' label='여주시'>";
+					htm += "<option value='연천군' label='연천군'>";
+					htm += "<option value='오산시' label='오산시'>";
+					htm += "<option value='용인시 기흥구' label='용인시 기흥구'>";
+					htm += "<option value='용인시 수지구' label='용인시 수지구'>";
+					htm += "<option value='용인시 처인구' label='용인시 처인구'>";
+					htm += "<option value='의왕시' label='의왕시'>";
+					htm += "<option value='의정부시' label='의정부시'>";
+					htm += "<option value='이천시' label='이천시'>";
+					htm += "<option value='파주시' label='파주시'>";
+					htm += "<option value='평택시' label='평택시'>";
+					htm += "<option value='포천시' label='포천시'>";
+					htm += "<option value='하남시' label='하남시'>";
+					htm += "<option value='화성시' label='화성시'>";
+					htm += "<option value='전지역' label='전지역'>";
+					htm += "</datalist>";
+				}
+				
+				$("#smallScaleDiv").append(htm);
+			},
+			error: function() {
+				alert("Error !!")
+			}
+		})
 	}
 </script>
 <style type="text/css">
@@ -44,7 +153,7 @@ h1 {
 	<div class="wrap write_form">
 		<div class="write_save">
 		<table class="table table-striped">
-			<form action="${contextPath }/board/writeSaveForProgram" enctype="multipart/form-data" method="post">
+			<form action="${contextPath }/programBoard/writeSaveForProgram" enctype="multipart/form-data" method="post">
 				<tr>
 					<th><b> 작성자 </b><br></th>
 					<td><input type="text" name="id" value="${user }" readonly><br></td>
@@ -54,19 +163,19 @@ h1 {
 				<tr>
 					<th><b> 견 종 </b><br></th>
 					<td>
-						<input list="petKind_list" id="petKind" name="petkind" placeholder="견종을 검색해보세요">
+						<input list="petKind_list" id="petKind" name="petKind" placeholder="견종을 검색해보세요">
 						<datalist id="petKind_list">
 							<option value="아이누" label="아이누(Ainu)"/>
 							<option value="에어덜테리어" label="에어덜 테리어(Airdale Terrier)"/> 
 							<option value="아카바시" label="아카바시(Akbash dog)"/> 
 							<option value="아펜젤러" label="아펜젤러(Appenzeller)"/> 
-							<option value="오스트리안_캐틀독" label="오스트리안 캐틀독 (Australian Cattle dog)"/> 
-							<option value="오스트랄리안_세퍼드" label="오스트랄리안 세퍼드 (Australian Shepherd)"/> 
-							<option value="오스트리안_테리어" label="오스트리안 테리어(Australian Terrier)"/> 
+							<option value="오스트리안 캐틀독" label="오스트리안 캐틀독 (Australian Cattle dog)"/> 
+							<option value="오스트랄리안 세퍼드" label="오스트랄리안 세퍼드 (Australian Shepherd)"/> 
+							<option value="오스트리안 테리어" label="오스트리안 테리어(Australian Terrier)"/> 
 							<option value="아자와크" label="아자와크(Azawkh)"/> 				
 							<option value="바셑하운드" label="바셑하운드(Basset Hound)"/> 
 							<option value="비글해리어" label="비글해리어(Beagle harrier)"/> 
-							<option value="베드링톤_테리어" label="베드링톤 테리어(Bedlington Terrier)"/> 
+							<option value="베드링톤 테리어" label="베드링톤 테리어(Bedlington Terrier)"/> 
 							<option value="벨지언 그리폰" label="벨지언 그리폰(Belgian Griffon)"/>
 							<option value="빌리" label="빌리(Billy)"/> 
 							<option value="블랙러시안테리어" label="블랙러시안테리어(Black Russan Terrier)"/> 
@@ -243,7 +352,7 @@ h1 {
 					</td>
 					<th> 위치 </th>
 					<td>
-						<input list="position_largeScale_list" id="position_1" name="position_1" onchange="position_1Selected()">
+						<input list="position_largeScale_list" id="position1" name="position1" onchange="position_1Selected()" placeholder="위치(시)">
 						<datalist id="position_largeScale_list">
 							<option value="서울" label="서울">
 							<option value="경기" label="경기">
@@ -265,54 +374,31 @@ h1 {
 							<option value="전국" label="전국">
 						</datalist>
 						<br><br>
-						<input list="position_smallScale_list" id="position_2" name="position_2">
-						<datalist id="position_smallScale_list">
-						<script type="text/javascript">
-							var position_1 = "";
-							function position_1Selected(){
-								if($('#position_1').val() == '서울')
-									var position_1 = "서울";
-								alert(position_1 + "이 선택되었습니다.");
-							}
-							
-						</script>
-								<option value="전체" label="전체">
-								<option value="강남구" label="강남구">
-								<option value="강동구" label="강동구">
-								<option value="강북구" label="강북구">
-								<option value="강서구" label="강서구">
-								<option value="관악구" label="관악구">
-								<option value="광진구" label="광진구">
-								<option value="구로구" label="구로구">
-								<option value="금천구" label="금천구">
-								<option value="노원구" label="노원구">
-								<option value="도봉구" label="도봉구">
-								<option value="동대문구" label="동대문구">
-								<option value="동작구" label="동작구">
-								<option value="마포구" label="마포구">
-								<option value="서대문구" label="서대문구">
-								<option value="서초구" label="서초구">
-								<option value="성동구" label="성동구">
-								<option value="성북구" label="성북구">
-								<option value="송파구" label="송파구">
-								<option value="양천구" label="양천구">
-								<option value="영등포구" label="영등포구">
-								<option value="용산구" label="용산구">
-								<option value="은평구" label="은평구">
-								<option value="종로구" label="종로구">
-								<option value="중구" label="중구">
-								<option value="중랑구" label="중랑구">
-								<option value="전지역" label="전지역">
-						</datalist>
+						<input list="position_smallScale_list" id="position2" name="position2" placeholder="위치(구)">
+						
+						<!-- 위치(시) 선택시 위치(구) 내용 나오는 위치 -->
+						<div id="smallScaleDiv"></div>
+						
 					</td>
 				</tr>
-				<tr>
-					<th><b> 내 용 </b><br></th>
-					<td><textarea name="content" rows="10" cols="50"></textarea></td>
+				<tr >
+					<th rowspan="3"><b> 내 용 </b></th>
+					<td rowspan="3" style="right-padding: 0"><textarea name="content" rows="10" cols="50"></textarea></td>
+					<th style="left-padding: 0"> 시 작 날 짜 <br><br> 시작 시간 </th>
+					<td><input type="text" id="datepicker1" name="startDate"> <br><br> <input type="time" name="startTime" id="startTime"></td>
 				</tr>
 				<tr>
-					<td>
+					<th style="left-padding: 0"> 종 료 날 짜 <br><br> 종료 시간</th>
+					<td><input type="text" id="datepicker2" name="endDate"><br><br> <input type="time" name="endTime" id="endTime"></td>
+				</tr>
+				<tr>
+					<th style="left-padding: 0">프 로 그 램  비 용</th>
+					<td colspan="3"><input type="text" name="priceForProgram" id="priceForProgram" placeholder="숫자만 입력하세요"/> <b>원</b></td>
+				</tr>
+				<tr>
+					<td colspan="4">
 						<input type="submit" value="완료"/> &nbsp; 
+						<input type="reset" value="취소" onclick="location.href='${conetxtPath}/root/index'"/> &nbsp;
 						<input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList'"/>
 					</td>
 				</tr>
