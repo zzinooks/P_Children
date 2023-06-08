@@ -16,14 +16,17 @@ import com.web.root.member.dto.MemberDTO;
 public interface MemberService {
 	
 	//============================ 임청규 시작 ===========================================
+	public MemberDTO member_information(String id);
+	public void modify_save(HttpServletRequest request);
+	public void member_leave_save(HttpServletRequest request);
 	
 	public int userCheck(HttpServletRequest request);
-	public void userInfo(String id, Model model);
 	
-	public void info(String userid, Model model);
+	public void userInfo(String id, Model model);
 	
 	public void memberInfo(Model model, int num);
 	public void manager_board(Model model, int num);
+	public void member_board(Model model, int num);
 	public void manager_qna(Model model, int num);
 
 	//============================ 임청규 끝 ===========================================

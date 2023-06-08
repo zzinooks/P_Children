@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>member_information</title>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 </script>
 <style type="text/css">
@@ -25,34 +26,36 @@ th, td {
 </head>
 <body>
 	
-		<div align="center">
+		<c:import url="../default/header.jsp"/>
+		
+		<section>
 		<br>
 		<h1>개인 정보</h1>
 		<br>
 		<table >
 			<tr>
 				<th>아이디</th>
-				<th>${info.id }</th>
+				<th>${dto.id }</th>
 			</tr>
 			<tr>
 				<th>등급</th>
-				<th>${info.grade }</th>
+				<th>${dto.grade }</th>
 			</tr>
 			<tr>
 				<th>닉네임</th>
-				<th>${info.nickname }</th>
+				<th>${dto.nickname }</th>
 			</tr>
 			<tr>
 				<th>이메일</th>
-				<th>${info.email }</th>
+				<th>${dto.email }</th>
 			</tr>
 			<tr>
 				<th>휴대전화</th>
-				<th>${info.phone }</th>
+				<th>${dto.phone }</th>
 			</tr>
 			<tr>
 				<th>주소</th>
-				<th>${info.addr }</th>
+				<th>${dto.addr }</th>
 			</tr>
 		</table>
 		
@@ -69,7 +72,9 @@ th, td {
 		<br>
 		<a href="/root/member/member_leave ">회원 탈퇴</a>
 	
-	</div>
+	</section>
+	
+	<c:import url="../default/footer.jsp"/>
 
 	
 </body>

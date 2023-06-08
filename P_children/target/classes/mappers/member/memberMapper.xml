@@ -48,14 +48,29 @@
 	<select id="checkEmail" resultMap="member">
 		SELECT * FROM member WHERE email=#{email}
 	</select>
-	
 
-
+   <insert id="registKakaoUser">
+      INSERT INTO kakaoUser VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
+   </insert>   
+   
+   <select id="getHostInfo" resultMap="member">
+      SELECT * FROM member WHERE id=#{id}
+   </select>
+   
+   <select id="checkEmail" resultMap="member">
+      SELECT * FROM member WHERE email=#{email}
+   </select>
+   
 
 	<!-- ======================== 성수 끝 ==========================  -->
 
 	<!-- ==================== 청규 시작 ======================= -->
-
+	
+	<select id="member_information" resultMap="member">
+	    SELECT * 
+	      FROM member 
+	    WHERE id=#{id}
+	</select>
 	
 	<select id="getMember" resultMap="member">
 	    SELECT * 
@@ -70,20 +85,41 @@
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 	
-	<select id="selectMemberCount" resultType="Integer">
-		SELECT COUNT(*) FROM member
-	</select>
 
 	<select id="manager_board" resultMap="board">
-		SELECT B.* FROM
-		(SELECT ROWNUM rn, A.* FROM
+		SELECT B.* 
+		 FROM (SELECT ROWNUM rn, A.* FROM
 		(SELECT * FROM board ORDER BY write_no DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<select id="member_board" resultMap="board">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM board ORDER BY id DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<select id="selectMemberCount" resultType="Integer">
+		SELECT COUNT(*) FROM member
 	</select>
 	
 	<select id="selectBoardCount" resultType="Integer">
 		SELECT COUNT(*) FROM board
 	</select>
+	
+	<select id="selectMember_boardCount" resultType="Integer">
+		SELECT COUNT(*) FROM board
+	</select>
+	
+	<update id="modify_save" >
+		UPDATE member SET pwd=#{pwd }, nickname=#{nickname}, phone=#{phone}, addr=#{addr} WHERE id=#{id}
+	</update>
+	
+	<delete id="member_leave_save">
+		DELETE FROM member WHERE id=#{id} AND pwd=#{pwd}
+	</delete>
+	
 	
 	<!-- ==================== 청규 끝 ======================= -->
 	

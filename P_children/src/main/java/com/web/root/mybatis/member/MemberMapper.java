@@ -1,6 +1,7 @@
 package com.web.root.mybatis.member;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
@@ -14,15 +15,24 @@ import com.web.root.qna.dto.QnaDTO;
 
 public interface MemberMapper {
 	
+	public MemberDTO member_information(String id);
+	public MemberDTO getMemberInfo(MemberDTO dto);
+	
 	public MemberDTO getMember(String userid);
+	public void modify_save(MemberDTO dto);
+	public void member_leave_save(MemberDTO dto);
 	
 	public int selectBoardCount();
 	public int selectMemberCount();
 	public int selectQnaCount();
+	public int selectMember_boardCount();
+	public int selectMember_boardCountById(String id);
 	
 	public List<MemberDTO> memberInfo(@Param("s") int start, @Param("e") int end);
 	public List<BoardDTO> manager_board(@Param("s") int start, @Param("e") int end);
 	public List<QnaDTO>	manager_qna(@Param("s") int start, @Param("e") int end);
+	public List<MemberDTO> member_board(@Param("s") int start, @Param("e") int end);
+	
 
 	//============================ 박성수 시작 ===========================================
 	

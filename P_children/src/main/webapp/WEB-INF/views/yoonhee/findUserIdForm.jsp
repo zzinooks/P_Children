@@ -11,21 +11,36 @@
 <title>I Run it : 아이디 찾기</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=1"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=3" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<h1>아이디 찾기</h1>
-	<form name="findUserIdForm" action="${contextPath}/member/findUserId" method="post">
-		<input type="text" name="findUserEmail" placeholder="이메일"><br>
-		<br>
-		<input type="text" name="findUserPhone" placeholder="휴대폰 번호"><br>
-		<br>
-		<input type="button" value="아이디 찾기" onclick="findUserIdCheck()">
-	</form>
+
+	<c:import url="../default/header.jsp"/>
 	
-	<!-- 확인하고 삭제 -->
-	<!--  
-	<input type="radio" name="userSelect" value="member" id="member" checked><label for="member">일반</label>
-	<input type="radio" name="userSelect" value="host" id="host"><label for="host">호스트</label>
-	-->
+		<section>
+		<div class="form-box">
+			<form name="findUserIdForm" action="${contextPath}/member/findUserId" method="post">
+				<h2>아이디 찾기</h2>
+				<div class="inputbox">
+					<div class="ion-icon">
+					<i class='bx bx-envelope' ></i>
+					</div>
+					<input type="text"  name="id" value="${cookie.CookieId.value }" required="required">
+					<label for="">아이디</label>
+				</div>
+				<div class="inputbox">
+					<div class="ion-icon">
+					<i class='bx bx-phone' ></i>
+					</div>
+					<input type="text" name="findUserPhone" >
+					<label for="">휴대폰 번호</label>
+				</div>
+				<input type="button" class="but_1" value="아이디 찾기" onclick="findUserIdCheck()">
+			</form>
+		</div>
+	</section>
+	
+	<c:import url="../default/footer.jsp"/>
+			
 </body>
 </html>
