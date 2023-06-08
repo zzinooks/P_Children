@@ -37,7 +37,8 @@ public class MemberServiceImp1 implements MemberService {
 	@Inject
 	JavaMailSender mailSender;
 	
-	
+
+
 	@Override
 	public MemberDTO member_information(String id) {
 		return mapper.member_information(id);

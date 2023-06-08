@@ -48,7 +48,6 @@ public interface MemberService {
 	
 	public String kakaoLogout(String token, String kakaologouturl);
 	
-	public String connectBootPay(String restapikey, String privatekey, String tokenurl);
 	
 	
 	

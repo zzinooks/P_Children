@@ -108,7 +108,6 @@
 						<span id="result"></span>
 				</div>
 					<input type="hidden" id="email_code" >
-				<span id="result"></span>
 				<input  type="button"  value="확인" class="but_1"  onclick="CheckCode()">
 			</form>
 		</div>

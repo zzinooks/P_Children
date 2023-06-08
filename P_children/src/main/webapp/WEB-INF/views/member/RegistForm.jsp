@@ -6,9 +6,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>호스트 등록 페이지</title>
+<title>Mate With 회원가입</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/regist.css?v=1" rel="stylesheet" type="text/css">
 <script src="${path }/resources/sungsu/js/memberRegistForm.js?v=2"></script>
 <script>	
 	window.onload = function(){
@@ -27,7 +28,7 @@
 	}
 	
 	// form 값 들어왔는지 확인.
-	function valueCheck() {
+function valueCheck() {
 		let id = document.querySelector("span#id_");
 		let pwd = document.querySelector("span#pwd_");
 		let pwdCheck = document.querySelector("span#pwdCheck_");
@@ -97,52 +98,70 @@
 </script>
 </head>
 <body>
-	<form action="${path }/member/registMember" name="form" method="POST">
-		<label>아이디</label><br>
-		<input type="text" id="userid" name="id" onkeyup="idCheck(event)" placeholder="영문, 숫자 4~14" maxlength="14">
-		<span id="id_"></span>
-		<br><br>
-		<label>비밀번호</label><br>
-		<input type="text" id="pwd" name="pwd" placeholder="영문, 숫자, 특수문자 조합 최소 8자">
-		<span id="pwd_"></span>
-		<br><br>
-		<input type="text" id="pwdCheck" placeholder="비밀번호 재확인" >
-		<span id="pwdCheck_"></span>
-		<br><br>
-		<label>닉네임</label><br> 
-		<input type="text" id="nickname" name="nickname" oninput="deleteSpan_nickname()" placeholder="띄어쓰기와 특수문자를 제외, 2~14자" >
-		<span id="nickname_"></span>
-		<br><br>
-		<label>휴대폰 번호</label><br> 
-		<input type="text" id="phone" name="phone" oninput="deleteSpan_phone()" placeholder="숫자만 입력해 주세요.">
-		<span id="phone_"></span>
-		<br><br>
-		<label>이메일</label><br> 
-		<input type="text" id="email" name="email" value="${checkedEmail}" readonly="readonly">
-		<span id="email_"></span>
-		<br><br>
-		<label>주소</label><br>
-		<input type="text" id="zonecode" name="zonecode" size="5" placeholder="우편번호" > &nbsp; <button type="button" onclick="findAddr()">우편번호 찾기</button><br>
-		<input type="text" id="addr1" name="addr1" size="30" placeholder="주소" ><br>
-		<input type="text" id="addr2" name="addr2" placeholder="상세주소" oninput="deleteSpan_addr2()" ><br>
-		<input type="text" id="addr3" name="addr3" size="15" placeholder="참고항목" ><br>
-		<span id="addr_"></span>
-		<br><br>
-		<c:if test="${cookie.userSelect.value == 'host' }">
-			<div id="divHost" style="display: none;">
-				<label for="mateName">메이트 이름</label><br> 
-				<input type="text" id="mateName" name="mateName" oninput="deleteSpan_mateName()" placeholder="띄어쓰기와 특수문자를 제외, 2~14자">
-				<span id="mateName_"></span>
-				<br><br>
-				<label for="mateBreed">메이트 Breeding</label><br> 
-				<input type="text" id="mateBreed" name="mateBreed" oninput="deleteSpan_mateBreed()" placeholder="띄어쓰기와 특수문자를 제외, 2~14자">
-				<span id="mateBreed_"></span>
-				<br><br>
+
+	<c:import url="../default/header.jsp"/>
+
+	<section><!-- body -->
+		<div class="form-box"> <!--  container  -->
+		<div class="title">회원 가입</div>
+		<form action="${path }/member/registMember" name="form" method="POST">
+			<div class="user-details">
+				<div class="input-box">
+					<span class="details">아이디</span>
+					<input type="text" id="userid" name="id" onkeyup="idCheck(event)" placeholder="영문, 숫자 4~14" maxlength="14">	
+					<span id="id_"></span>
+				</div>
+				<div class="input-box">
+					<span class="details">비밀번호</span>
+					<input type="text" id="pwd" name="pwd" placeholder="영문, 숫자, 특수문자 조합">
+					<span id="pwd_"></span>
+				</div>
+				<div class="input-box">
+					<span class="details">비밀번호 확인</span>
+					<input type="text" id="pwdCheck" placeholder="비밀번호 재확인" >
+					<span id="pwdCheck_"></span>
+				</div>
+				<div class="input-box">
+					<span class="details">닉네임</span>
+					<input type="text" id="nickname" name="nickname" oninput="deleteSpan_nickname()" placeholder="띄어쓰기와 특수문자" >
+				</div>
+				<div class="input-box">
+					<span class="details">휴대번호</span>
+					<input type="text" id="phone" name="phone" oninput="deleteSpan_phone()" placeholder="숫자만 입력해 주세요.">
+					<span id="phone_"></span>
+				</div>
+				<div class="input-box">
+					<span class="details">이메일</span>
+					<input type="text" id="email" name="email" value="${checkedEmail}" readonly="readonly">
+					<span id="email_"></span>
+				</div>
+				<div class="input-box" >
+					<span class="details">주소</span>
+					<input type="text" id="zonecode" name="zonecode" size="5" placeholder="우편번호">
+					<input type="text" id="addr1" name="addr1" size="30" placeholder="주소">
+					<input type="text" id="addr2" name="addr2" placeholder="상세주소" oninput="deleteSpan_addr2()">
+					<input type="text" id="addr3" name="addr3" size="15" placeholder="참고항목">
+					<span id="addr_"></span>
+				</div>
+				<div class="input-box-addr">
+					<input type="button" value="우편번호찾기" onclick="findAddr()">
+				</div>
+				<c:if test="${cookie.userSelect.value == 'host' }">
+				<div class="input-box">
+					<span class="details">메이트</span>
+					<input type="text" id="mateName" name="mateName" oninput="deleteSpan_mateName()" placeholder="띄어쓰기와 특수문자를 제외, 2~14자">
+					<input type="text" id="mateBreed" name="mateBreed" oninput="deleteSpan_mateBreed()" placeholder="띄어쓰기와 특수문자를 제외, 2~14자">
+				</div>
+				</c:if>
 			</div>
-		</c:if>
-		<input type="hidden" id="userSelect" name="userSelect" value="${cookie.userSelect.value }">
-		<input type="button" value="가입하기" onclick="valueCheck()">    
-	</form>
+				<input type="hidden" id="userSelect" name="userSelect" value="${cookie.userSelect.value }">
+				<input type="button" value="가입하기" onclick="valueCheck()" class="but_1">
+		</form>
+		</div>
+	</section>
+	
+	<c:import url="../default/footer.jsp"/>
+	
 </body>
 </html>
 

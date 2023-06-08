@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>P_children: 로그인</title>
+<title>Mate With 로그인</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=1"></script>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=3" rel="stylesheet" type="text/css">
@@ -83,7 +83,7 @@ $(document).ready(function(){
 				<button value="카카오 로그인" class="but_2" onclick="loginWithKakao()">카카오 로그인</button>
 				
 				<div class="register">
-					<p><a onclick="userSelect()">회원가입</a></p>
+					<p><a href="${contextPath }/member/select">회원가입</a></p>
 				</div>
 			</form>
 		</div>
