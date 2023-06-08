@@ -25,7 +25,8 @@
 		}
 	}
 	
-	function deleteConfirm() {
+	// 게시글 삭제
+	function noticeDeleteConfirm() {
 		
 		if(!confirm('삭제하시겠습니까?')){
 			return false;
@@ -127,7 +128,7 @@ h1 {
 				<td colspan="4" align="center">
 				<c:if test="${info.grade == admin }"> <!-- 관리자만 -->
 					<input type="button" value="수정하기" onclick="location.href='${contextPath }/board/notice/noticeBoardModifyForm?write_no=${noticeBoardDTO.write_no }'"> &nbsp;
-					<input type="button" value="삭제하기" onclick="deleteConfirm()" /> &nbsp;
+					<input type="button" value="삭제하기" onclick="noticeDeleteConfirm()" /> &nbsp;
 				</c:if>	
 					<input type="button" value="글목록" onclick="location.href='${contextPath }/board/notice/noticeBoardAllList?num=${num}'"> <!-- 글목록 클릭할 때 원래 페이지 목록으로 가도록 -->
 					<%-- <input type="hidden" value="${num }" name="num" > --%>

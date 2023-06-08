@@ -52,19 +52,17 @@ public interface MemberService {
 	//============================ 최윤희 시작 ===========================================
 	
 	
+	// 아이디 찾기
 	public int findUserId(HttpServletRequest request, Model model);
 	
+	// 비밀번호 찾기
 	public int findUserPwd(HttpServletRequest request, Model model);
 	
 	// 비밀번호 찾기 메일 인증
 	public int sendFindPwdEmailCode(String email);
 	
-	public void userUpdatePwd(MemberDTO dto);
-	
-	public void userUpdateHostPwd(MemberDTO hostDTO);
-	
-	public int userCheckHost(HttpServletRequest request);
-	
+	// 비밀번호 수정
+	public void userUpdatePwd(MemberDTO dto);	
 	
 	
 	//============================ 최윤희 끝 ===========================================

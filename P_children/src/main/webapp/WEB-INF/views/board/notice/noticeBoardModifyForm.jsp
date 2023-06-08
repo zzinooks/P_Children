@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<script src="${contextPath }/resources/yoonhee/js/noticeBoardScript.js?v=2"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +21,9 @@
 			
 		}
 	}
+	
+	
+
 </script>
 <style type="text/css">
 h1 {
@@ -43,7 +47,7 @@ h1 {
 	<br><br>
 	<div class="wrap modify_form">
 		<div class="modify_save">
-		<form action="${contextPath }/board/notice/noticeBoardModifySave" enctype="multipart/form-data" method="post">
+		<form name="noticeBoardModifyForm" action="${contextPath }/board/notice/noticeBoardModifySave" enctype="multipart/form-data" method="post">
 			<input type="hidden" name="write_no" value="${noticeBoardDTO.write_no }"/>
 			<b> 제 목 </b><br>
 			<input type="text" name="title" value="${noticeBoardDTO.title }"><br>
@@ -53,7 +57,8 @@ h1 {
 			<input type="file" name="file" onchange="readURL(this)"/>
 			<img src="${contextPath }/board/notice/noticeBoardDownload?file_name=${noticeBoardDTO.file_name}" id="preview" width="100px" height="100px"><br>
 			<br>
-			<input type="submit" value="수정하기" /> &nbsp; 
+			<input type="button" onclick="noticeBoardModifyFormCheck()" value="수정하기"/> &nbsp;
+			<!-- <input type="button" value="수정하기" onclick="noticeBoardModifyConfirm(write_no, title, content, file_name)"/> &nbsp; -->
 			<input type="button" value="이전으로돌아가기" onclick="history.back()"/>
 		</form>
 		</div>

@@ -188,79 +188,49 @@ public class MemberServiceImp1 implements MemberService {
 	// 로그인 유저 체크
 	@Override
 	public int userCheck(HttpServletRequest request) {
-		MemberDTO dto = mapper.userCheck(request.getParameter("id"));
+		MemberDTO dto = mapper.userCheck(request.getParameter("id"));  // 입력받은 아이디값 전달
 
-		if(dto != null) {
-			if(request.getParameter("pwd").equals(dto.getPwd())) {
-				return 1; // 로그인 성공
+		if(dto != null) {  // dto에 값이 있으면
+			if(request.getParameter("pwd").equals(dto.getPwd())) {  // 입력받은 비밀번호와 
+				return 1; // 로그인 성공							// dto에서 찾아 저장된 비밀번호가 같은지 확인
 			}
 		}
-		return 0; // 로그인 실패
-		
+		return 0; // 로그인 실패	
 	}
 	
-	// 로그인 호스트 유저 체크
-	@Override
-	public int userCheckHost(HttpServletRequest request) {
-		MemberDTO dto = mapper.userCheckHost(request.getParameter("id"));
-		if(dto != null) {
-			if(request.getParameter("pwd").equals(dto.getPwd())) {
-				return 1; // 로그인 성공
-			}
-		}
-		return 0; // 로그인 실패
-	}
 	
 	// 아이디 찾기
 	@Override
 	public int findUserId(HttpServletRequest request, Model model) {
 		
-		if(request.getParameter("userSelect").equals("member")) { // 요청받은 내용이 member이면
-			MemberDTO dto = mapper.findUserId(request.getParameter("findUserEmail"));
-			
-			if(dto != null) {
-				if(request.getParameter("findUserPhone").equals(dto.getPhone())) {
-					model.addAttribute("findUserId", dto);
-					return 1;
-				}
-			} else {
-				return 0;
+		// 입력받은 이메일 전달
+		MemberDTO dto = mapper.findUserId(request.getParameter("findUserEmail")); 
+		
+		// 입력받은 휴대폰 번호와 DB에서 찾은 휴대폰 번호가 같은지
+		if(dto != null) {
+			if(request.getParameter("findUserPhone").equals(dto.getPhone())) {  
+				model.addAttribute("findUserId", dto);
+				return 1;
 			}
-			
-		} else if(request.getParameter("userSelect").equals("host")) { // 요청받은 내용이 host이면
-			MemberDTO hostDTO = mapper.findUserHostId(request.getParameter("findUserEmail"));
-			if(hostDTO != null) {
-				if(request.getParameter("findUserPhone").equals(hostDTO.getPhone())) {
-					model.addAttribute("findUserId", hostDTO);
-					return 1;
-				}
-			}
-			return 0;
 		}
 		return 0;
 	}
+	
 	
 	// 비밀번호 찾기
 	@Override
 	public int findUserPwd(HttpServletRequest request, Model model) {
 		
-		if(request.getParameter("userSelect").equals("member")) { // 요청받은 내용이 member이면
-			MemberDTO dto = mapper.findUserPwd(request.getParameter("findUserId"));
-			if(dto != null) {
-				model.addAttribute("findUserPwd", dto);
-				return 1;
-			} 
-			
-		} else if(request.getParameter("userSelect").equals("host")) { // 요청받은 내용이 host이면
-			MemberDTO hostDTO = mapper.findUserHostPwd(request.getParameter("findUserId"));
-			if(hostDTO != null) {
-				model.addAttribute("findUserPwd", hostDTO);
-				return 1;
-			}
-		}
+		// 입력받은 아이디 전달하여 dto에 회원정보 전부 저장
+		MemberDTO dto = mapper.findUserPwd(request.getParameter("findUserId"));
 		
+		if(dto != null) {
+			model.addAttribute("findUserPwd", dto);
+			return 1;
+		} 
 		return 0;
 	}
+	
 	
 	// 비밀번호 찾기 메일 인증
 	@Override
@@ -268,14 +238,11 @@ public class MemberServiceImp1 implements MemberService {
 		return cms.sendFindPwdEmailCode(email);
 	}
 
+	
+	// 비밀번호 수정
 	@Override
 	public void userUpdatePwd(MemberDTO dto) {
 		mapper.userUpdatePwd(dto); 
-	}
-	
-	@Override
-	public void userUpdateHostPwd(MemberDTO hostDTO) {
-		mapper.userUpdateHostPwd(hostDTO);
 	}
 	
 	

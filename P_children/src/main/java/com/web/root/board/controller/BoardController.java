@@ -288,7 +288,6 @@ public class BoardController implements MemberSession{
 		out.println(message);
 		
 	}
-	
 		
 		
 	//============================ 최윤희 끝 ===========================================

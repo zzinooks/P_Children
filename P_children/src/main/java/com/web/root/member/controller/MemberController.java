@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -187,27 +188,19 @@ public class MemberController implements MemberSession{
 		
 		int result = 0;
 		
-		// member or host 선택
-		String userSelect = request.getParameter("userSelect");
+		result = ms.userCheck(request); // 요청값 전달
 		
-		// member랑 host 구분
-		if(userSelect.equals("member")) {
-			result = ms.userCheck(request);
-		} else if(userSelect.equals("host")) {
-			result = ms.userCheckHost(request);
-		}
-		
-		if(result == 1) { // 아이디를 성공적으로 찾았으면
-			String id = request.getParameter("id");
+		if(result == 1) {  // 아이디를 성공적으로 찾았으면
+			String id = request.getParameter("id");  // 입력받은 아이디 저장
 			session.setAttribute(LOGIN, id);  // 아이디 세션 저장
 			
-			userInfo(id, m);
-			MemberDTO dto = (MemberDTO)m.getAttribute("info");
-			//System.out.println(dto.getGrade());
+			userInfo(id, m);  // 회원 정보 담은 메소드
+			MemberDTO dto = (MemberDTO)m.getAttribute("info");  // userInfo(id, m) 에서 받은 속성 "info"에 유저 정보가 담김
 			session.setAttribute("grade", dto.getGrade());
-			
+		
 			String checked = request.getParameter("testChek");  // 아이디 기억하기 체크박스 true/false
 			
+			// 체크박스 값에 따라 쿠키 생성, 삭제
 			if(checked.equals("true")) {
 	            Cookie cookie = new Cookie("CookieId", request.getParameter("id"));
 	            response.addCookie(cookie);
@@ -241,18 +234,8 @@ public class MemberController implements MemberSession{
 	// 아이디 찾기 -> 이메일, 휴대폰 번호
 	@PostMapping("findUserId")
 	public String findUserId(HttpServletRequest request, Model model) {
-		
 		int result = 0;
-		
-		// member or host 선택
-		String userSelect = request.getParameter("userSelect");
-		
-		// member랑 host 구분
-		if(userSelect.equals("member")) {
-			result = ms.findUserId(request, model);
-		} else if(userSelect.equals("host")) {
-			result = ms.findUserId(request, model);
-		}
+		result = ms.findUserId(request, model); // 입력받은 이메일, 휴대폰 번호 전달
 		
 		// 아이디 찾은 결과
 		if(result == 1) {
@@ -273,28 +256,16 @@ public class MemberController implements MemberSession{
 		return "yoonhee/findUserPwdForm";
 	}
 	
-	// 비밀번호 찾기 - 박성수: 수정필요.
+	// 비밀번호 찾기
 	@PostMapping("findUserPwd")
 	public String findUserPwd(HttpServletRequest request, Model model) {
-		
 		int result = 0;
-		
-		// member or host 선택
-		String userSelect = request.getParameter("userSelect");
-		model.addAttribute("userSelect", userSelect);
-		
-		// member랑 host 구분
-		if(userSelect.equals("member")) {
-			result = ms.findUserPwd(request, model);
-		} else if(userSelect.equals("host")) {
-			result = ms.findUserPwd(request, model);
-		}
+		result = ms.findUserPwd(request, model);
 		
 		if(result == 1) {
 			return "yoonhee/findUserPwdResult";  // 비밀번호 찾기 성공하면 결과 페이지로
 		}
 		return "yoonhee/findUserPwdForm"; // 비밀번호 찾기 실패하면 찾기 form 페이지로
-		
 	}
 	
 	
@@ -315,29 +286,16 @@ public class MemberController implements MemberSession{
 	
 	// 비밀번호 찾기에서 비밀번호 수정
 	@PostMapping("userUpdatePwd")
-	public String userUpdatePwd(HttpServletRequest request) {
-		
-		// System.out.println(request.getParameter("userSelect"));
-		
-		String userSelect = request.getParameter("userSelect");
-		
-		if(userSelect.equals("member")) {
-			MemberDTO dto = new MemberDTO();
-			dto.setId(request.getParameter("id"));
-			dto.setPwd(request.getParameter("newPwd"));
-			ms.userUpdatePwd(dto);
-			return "chenggyu/index";
-			
-		} else if(userSelect.equals("host")) {
-			MemberDTO hostDTO = new MemberDTO();
-			hostDTO.setId(request.getParameter("id"));
-			hostDTO.setPwd(request.getParameter("newPwd"));
-			ms.userUpdateHostPwd(hostDTO);
-			return "chenggyu/index";
-		}
-		
-		return "chenggyu/index";
+	@ResponseBody
+	public boolean userUpdatePwd(@RequestParam("id") String id, @RequestParam("newPwd") String newPwd) {
+		MemberDTO dto = new MemberDTO();
+		dto.setId(id);  		// 입력받은 아이디 dto에 저장
+		dto.setPwd(newPwd); 	// 입력받은 새 비밀번호 dto에 저장
+		ms.userUpdatePwd(dto);
+
+		return true;
 	}
+
 	
 	
 	//============================ 최윤희 끝 ===========================================

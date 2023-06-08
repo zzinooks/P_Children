@@ -17,8 +17,8 @@
 
 <script>
 $(document).ready(function(){
-	var userInputId = document.cookie;
-	var check = document.getElementById('checkbox');
+	let userInputId = document.cookie;
+	let check = document.getElementById('checkbox');
 	
 	if(document.memberLoginForm.userCheckFalse.value == "id"){ // 아이디 체크 할 때 못찾아서 경고창 발생
 		alert("아이디 또는 비밀번호가 틀렸습니다.");
@@ -32,13 +32,13 @@ $(document).ready(function(){
 	}
 });
 
+/* 삭제
 function userSelect(){
 	const select = document.memberLoginForm.userSelect.value;
 	
 	location.href = "${contextPath}/member/emailCheck?userSelect="+select;
-	
-	
 }
+*/
 </script>
 
 </head>
@@ -81,15 +81,19 @@ function userSelect(){
 				<div class="register">
 					<p><a onclick="userSelect()">회원가입</a></p>
 				</div>
+				<!--  0608 수정할 부분(삭제)
 				<div class="select">
-				<input type="radio" name="userSelect" value="member"  checked><label for="member"><a>일반</a></label>
-				<input type="radio" name="userSelect" value="host" ><label for="host"><a>호스트</a></label>
+					<input type="radio" name="userSelect" value="member"  checked><label for="member"><a>일반</a></label>
+					<input type="radio" name="userSelect" value="host" ><label for="host"><a>호스트</a></label>
 				</div>
+				-->
 			</form>
 		</div>
 	</section>
 
 	<c:import url="../default/footer.jsp"/>
+	
+	
 	
 </body>
 </html>

@@ -15,14 +15,17 @@
 <body>
 	<h1>아이디 찾기</h1>
 	<form name="findUserIdForm" action="${contextPath}/member/findUserId" method="post">
-		<input type="radio" name="userSelect" value="member" id="member" checked><label for="member">일반</label>
-		<input type="radio" name="userSelect" value="host" id="host"><label for="host">호스트</label>
-		<br>
 		<input type="text" name="findUserEmail" placeholder="이메일"><br>
 		<br>
 		<input type="text" name="findUserPhone" placeholder="휴대폰 번호"><br>
 		<br>
 		<input type="button" value="아이디 찾기" onclick="findUserIdCheck()">
 	</form>
+	
+	<!-- 확인하고 삭제 -->
+	<!--  
+	<input type="radio" name="userSelect" value="member" id="member" checked><label for="member">일반</label>
+	<input type="radio" name="userSelect" value="host" id="host"><label for="host">호스트</label>
+	-->
 </body>
 </html>

@@ -12,28 +12,6 @@
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=2"></script>
 <script>
-	//이메일 중복체크
-	$(function(){
-		$("#input_email").keyup(function(){
-			let email = $("#input_email").val();
-			
-			$.ajax({
-				url: "checkEmail",
-				type: "get",
-				data: {"email" : email},
-				success: function(data){
-					if(data === "OK"){
-						$("#email_").text("사용가능한 이메일 입니다.");
-					} else {
-						$("#email_").text("중복된 이메일 입니다.");
-					}
-				},
-				error: function(){
-					alert("Error");
-				}
-			});
-		});
-	});  
 	
 	// 인증코드 전송
 	function sendEmail(){
@@ -72,12 +50,8 @@
 <body>
 	<h1>비밀번호 찾기</h1>
 	<form name="findUserPwdForm" action="${contextPath}/member/findUserPwd" method="post">
-		<input type="radio" name="userSelect" value="member" id="member" checked><label for="member">일반</label>
-		<input type="radio" name="userSelect" value="host" id="host"><label for="host">호스트</label>
-		<br>
 		<input type="text" name="findUserId" placeholder="아이디 입력"><br>
 		<br>
-		
 		<!-- 이메일 인증 코드 -->
 		<input type="email" id="input_email" name="email" placeholder="이메일 입력">
 		<input type="button" value="인증코드 보내기" onclick="sendEmail()" >
@@ -94,7 +68,12 @@
 	</form>
 	
 		
-		
+	
+	<!-- 확인하고 삭제 -->
+	<!--
+	<input type="radio" name="userSelect" value="member" id="member" checked><label for="member">일반</label>
+	<input type="radio" name="userSelect" value="host" id="host"><label for="host">호스트</label>
+	-->		
 	<%-- <h1>비밀번호 찾기</h1>
 	<form name="findUserPwdForm" action="${contextPath}/member/findUserPwd" method="post">
 		<input type="radio" name="userSelect" value="member" id="member" checked><label for="member">일반</label>

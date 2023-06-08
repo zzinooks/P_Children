@@ -60,8 +60,14 @@ function findUserPwdCheck() {
 		alert("인증코드를 입력해주세요");
 		document.findUserPwdForm.input_code.focus();
 	}
+	else if(document.findUserPwdForm.code.value != document.findUserPwdForm.email_code.value) {
+		alert("인증코드가 일치하지않습니다.");
+		document.findUserPwdForm.input_code.focus();
+	}
 	else {
-		document.findUserPwdForm.submit();
+		if(document.findUserPwdForm.code.value == document.findUserPwdForm.email_code.value){
+			document.findUserPwdForm.submit();
+		}
 	}
 }
 
@@ -81,11 +87,14 @@ function userUpdatePwdCheck(){
 		alert("비밀번호가 일치하지 않습니다.");
 		document.findUserPwdResult.newRePwd.focus();
 	}
+	else if(document.findUserPwdResult.pwd.value == document.findUserPwdResult.newPwd.value) {
+		alert("현재 비밀번호로 다른 비밀번호로 변경하세요");
+		document.findUserPwdResult.newRePwd.focus();
+	}
 	else {
-		document.findUserPwdResult.submit();
+		userUpdatePwd();
 	}
 }
-
 
 
 // 체크박스
