@@ -6,19 +6,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>I Run it : 아이디 찾기 결과</title>
+<title>Mate With 아이디 찾기 결과</title>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=3" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<h3>고객님의 정보와 일치하는 아이디입니다.</h3>
-	<c:if test="${findUserId != null }">
-		<p>아이디 : ${findUserId.id }</p>
-	</c:if>
-	<c:if test="${findUserId == null }">
-		<p>회원 정보가 없습니다.</p>
-	</c:if>
+
+	<c:import url="../default/header.jsp"/>
 	
-	<a href="${contextPath }/member/memberLoginForm">로그인하기</a>
-	<a href="${contextPath }/member/findUserPwdForm">비밀번호 찾기</a>
+	<section>
+		<div class="form-box">
+			<form name="memberLoginForm" action="${contextPath}/member/userCheck" method="post" >
+				<h2>아이디 찾기 결과</h2>
+				<div class="inputbox_result">
+				<div class="main_1" id='main_1'>
+					<c:if test="${findUserId != null }">
+						<label for="">가입된 아이디 ${findUserId.id }</label>
+					</c:if>
+					<c:if test="${findUserId == null }">
+						<label for="">존재하지 않는 회원</label>
+					</c:if>
+					</div>
+				</div>
+				<button type="button"  value="로그인"  class="but_1" onclick="location.href='${contextPath }/member/memberLoginForm'">로그인</button>
+				<button type="button"  value="비밀번호 찾기" class="but_2_1" onclick="location.href='${contextPath }/member/findUserPwdForm'">비밀번호 찾기</button>
+			</form>
+		</div>
+	</section>
+
+	<c:import url="../default/footer.jsp"/>
 	
 </body>
 </html>

@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>member_information</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 </script>
 <style type="text/css">
@@ -26,52 +26,47 @@ th, td {
 </head>
 <body>
 	
-		<c:import url="../default/header.jsp"/>
+	<c:import url="../default/header.jsp"/>
 		
-		<section>
-		<br>
-		<h1>개인 정보</h1>
-		<br>
-		<table >
-			<tr>
-				<th>아이디</th>
-				<th>${dto.id }</th>
-			</tr>
-			<tr>
-				<th>등급</th>
-				<th>${dto.grade }</th>
-			</tr>
-			<tr>
-				<th>닉네임</th>
-				<th>${dto.nickname }</th>
-			</tr>
-			<tr>
-				<th>이메일</th>
-				<th>${dto.email }</th>
-			</tr>
-			<tr>
-				<th>휴대전화</th>
-				<th>${dto.phone }</th>
-			</tr>
-			<tr>
-				<th>주소</th>
-				<th>${dto.addr }</th>
-			</tr>
-		</table>
-		
-		<br><br>
-		<a href="/root/index">index</a>
-		<br>
-		<a href="/root/member/member_information ">개인 정보</a>
-		<br>
-		<a href="/root/member/member_modify">개인정보 수정</a>
-		<br>
-		<a href="/root/member/member_board">나의 게시글</a>
-		<br>
-		<a href="/root/member/member_qna ">1:1 문의</a>
-		<br>
-		<a href="/root/member/member_leave ">회원 탈퇴</a>
-	
+		<section><!-- body -->
+		<div class="form-box"> <!--  container  -->
+		<div class="title">회원 정보</div>
+		<form >
+			<div class="user-details">
+				<div class="input-box">
+					<span class="details">아이디</span>
+					<input type="text"  value="${dto.id }" readonly="readonly">	
+				</div>
+				<div class="input-box">
+					<span class="details">등급</span>
+					<input type="text" value="${dto.grade }" readonly="readonly">
+				</div>
+				<div class="input-box">
+					<span class="details">닉네임</span>
+					<input type="text" value="${dto.nickname }" readonly="readonly" >
+				</div>
+				<div class="input-box">
+					<span class="details">휴대번호</span>
+					<input type="text" value="${dto.phone }" readonly="readonly">
+				</div>
+				<div class="input-box">
+					<span class="details">이메일</span>
+					<input type="text" value="${dto.email }" readonly="readonly">
+				</div>
+				<div class="input-box" >
+					<span class="details">주소</span>
+					<input type="text" value="${dto.addr }"  readonly="readonly">
+					<input type="text" value="${dto.addr }"  readonly="readonly">
+				</div>
+			</div>
+			<div class="button">
+				<input type="button" value="개인정보 수정" onclick="valueCheck()" class="but_1">
+				<input type="button" value="나의 게시글" onclick="valueCheck()" class="but_1">
+				<input type="button" value="1:1 문의" onclick="valueCheck()" class="but_1">
+				<input type="button" value="회원 탈퇴" onclick="valueCheck()" class="but_1">
+			</div>
+		</form>
+		</div>
 	</section>
 	
 	<c:import url="../default/footer.jsp"/>

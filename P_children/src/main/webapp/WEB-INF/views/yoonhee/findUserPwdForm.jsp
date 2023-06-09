@@ -8,15 +8,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>I Run it : 비밀번호 찾기</title>
+<title>Mate With 비밀번호 찾기</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=3" rel="stylesheet" type="text/css">
 <script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=2"></script>
 <script>
 	
 	// 인증코드 전송
 	function sendEmail(){
 		let email = $("#input_email").val();
-		
+
+		if(email == ""){
+			alert("이메일을 입력해 주세요!");
+			$("#input_email").focus();
+			return;
+		}
 		$.ajax({
 			url: "sendFindPwdEmailCode",
 			type: "get",
@@ -38,6 +44,7 @@
 		
 		if(code === check && code != ""){
 			$("#result").text("인증 성공");
+			$
 		} else {
 			$("#result").text("인증 실패");
 			$("#input_code").focus();
@@ -48,43 +55,48 @@
 </script>
 </head>
 <body>
-	<h1>비밀번호 찾기</h1>
-	<form name="findUserPwdForm" action="${contextPath}/member/findUserPwd" method="post">
-		<input type="text" name="findUserId" placeholder="아이디 입력"><br>
-		<br>
-		<!-- 이메일 인증 코드 -->
-		<input type="email" id="input_email" name="email" placeholder="이메일 입력">
-		<input type="button" value="인증코드 보내기" onclick="sendEmail()" >
-		<br>
-		<span id="email_"></span>
-		<br><br>
-		
-		인증코드 : <input type="text" id="input_code" name="code" placeholder="받은 메일의 인증코드 입력."> &nbsp;
-		<input type="button" value="확인" onclick="CheckCode()"><br>
-		<span id="result"></span>
-		<input type="hidden" id="email_code" ><br>
-		
-		<input type="button" value="비밀번호 찾기" onclick="findUserPwdCheck()">
-	</form>
+
+	<c:import url="../default/header.jsp"/>
 	
+	<section>
+		<div class="form-box">
+			<form name="findUserPwdForm" action="${contextPath}/member/findUserPwd" method="post">
+				<h2>비밀번호 찾기</h2>
+				<div class="inputbox">
+					<div class="ion-icon">
+					<i class='bx bx-user'></i>
+					</div>
+					<input type="text"  name="findUserId" required="required">
+					<label for="">아이디</label>
+				</div>
+				<div class="inputbox">
+					<div class="ion-icon">
+					<i class='bx bx-envelope' onclick="sendEmail()"></i>
+					</div>
+					<input type="text" id="input_email" name="email" required="required">
+					<label for="">이메일</label>
+				</div> 
+				<div class="inputbox">
+					<div class="ion-icon">
+					<i class='bx bxs-envelope' onclick="CheckCode()"></i>
+					</div>
+					<input type="text" id="input_code" name="code" required="required">
+					<label for="">인증코드</label>
+				</div>
+				<div class="main" id='main'>
+						<span id="result"></span>
+				</div>
+					<input type="hidden" id="email_code" >
+				<button value="비밀번호 찾기" class="but_1" onclick="findUserPwdCheck()">비밀번호 찾기</button>
+				
+			</form>
+		</div>
+	</section>
+
+	<c:import url="../default/footer.jsp"/>
 		
 	
-	<!-- 확인하고 삭제 -->
-	<!--
-	<input type="radio" name="userSelect" value="member" id="member" checked><label for="member">일반</label>
-	<input type="radio" name="userSelect" value="host" id="host"><label for="host">호스트</label>
-	-->		
-	<%-- <h1>비밀번호 찾기</h1>
-	<form name="findUserPwdForm" action="${contextPath}/member/findUserPwd" method="post">
-		<input type="radio" name="userSelect" value="member" id="member" checked><label for="member">일반</label>
-		<input type="radio" name="userSelect" value="host" id="host"><label for="host">호스트</label>
-		<br>
-		<input type="text" name="findUserId" placeholder="아이디"><br>
-		<br>
-		<input type="text" name="findUserEmail" placeholder="이메일"><br>
-		<br>
-		<input type="button" value="비밀번호 찾기" onclick="findUserPwdCheck()">
-	</form> --%>
+
 </body>
 </html>
 

@@ -18,7 +18,7 @@
 
 	<div class="container"></div>
 	<header class="header" >
-		<a href="${contextPath }/index" class="logo"><i class='bx bx-globe'></i><span>index </span></a>
+		<a href="${contextPath }/index" class="logo"><i class='bx bxs-dog'></i><span>Mate With</span></a>
 		<nav class="navbar">
 			<a href="${contextPath }/index" class="active">메인</a>
 			<a href="${contextPath }/board/notice/noticeBoardAllList">공지 사항</a>

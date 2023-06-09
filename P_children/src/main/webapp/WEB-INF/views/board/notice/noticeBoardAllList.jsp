@@ -4,6 +4,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<script src="${contextPath }/resources/yoonhee/js/noticeBoardScript.js?v=2"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +32,33 @@
 		}
 		
 	}
+	
+	// 카테고리 분류
+	function selectCat(){
+		document.categorySelect.submit();
+		/*
+		let noticeCategorySelect = document.getElementById('noticeCategoryDivision');
+	 	let noticeCategoryOption = noticeCategorySelect.options[noticeCategorySelect.selectedIndex].value;
+	 	
+	 	console.log(noticeCategoryOption);
+		
+		if(!noticeCategoryOption == ""){
+			$.ajax({
+				url: "noticeCategorySelect",
+				type: "get",
+				data: {"noticeCategoryOption" : noticeCategoryOption},
+				success: function(option){
+					alert(option);
+					location.href='/root/board/notice/noticeBoardAllList';
+				},
+				error: function(){
+					alert("error");
+				}	
+			});
+		}
+		*/
+	}
+	
 </script>
 <style type="text/css">
 
@@ -65,8 +93,8 @@ body {
 	z-index: 
 }
 
-/* 파일 이름 숨기기 */
-.fileView {
+/* 숨기기 */
+.valueHiddenView {
 	display: none;
 }
 </style>
@@ -76,12 +104,24 @@ body {
 <%-- <c:import url="../../default/header.jsp"/> --%>
 	<h1>공지사항</h1>
 	<div class="wrap board_table">
+		<form name="categorySelect" action="${contextPath }/board/notice/noticeCategorySelect" method="get">
+			<select name="noticeCategorySelect" id="noticeCategoryDivision" onchange="selectCat()">
+				<option value="전체" <c:if test="${cate == '전체' }">selected</c:if>>전체</option>
+				<option value="일반" <c:if test="${cate == '일반' }">selected</c:if>>일반</option>
+				<option value="이벤트" <c:if test="${cate == '이벤트' }">selected</c:if>>이벤트</option>
+				<option value="상품" <c:if test="${cate == '상품' }">selected</c:if>>상품</option>
+				<option value="배송지연" <c:if test="${cate == '배송지연' }">selected</c:if>>배송지연</option>
+			</select>
+		</form>		
+		<input type="hidden" name="noticeBoardPageNum" value="1">
+		<input type="hidden" name="noticeBoardAmount" value="3">
+		
 		<table class="table table-striped">
 			<tr>
-				<th width="70px"> 번 호 </th>
+				<th width="150px"> 구 분 </th>
 				<th width="200px"> 제 목 </th>
 				<th width="150px"> 작성자 </th>
-				<th width="200px"> 날 짜 </th>
+				<th width="200px"> 작성일 </th>
 				<th width="70px"> 조회수 </th>
 				<c:if test ="${info.grade == admin}"> <!-- info.grade(gold) == admin(관리자) 일 때 -->
 					<th>관리자 권한</th>
@@ -98,12 +138,27 @@ body {
 				<c:otherwise>
 					<c:forEach var="noticeBoardDTO" items="${noticeBoardList }">
 						<tr>
-							<td id="write_no">${noticeBoardDTO.write_no}</td>
+							<td class="valueHiddenView" id="write_no">${noticeBoardDTO.write_no}</td><!-- 값만 받아오기 위해 숨김 -->
+							<td class="valueHiddenView" id="file_name">${noticeBoardDTO.file_name }</td><!-- 값만 받아오기 위해 숨김 -->
+							<!-- 카테고리 구분 -->
+							<td>
+								<c:if test="${noticeBoardDTO.category == '일반' }">
+								 일반 
+								</c:if>
+								<c:if test="${noticeBoardDTO.category == '이벤트' }">
+								 이벤트 
+								</c:if>
+								<c:if test="${noticeBoardDTO.category == '상품' }">
+								 상품 
+								</c:if>
+								<c:if test="${noticeBoardDTO.category == '배송지연' }">
+								 배송지연 
+								</c:if>
+							</td>
 							<td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}">${noticeBoardDTO.title }</a></td>
 							<td>${noticeBoardDTO.id }</td>
 							<td>${noticeBoardDTO.savedate }</td>
 							<td>${noticeBoardDTO.hit }</td>
-							<td class="fileView" id="file_name" value="${noticeBoardDTO.file_name }"></td>
 							<c:if test ="${info.grade == admin}">
 								<td>
 									<button onclick="noticeBoardDeleteConfirm('${noticeBoardDTO.write_no}','${noticeBoardDTO.file_name }')">삭제</button>

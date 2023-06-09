@@ -54,7 +54,6 @@ public interface MemberService {
 	public void kakaoPaymentApprove(String kakaoPaymentApproveUrl, String adminKey, String pg_token, HttpSession session);
 	
 	
-	
 	//============================ 박성수 끝 ===========================================
 
 	

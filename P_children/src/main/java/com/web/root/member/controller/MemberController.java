@@ -130,6 +130,12 @@ public class MemberController implements MemberSession{
 	
 	//============================ 박성수 시작 ===========================================
 	
+	@RequestMapping("select")
+	public String select() {
+		return "member/select";
+	}
+	
+	
 	@RequestMapping("registForm")
 	public String memberRegistFrom(@RequestParam("email") String email, Model model) {
 		model.addAttribute("checkedEmail", email);
@@ -144,7 +150,7 @@ public class MemberController implements MemberSession{
 				  +request.getParameter("zonecode") + "/";
 		dto.setAddr(addrMerge);
 		String message = ms.registHost(dto);
-		return "sungsu/main";
+		return "yoonhee/memberLoginForm";
 	}
 	
 	@RequestMapping("checkId")
@@ -249,8 +255,6 @@ public class MemberController implements MemberSession{
 		
 		return "";
 	}
-	
-
 	
 	
 

@@ -49,6 +49,14 @@ h1 {
 		<div class="modify_save">
 		<form name="noticeBoardModifyForm" action="${contextPath }/board/notice/noticeBoardModifySave" enctype="multipart/form-data" method="post">
 			<input type="hidden" name="write_no" value="${noticeBoardDTO.write_no }"/>
+			<b> 구 분 </b><br>
+			<select name="category" id="noticeCategory">
+				<option value="" selected> -- 선택 -- </option>
+				<option value="일반"> 일반 </option>
+				<option value="이벤트"> 이벤트 </option>
+				<option value="상품"> 상품 </option>
+				<option value="배송지연"> 배송지연 </option>
+			</select> <br><br>
 			<b> 제 목 </b><br>
 			<input type="text" name="title" value="${noticeBoardDTO.title }"><br>
 			<b> 내 용 </b><br>
@@ -58,7 +66,6 @@ h1 {
 			<img src="${contextPath }/board/notice/noticeBoardDownload?file_name=${noticeBoardDTO.file_name}" id="preview" width="100px" height="100px"><br>
 			<br>
 			<input type="button" onclick="noticeBoardModifyFormCheck()" value="수정하기"/> &nbsp;
-			<!-- <input type="button" value="수정하기" onclick="noticeBoardModifyConfirm(write_no, title, content, file_name)"/> &nbsp; -->
 			<input type="button" value="이전으로돌아가기" onclick="history.back()"/>
 		</form>
 		</div>
