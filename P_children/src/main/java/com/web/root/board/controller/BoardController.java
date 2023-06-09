@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -184,6 +186,7 @@ public class BoardController implements MemberSession{
 		return "board/notice/noticeBoardAllList";
 	}
 	
+	
 	// 공지사항 게시글 보기
 	@RequestMapping("notice/noticeBoardContentView")
 	public String noticeBoardContentView(Model model, 
@@ -288,6 +291,39 @@ public class BoardController implements MemberSession{
 		out.println(message);
 		
 	}
+	
+	
+	// 공지사항 게시판 카테고리 조회
+	@RequestMapping(value="notice/noticeCategorySelect")
+	public String noticeCategorySelect(@RequestParam("noticeCategorySelect") String noticeCategoryOption, Model m,
+									   @RequestParam(value="num", required = false, defaultValue="1") int num,
+									   HttpSession session) {
+
+		if(noticeCategoryOption.equals("전체")) {
+			noticeCategoryOption = "%%";
+		}
+		
+		bs.noticeCategorySelect(noticeCategoryOption, m, num);
+		
+		String id = (String) session.getAttribute(LOGIN);
+		
+		// 로그인을 했을 때 아이디 정보값을 가져온다.
+		if(id != null) {
+			ms.userInfo(id, m); // 회원정보 저장
+		}
+		
+		m.addAttribute("num",num); // 페이지 번호 저장
+		
+		m.addAttribute("admin", ADMIN); // 관리자 아이디 저장
+		
+		
+		//m.addAttribute("noticeBoardList", noticeBoardDTO);
+		m.addAttribute("cate", noticeCategoryOption);
+		
+		
+		return "board/notice/noticeBoardAllList";
+	}
+	
 		
 		
 	//============================ 최윤희 끝 ===========================================

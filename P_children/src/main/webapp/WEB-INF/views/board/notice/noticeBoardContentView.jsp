@@ -106,9 +106,12 @@ h1 {
 	<div class="wrap contentView">
 		<table class="table table-striped">
 			<tr>
-				<th width="100px"> 글번호 </th><td width="200px" class="form-control input-sm">${noticeBoardDTO.write_no }</td>
+				<th width="100px"> 구 분 </th><td width="200px" class="form-control input-sm">${noticeBoardDTO.category }</td>
 				<th width="100px"> 작성자 </th><td width="200px" class="form-control input-sm">${noticeBoardDTO.id }</td>
 			</tr>
+			<%-- <tr>
+				<th width="100px"> 글번호 </th><td width="200px" class="form-control input-sm">${noticeBoardDTO.write_no }</td>
+			</tr> --%>
 			<tr>
 				<th width="100px"> 제 목 </th><td width="200px" class="form-control input-sm">${noticeBoardDTO.title }</td>
 				<th width="100px"> 작성일 </th><td width="200px" class="form-control input-sm">${noticeBoardDTO.savedate }</td>
@@ -131,8 +134,6 @@ h1 {
 					<input type="button" value="삭제하기" onclick="noticeDeleteConfirm()" /> &nbsp;
 				</c:if>	
 					<input type="button" value="글목록" onclick="location.href='${contextPath }/board/notice/noticeBoardAllList?num=${num}'"> <!-- 글목록 클릭할 때 원래 페이지 목록으로 가도록 -->
-					<%-- <input type="hidden" value="${num }" name="num" > --%>
-					
 				</td>
 			</tr>
 		</table>

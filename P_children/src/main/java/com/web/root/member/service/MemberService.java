@@ -47,9 +47,7 @@ public interface MemberService {
 	public int registKakaoUser(String token, String kakaoidurl, HttpSession session) throws IOException;
 	
 	public String kakaoLogout(String token, String kakaologouturl);
-	
-	
-	
+
 	
 	//============================ 박성수 끝 ===========================================
 

@@ -88,7 +88,7 @@ function userUpdatePwdCheck(){
 		document.findUserPwdResult.newRePwd.focus();
 	}
 	else if(document.findUserPwdResult.pwd.value == document.findUserPwdResult.newPwd.value) {
-		alert("현재 비밀번호로 다른 비밀번호로 변경하세요");
+		alert("현재 비밀번호입니다. 다른 비밀번호로 변경하세요");
 		document.findUserPwdResult.newRePwd.focus();
 	}
 	else {

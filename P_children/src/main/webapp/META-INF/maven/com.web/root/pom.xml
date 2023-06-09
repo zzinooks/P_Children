@@ -21,7 +21,6 @@
 	  </repository>
 	</repositories>
 	<dependencies>
-
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>
