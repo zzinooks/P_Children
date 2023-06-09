@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.root.mybatis.kakao.KakaoPayMapper">
+	
+	<resultMap type="com.web.root.kakaoPay.dto.KakaoPaymentApproveResultDTO" id="kakaoPaymAppRes">
+		<result property="tid" column="tid"/>
+		<result property="cid" column="cid"/>
+		<result property="aid" column="aid"/>
+	</resultMap>
+	
+	<insert id="registKakaoPaymentApproveResult">
+		INSERT INTO kakaopay_approve_result VALUES(#{tid}, #{cid}, #{aid})
+	</insert>
+	
+	<insert id="test">
+		INSERT INTO kakaopay_approve_result VALUES(#{body})
+	</insert>
+	
+	
+
+</mapper>
+

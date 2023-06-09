@@ -20,9 +20,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.root.kakaoPay.dto.ItemDTO;
+import com.web.root.kakaoPay.dto.KakaoPaymentApproveResultDTO;
 import com.web.root.member.dto.KakaoLoginDTO;
 //github.com/ssp930/P_Children
 import com.web.root.member.dto.MemberDTO;
+import com.web.root.mybatis.kakao.KakaoPayMapper;
 import com.web.root.mybatis.member.MemberMapper;
 
 @Service
@@ -36,6 +39,9 @@ public class MemberServiceImp1 implements MemberService {
 	
 	@Inject
 	JavaMailSender mailSender;
+	
+	@Autowired
+	KakaoPayMapper kakaoPayMapper;
 	
 	
 	@Override
@@ -248,6 +254,102 @@ public class MemberServiceImp1 implements MemberService {
 		}
 		return kakaoLogoutId;
 	}
+	
+	@Override
+	public String readyKakaoPay(
+				String adminKey,
+				String contentType,
+				String kakaoPayReadyUrl,
+				ItemDTO itemDTO,
+				HttpSession session) {
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		HttpHeaders headers = new HttpHeaders();
+		RestTemplate restTemplate = new RestTemplate();
+        
+        headers.add("Authorization", "KakaoAK " + adminKey);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        MultiValueMap<String, String> params =
+				new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("partner_order_id", "mateWith_Partner");
+        params.add("partner_user_id", "mateWith_User");
+        params.add("item_name", itemDTO.getItem_name());
+        params.add("quantity", Integer.toString(itemDTO.getQuantity()));
+        params.add("total_amount", Integer.toString(itemDTO.getTotal_amount()));
+        params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10));
+        params.add("tax_free_amount", "0");
+        params.add("approval_url", "http://localhost:8080/root/member/success");
+        params.add("fail_url", "http://localhost:8080/root/member/fail");
+        params.add("cancel_url", "http://localhost:8080/root/member/kakaoPayBtn");
+
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = 
+        		restTemplate.postForEntity(kakaoPayReadyUrl, entity, String.class);
+        
+        String kakaoPayRequestURL = ""; 
+        String tid = "";
+        String created_at = "";
+		try {
+			kakaoPayRequestURL = objectMapper.readTree(response.getBody())
+								.get("next_redirect_pc_url").asText();
+			tid = objectMapper.readTree(response.getBody())
+					.get("tid").asText();
+			
+			session.setAttribute("tid", tid);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return kakaoPayRequestURL;
+	}
+	
+	@Override
+	public void kakaoPaymentApprove(String kakaoPaymentApproveUrl, String adminKey, String pg_token, HttpSession session) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		String tid = (String)session.getAttribute("tid");
+		
+		headers.add("Authorization", "KakaoAK " + adminKey);
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> params =
+				new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("tid", tid);
+        params.add("partner_order_id", "mateWith_Partner");
+        params.add("partner_user_id", "mateWith_User");
+        params.add("pg_token", pg_token);
+        
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = 
+        		restTemplate.postForEntity(kakaoPaymentApproveUrl, entity, String.class);
+        
+        System.out.println(response.getBody());
+        
+        String cid = "";
+        String aid = "";
+		try {
+			cid = objectMapper.readTree(response.getBody())
+					.get("cid").asText();
+			aid = objectMapper.readTree(response.getBody())
+					.get("aid").asText();
+			
+//			KakaoPaymentApproveResultDTO kakaoPaymentApproveResultDTO =
+//					new KakaoPaymentApproveResultDTO(tid, cid, aid); 
+//			kakaoPayMapper.registKakaoPaymentApproveResult(kakaoPaymentApproveResultDTO);
+			kakaoPayMapper.test(response.getBody());
+			session.removeAttribute("tid");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+		
+		
+	}
+	
 	
 	
 	//============================ 박성수 끝 ===========================================
