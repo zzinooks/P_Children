@@ -234,8 +234,8 @@ public class MemberController implements MemberSession{
 		return redirectView;
 	}
 	
-	private static final String KAKAO_PAYMENT_APPROVE_URL = "https://kapi.kakao.com/v1/payment/approve";
 	// 카카오 페이 결제 승인
+	private static final String KAKAO_PAYMENT_APPROVE_URL = "https://kapi.kakao.com/v1/payment/approve";
 	@RequestMapping("success")
 	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, HttpSession session) {
 		ms.kakaoPaymentApprove(KAKAO_PAYMENT_APPROVE_URL, ADMIN_KEY, pg_token, session);
@@ -258,14 +258,21 @@ public class MemberController implements MemberSession{
 		return "sungsu/kakaoPaymentApproveList";
 	}
 	
-	private static final String KAKAO_PAYMENT_ORDER_URL = "https://kapi.kakao.com/v1/payment/order";
 	// 카카오페이 결제 상세 조회
+	private static final String KAKAO_PAYMENT_ORDER_URL = "https://kapi.kakao.com/v1/payment/order";
 	@GetMapping("kakaoPaymentOrderInfo")
-	public String kakaoPaymentOrder() {
-		
+	public String kakaoPaymentOrder(Model model, HttpServletRequest request) {
+		ms.selectKakaoPaymentOrderInfo(KAKAO_PAYMENT_ORDER_URL, ADMIN_KEY,model, request);
 		return "sungsu/kakaoPaymentOrderInfo";
 	}
 	
+	// 카카오페이 결제 취소
+	private static final String KAKAO_PAYMENT_CANCEL_URL = "https://kapi.kakao.com/v1/payment/cancel";
+	@GetMapping("kakaoPaymentCancel")
+	public String kakaoPaymentCancel(HttpServletRequest request) {
+		ms.kakaoPaymentCancel(KAKAO_PAYMENT_CANCEL_URL, ADMIN_KEY, CONTENT_TYPE, request);
+		return "sungsu/kakaoPaymentApproveList";
+	}
 	
 
 	
