@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,21 +44,22 @@ public class BoardController implements MemberSession{
 	
 	//============================ 주진욱 시작 ===========================================
 	
-	
-	/*
-	@GetMapping("boardAllList")
-	public String boardAllList(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
-		bs.boardAllList(model);
-		return "/board/boardAllList";
-	}
-	*/
-	
 	@GetMapping("boardAllList")
 	public String boardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
-		bs.boardAllList(model, num, request);
-		String id = (String) session.getAttribute(LOGIN);
 		
+		// boardList 생성
+		bs.boardAllList(model, num, request);
+		
+		// 카카오톡 아이디 추가
+		String kakaoId = (String) session.getAttribute("kakaoId");
+		
+		if(kakaoId == null) { // 카카오톡 아이디 없을 때
+		String id = (String) session.getAttribute(LOGIN);
 		ms.userInfo(id, model);
+		} else { // 카카오톡 아이디 있을 때
+		model.addAttribute("kakaoId", kakaoId);
+		}
+		
 		model.addAttribute("admin", ADMIN);
 		return "/board/boardAllList"; 
 	}
@@ -67,7 +67,13 @@ public class BoardController implements MemberSession{
 	@RequestMapping("writeForm")
 	public String writeForm(HttpSession session, Model model) {
 		String id = (String) session.getAttribute(LOGIN);
-		model.addAttribute("user", id);
+		if(id.equals("noLogin")) { // 카카오 아이디로 로그인일 때
+			// 카카오톡 아이디 추가
+			String kakaoId = (String) session.getAttribute("kakaoId");
+			model.addAttribute("user", kakaoId);
+		} else {
+			model.addAttribute("user", id);
+		}
 		return "/board/writeForm";
 	}
 	
@@ -185,7 +191,6 @@ public class BoardController implements MemberSession{
 		model.addAttribute("admin", ADMIN); // 관리자 아이디 저장
 		return "board/notice/noticeBoardAllList";
 	}
-	
 	
 	// 공지사항 게시글 보기
 	@RequestMapping("notice/noticeBoardContentView")

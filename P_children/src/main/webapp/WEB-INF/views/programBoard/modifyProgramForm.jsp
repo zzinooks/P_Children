@@ -1,20 +1,28 @@
 
-<!-- board/writeForm.jsp -->
+<!-- programBoard/modifyProgramForm.jsp -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<%
+	String num2 = request.getParameter("num");
+	if(num2.equals("null")){
+		num2 = "1";
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>펫위드-프로그램 등록</title>
+<title>펫위드-프로그램 수정</title>
 <script type="text/javascript">
+
+	// 파일 업로드 되면 img 태그에 파일 이미지 보이게 하기
    function readURL(input){
       var file = input.files[0]; // 파일 정보
       if(file != ""){
@@ -26,14 +34,18 @@
          
       }
    }
-     $( function() {
-       $( "#datepicker1" ).datepicker();
-     } );
-     $( function() {
-       $( "#datepicker2" ).datepicker();
-     } );
-</script>
-<script type="text/javascript">
+   
+	// 시작 날짜 선택(달력 api)
+	$( function() {
+	  $( "#datepicker1" ).datepicker();
+	} );
+   
+	// 끝나는 날짜 선택(달력 api)
+	$( function() {
+	  $( "#datepicker2" ).datepicker();
+	} );
+     
+	// 위치_1 선정될 경우 이에 맞게 위치_2 datalist 추가 기능
    function position_1Selected() {
       let position1 = $("#position1").val();
       $.ajax({
@@ -46,7 +58,7 @@
             if($("#smallScaleDiv").length > 0) { // 선택 후 수정 시 : 이전 목록 삭제
                $("#smallScaleDiv").empty();
             }
-            if(data == "서울") {
+            if(data == "서울") { // 위치_1이 서울일 경우
                alert(data);
                htm += "<datalist id='position_smallScale_list'>"
                htm += "<option value='전체' label='전체'>"
@@ -78,7 +90,7 @@
                htm += "<option value='전지역' label='전지역'>"
                htm += "</datalist>"
             }
-            if(data == "경기") {
+            if(data == "경기") {  // 위치_1이 경기도일 경우
                alert(data);
                htm += "<datalist id='position_smallScale_list'>"
                htm += "<option value='가평군' label='가평군'>";
@@ -134,6 +146,16 @@
          }
       })
    }
+	
+	// 수정 확인 및 제출
+	function modifyConfirm(){
+		
+		if(!confirm('수정하시겠습니까?')){
+			return false;
+		} else {
+			$("#modifyProgramForm").submit();
+		}
+	}
 </script>
 <style type="text/css">
 h1 {
@@ -148,22 +170,22 @@ h1 {
 </head>
 <body>
    <%-- <c:import url="../default/header.jsp"/> --%>
-   <h1>펫위드-프로그램 등록</h1>
+   <h1>펫위드-프로그램 수정</h1>
    <br><br>
    <div class="wrap write_form">
       <div class="write_save">
       <table class="table table-striped">
-         <form action="${contextPath }/programBoard/writeSaveForProgram" enctype="multipart/form-data" method="post">
+         <form id="modifyProgramForm" action="${contextPath }/programBoard/modifySaveForProgram" enctype="multipart/form-data" method="post">
             <tr>
                <th><b> 작성자 </b><br></th>
                <td><input type="text" name="id" value="${user }" readonly><br></td>
                <th><b> 프로그램 이 름 </b><br></th>
-               <td><input type="text" name="title"><br></td>
+               <td><input type="text" name="title" value="${programBoardDTO.title }"><br></td>
             </tr>
             <tr>
                <th><b> 견 종 </b><br></th>
                <td>
-                  <input list="petKind_list" id="petKind" name="petKind" placeholder="견종을 검색해보세요">
+                  <input list="petKind_list" id="petKind" name="petKind" placeholder="견종을 검색해보세요" value="${programBoardDTO.petKind}">
                   <datalist id="petKind_list">
                      <option value="아이누" label="아이누(Ainu)"/>
                      <option value="에어덜테리어" label="에어덜 테리어(Airdale Terrier)"/> 
@@ -342,17 +364,21 @@ h1 {
                   </datalist>
                   </td>
                <th><b> 강아지 이름 </b></th>
-               <td><input type="text" name="mateName" /></td>
+               <td><input type="text" name="mateName" value="${programBoardDTO.mateName }"/></td>
             </tr>
             <tr>
                <th> 강아지 사진 </th>
                <td>
-                  <input type="file" name="file" onchange="readURL(this)"/>
-                  <img src="#" id="preview" width="100px" height="100px">
-               </td>
+					<c:if test="${programBoardDTO.mateImage == 'nan'}">
+						<b>이미지가 없습니다...</b>
+					</c:if>
+					<c:if test="${programBoardDTO.mateImage != 'nan'}">
+						<img src="${contextPath }/board/download?file_name=${programBoardDTO.mateImage}" width="200px" height="200px">
+					</c:if>
+				</td>
                <th> 위치 </th>
                <td>
-                  <input list="position_largeScale_list" id="position1" name="position1" onchange="position_1Selected()" placeholder="위치(시)" >
+                  <input list="position_largeScale_list" id="position1" name="position1" onchange="position_1Selected()" value="${programBoardDTO.position1 }" placeholder="위치(시)">
                   <datalist id="position_largeScale_list">
                      <option value="서울" label="서울">
                      <option value="경기" label="경기">
@@ -374,7 +400,7 @@ h1 {
                      <option value="전국" label="전국">
                   </datalist>
                   <br><br>
-                  <input list="position_smallScale_list" id="position2" name="position2" placeholder="위치(구)">
+                  <input list="position_smallScale_list" id="position2" name="position2" value="${programBoardDTO.position2 }" placeholder="위치(구)">
                   
                   <!-- 위치(시) 선택시 위치(구) 내용 나오는 위치 -->
                   <div id="smallScaleDiv"></div>
@@ -383,25 +409,37 @@ h1 {
             </tr>
             <tr>
                <th rowspan="3"><b> 내 용 </b></th>
-               <td rowspan="3" style="right-padding: 0"><textarea name="content" rows="10" cols="50"></textarea></td>
+               <td rowspan="3" style="right-padding: 0"><textarea name="content" rows="10" cols="50">${programBoardDTO.content }</textarea></td>
                <th style="left-padding: 0"> 시 작 날 짜 <br><br> 시작 시간 </th>
-               <td><input type="text" id="datepicker1" name="startDate"> <br><br> <input type="time" name="startTime" id="startTime"></td>
+               <td><input type="text" id="datepicker1" name="startDate" value="${programBoardDTO.startDate}"> <br><br> <input type="time" name="startTime" id="startTime" value="${programBoardDTO.startTime}"></td>
             </tr>
             <tr>
                <th style="left-padding: 0"> 종 료 날 짜 <br><br> 종료 시간</th>
-               <td><input type="text" id="datepicker2" name="endDate"><br><br> <input type="time" name="endTime" id="endTime"></td>
+               <td><input type="text" id="datepicker2" name="endDate" value="${programBoardDTO.endDate}"><br><br> <input type="time" name="endTime" id="endTime" value="${programBoardDTO.endTime}"></td>
             </tr>
             <tr>
                <th style="left-padding: 0">프 로 그 램  비 용</th>
-               <td colspan="3"><input type="text" name="priceForProgram" id="priceForProgram" placeholder="숫자만 입력하세요"/> <b>원</b></td>
+               <td colspan="3"><input type="text" name="priceForProgram" id="priceForProgram"  value="${programBoardDTO.priceForProgram }" placeholder="숫자만 입력하세요"/> <b>원</b></td>
+               <td><b> 현황</b></td>
+               <td>
+               	<input list="state_list" type="text" id="state" name="state" value="${programBoardDTO.state }">
+               	<datalist id="state_list">
+               		<option value="예약 가능" label="예약 가능"/>
+               		<option value="승인 대기" label="승인 대기"/>
+               		<option value="예약 완료" label="예약 완료"/>	
+               	</datalist>
+               </td>
             </tr>
             <tr>
                <td colspan="4">
-                  <input type="submit" value="완료"/> &nbsp; 
-                  <input type="reset" value="취소" onclick="location.href='${contextPath}/programBoard/programBoardAllList'"/> &nbsp;
+				<c:if test="${user == programBoardDTO.id }">
+                  <input type="button" onclick="modifyConfirm()" value="수정 완료"/> &nbsp;
+                  <input type="button" value="삭제"/> &nbsp; 
+                </c:if>
                   <input type="button" value="글목록" onclick="location.href='${contextPath}/programBoard/programBoardAllList'"/>
                </td>
             </tr>
+            <input type="hidden" name="write_no" value="${programBoardDTO.write_no}">
          </form>
       </table>
       </div>

@@ -1,6 +1,5 @@
 package com.web.root.board.interceptor;
 
-import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,14 +16,9 @@ public class BoardInterceptor extends HandlerInterceptorAdapter implements Membe
 			throws Exception {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		if(session.getAttribute(LOGIN) == null) {
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('로그인 하세요~');"
-					+"location.href='"
-					+request.getContextPath()
-					+"/member/memberLoginForm'</script>");
-			return false;
+		if(session.getAttribute(LOGIN) == null && session.getAttribute("kakaoId") == null) {
+			session.setAttribute(LOGIN, "noLogin");
+			return true;
 		}
 		return true;
 	}

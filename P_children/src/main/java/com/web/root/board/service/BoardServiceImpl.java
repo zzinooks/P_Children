@@ -2,6 +2,9 @@ package com.web.root.board.service;
 
 
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +33,6 @@ public class BoardServiceImpl implements BoardService {
 	
 
 	//============================ 주진욱 시작 ===========================================
-	
-	
 	/*
 	@Override
 	public void boardAllList(Model model) {
@@ -170,7 +171,6 @@ public class BoardServiceImpl implements BoardService {
 			url = "/board/modifyForm?write_no=" + dto.getWrite_no();
 		}
 		return bfs.getMessage(request, msg, url);
-//		return null;
 	}
 	
 	public String deleteBoard(Model model, HttpServletRequest request) {
@@ -334,6 +334,7 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("totalPage", totalPage);
 		
 	}
+		
 	
 	// 공지사항 게시글 보기
 	public NoticeBoardDTO noticeBoardContentView(HttpServletRequest request) {
@@ -346,13 +347,11 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.noticeBoardContentView(noticeBoardDTO);
 	}
 	
-	
 	// 조회수 증가
 	@Override
 	public void noticeBoardHitplus(NoticeBoardDTO noticeBoardDTO) {
 		mapper.noticeBoardHitplus(noticeBoardDTO);
 	}
-	
 	
 	// 공지사항 게시글 작성
 	@Override
@@ -452,38 +451,41 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return bfs.getNoticeBoardMessage(request, msg, url);
 	}
-	
-	
-	// 공지사항 게시글 카테고리 조회
+
+
 	@Override
 	public void noticeCategorySelect(String noticeCategoryOption, Model m, int num) {
+		
 		int pageLetter = 5;  // 한 페이지 당 글 목록수
 		int allCount = mapper.selectNoticeBoardCountCategory(noticeCategoryOption); // DB에 담겨있는 전체 글 수
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
 		if(allCount % pageLetter != 0) {
-			repeat += 1;
+		   repeat += 1;
 		}
 		int end = num * pageLetter;
 		int start = end + 1 - pageLetter;
-		
+		  
 		// 페이징
 		int totalPage = (allCount - 1)/pageLetter + 1;
 		int block = 3;
 		int startPage = (num - 1)/block * block + 1;
 		int endPage = startPage + block - 1;
 		if (endPage > totalPage) endPage = totalPage;
-	
+		   
 		List<NoticeBoardDTO> noticeBoardDTO = mapper.noticeCategorySelectCategory(noticeCategoryOption);
-		
+		      
 		m.addAttribute("repeat", repeat);
 		m.addAttribute("noticeBoardList", noticeBoardDTO); // 시작과 끝 페이지 안에서 내용 가져오기
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("startPage", startPage);
 		m.addAttribute("block", block);
 		m.addAttribute("totalPage", totalPage);
-		
+		  
 		System.out.println(noticeCategoryOption);
 	}
+	
+	
+	
 		
 	//============================ 최윤희 끝 ===========================================
 	

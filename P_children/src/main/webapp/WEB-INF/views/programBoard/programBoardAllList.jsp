@@ -1,6 +1,3 @@
-
-<!-- board/boardAllList.jsp -->
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,8 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>board/boardAllList.jsp</title>
-
+<title>programBoard/programBoardAllList.jsp</title>
 <style type="text/css">
 
 h1 {
@@ -53,7 +49,6 @@ table tr:last-child {
 		<table class="table table-striped">
 			<tr>
 				<th width="70px"> 번 호 </th>
-				<th width="150px"> 분 류 </th>
 				<th width="150px"> ID </th>
 				<th width="200px"> 제 목 </th>
 				<th width="200px"> 날 짜 </th>
@@ -63,41 +58,21 @@ table tr:last-child {
 				</c:if>
 			</tr>
 			<c:choose>
-				<c:when test="${empty boardList}"> <!-- ${boardList.size() == 0} -->
+				<c:when test="${empty programBoardList}"> <!-- ${programBoardList.size() == 0} -->
 					<tr>
 						<td colspan="6">등록된 글이 없습니다.</td>
 					</tr>
 				</c:when>
 				<c:otherwise>
-					<c:forEach var="dto" items="${boardList }">
+					<c:forEach var="dto" items="${programBoardList }">
 						<tr>
-							<td>${dto.write_no}</td>
-							<td>
-								<c:if test="${dto.category == 'informationSharing' }">
-								 정보 공유 
-								</c:if>
-								<c:if test="${dto.category == 'friendshipPromotion' }">
-								 친목 도모 
-								</c:if>
-								<c:if test="${dto.category == 'petSneak' }">
-								 펫 간식 
-								</c:if>
-								<c:if test="${dto.category == 'smallChat' }">
-								 잡담 
-								</c:if>
-								<c:if test="${dto.category == 'lookForPetFriend' }">
-								 펫프랜드 구합니다 
-								</c:if>
-								<c:if test="${dto.category == 'BeingPetFriend' }">
-								 펫프랜드 합니다 
-								</c:if>
-							</td>
+							<td>${dto.write_no }</td>
 							<td>${dto.id }</td>
-							<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
+							<td><a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
 							<td>${dto.savedate }</td>
 							<td>${dto.hit }</td>
 							<c:if test ="${info.grade == admin}">
-								<td><button onclick="location.href='${contextPath}/board/delete?write_no=${dto.write_no}&file_name=${dto.file_name }'">삭제</button></td>
+								<td><button onclick="location.href='${contextPath}/programBoard/delete?write_no=${dto.write_no}&file_name=${dto.mateImage }'">삭제</button></td>
 							</c:if>
 						<tr>
 					</c:forEach>
@@ -115,18 +90,18 @@ table tr:last-child {
 					<!-- 페이징 -->
 					<div id="paging_block">
 						<c:if test="${startPage > block }">
-							[ <a href="boardAllList?num=${startPage-1 }" id="paging"> 이전 </a> ]
+							[ <a href="programBoardAllList?num=${startPage-1 }" id="paging"> 이전 </a> ]
 						</c:if>
 						<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
 							<c:if test="${i == num}">
-								[ <a href="boardAllList?num=${i }" id="currentPaging"> ${i } </a> ]
+								[ <a href="programBoardAllList?num=${i }" id="currentPaging"> ${i } </a> ]
 							</c:if>
 							<c:if test="${i != num}">
-								[ <a href="boardAllList?num=${i }" id="paging"> ${i } </a> ]
+								[ <a href="programBoardAllList?num=${i }" id="paging"> ${i } </a> ]
 							</c:if>
 						</c:forEach>
 						<c:if test="${endPage < totalPage }">
-							[ <a href="boardAllList?num=${endPage+1 }" id="paging"> 다음 </a> ]
+							[ <a href="programBoardAllList?num=${endPage+1 }" id="paging"> 다음 </a> ]
 						</c:if>
 					</div>
 				</td>
@@ -140,8 +115,8 @@ table tr:last-child {
 						<td colspan="6" align="center">
 					</c:otherwise>
 				</c:choose>
-					<c:if test="${info.id != 'noLogin' || kakaoId != null}">
-					<a href="${contextPath }/board/writeForm">글작성</a>
+					<c:if test="${info.id != 'noLogin' }">
+					<a href="${contextPath }/programBoard/writeFormForProgram">글작성</a>
 					</c:if>
 				</td>
 			</tr>
