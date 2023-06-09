@@ -5,18 +5,54 @@
 <mapper namespace="com.web.root.mybatis.kakao.KakaoPayMapper">
 	
 	<resultMap type="com.web.root.kakaoPay.dto.KakaoPaymentApproveResultDTO" id="kakaoPaymAppRes">
+		<result property="aid" column="aid"/>
 		<result property="tid" column="tid"/>
 		<result property="cid" column="cid"/>
-		<result property="aid" column="aid"/>
+		<result property="sid" column="sid"/>
+		<result property="partner_order_id" column="partner_order_id"/>
+		<result property="partner_user_id" column="partner_user_id"/>
+		<result property="payment_method_type" column="payment_method_type"/>
+		<result property="amount" column="amount"/>
+		<result property="card_info" column="card_info"/>
+		<result property="item_name" column="item_name"/>
+		<result property="item_code" column="item_code"/>
+		<result property="quantity" column="quantity"/>
+		<result property="created_at" column="created_at"/>
+		<result property="approved_at" column="approved_at"/>
+		<result property="payload" column="payload"/>
 	</resultMap>
 	
 	<insert id="registKakaoPaymentApproveResult">
-		INSERT INTO kakaopay_approve_result VALUES(#{tid}, #{cid}, #{aid})
+		INSERT INTO kakaopay_approve_result 
+		VALUES(#{aid}, 
+			   #{tid},
+			   #{cid},
+			   #{sid,jdbcType=VARCHAR},
+			   #{partner_order_id}, 
+			   #{partner_user_id}, 
+			   #{payment_method_type}, 
+			   #{amount}, 
+			   #{card_info,jdbcType=VARCHAR}, 
+			   #{item_name}, 
+			   #{item_code,jdbcType=VARCHAR}, 
+			   #{quantity}, 
+			   #{created_at}, 
+			   #{approved_at}, 
+			   #{payload,jdbcType=VARCHAR} 
+		)
 	</insert>
 	
-	<insert id="test">
-		INSERT INTO kakaopay_approve_result VALUES(#{body})
-	</insert>
+	<select id="selectKakaoPaymentApproveCount" resultType="Integer">
+		SELECT COUNT(*) FROM kakaopay_approve_result	
+	</select>
+	
+	<select id="selectKakaoPaymentApproveList" resultMap="kakaoPaymAppRes">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM kakaopay_approve_result ORDER BY approved_at DESC)A )B
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
 	
 	
 

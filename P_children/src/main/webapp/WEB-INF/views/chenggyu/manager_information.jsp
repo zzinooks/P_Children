@@ -37,9 +37,11 @@
 				<a>${dto.addr }</a>
 		<br>
 		</div>
-		<a href="/root/member/manager_memberList">회원 목록 관리</a>
-		<a href="/root/member/manager_board">게시물 관리</a>
-		<a href="/root/member/manager_qna">1대1문의</a>
+		<a href="/root/member/manager_memberList">회원 목록 관리</a> &nbsp;
+		<a href="/root/member/manager_board">게시물 관리</a> &nbsp;
+		<a href="/root/member/manager_qna">1대1문의</a> &nbsp;
+		<a href="/root/member/kakaoPaymentApproveList">카카오페이 승인 목록</a> &nbsp;
+		
 		</div>
 	</section>
 	

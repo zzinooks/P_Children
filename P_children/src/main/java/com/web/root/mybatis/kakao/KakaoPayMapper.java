@@ -1,12 +1,18 @@
 package com.web.root.mybatis.kakao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.web.root.kakaoPay.dto.KakaoPaymentApproveResultDTO;
 
 public interface KakaoPayMapper {
 
 	void registKakaoPaymentApproveResult(KakaoPaymentApproveResultDTO kakaoPaymentApproveResultDTO);
 
-	void test(String body);
+	int selectKakaoPaymentApproveCount();
+
+	List<KakaoPaymentApproveResultDTO> selectKakaoPaymentApproveList(@Param("start") int start, @Param("end") int end);
 
 
 

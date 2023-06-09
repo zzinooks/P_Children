@@ -53,6 +53,11 @@ public interface MemberService {
 	
 	public void kakaoPaymentApprove(String kakaoPaymentApproveUrl, String adminKey, String pg_token, HttpSession session);
 	
+	public void getkakaoPaymentApproveList(
+			int num, 
+			HttpServletRequest request, Model model);
+			
+	
 	
 	//============================ 박성수 끝 ===========================================
 
@@ -74,6 +79,7 @@ public interface MemberService {
 	
 	// 비밀번호 수정
 	public void userUpdatePwd(MemberDTO dto);
+	
 	
 	
 	

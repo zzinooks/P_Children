@@ -248,12 +248,22 @@ public class MemberController implements MemberSession{
 		return "sungsu/kakaoPayFail";
 	}
 	
+	// 카카오페이 결제 승인 리스트
+	@RequestMapping("kakaoPaymentApproveList")
+	public String paymentOrder(
+			Model model,
+			@RequestParam(value = "num", required = false, defaultValue = "1") int num,
+			HttpServletRequest request) {
+		ms.getkakaoPaymentApproveList(num, request, model);
+		return "sungsu/kakaoPaymentApproveList";
+	}
+	
 	private static final String KAKAO_PAYMENT_ORDER_URL = "https://kapi.kakao.com/v1/payment/order";
-	// 카카오페이 주문 조회
-	@RequestMapping("paymentOrder")
-	public String paymentOrder() {
+	// 카카오페이 결제 상세 조회
+	@GetMapping("kakaoPaymentOrderInfo")
+	public String kakaoPaymentOrder() {
 		
-		return "";
+		return "sungsu/kakaoPaymentOrderInfo";
 	}
 	
 	

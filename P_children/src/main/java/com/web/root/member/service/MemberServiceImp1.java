@@ -326,27 +326,88 @@ public class MemberServiceImp1 implements MemberService {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = 
         		restTemplate.postForEntity(kakaoPaymentApproveUrl, entity, String.class);
-        
-        System.out.println(response.getBody());
-        
-        String cid = "";
-        String aid = "";
 		try {
-			cid = objectMapper.readTree(response.getBody())
-					.get("cid").asText();
-			aid = objectMapper.readTree(response.getBody())
-					.get("aid").asText();
+			JsonNode responseBody = objectMapper.readTree(response.getBody());
+			String sid = "";
+			String card_info = "";
+			String item_code = "";
+			String payload = "";
 			
-//			KakaoPaymentApproveResultDTO kakaoPaymentApproveResultDTO =
-//					new KakaoPaymentApproveResultDTO(tid, cid, aid); 
-//			kakaoPayMapper.registKakaoPaymentApproveResult(kakaoPaymentApproveResultDTO);
-			kakaoPayMapper.test(response.getBody());
+			if(responseBody.get("sid") != null) {
+				sid = responseBody.get("sid").asText();
+			}
+			if(responseBody.get("card_info") != null) {
+				card_info = responseBody.get("card_info").toString();
+			}
+			if(responseBody.get("item_code") != null) {
+				item_code = responseBody.get("item_code").asText();
+			}
+			if(responseBody.get("payload") != null) {
+				payload = responseBody.get("payload").asText();
+			}
+			
+			String aid = responseBody.get("aid").asText();
+			String cid = responseBody.get("cid").asText();
+			String partner_order_id = responseBody.get("partner_order_id").asText();
+			String partner_user_id = responseBody.get("partner_user_id").asText();
+			String payment_method_type = responseBody.get("payment_method_type").asText();
+			String amount = responseBody.get("amount").toString();
+			String item_name = responseBody.get("item_name").asText();
+			String quantity = responseBody.get("quantity").asText();
+			String created_at = responseBody.get("created_at").asText();
+			String approved_at = responseBody.get("approved_at").asText();
+			
+			KakaoPaymentApproveResultDTO kakaoPaymentApproveResultDTO =
+					new KakaoPaymentApproveResultDTO(); 
+			kakaoPaymentApproveResultDTO.setAid(aid);
+			kakaoPaymentApproveResultDTO.setTid(tid);
+			kakaoPaymentApproveResultDTO.setCid(cid);
+			kakaoPaymentApproveResultDTO.setSid(sid);
+			kakaoPaymentApproveResultDTO.setPartner_order_id(partner_order_id);
+			kakaoPaymentApproveResultDTO.setPartner_user_id(partner_user_id);
+			kakaoPaymentApproveResultDTO.setPayment_method_type(payment_method_type);
+			kakaoPaymentApproveResultDTO.setAmount(amount);
+			kakaoPaymentApproveResultDTO.setCard_info(card_info);
+			kakaoPaymentApproveResultDTO.setItem_name(item_name);
+			kakaoPaymentApproveResultDTO.setItem_code(item_code);
+			kakaoPaymentApproveResultDTO.setQuantity(quantity);
+			kakaoPaymentApproveResultDTO.setCreated_at(created_at);
+			kakaoPaymentApproveResultDTO.setApproved_at(approved_at);
+			kakaoPaymentApproveResultDTO.setPayload(payload);
+			
+			kakaoPayMapper.registKakaoPaymentApproveResult(kakaoPaymentApproveResultDTO);
 			session.removeAttribute("tid");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
+	}
+	
+	@Override
+	public void getkakaoPaymentApproveList(int num, HttpServletRequest request, Model model) { 
+										  
+		// num = 현재 페이지
+		int pageLetter = 5; // 한 페이지 당 글 목록수
+		int allCount= kakaoPayMapper.selectKakaoPaymentApproveCount(); // 전체 글수
+		int repeat = allCount/pageLetter; // 마지막 페이지 번호
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter; // start ~ end -> 각 페이지에 불러올 글을 위한 쿼리용 숫자.
+		int start = end +1 - pageLetter;
 		
+		// 페이징
+		int totalPage = (allCount - 1)/pageLetter + 1;
+		int block = 3;
+		int startPage = (num - 1)/block*block + 1;
+		int endPage = startPage + block - 1;
+		if (endPage > totalPage) endPage = totalPage;
+	
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("kakaoPaymAppList", kakaoPayMapper.selectKakaoPaymentApproveList(start, end));
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("block", block);
+		model.addAttribute("totalPage", totalPage);
+
 		
 	}
 	
