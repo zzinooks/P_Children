@@ -23,7 +23,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 	@Autowired
 	BoardFileService bfs;
 	
-	// 프로그램 입력(DB에 저
+	// 프로그램 입력(DB에 저장)
 	@Override
 	public String writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request) {
 		
@@ -153,7 +153,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		String msg, url;
 		if(result == 1) {
 			msg = "글이 수정 되었습니다";
-		url = "/programBoard/programBoardAllList";
+		url = "/programBoard/programBoardAllList?num="+ request.getParameter("num");
 		} else {
 			msg = "글수정 실패~";
 		url = "/programBoard/modifyProgramForm?write_no=" + programBoardDTO.getWrite_no();

@@ -140,6 +140,7 @@ public class BoardServiceImpl implements BoardService {
 		// form 에서 받은 정보 DTO에 담기
 		BoardDTO dto = new BoardDTO();
 		dto.setId(mul.getParameter("id"));
+		dto.setCategory(mul.getParameter("category"));
 		dto.setTitle(mul.getParameter("title"));
 		dto.setContent(mul.getParameter("content"));
 		String no = mul.getParameter("write_no");
@@ -165,10 +166,10 @@ public class BoardServiceImpl implements BoardService {
 		String msg, url;
 		if(result == 1) {
 			msg = "글이 수정 되었습니다";
-			url = "/board/boardAllList";
+			url = "/board/boardAllList?num="+ request.getParameter("num");
 		} else {
 			msg = "글수정 실패~";
-			url = "/board/modifyForm?write_no=" + dto.getWrite_no();
+			url = "/board/modifyForm?write_no=" + dto.getWrite_no() + "&num=" + request.getParameter("num");
 		}
 		return bfs.getMessage(request, msg, url);
 	}
@@ -215,14 +216,17 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println(dto.getReply_no() + " , " + dto.getWrite_group());
 		int su = mapper.deleteReply(dto);
 		
+		// contentView page 페이징 번호
+		String num = request.getParameter("num");
+		
 		String msg, url;
 		if(su == 1) {
 			msg = "댓글이 삭제 되었습니다";
-			url = "/board/contentView?write_no=" + request.getParameter("write_group");
+			url = "/board/contentView?write_no=" + request.getParameter("write_group") + "&num=" + num;
 			// 선생님은 이자리에 bfs.delete(image_file_name); 을 넣으셨다.
 		} else {
 			msg = "댓글 삭제 실패~";
-			url = "/board/contentView?write_no=" + request.getParameter("write_group");
+			url = "/board/contentView?write_no=" + request.getParameter("write_group") + "&num=" + num;
 		}
 		return bfs.getMessage(request, msg, url);
 		
@@ -239,6 +243,7 @@ public class BoardServiceImpl implements BoardService {
 		map.put("updateContent", request.getParameter("updateContent"));
 		map.put("id", request.getParameter("id"));
 		
+		// contentView page 페이징 번호
 		String num = request.getParameter("num");
 		
 		int su = mapper.updateReply(map);

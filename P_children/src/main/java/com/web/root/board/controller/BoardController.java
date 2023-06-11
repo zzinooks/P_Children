@@ -137,7 +137,7 @@ public class BoardController implements MemberSession{
 		
 		// 수정 파일 존재시 실제 저장된 파일 삭제
 		if(file.getSize() != 0) {
-			//bfs.deleteFile(dto.getImage_file_name());
+			bfs.deleteFile(dto.getFile_name());
 		}
 		
 		// board 입력 및 결과 메시지 출력
