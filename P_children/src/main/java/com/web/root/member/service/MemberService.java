@@ -36,7 +36,7 @@ public interface MemberService {
 	
 	//============================ 박성수 시작 ===========================================
 	
-	public String registHost(MemberDTO dto);
+	public int registHost(MemberDTO dto, Model model);
 
 	public String getHostInfo(String id);
 	

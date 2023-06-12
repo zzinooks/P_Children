@@ -146,18 +146,16 @@ public class MemberServiceImp1 implements MemberService {
 	//============================ 박성수 시작 ===========================================
 
 	@Override
-	public String registHost(MemberDTO dto) {
-		String message = "";
+	public int registHost(MemberDTO dto, Model model) {
 		int result = 0;
 		if(dto.getUserSelect().equals("member")) {
 			result = mapper.registMember(dto);
-			return message;
+			model.addAttribute("registId", dto.getId());
+			return result;
 		}
 		result = mapper.registHost(dto);
-		if(result == 1) {
-			message = "회원가입 완료.";
-		}
-		return message;
+		model.addAttribute("registId", dto.getId());
+		return result;
 	}
 	
 	@Override
