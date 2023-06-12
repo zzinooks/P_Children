@@ -17,9 +17,16 @@ public class BoardInterceptor extends HandlerInterceptorAdapter implements Membe
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		if(session.getAttribute(LOGIN) == null && session.getAttribute("kakaoId") == null) {
+			// 일반 로그인, 카카오 로그인이 아닌 경우
 			session.setAttribute(LOGIN, "noLogin");
 			return true;
+		} else if(session.getAttribute("kakaoId") != null) {
+			// 카카오 로그인인 경우
+			// 카카오 로그인 아이디 kakaoId 를 LOGIN( == loginUser)에 담는다.
+			session.setAttribute(LOGIN, session.getAttribute("kakaoId"));
+			return true;
 		}
+			// 일반 로그인인 경우
 		return true;
 	}
 	

@@ -6,6 +6,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
+
+<script src="${contextPath}/resources/jinwook/js/boardScript.js?v=1"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,36 +39,38 @@ h1 {
 </style>
 </head>
 <body>
-	<%-- <c:import url="../default/header.jsp"/> --%>
-	<h1>글쓰기</h1>
-	<br><br>
-	<div class="wrap write_form">
-		<div class="write_save">
-		<form action="${contextPath }/board/writeSave" enctype="multipart/form-data" method="post">
-			<b> 작성자 </b><br>
-			<input type="text" name="id" value="${user }" readonly><br>
-			<b> 제 목 </b><br>
-			<input type="text" name="title"><br>
-			<b> 분 류 </b><br>
-			<select name="category" id="category">
-				<option value="informationSharing"> 정보 공유 </option>
-				<option value="friendshipPromotion"> 친목 도모 </option>
-				<option value="petSneak"> 펫 간식 </option>
-				<option value="smallChat"> 잡담 </option>
-				<option value="lookForPetFriend"> 펫프랜드 구합니다 </option>
-				<option value="BeingPetFriend"> 펫프랜드 합니다 </option>
-			</select> <br><br>
-			<b> 내 용 </b><br>
-			<textarea name="content" rows="10" cols="50"></textarea><br>
-			<h3> 파일 첨부 </h3>
-			<input type="file" name="file" onchange="readURL(this)"/>
-			<img src="#" id="preview" width="100px" height="100px"><br>
-			<br>
-			<input type="submit" value="완료"/> &nbsp; 
-			<input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList'"/>
-		</form>
+	<c:import url="../default/header.jsp"/>
+	<section>
+		<h1>글쓰기</h1>
+		<br><br>
+		<div class="wrap write_form">
+			<div class="write_save">
+			<form action="${contextPath }/board/writeSave" name="boardWriteForm" enctype="multipart/form-data" method="post">
+				<b> 작성자 </b><br>
+				<input type="text" name="id" value="${user }" readonly><br>
+				<b> 제 목 </b><br>
+				<input type="text" name="title"><br>
+				<b> 분 류 </b><br>
+				<select name="category" id="category">
+					<option value="informationSharing"> 정보 공유 </option>
+					<option value="friendshipPromotion"> 친목 도모 </option>
+					<option value="petSneak"> 펫 간식 </option>
+					<option value="smallChat"> 잡담 </option>
+					<option value="lookForPetFriend"> 펫프랜드 구합니다 </option>
+					<option value="BeingPetFriend"> 펫프랜드 합니다 </option>
+				</select> <br><br>
+				<b> 내 용 </b><br>
+				<textarea name="content" rows="10" cols="50"></textarea><br>
+				<h3> 파일 첨부 </h3>
+				<input type="file" name="file" onchange="readURL(this)"/>
+				<img src="#" id="preview" width="100px" height="100px"><br>
+				<br>
+				<input type="button" value="완료" onclick="checkBoardWrite()"/> &nbsp;
+				<input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList'"/>
+			</form>
+			</div>
 		</div>
-	</div>
-	<%-- <c:import url="../default/footer.jsp"/> --%>
+	</section>
+	<c:import url="../default/footer.jsp"/>
 </body>
 </html>
