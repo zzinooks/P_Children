@@ -3,7 +3,8 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,13 +79,13 @@ table             {
 						<td>${member.email }</td>
 						<td id="left">${member.addr }</td>
 						<td>${member.grade }</td>
-						<td><button onclick="location.href='${contextPath}/member/delete?id=${member.id}">삭제</button></td>
+						<td><button onclick="location.href='${contextPath}/member/delete?id=${member.id}'">삭제</button></td>
 					</tr>
 				</c:forEach>
 		</table>
-			<div class="under-section">
+			<div class="under-section">	
 				<c:forEach  var="num" begin="1" end="${repeat }">
-							<a href="manager_memberList?num=${num }" id="pg"> &nbsp; ${num } &nbsp;</a>
+							<a href="manager_memberList?num=${num }" > &nbsp; ${num } &nbsp;</a>
 				</c:forEach>
 			</div>
 		</div>

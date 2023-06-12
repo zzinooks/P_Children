@@ -43,8 +43,6 @@ table tr:last-child {
 }
 </style>
 
-<<<<<<< HEAD
-=======
 <script type="text/javascript">
 
 	function deleteConfirm(write_no, file_name){
@@ -59,71 +57,9 @@ table tr:last-child {
 
 </script>
 
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children
 </head>
 <body>
-<<<<<<< HEAD
 
-	<c:import url="../default/header.jsp"/>
-	
-	<section class="home-landing">
-	<h1> 게시판 </h1>
-	<div class="wrap board_table">
-		<table class="table table-striped">
-			<tr>
-				<th width="70px"> 번 호 </th>
-				<th width="150px"> 분 류 </th>
-				<th width="150px"> ID </th>
-				<th width="200px"> 제 목 </th>
-				<th width="200px"> 날 짜 </th>
-				<th width="70px"> 조회수 </th>
-				<c:if test ="${info.grade == admin}">
-								<th>관리자 권한</th>
-				</c:if>
-			</tr>
-			<c:choose>
-				<c:when test="${empty boardList}"> <!-- ${boardList.size() == 0} -->
-					<tr>
-						<td colspan="6">등록된 글이 없습니다.</td>
-					</tr>
-				</c:when>
-				<c:otherwise>
-					<c:forEach var="dto" items="${boardList }">
-						<tr>
-							<td>${dto.write_no}</td>
-							<td>
-								<c:if test="${dto.category == 'informationSharing' }">
-								 정보 공유 
-								</c:if>
-								<c:if test="${dto.category == 'friendshipPromotion' }">
-								 친목 도모 
-								</c:if>
-								<c:if test="${dto.category == 'petSneak' }">
-								 펫 간식 
-								</c:if>
-								<c:if test="${dto.category == 'smallChat' }">
-								 잡담 
-								</c:if>
-								<c:if test="${dto.category == 'lookForPetFriend' }">
-								 펫프랜드 구합니다 
-								</c:if>
-								<c:if test="${dto.category == 'BeingPetFriend' }">
-								 펫프랜드 합니다 
-								</c:if>
-							</td>
-							<td>${dto.id }</td>
-							<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
-							<td>${dto.savedate }</td>
-							<td>${dto.hit }</td>
-							<c:if test ="${info.grade == admin}">
-								<td><button onclick="location.href='${contextPath}/board/delete?write_no=${dto.write_no}&file_name=${dto.file_name }'">삭제</button></td>
-							</c:if>
-						<tr>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
-			<tr>
-=======
 <c:import url="../default/header.jsp"/>
 	<section>
 		<h1> 게시판 </h1>
@@ -140,7 +76,6 @@ table tr:last-child {
 									<th>관리자 권한</th>
 					</c:if>
 				</tr>
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children
 				<c:choose>
 					<c:when test="${empty boardList}"> <!-- ${boardList.size() == 0} -->
 						<tr>
@@ -182,16 +117,6 @@ table tr:last-child {
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>
-<<<<<<< HEAD
-					<a href="${contextPath }/board/notice/writeForm">글작성</a>
-				</td>
-			</tr>
-		</table>
-	</div>
-	<c:import url="../default/footer.jsp"/>
-	</section>
-		
-=======
 				<tr>
 					<c:choose>
 						<c:when test="${info.grade == admin}">
@@ -238,6 +163,5 @@ table tr:last-child {
 		</div>
 	</section>
 <c:import url="../default/footer.jsp"/>
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children
 </body>
 </html>

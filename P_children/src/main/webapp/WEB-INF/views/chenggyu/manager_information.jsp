@@ -14,7 +14,6 @@
 </head>
 <body>
 	
-<<<<<<< HEAD
 		<c:import url="../default/header.jsp"/>
 		
 		<section><!-- body -->
