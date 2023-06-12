@@ -52,18 +52,25 @@ public class BoardController implements MemberSession{
 		bs.boardAllList(model, num, request);
 		
 		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-		
-		// 로그인값 불러오기
-		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
-			String id = (String) session.getAttribute(LOGIN);
-			ms.userInfo(id, model);
-		} else {
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
+		try {
+			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+			
+			// 로그인값 불러오기
+			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+				String id = (String) session.getAttribute(LOGIN);
+				ms.userInfo(id, model);
+			} else {
+				MemberDTO memberDTO = new MemberDTO();
+				memberDTO.setId(kakaoIdCheck);
+				memberDTO.setGrade("bronze");
+				model.addAttribute("info", memberDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+		
+		
 		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
 		model.addAttribute("admin", ADMIN);
 		return "/board/boardAllList"; 
@@ -98,18 +105,22 @@ public class BoardController implements MemberSession{
 		model.addAttribute("dto", dto);
 		model.addAttribute("user", user);
 		
-		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-		
-		// 로그인값 불러오기
-		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
-			String id = (String) session.getAttribute(LOGIN);
-			ms.userInfo(id, model);
-		} else {
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
+		try {
+			// 카카오톡 로그인 check
+			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+			
+			// 로그인값 불러오기
+			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+				String id = (String) session.getAttribute(LOGIN);
+				ms.userInfo(id, model);
+			} else {
+				MemberDTO memberDTO = new MemberDTO();
+				memberDTO.setId(kakaoIdCheck);
+				memberDTO.setGrade("bronze");
+				model.addAttribute("info", memberDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		model.addAttribute("admin", ADMIN);
