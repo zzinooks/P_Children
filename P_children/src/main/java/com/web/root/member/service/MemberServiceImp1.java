@@ -20,9 +20,13 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.root.kakaoPay.dto.ItemDTO;
+import com.web.root.kakaoPay.dto.KakaoPaymentApproveResultDTO;
+import com.web.root.kakaoPay.dto.KakaoPaymentOrderInfoDTO;
 import com.web.root.member.dto.KakaoLoginDTO;
 //github.com/ssp930/P_Children
 import com.web.root.member.dto.MemberDTO;
+import com.web.root.mybatis.kakao.KakaoPayMapper;
 import com.web.root.mybatis.member.MemberMapper;
 
 @Service
@@ -37,8 +41,10 @@ public class MemberServiceImp1 implements MemberService {
 	@Inject
 	JavaMailSender mailSender;
 	
-
-
+	@Autowired
+	KakaoPayMapper kakaoPayMapper;
+	
+	
 	@Override
 	public MemberDTO member_information(String id) {
 		return mapper.member_information(id);
@@ -258,6 +264,270 @@ public class MemberServiceImp1 implements MemberService {
 			e.printStackTrace();
 		}
 		return kakaoLogoutId;
+	}
+	
+	@Override
+	public String readyKakaoPay(
+				String adminKey,
+				String contentType,
+				String kakaoPayReadyUrl,
+				ItemDTO itemDTO,
+				HttpSession session) {
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		HttpHeaders headers = new HttpHeaders();
+		RestTemplate restTemplate = new RestTemplate();
+        
+        headers.add("Authorization", "KakaoAK " + adminKey);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        MultiValueMap<String, String> params =
+				new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("partner_order_id", "mateWith_Partner");
+        params.add("partner_user_id", "mateWith_User");
+        params.add("item_name", itemDTO.getItem_name());
+        params.add("quantity", Integer.toString(itemDTO.getQuantity()));
+        params.add("total_amount", Integer.toString(itemDTO.getTotal_amount()));
+        params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10));
+        params.add("tax_free_amount", "0");
+        params.add("approval_url", "http://localhost:8080/root/member/success");
+        params.add("fail_url", "http://localhost:8080/root/member/fail");
+        params.add("cancel_url", "http://localhost:8080/root/member/kakaoPayBtn");
+
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = 
+        		restTemplate.postForEntity(kakaoPayReadyUrl, entity, String.class);
+        
+        String kakaoPayRequestURL = ""; 
+        String tid = "";
+        String created_at = "";
+		try {
+			kakaoPayRequestURL = objectMapper.readTree(response.getBody())
+								.get("next_redirect_pc_url").asText();
+			tid = objectMapper.readTree(response.getBody())
+					.get("tid").asText();
+			
+			session.setAttribute("tid", tid);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return kakaoPayRequestURL;
+	}
+	
+	@Override
+	public void kakaoPaymentApprove(String kakaoPaymentApproveUrl, String adminKey, String pg_token, HttpSession session) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		String tid = (String)session.getAttribute("tid");
+		
+		headers.add("Authorization", "KakaoAK " + adminKey);
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> params =
+				new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("tid", tid);
+        params.add("partner_order_id", "mateWith_Partner");
+        params.add("partner_user_id", "mateWith_User");
+        params.add("pg_token", pg_token);
+        
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = 
+        		restTemplate.postForEntity(kakaoPaymentApproveUrl, entity, String.class);
+		try {
+			JsonNode responseBody = objectMapper.readTree(response.getBody());
+			String sid = "";
+			String card_info = "";
+			String item_code = "";
+			String payload = "";
+			
+			if(responseBody.get("sid") != null) {
+				sid = responseBody.get("sid").asText();
+			}
+			if(responseBody.get("card_info") != null) {
+				card_info = responseBody.get("card_info").toString();
+			}
+			if(responseBody.get("item_code") != null) {
+				item_code = responseBody.get("item_code").asText();
+			}
+			if(responseBody.get("payload") != null) {
+				payload = responseBody.get("payload").asText();
+			}
+			
+			String aid = responseBody.get("aid").asText();
+			String cid = responseBody.get("cid").asText();
+			String partner_order_id = responseBody.get("partner_order_id").asText();
+			String partner_user_id = responseBody.get("partner_user_id").asText();
+			String payment_method_type = responseBody.get("payment_method_type").asText();
+			String amount = responseBody.get("amount").toString();
+			String item_name = responseBody.get("item_name").asText();
+			String quantity = responseBody.get("quantity").asText();
+			String created_at = responseBody.get("created_at").asText();
+			String approved_at = responseBody.get("approved_at").asText();
+			
+			KakaoPaymentApproveResultDTO kakaoPaymentApproveResultDTO =
+					new KakaoPaymentApproveResultDTO(); 
+			kakaoPaymentApproveResultDTO.setAid(aid);
+			kakaoPaymentApproveResultDTO.setTid(tid);
+			kakaoPaymentApproveResultDTO.setCid(cid);
+			kakaoPaymentApproveResultDTO.setSid(sid);
+			kakaoPaymentApproveResultDTO.setPartner_order_id(partner_order_id);
+			kakaoPaymentApproveResultDTO.setPartner_user_id(partner_user_id);
+			kakaoPaymentApproveResultDTO.setPayment_method_type(payment_method_type);
+			kakaoPaymentApproveResultDTO.setAmount(amount);
+			kakaoPaymentApproveResultDTO.setCard_info(card_info);
+			kakaoPaymentApproveResultDTO.setItem_name(item_name);
+			kakaoPaymentApproveResultDTO.setItem_code(item_code);
+			kakaoPaymentApproveResultDTO.setQuantity(quantity);
+			kakaoPaymentApproveResultDTO.setCreated_at(created_at);
+			kakaoPaymentApproveResultDTO.setApproved_at(approved_at);
+			kakaoPaymentApproveResultDTO.setPayload(payload);
+			
+			kakaoPayMapper.registKakaoPaymentApproveResult(kakaoPaymentApproveResultDTO);
+			session.removeAttribute("tid");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 카카오페이 결제 승인 리스트
+	@Override
+	public void getkakaoPaymentApproveList(int num, HttpServletRequest request, Model model) { 
+		// num = 현재 페이지
+		int pageLetter = 5; // 한 페이지 당 글 목록수
+		int allCount= kakaoPayMapper.selectKakaoPaymentApproveCount(); // 전체 글수
+		int repeat = allCount/pageLetter; // 마지막 페이지 번호
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter; // start ~ end -> 각 페이지에 불러올 글을 위한 쿼리용 숫자.
+		int start = end +1 - pageLetter;
+		
+		// 페이징
+		int totalPage = (allCount - 1)/pageLetter + 1;
+		int block = 3;
+		int startPage = (num - 1)/block*block + 1;
+		int endPage = startPage + block - 1;
+		if (endPage > totalPage) endPage = totalPage;
+	
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("kakaoPaymAppList", kakaoPayMapper.selectKakaoPaymentApproveList(start, end));
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("block", block);
+		model.addAttribute("totalPage", totalPage);
+	}
+	
+	// 카카오페이 승인 상세 내역
+	@Override
+	public void selectKakaoPaymentOrderInfo(String kakaoPaymentOrderUrl, String adminKey,
+									 	    Model model, HttpServletRequest request) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.add("Authorization", "KakaoAK " + adminKey);
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> params =
+				new LinkedMultiValueMap<String, String>();
+        params.add("cid", request.getParameter("cid"));
+        params.add("tid", request.getParameter("tid"));
+        
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = 
+        		restTemplate.postForEntity(kakaoPaymentOrderUrl, entity, String.class);
+		try {
+			JsonNode responseBody = objectMapper.readTree(response.getBody());
+			String selected_card_info = "";
+			String item_code = "";
+			String canceled_amount = "";
+			String cancel_available_amount = "";
+			String canceled_at = "";
+			
+			if(responseBody.get("selected_card_info") != null) {
+				selected_card_info = responseBody.get("selected_card_info").toString();
+			}
+			if(responseBody.get("item_code") != null) {
+				item_code = responseBody.get("item_code").asText();
+			}
+			if(responseBody.get("canceled_amount") != null) {
+				canceled_amount = responseBody.get("canceled_amount").toString();
+			}
+			if(responseBody.get("cancel_available_amount") != null) {
+				cancel_available_amount = responseBody.get("cancel_available_amount").toString();
+			}
+			if(responseBody.get("canceled_at") != null) {
+				canceled_at = responseBody.get("canceled_at").asText();
+			}
+			
+			String cid = responseBody.get("cid").asText();
+			String tid = responseBody.get("tid").asText();
+			String status = responseBody.get("status").asText();
+			String partner_order_id = responseBody.get("partner_order_id").asText();
+			String partner_user_id = responseBody.get("partner_user_id").asText();
+			String payment_method_type = responseBody.get("payment_method_type").asText();
+			String amount = responseBody.get("amount").toString();
+			String item_name = responseBody.get("item_name").asText();
+			String quantity = responseBody.get("quantity").asText();
+			String created_at = responseBody.get("created_at").asText();
+			String approved_at = responseBody.get("approved_at").asText();
+			String payment_action_details = responseBody.get("payment_action_details").toString();
+			
+			KakaoPaymentOrderInfoDTO kakaoPaymentOrderInfoDTO =
+					new KakaoPaymentOrderInfoDTO();
+			kakaoPaymentOrderInfoDTO.setTid(tid);
+			kakaoPaymentOrderInfoDTO.setCid(cid);
+			kakaoPaymentOrderInfoDTO.setStatus(status);
+			kakaoPaymentOrderInfoDTO.setPartner_order_id(partner_order_id);
+			kakaoPaymentOrderInfoDTO.setPartner_user_id(partner_user_id);
+			kakaoPaymentOrderInfoDTO.setPayment_method_type(payment_method_type);
+			kakaoPaymentOrderInfoDTO.setAmount(amount);
+			kakaoPaymentOrderInfoDTO.setSelected_card_info(selected_card_info);
+			kakaoPaymentOrderInfoDTO.setItem_name(item_name);
+			kakaoPaymentOrderInfoDTO.setItem_code(item_code);
+			kakaoPaymentOrderInfoDTO.setQuantity(quantity);
+			kakaoPaymentOrderInfoDTO.setCreated_at(created_at);
+			kakaoPaymentOrderInfoDTO.setApproved_at(approved_at);
+			kakaoPaymentOrderInfoDTO.setCanceled_at(canceled_at);
+			kakaoPaymentOrderInfoDTO.setCanceled_amount(canceled_amount);
+			kakaoPaymentOrderInfoDTO.setCancel_available_amount(cancel_available_amount);
+			kakaoPaymentOrderInfoDTO.setPayment_action_details(payment_action_details);
+			
+			model.addAttribute("kakaoPaymOrderInfo", kakaoPaymentOrderInfoDTO);
+			model.addAttribute("total", responseBody.get("amount").get("total").asText());
+			model.addAttribute("tax_free", responseBody.get("amount").get("tax_free").asText());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	// 카카오페이 결제 취소
+	@Override
+	public void kakaoPaymentCancel(String kakaoPaymentCancelUrl, String adminKey, String contentType,
+			HttpServletRequest request, Model model) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.add("Authorization", "KakaoAK " + adminKey);
+		headers.add("Content-type", contentType);
+		
+		MultiValueMap<String, String> params =
+				new LinkedMultiValueMap<String, String>();
+        params.add("cid", request.getParameter("cid"));
+        params.add("tid", request.getParameter("tid"));
+        params.add("cancel_amount", request.getParameter("cancel_amount"));
+        params.add("cancel_tax_free_amount", request.getParameter("cancel_tax_free_amount"));
+        
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = 
+        		restTemplate.postForEntity(kakaoPaymentCancelUrl, entity, String.class);
+        
+        kakaoPayMapper.cancelCheck(request.getParameter("tid"));
 	}
 	
 	

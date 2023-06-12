@@ -10,7 +10,7 @@ public interface BoardFileService {
 	//============================ 주진욱 시작 ===========================================
 
 	// 파일 저장 위치
-	public static final String IMAGE_REPO = "C:\\0900_JAVA_jjw\\6. Spring\\web_repo";
+	public static final String IMAGE_REPO = "C:\\mateImage";
 	
 	public String getMessage(HttpServletRequest request, String msg, String url);
 	

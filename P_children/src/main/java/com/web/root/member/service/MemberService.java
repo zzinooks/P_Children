@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
+import com.web.root.kakaoPay.dto.ItemDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.dto.MemberDTO;
 
@@ -48,7 +49,18 @@ public interface MemberService {
 	public int registKakaoUser(String token, String kakaoidurl, HttpSession session) throws IOException;
 	
 	public String kakaoLogout(String token, String kakaologouturl);
-
+	
+	public String readyKakaoPay(String adminKey, String contentType, String kakaoPayReadyUrl, ItemDTO itemDTO, HttpSession session);	
+	
+	public void kakaoPaymentApprove(String kakaoPaymentApproveUrl, String adminKey, String pg_token, HttpSession session);
+	
+	public void getkakaoPaymentApproveList(int num, HttpServletRequest request, Model model);
+			 
+	public void selectKakaoPaymentOrderInfo(String kakaoPaymentOrderUrl, String adminKey, Model model, HttpServletRequest request);
+	
+	public void kakaoPaymentCancel(String kakaoPaymentCancelUrl, String adminKey, String contentType,
+			HttpServletRequest request, Model model);
+	
 	
 	//============================ 박성수 끝 ===========================================
 
@@ -69,7 +81,12 @@ public interface MemberService {
 	public int sendFindPwdEmailCode(String email);
 	
 	// 비밀번호 수정
-	public void userUpdatePwd(MemberDTO dto);	
+	public void userUpdatePwd(MemberDTO dto);
+	
+	
+	
+	
+	
 	
 	
 	//============================ 최윤희 끝 ===========================================

@@ -14,15 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.RedirectView;
 
+import com.web.root.kakaoPay.dto.ItemDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
-
-import oracle.jdbc.proxy.annotation.GetProxy;
 
 @Controller
 @RequestMapping("member")
@@ -194,9 +193,11 @@ public class MemberController implements MemberSession{
 		
 	}
 	
+	// 카카오 로그인 API
 	private static final String tokenURL = "https://kauth.kakao.com/oauth/token";
 	private static final String kakaoIdURL = "https://kapi.kakao.com/v2/user/me";
 	private static final String kakaoLogoutURL = "https://kapi.kakao.com/v1/user/logout";
+	
 	@GetMapping("kakaoCode")
 	public String getKakaoCode(
 			HttpServletRequest request, 
@@ -224,10 +225,69 @@ public class MemberController implements MemberSession{
 		return "redirect:/index";
 	}
 	
-	private static final String RESTAPIKEY = "64805d1e755e27001e38da18";
-	private static final String PRIVATEKEY = "L1QtJDiTORLbREyvNQSxWJUeA8SiJX1xnkQ7tLYSRio=";
-	private static final String TOKENURL = "https://api.bootpay.co.kr/v2/request/token";
 	
+	// 카카오 페이 API
+	private static final String ADMIN_KEY = "487a1c3ee2f111ea410da257fbcfadff";
+	private static final String CONTENT_TYPE = "application/x-www-form-urlencoded;charset=utf-8";
+	private static final String KAKAO_PAY_READY_URL = "https://kapi.kakao.com/v1/payment/ready";
+	
+	// 제품 결제 form
+	@GetMapping("kakaoPayBtn")
+	public String kakaoPayBtn() {
+		return "sungsu/kakaoPay";
+	}
+	
+	// 카카오 페이 결제 준비
+	@GetMapping("kakaoPay")
+	public RedirectView kakaoPayCode(ItemDTO itemDTO, HttpSession session) {
+		String kakaoPayRequestURL = ms.readyKakaoPay(ADMIN_KEY, CONTENT_TYPE, KAKAO_PAY_READY_URL, itemDTO, session);	
+		RedirectView redirectView = new RedirectView();
+		redirectView.setUrl(kakaoPayRequestURL);
+		return redirectView;
+	}
+	
+	// 카카오 페이 결제 승인
+	private static final String KAKAO_PAYMENT_APPROVE_URL = "https://kapi.kakao.com/v1/payment/approve";
+	@RequestMapping("success")
+	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, HttpSession session) {
+		ms.kakaoPaymentApprove(KAKAO_PAYMENT_APPROVE_URL, ADMIN_KEY, pg_token, session);
+		return "sungsu/kakaoPaySuccess";
+	}
+	
+	// 카카오 페이 결제 실패
+	@RequestMapping("fail")
+	public String kakaoPayFail() {
+		return "sungsu/kakaoPayFail";
+	}
+	
+	// 카카오페이 결제 승인 리스트
+	@RequestMapping("kakaoPaymentApproveList")
+	public String paymentOrder(
+			Model model,
+			@RequestParam(value = "num", required = false, defaultValue = "1") int num,
+			HttpServletRequest request) {
+		ms.getkakaoPaymentApproveList(num, request, model);
+		return "sungsu/kakaoPaymentApproveList";
+	}
+	
+	// 카카오페이 결제 상세 조회
+	private static final String KAKAO_PAYMENT_ORDER_URL = "https://kapi.kakao.com/v1/payment/order";
+	@GetMapping("kakaoPaymentOrderInfo")
+	public String kakaoPaymentOrder(Model model, HttpServletRequest request) {
+		ms.selectKakaoPaymentOrderInfo(KAKAO_PAYMENT_ORDER_URL, ADMIN_KEY,model, request);
+		return "sungsu/kakaoPaymentOrderInfo";
+	}
+	
+	// 카카오페이 결제 취소
+		private static final String KAKAO_PAYMENT_CANCEL_URL = "https://kapi.kakao.com/v1/payment/cancel";
+		@GetMapping("kakaoPaymentCancel")
+		public RedirectView kakaoPaymentCancel(HttpServletRequest request, Model model) {
+			ms.kakaoPaymentCancel(KAKAO_PAYMENT_CANCEL_URL, ADMIN_KEY, CONTENT_TYPE, request, model);
+			
+			RedirectView redirectView = new RedirectView();
+			redirectView.setUrl("http://localhost:8080/root/member/kakaoPaymentApproveList?num=1");
+			return redirectView;
+		}
 	
 
 	

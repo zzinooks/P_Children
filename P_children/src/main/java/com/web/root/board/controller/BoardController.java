@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +26,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardService;
+import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
 
@@ -45,27 +45,33 @@ public class BoardController implements MemberSession{
 	
 	//============================ 주진욱 시작 ===========================================
 	
-	
-	/*
-	@GetMapping("boardAllList")
-	public String boardAllList(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
-		bs.boardAllList(model);
-		return "/board/boardAllList";
-	}
-	*/
-	
 	@GetMapping("boardAllList")
 	public String boardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
-		bs.boardAllList(model, num, request);
-		String id = (String) session.getAttribute(LOGIN);
 		
-		ms.userInfo(id, model);
+		// boardList 생성
+		bs.boardAllList(model, num, request);
+		
+		// 카카오톡 로그인 check
+		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+		
+		// 로그인값 불러오기
+		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			String id = (String) session.getAttribute(LOGIN);
+			ms.userInfo(id, model);
+		} else {
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(kakaoIdCheck);
+			memberDTO.setGrade("bronze");
+			model.addAttribute("info", memberDTO);
+		}
+		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
 		model.addAttribute("admin", ADMIN);
 		return "/board/boardAllList"; 
 	}
 	
 	@RequestMapping("writeForm")
 	public String writeForm(HttpSession session, Model model) {
+		
 		String id = (String) session.getAttribute(LOGIN);
 		model.addAttribute("user", id);
 		return "/board/writeForm";
@@ -92,11 +98,22 @@ public class BoardController implements MemberSession{
 		model.addAttribute("dto", dto);
 		model.addAttribute("user", user);
 		
-		ms.userInfo(user, model);
+		// 카카오톡 로그인 check
+		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+		
+		// 로그인값 불러오기
+		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			String id = (String) session.getAttribute(LOGIN);
+			ms.userInfo(id, model);
+		} else {
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(kakaoIdCheck);
+			memberDTO.setGrade("bronze");
+			model.addAttribute("info", memberDTO);
+		}
+		
 		model.addAttribute("admin", ADMIN);
 		
-		//String id = (String) session.getAttribute(LOGIN);
-		//	ms.userInfo(id, model);
 		
 		bs.hitplus(dto);
 		return "/board/contentView";
@@ -131,7 +148,7 @@ public class BoardController implements MemberSession{
 		
 		// 수정 파일 존재시 실제 저장된 파일 삭제
 		if(file.getSize() != 0) {
-			//bfs.deleteFile(dto.getImage_file_name());
+			bfs.deleteFile(dto.getFile_name());
 		}
 		
 		// board 입력 및 결과 메시지 출력
@@ -185,7 +202,6 @@ public class BoardController implements MemberSession{
 		model.addAttribute("admin", ADMIN); // 관리자 아이디 저장
 		return "board/notice/noticeBoardAllList";
 	}
-	
 	
 	// 공지사항 게시글 보기
 	@RequestMapping("notice/noticeBoardContentView")

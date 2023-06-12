@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>결제 페이지</title>
+<title>카카오 페이 성공!</title>
 </head>
 <body>
-	<a href="root/member/bootPay">결제하기</a>
+
 </body>
 </html>

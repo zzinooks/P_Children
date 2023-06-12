@@ -36,32 +36,38 @@
 	
 	<!-- ======================== 성수 시작 ==========================  -->
 
-	
+	<!-- 멤버 등록 -->
 	<insert id="registMember">
 		INSERT INTO member(id, pwd, nickname, phone, email, addr, userSelect)
 		VALUES(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, #{userSelect})
 	</insert>
 	
+	<!--  -->
 	<insert id="registHost">
 		INSERT INTO member VALUES
 		(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT, #{userSelect}, #{mateName}, #{mateBreed}, DEFAULT)
 	</insert>
 
+	<!--  -->
 	<insert id="registKakaoUser">
 		INSERT INTO kakaoUser VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
 	</insert>	
 	
+	<!-- 회원정보  -->
 	<select id="getHostInfo" resultMap="member">
 		SELECT * FROM member WHERE id=#{id}
 	</select>
 	
+	<!-- 이메일 중복 체크 -->
+	<select id="checkEmail" resultMap="member">
+		SELECT * FROM member WHERE email=#{email}
+	</select>
+	
+	<!-- 카카오로그인 아이디 데이터 체크 -->
 	<select id="kakaoUserCheck" resultMap="kakaoUser">
 		SELECT * FROM kakaoUser WHERE kakaoId=#{kakaoId}
-	</select>
+	</select> 
    
-   <select id="checkEmail" resultMap="member">
-      SELECT * FROM member WHERE email=#{email}
-   </select>
    
 
 	<!-- ======================== 성수 끝 ==========================  -->

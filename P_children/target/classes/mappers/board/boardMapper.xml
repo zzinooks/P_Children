@@ -147,7 +147,64 @@
 		INSERT INTO programBoard(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit)
 		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0)
 	</insert>
+
+	<select id="selectProgramBoardCount" resultType="Integer">
+		SELECT COUNT(*) FROM programBoard
+	</select>
 	
+	<select id="programBoardAllList" resultMap="programBoard">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM programBoard ORDER BY write_no DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<select id="programContentView" resultMap="programBoard">
+		SELECT * FROM programBoard WHERE write_no= #{write_no}
+	</select>
+	
+	<update id="programHitplus">
+		UPDATE programBoard SET hit=hit+1 WHERE write_no =#{write_no}
+	</update>
+	
+	<update id="modifySaveForProgram" parameterType="com.web.root.board.dto.ProgramBoardDTO">
+		UPDATE programBoard
+		SET title=#{title},
+			petKind=#{petKind},
+			mateName=#{mateName},
+			content=#{content},
+			position1=#{position1},
+			position2=#{position2},
+			startDate=#{startDate},
+			startTime=#{startTime},
+			endDate=#{endDate},
+			endTime=#{endTime},
+			state=#{state},
+			priceForProgram=#{priceForProgram}
+		WHERE write_no = #{write_no}
+	</update>
+	
+	<update id="modifySaveForProgramWithFile" parameterType="com.web.root.board.dto.ProgramBoardDTO">
+		UPDATE programBoard
+		SET title=#{title},
+			petKind=#{petKind},
+			mateName=#{mateName},
+			mateImage=#{mateImage},
+			content=#{content},
+			position1=#{position1},
+			position2=#{position2},
+			startDate=#{startDate},
+			startTime=#{startTime},
+			endDate=#{endDate},
+			endTime=#{endTime},
+			state=#{state},
+			priceForProgram=#{priceForProgram}
+		WHERE write_no = #{write_no}
+	</update>
+	
+	<delete id="deleteProgram">
+		DELETE FROM programBoard WHERE write_no=#{write_no}	
+	</delete>	
 	
 	<!--  ======================== 진욱 끝 ==========================   -->
 	

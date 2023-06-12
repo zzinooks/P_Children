@@ -14,7 +14,6 @@ public interface BoardMapper {
 	
 	//============================ 주진욱 시작 ===========================================
 	
-	//public List<BoardDTO> boardAllList();
 	public List<BoardDTO> boardAllList(@Param("s") int start, @Param("e") int end);
 	
 	public int selectBoardCount();
@@ -51,7 +50,19 @@ public interface BoardMapper {
 	// 프로그램 보드
 	public int writeSaveForProgram(ProgramBoardDTO programBoardDTO);
 	
+	public int selectProgramBoardCount();
 	
+	public List<ProgramBoardDTO> programBoardAllList(@Param("s") int start, @Param("e") int end);
+	
+	public ProgramBoardDTO programContentView(ProgramBoardDTO programBoardDTO);
+	
+	public int programHitplus(ProgramBoardDTO programBoardDTO);
+	
+	public int modifySaveForProgram(ProgramBoardDTO programBoardDTO);
+	
+	public int modifySaveForProgramWithFile(ProgramBoardDTO programBoardDTO);
+	
+	public int deleteProgram(int write_no);
 	//============================ 주진욱 끝 ===========================================
 	
 	
