@@ -83,6 +83,7 @@ public class MemberController implements MemberSession{
 		}
 	}
 	
+	// 회원 게시물
 	@RequestMapping("member_board")
 	public String member_board(Model model, HttpSession session, @RequestParam(value="num", required = false, defaultValue="1" )int num ) {
 		String id = (String) session.getAttribute(LOGIN);
@@ -92,11 +93,13 @@ public class MemberController implements MemberSession{
 		return "chenggyu/member_board";
 	}
 	
+	// 회원 문의
 	@RequestMapping("member_qna")
 	public String member_qna() {
 		return "chenggyu/member_qna";
 	}
 	
+	// 관리자 정보
 	@RequestMapping("manager_information")
 	public String manager_information(HttpSession session, HttpServletRequest request, Model model) {
 		String id = (String) session.getAttribute(LOGIN);
@@ -105,18 +108,27 @@ public class MemberController implements MemberSession{
 		return "chenggyu/manager_information";
 	}
 	
+	// 사용자 관리
 	@RequestMapping("manager_memberList")
 	public String manager_List(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
 		ms.memberInfo(model, num);
 		return "chenggyu/manager_memberList";
 	}
 	
+	// 사용자 삭제
+	@RequestMapping("delete")
+	public void delete(Model model, HttpServletRequest request) {
+		ms.deleteMember(model, request);
+	}
+	
+	// 	게시물 관리
 	@RequestMapping("manager_board")
 	public String manager_board(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
 		ms.manager_board(model, num);
 		return "chenggyu/manager_board";
 	}
 	
+	// 관리자 문의 관리
 	@RequestMapping("manager_qna")
 	public String manager_qna(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
 		ms.manager_qna(model, num);

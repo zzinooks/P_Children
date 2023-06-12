@@ -5,14 +5,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>board/boardAllList.jsp</title>
-
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <style type="text/css">
 
 h1 {
@@ -43,11 +43,12 @@ table tr:last-child {
 }
 </style>
 
-
-
 </head>
 <body>
-<%-- <c:import url="../default/header.jsp"/> --%>
+
+	<c:import url="../default/header.jsp"/>
+	
+	<section class="home-landing">
 	<h1> 게시판 </h1>
 	<div class="wrap board_table">
 		<table class="table table-striped">
@@ -145,6 +146,8 @@ table tr:last-child {
 			</tr>
 		</table>
 	</div>
-<%-- <c:import url="../default/footer.jsp"/> --%>
+	<c:import url="../default/footer.jsp"/>
+	</section>
+		
 </body>
 </html>

@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/index.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/index.css?v=2" rel="stylesheet" type="text/css">
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
 </head>
 <body>
@@ -33,11 +33,11 @@
 			<p>   모든 반려 메이트들을 사랑하는 분들 모두! Mate With Us!</p>
             <h3>그 어려움을 Mate With 가 함께 나누겠습니다.</h3>		
 		<button class="btn" onclick="location.href='${contextPath }/programBoard/writeFormForProgram'">바로 가기</button>
-			<div class="social-media">
-				<a href="#"><i class='bx bxl-facebook-circle'></i></a>
+		<div class="social-media">
+<!-- 				<a href="#"><i class='bx bxl-facebook-circle'></i></a>
 				<a href="#"><i class='bx bxl-instagram' ></i></a>
 				<a href="#"><i class='bx bxl-twitter' ></i></a>
-				<a href="#"><i class='bx bxl-reddit' ></i></a>
+				<a href="#"><i class='bx bxl-reddit' ></i></a> -->
 			</div>
 		</div>
 			<ul class="main_ul">

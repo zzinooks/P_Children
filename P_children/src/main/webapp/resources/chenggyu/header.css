@@ -25,11 +25,7 @@ body{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-<<<<<<< HEAD
 	padding: 10px 5%;
-=======
-	padding: 10px 10%;
->>>>>>> branch 'main' of https://github.com/ssp930/P_Children
 }
 a{
 	color: #201F20;
@@ -47,7 +43,6 @@ a{
 .logo span{
 	font-size: 26px;
 	cursor: pointer;
-	margin-left: 10px;
 }
 .navbar a{
 	font-size: 18px;

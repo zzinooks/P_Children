@@ -19,6 +19,7 @@ public interface MemberService {
 	public MemberDTO member_information(String id);
 	public void modify_save(HttpServletRequest request);
 	public void member_leave_save(HttpServletRequest request);
+	public void deleteMember(Model model, HttpServletRequest request);
 	
 	public int userCheck(HttpServletRequest request);
 	

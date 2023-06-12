@@ -12,16 +12,35 @@
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <style type="text/css">
-table{
-	text-align: center;
-	width: 80%;
-	position: absolute;
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-td, th{
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
+table             { 
+  border-spacing: 1; 
+  border-collapse: collapse; 
+  background:white;
+  border-radius:6px;
+  overflow:hidden;
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  }
+    td,th{ 
+    padding-left:8px;
+    padding-right: 8px;
+    text-align:center;
+    }
+
+  thead tr  { 
+    height:40px;
+    background:#A996DB;
+    font-size:16px;
+  }
+  
+  tbody tr     { 
+  height:40px; 
+  border-bottom:1px solid #E3F1D5 ;
+    &:last-child  { border:0; }
+  }
+#left{
+	text-align: left;
 }
 </style>
 </head>
@@ -29,15 +48,12 @@ td, th{
 
 	<c:import url="../default/header.jsp"/>
 	
-	<section class="main-landing">
-	<div class="main_box">
-		<div class="text-section">
-			<h2>회원 관리</h2>
-			<p>관리자 정보 > 회원관리 </p>
-		</div>
-		<div class="table-member">
-			<table class="member">
-				<tr>
+	<section ><!-- body -->
+		<div class="form-box-list"> <!--  container  -->
+		<div class="title" >사용자 관리</div>
+		<table >
+		<thead>
+			<tr>
 					<th>아이디</th>
 					<th>비밀번호</th>
 					<th>닉네임</th>
@@ -46,7 +62,8 @@ td, th{
 					<th>주소</th>
 					<th>등급</th>
 					<th>관리</th>
-				</tr>
+			</tr>
+		</thead>
 				<c:if test="${memberList.size() == 0 }">
 					<tr>
 						<th colspan="8">등록된 회원 없습니다.</th>
@@ -59,24 +76,17 @@ td, th{
 						<td>${member.nickname }</td>
 						<td>${member.phone }</td>
 						<td>${member.email }</td>
-						<td>${member.addr }</td>
+						<td id="left">${member.addr }</td>
 						<td>${member.grade }</td>
-						<td><input type="button" value="수정"> &nbsp; <input
-							type="button" value="삭제" onclick=""></td>
+						<td><button onclick="location.href='${contextPath}/member/delete?id=${member.id}">삭제</button></td>
 					</tr>
 				</c:forEach>
-			</table>
-		</div>
-		
-		<div class="under-section">
-			<c:forEach  var="num" begin="1" end="${repeat }">
-						<a href="manager_memberList?num=${num }">[ ${num } ]</a>
-			</c:forEach>
-		</div>
-		
-		<a href="/root/member/manager_memberList">회원 목록 관리</a>
-		<a href="/root/member/manager_board">게시물 관리</a>
-		<a href="/root/member/manager_qna">1대1문의</a>
+		</table>
+			<div class="under-section">
+				<c:forEach  var="num" begin="1" end="${repeat }">
+							<a href="manager_memberList?num=${num }" id="pg"> &nbsp; ${num } &nbsp;</a>
+				</c:forEach>
+			</div>
 		</div>
 	</section>
 

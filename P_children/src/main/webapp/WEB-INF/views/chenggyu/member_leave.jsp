@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <title>member_leave</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 function leave(){
 	var pwd = $('#pwd').val();
@@ -37,28 +38,30 @@ function leave(){
 </head>
 <body>
 
-	<div align="center">
-
-		<br>
-		<h1>회원 탈퇴</h1>
-		<br>
+	<c:import url="../default/header.jsp"/>
+	   
+		<section><!-- body -->
+		<div class="form-box"> <!--  container  -->
+		<div class="title">회원 탈퇴</div>
 		<form id="leave_form" action="${contextPath }/member/member_leave_save">
-		<table>
-			<tr>
-				<th>아이디  <input type="text" name="id" value="${dto.id }" readonly="readonly"></th>
-			</tr>
-			<tr>
-				<th>비밀번호 <input type="text"  id="pwd" name="pwd"> </th>
-			</tr>
-		</table>
-			<br><br>
-			<input type="button" value="확인" onclick="leave()">
+			<div class="user-details">
+				<div class="input-box">
+					<span class="details">아이디</span>
+					<input type="text"   name="id" value="${dto.id }" readonly="readonly">	
+				</div>
+				<div class="input-box">
+					<span class="details">비밀번호 </span>
+					<input type="text"  name="pwd" id="pwd">
+				</div>
+			</div>
+			<div class="button">
+				<input type="button" value="확인" onclick="leave()" class="but_1">
+			</div>
 		</form>
-
-		<br><br> 
-		<a href="/root/member/member_information ">개인 정보</a>
-
-	</div>
+		</div>
+	</section>
+	
+	 <c:import url="../default/footer.jsp"/>
 
 
 </body>

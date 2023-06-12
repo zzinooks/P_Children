@@ -4,78 +4,187 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
+<c:set var="path" value="${pageContext.request.contextPath }"/>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>member_modify</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<script src="${contextPath}/resources/chenggyu/js/memberScript.js?v=2"></script>
-<script type="text/javascript">
-function modify(){
-	var pwd = $('#ck_pwd').val();
-	var re_pwd = $('#re_pwd').val();
-	var re_pwd_ck = $('#re_pwd_ck').val();
-	if( pwd != ${dto.pwd} ){
-		alert("비밀번호를 확인해주세요");
-	} else if( re_pwd != re_pwd_ck || re_pwd == "" ){
-		alert("새로운 비밀번호 확인해주세요");
-	} else {
-	$.ajax({
-		url: "modify_save",
-		type: "POST",
-		data : $("#mod_form").serialize(),
-		success: function(data){
-			$("#count").text(data)
-			console.log("성공");
-			let url = 'member_information'
-			location.replace(url);
-		},
-		error: function(){
-			console.log("실패");
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/regist.css?v=1" rel="stylesheet" type="text/css">
+<script src="${path }/resources/chenggyu/js/memberModify.js?v=1"></script>
+<script>	
+	window.onload = function(){
+		if(${cookie.userSelect.value == "host"}){
+			$("#divHost").css("display", "");
+			
+			function deleteSpan_mateName(){
+				$("#mateName_").empty();
+			}
+			
+			function deleteSpan_mateBreed(){
+				$("#mateBreed_").empty();
+			}
 		}
 		
-	})
-}
-}
+	}
+	
+	// form 값 들어왔는지 확인.
+function valueCheck() {
+		let pwdCheck = document.querySelector("span#pwdCheck_");
+		let new_pwd = document.querySelector("span#pwd_new");
+		let nickname = document.querySelector("span#nickname_");
+		let phone = document.querySelector("span#phone_");
+		let email = document.querySelector("span#email_");
+		let addr = document.querySelector("span#addr_");
+		let mateName = document.querySelector("span#mateName_");
+		let mateBreed = document.querySelector("span#mateBreed_");
+		
+		 if(document.form.pwdCheck.value == ""){
+			pwdCheck.style.color = "red";
+			pwdCheck.innerHTML = "현재 비밀번호를 입력해 주세요.";
+			document.form.pwdCheck.focus();
+		}
+		else if(document.form.new_pwd.value == ""){
+			new_pwd.style.color = "red";
+			new_pwd.innerHTML = "새로운 비밀번호를 입력해주세요";
+			document.form.new_pwd.focus();
+		}
+		else if(document.form.nickname.value == ""){
+			nickname.style.color = "red";
+			nickname.innerHTML = "닉네임을 입력해 주세요.";
+			document.form.nickname.focus();
+		}
+		else if(document.form.phone.value == ""){
+			phone.style.color = "red";
+			phone.innerHTML = "전화번호를 입력해 주세요.";
+			document.form.phone.focus();
+		}
+		else if(document.form.email.value == ""){
+			email.style.color = "red";
+			email.innerHTML = "이메일을 입력해 주세요.";
+			document.form.email.focus();
+		}
+		else if(document.form.addr2.value == ""){
+			addr.style.color = "red";
+			addr.innerHTML = "상세주소를 입력해 주세요. 없으면 '없음'을 입력해 주세요.";
+			document.form.addr2.focus();
+		}
+		else if(${dto.userSelect == "host"}){
+			if(document.form.mateName.value == ""){
+				mateName.style.color = "red";
+				mateName.innerHTML = "메이트 이름을 입력해 주세요.";
+				document.form.mateName.focus();
+			}
+			else if(document.form.mateBreed.value == ""){
+				mateBreed.style.color = "red";
+				mateBreed.innerHTML = "메이트 견종을 입력해 주세요.";
+				document.form.mateBreed.focus();
+			}
+			else {
+				$.ajax({
+					url: "modify_save",
+					type: "POST",
+					data : $("#modfiy_form").serialize(),
+					success: function(data){
+						$("#count").text(data)
+						console.log("성공");
+						 window.location.href = "${path }/member/member_information" ;
+					},
+					error: function(){
+						console.log("실패");
+					}
+					
+				})
+			}
+		}
+		else{
+			$.ajax({
+				url: "modify_save",
+				type: "POST",
+				data : $("#modfiy_form").serialize(),
+				success: function(data){
+					$("#count").text(data)
+					console.log("성공");
+					 window.location.href = "${path }/member/member_information" ;
+				},
+				error: function(){
+					console.log("실패");
+				}
+				
+			})
+		}
+		
+	}	
 </script>
 </head>
 <body>
 
-	<div align="center">
-		<br>
-		<h1>개인정보 수정</h1>
-		<br>
-		<form id="mod_form" action="${contextPath }/member/modify_save"  method="post">
-					<a>아이디</a>
-					<p><input type="text" name="id" value="${dto.id }" readonly="readonly"></p>
-					<a>비밀번호</a>
-					<p><input type="password" name="pwd" value="${dto.pwd }" readonly="readonly"></p>
-					<a>비밀번호 확인</a>
-					<p><input type="text" id="ck_pwd" name="ck_pwd"  value=""></p>
-					<a>새로운 비밀번호 </a>
-					<p><input type="text" id="re_pwd" name="re_pwd"  value=""></p>
-					<a>새로운 비밀번호 확인</a>
-					<p><input type="text" id="re_pwd_ck" name="re_pwd_ck"  ></p>
-					<a>닉네임</a>
-					<p><input type="text" name="nickname" value="${dto.nickname }" ></p>
-					<a>이메일</a>
-					<p><input type="text" name="email" value="${dto.email }" readonly="readonly"></p>
-					<a>핸드폰</a>
-					<p><input type="text" name="phone" value="${dto.phone }" ></p>
-					<a>주소</a>
-					<p><input type="text" name="addr" value="${dto.addr }" ></p>
-			<br><br>
-			<input type="button" value="수정" onclick="modify()"> &nbsp;
-			<input type="reset"value="다시 작성">
+	<c:import url="../default/header.jsp"/>
+
+	<section><!-- body -->
+		<div class="form-box"> <!--  container  -->
+		<div class="title">개인 정보 수정</div>
+		<form id="modfiy_form" name="form" action="${path }/member/modify_save"  method="post">
+			<div class="user-details">
+				<div class="input-box">
+					<span class="details">아이디</span>
+					<input type="text" id="userid" name="id" value="${dto.id }" readonly="readonly">	
+				</div>
+				<div class="input-box">
+					<span class="details">현재 비밀번호</span>
+					<input type="hidden" id="pwd" name="pwd"  value="${dto.pwd}">
+					<input type="text" id="pwdCheck" placeholder="비밀번호 재확인" >
+					<span id="pwdCheck_"></span>
+				</div>
+				<div class="input-box">
+					<span class="details">새로운 비밀번호</span>
+					<input type="text" id="new_pwd" name="new_pwd" oninput="deleteSpan_pwd_new()"  placeholder="새로운비밀번호" >
+					<span id="pwd_new"></span>
+				</div>
+				<div class="input-box">
+					<span class="details">닉네임</span>
+					<input type="text" id="nickname" name="nickname" oninput="deleteSpan_nickname()" value="${dto.nickname }" >
+					<span id="nickname_"></span>
+				</div>
+				<div class="input-box">
+					<span class="details">휴대번호</span>
+					<input type="text" id="phone" name="phone" oninput="deleteSpan_phone()" value="${dto.phone}">
+					<span id="phone_"></span>
+				</div>
+				<div class="input-box">
+					<span class="details">이메일</span>
+					<input type="text" id="email" name="email" value="${dto.email}" readonly="readonly">
+					<span id="email_"></span>
+				</div>
+				<div class="input-box" >
+					<span class="details">주소</span>
+					<input type="text" id="zonecode" name="zonecode" size="5" placeholder="우편번호">
+					<input type="text" id="addr1" name="addr1" size="30" placeholder="주소">
+					<input type="text" id="addr2" name="addr2" placeholder="상세주소" oninput="deleteSpan_addr2()">
+					<input type="text" id="addr3" name="addr3" size="15" placeholder="참고항목">
+					<span id="addr_"></span>
+				</div>
+				<div class="input-box-addr">
+					<input type="button" value="우편번호찾기" onclick="findAddr()">
+				</div>
+				<c:if test="${dto.userSelect == 'host' }">
+				<div class="input-box">
+					<span class="details">메이트 정보</span>
+					<input type="text" id="mateName" name="mateName" oninput="deleteSpan_mateName()" value="${dto.mateName} ">
+					<span id="mateName_"></span>
+					<input type="text" id="mateBreed" name="mateBreed" oninput="deleteSpan_mateBreed()" value="${dto.mateBreed}">
+					<span id="mateBreed_"></span>
+				</div>
+				</c:if>
+			</div>
+				<input type="button" value="완료" onclick="valueCheck()" class="but_1">
 		</form>
-		
-		<br><br>
-		<a href="/root/member/member_information ">개인 정보</a>
-
-	</div>
-
+		</div>
+	</section>
+	
+	<c:import url="../default/footer.jsp"/>
 
 </body>
 </html>

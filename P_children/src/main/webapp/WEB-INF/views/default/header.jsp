@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>header</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/header.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/header.css?v=2" rel="stylesheet" type="text/css">
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
 <script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=1"></script>
 </head>
@@ -32,10 +32,10 @@
 			<c:otherwise>
 				<c:choose>
 					<c:when test="${info.grade == 'gold' || grade =='gold'}">
-						<a href="${contextPath }/member/manager_information">관리자 정보</a>
+						<a href="${contextPath }/member/manager_information">Admin Page</a>
 					</c:when>
 					<c:otherwise>
-						<a href="${contextPath }/member/member_information">회원 정보</a>
+						<a href="${contextPath }/member/member_information">My Page</a>
 					</c:otherwise>
 				</c:choose>
 					<c:if test="${kakaoId != null }">

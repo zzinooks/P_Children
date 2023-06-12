@@ -15,15 +15,13 @@ body{
 	border-bottom: 100vh solid #C5FAD5;
 	border-right: 400px solid transparent;
 	position: absolute;
-	flex-direction: row;
 }
 section{
 	display: flex;
-	min-height: 95vh;
+	min-height: 100vh;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	padding: 10px;
 }
 .form-box{
 	max-width: 700px;
@@ -84,7 +82,6 @@ from .user-details .input-box-addr{
 	display: block;
 	width: 25%;
 	font-weight: 500;
-	margin-right: 25px;
 	margin-top: 20px;
 }
 .user-details .input-box-addr input{

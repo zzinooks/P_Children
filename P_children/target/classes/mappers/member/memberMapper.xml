@@ -115,11 +115,15 @@
 	</select>
 	
 	<update id="modify_save" >
-		UPDATE member SET pwd=#{pwd }, nickname=#{nickname}, phone=#{phone}, addr=#{addr} WHERE id=#{id}
+		UPDATE member SET pwd=#{pwd }, nickname=#{nickname}, phone=#{phone}, addr=#{addr}, mateName=#{mateName},  mateBreed=#{mateBreed} WHERE id=#{id}
 	</update>
 	
 	<delete id="member_leave_save">
 		DELETE FROM member WHERE id=#{id} AND pwd=#{pwd}
+	</delete>
+	
+	<delete id="deleteMember">
+		DELETE FROM member WHERE id=#{id}
 	</delete>
 	
 	<!-- ==================== 청규 끝 ======================= -->

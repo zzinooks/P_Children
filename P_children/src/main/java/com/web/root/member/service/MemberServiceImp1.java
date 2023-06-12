@@ -48,10 +48,16 @@ public class MemberServiceImp1 implements MemberService {
 	public void modify_save(HttpServletRequest request) {
 		MemberDTO dto = new MemberDTO();
 		dto.setId(request.getParameter("id"));
-		dto.setPwd(request.getParameter("re_pwd"));
+		dto.setPwd(request.getParameter("new_pwd"));
 		dto.setNickname(request.getParameter("nickname"));
 		dto.setPhone(request.getParameter("phone"));
-		dto.setAddr(request.getParameter("addr"));
+		dto.setMateName(request.getParameter("mateName"));
+		dto.setMateBreed(request.getParameter("mateBreed"));
+		String addrMerge = request.getParameter("addr1") + "/" 
+				  +request.getParameter("addr2") + "/"
+				  +request.getParameter("addr3") + "/"
+				  +request.getParameter("zonecode") + "/";
+		dto.setAddr(addrMerge);
 
 		mapper.modify_save(dto);
 	}
@@ -126,9 +132,13 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
+	public void deleteMember(Model model, HttpServletRequest request) {
+		String id = request.getParameter("id");
+		mapper.deleteMember(id);
+	}
+	
 	//============================ 박성수 시작 ===========================================
-	
-	
+
 	@Override
 	public String registHost(MemberDTO dto) {
 		String message = "";

@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>Mate With 비밀번호 찾기</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=3" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=2" rel="stylesheet" type="text/css">
 <script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=2"></script>
 <script>
 	
@@ -38,18 +38,20 @@
 	}
 	
 	// 인증코드 체크
-	function CheckCode(){
-		let code = $("#input_code").val();
-		let check = $("#email_code").val();
-		
-		if(code === check && code != ""){
-			$("#result").text("인증 성공");
-			$
-		} else {
-			$("#result").text("인증 실패");
-			$("#input_code").focus();
-		}
-	}
+    function CheckCode(){
+      let code = $("#input_code").val();
+      let check = $("#email_code").val();
+      
+      if(code === check && code != ""){
+         $("#result").text("인증 성공");
+         $("#findUserPwdForm").submit();
+         
+      } else {
+         $("#result").text("인증 실패");
+         $("#input_code").focus();
+      }
+   } 
+	
 	
 	
 </script>
@@ -57,43 +59,43 @@
 <body>
 
 	<c:import url="../default/header.jsp"/>
+	   
+	   <section>
+	      <div class="form-box">
+	         <form id="findUserPwdForm" action="${contextPath}/member/findUserPwd" method="post">
+	            <h2>비밀번호 찾기</h2>
+	            <div class="inputbox">
+	               <div class="ion-icon">
+	               <i class='bx bx-user'></i>
+	               </div>
+	               <input type="text"  name="findUserId" required="required">
+	               <label for="">아이디</label>
+	            </div>
+	            <div class="inputbox">
+	               <div class="ion-icon">
+	               <i class='bx bx-envelope' onclick="sendEmail()"></i>
+	               </div>
+	               <input type="text" id="input_email" name="email" required="required">
+	               <label for="">이메일</label>
+	            </div> 
+	            <div class="inputbox">
+	               <div class="ion-icon">
+	               <i class='bx bxs-envelope'></i>
+	               </div>
+	               <input type="text" id="input_code" name="code" required="required">
+	               <label for="">인증코드</label>
+	            </div>
+	            <div class="main" id='main'>
+	                  <span id="result"></span>
+	            </div>
+	               <input type="hidden" id="email_code" >
+	            <input type="button" class="but_1" value="비밀번호 찾기" onclick="CheckCode()">
+	            
+	         </form>
+	      </div>
+	   </section>
 	
-	<section>
-		<div class="form-box">
-			<form name="findUserPwdForm" action="${contextPath}/member/findUserPwd" method="post">
-				<h2>비밀번호 찾기</h2>
-				<div class="inputbox">
-					<div class="ion-icon">
-					<i class='bx bx-user'></i>
-					</div>
-					<input type="text"  name="findUserId" required="required">
-					<label for="">아이디</label>
-				</div>
-				<div class="inputbox">
-					<div class="ion-icon">
-					<i class='bx bx-envelope' onclick="sendEmail()"></i>
-					</div>
-					<input type="text" id="input_email" name="email" required="required">
-					<label for="">이메일</label>
-				</div> 
-				<div class="inputbox">
-					<div class="ion-icon">
-					<i class='bx bxs-envelope' onclick="CheckCode()"></i>
-					</div>
-					<input type="text" id="input_code" name="code" required="required">
-					<label for="">인증코드</label>
-				</div>
-				<div class="main" id='main'>
-						<span id="result"></span>
-				</div>
-					<input type="hidden" id="email_code" >
-				<button value="비밀번호 찾기" class="but_1" onclick="findUserPwdCheck()">비밀번호 찾기</button>
-				
-			</form>
-		</div>
-	</section>
-
-	<c:import url="../default/footer.jsp"/>
+	   <c:import url="../default/footer.jsp"/>
 		
 	
 

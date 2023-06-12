@@ -10,36 +10,47 @@
 <head>
 <meta charset="UTF-8">
 <title>manager_information</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 </head>
 <body>
 	
-	<c:import url="../default/header.jsp"/>
-	
-	<section class="main-landing">
-	<div class="main_box">
-		<div class="text-section">
-			<h2>관리자 정보</h2>
-			<p>관리자 정보</p>
-		</div>
-		<div class="table-section">
-			<h3>아이디</h3>
-				<a>${dto.id }</a>
-			<h3>등급</h3>
-				<a>${dto.grade }</a>
-			<h3>닉네임</h3>
-				<a>${dto.nickname }</a>
-			<h3>이메일</h3>
-				<a>${dto.email }</a>
-			<h3>휴대번호</h3>
-				<a>${dto.phone }</a>
-			<h3>주소</h3>
-				<a>${dto.addr }</a>
-		<br>
-		</div>
-		<a href="/root/member/manager_memberList">회원 목록 관리</a>
-		<a href="/root/member/manager_board">게시물 관리</a>
-		<a href="/root/member/manager_qna">1대1문의</a>
+		<c:import url="../default/header.jsp"/>
+		
+		<section><!-- body -->
+		<div class="form-box"> <!--  container  -->
+		<div class="title">관리자 정보</div>
+		<form >
+			<div class="user-details">
+				<div class="input-box">
+					<span class="details">아이디</span>
+					<input type="text"  value="${dto.id }" readonly="readonly">	
+				</div>
+				<div class="input-box">
+					<span class="details">닉네임</span>
+					<input type="text" value="${dto.nickname }" readonly="readonly" >
+				</div>
+				<div class="input-box">
+					<span class="details">휴대번호</span>
+					<input type="text" value="${dto.phone }" readonly="readonly">
+				</div>
+				<div class="input-box">
+					<span class="details">이메일</span>
+					<input type="text" value="${dto.email }" readonly="readonly">
+				</div>
+				<div class="input-box">
+					<span class="details">등급</span>
+					<input type="text" value="${dto.grade }" readonly="readonly">
+				</div>
+				<div class="input-box_addr" >
+					<span class="details_addr">주소</span>
+					<input type="text" value="${dto.addr }"  readonly="readonly">
+				</div>
+			</div>
+			<div class="button">
+				<input type="button" value="사용자 관리" onclick="location.href='manager_memberList'" class="but_1">
+				<input type="button" value="문의 관리" onclick="location.href='manager_qna'" class="but_1">
+			</div>
+		</form>
 		</div>
 	</section>
 	

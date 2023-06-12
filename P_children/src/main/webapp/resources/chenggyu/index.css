@@ -15,6 +15,7 @@ body{
 	border-bottom: 100vh solid #C5FAD5;
 	border-right: 400px solid transparent;
 	position: absolute;
+	z-index: -20;
 }
 .home-landing{
 	width: 100%;

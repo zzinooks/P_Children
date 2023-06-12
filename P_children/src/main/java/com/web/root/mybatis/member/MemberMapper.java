@@ -20,6 +20,7 @@ public interface MemberMapper {
 	public MemberDTO getMember(String userid);
 	public void modify_save(MemberDTO dto);
 	public void member_leave_save(MemberDTO dto);
+	public void deleteMember(String id);
 	
 	public int selectBoardCount();
 	public int selectMemberCount();

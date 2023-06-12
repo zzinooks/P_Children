@@ -11,17 +11,36 @@
 <title>manager_board</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
 <style type="text/css">
-table{
-	text-align: center;
-	width: 80%;
-	position: absolute;
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-td, th{
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
-}
+table             { 
+  border-spacing: 1; 
+  border-collapse: collapse; 
+  background:white;
+  border-radius:6px;
+  overflow:hidden;
+  max-width:1000px; 
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  }
+    td,th           { padding-left:8px}
+
+  thead tr  { 
+    height:50px;
+    background:#A996DB;
+    font-size:16px;
+  }
+  
+  tbody tr     { 
+  height:48px; 
+  border-bottom:1px solid #E3F1D5 ;
+    &:last-child  { border:0; }
+  }
+  
+  td,th           { text-align:left;
+    &.l           { text-align:right }
+    &.c           { text-align:center }
+    &.r           { text-align:center }
+  }
 </style>
 </head>
 <body>

@@ -481,8 +481,7 @@ public class BoardServiceImpl implements BoardService {
 		m.addAttribute("startPage", startPage);
 		m.addAttribute("block", block);
 		m.addAttribute("totalPage", totalPage);
-		
-		System.out.println(noticeCategoryOption);
+	
 	}
 		
 	//============================ 최윤희 끝 ===========================================

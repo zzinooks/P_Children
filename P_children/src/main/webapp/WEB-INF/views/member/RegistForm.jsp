@@ -148,9 +148,9 @@ function valueCheck() {
 				</div>
 				<c:if test="${cookie.userSelect.value == 'host' }">
 				<div class="input-box">
-					<span class="details">메이트</span>
-					<input type="text" id="mateName" name="mateName" oninput="deleteSpan_mateName()" placeholder="띄어쓰기와 특수문자를 제외, 2~14자">
-					<input type="text" id="mateBreed" name="mateBreed" oninput="deleteSpan_mateBreed()" placeholder="띄어쓰기와 특수문자를 제외, 2~14자">
+					<span class="details">메이트 정보</span>
+					<input type="text" id="mateName" name="mateName" oninput="deleteSpan_mateName()" placeholder="메이트 이름">
+					<input type="text" id="mateBreed" name="mateBreed" oninput="deleteSpan_mateBreed()" placeholder="메이트 견종">
 				</div>
 				</c:if>
 			</div>
