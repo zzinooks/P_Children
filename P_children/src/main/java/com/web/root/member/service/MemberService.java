@@ -58,7 +58,7 @@ public interface MemberService {
 	public void selectKakaoPaymentOrderInfo(String kakaoPaymentOrderUrl, String adminKey, Model model, HttpServletRequest request);
 	
 	public void kakaoPaymentCancel(String kakaoPaymentCancelUrl, String adminKey, String contentType,
-			HttpServletRequest request);
+			HttpServletRequest request, Model model);
 	
 	
 	//============================ 박성수 끝 ===========================================

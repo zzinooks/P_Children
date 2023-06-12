@@ -267,12 +267,15 @@ public class MemberController implements MemberSession{
 	}
 	
 	// 카카오페이 결제 취소
-	private static final String KAKAO_PAYMENT_CANCEL_URL = "https://kapi.kakao.com/v1/payment/cancel";
-	@GetMapping("kakaoPaymentCancel")
-	public String kakaoPaymentCancel(HttpServletRequest request) {
-		ms.kakaoPaymentCancel(KAKAO_PAYMENT_CANCEL_URL, ADMIN_KEY, CONTENT_TYPE, request);
-		return "sungsu/kakaoPaymentApproveList";
-	}
+		private static final String KAKAO_PAYMENT_CANCEL_URL = "https://kapi.kakao.com/v1/payment/cancel";
+		@GetMapping("kakaoPaymentCancel")
+		public RedirectView kakaoPaymentCancel(HttpServletRequest request, Model model) {
+			ms.kakaoPaymentCancel(KAKAO_PAYMENT_CANCEL_URL, ADMIN_KEY, CONTENT_TYPE, request, model);
+			
+			RedirectView redirectView = new RedirectView();
+			redirectView.setUrl("http://localhost:8080/root/member/kakaoPaymentApproveList?num=1");
+			return redirectView;
+		}
 	
 
 	

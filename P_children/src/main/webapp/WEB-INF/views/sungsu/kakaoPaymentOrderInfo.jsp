@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +23,7 @@ h1 {
 </style>
 </head>
 <body>
+<c:import url="../default/header.jsp"/>
 	<h1>카카오페이 결제 승인 내역 상세</h1>
 	<form>
 		<table>
@@ -93,9 +95,13 @@ h1 {
 				<th>payment_action_details</th>
 				<td>${kakaoPaymOrderInfo.payment_action_details }</td>
 			</tr>
-			<tr>
-				<th colspan="2"><a href="kakaoPaymentCancel?cid=${kakaoPaymOrderInfo.cid }&tid=${kakaoPaymOrderInfo.tid }&cancel_amount=${total}&cancel_tax_free_amount=${tax_free}">결제 취소</a></th>
-			</tr>
+			<c:if test="${kakaoPaymOrderInfo.canceled_at == ''}">
+				<tr>
+					<th colspan="2">
+						<a href="kakaoPaymentCancel?cid=${kakaoPaymOrderInfo.cid }&tid=${kakaoPaymOrderInfo.tid }&cancel_amount=${total}&cancel_tax_free_amount=${tax_free}">결제 취소</a>
+					</th>
+				</tr>
+			</c:if>
 		</table>
 	</form>
 </body>

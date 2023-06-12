@@ -14,6 +14,8 @@ public interface KakaoPayMapper {
 
 	List<KakaoPaymentApproveResultDTO> selectKakaoPaymentApproveList(@Param("start") int start, @Param("end") int end);
 
+	void cancelCheck(@Param("tid") String tid);
+
 
 
 }

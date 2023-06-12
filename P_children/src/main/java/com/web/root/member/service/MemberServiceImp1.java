@@ -498,7 +498,7 @@ public class MemberServiceImp1 implements MemberService {
 	// 카카오페이 결제 취소
 	@Override
 	public void kakaoPaymentCancel(String kakaoPaymentCancelUrl, String adminKey, String contentType,
-			HttpServletRequest request) {
+			HttpServletRequest request, Model model) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -516,7 +516,8 @@ public class MemberServiceImp1 implements MemberService {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = 
         		restTemplate.postForEntity(kakaoPaymentCancelUrl, entity, String.class);
-			
+        
+        kakaoPayMapper.cancelCheck(request.getParameter("tid"));
 	}
 	
 	

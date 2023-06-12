@@ -1,7 +1,5 @@
 package com.web.root.kakaoPay.dto;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class KakaoPaymentApproveResultDTO {
 	private String aid;
 	private String tid;
@@ -18,6 +16,7 @@ public class KakaoPaymentApproveResultDTO {
 	private String created_at;
 	private String approved_at;
 	private String payload;
+	private String cancelCheck;
 	
 	public String getAid() {
 		return aid;
@@ -108,6 +107,12 @@ public class KakaoPaymentApproveResultDTO {
 	}
 	public void setPayload(String payload) {
 		this.payload = payload;
+	}
+	public String getCancelCheck() {
+		return cancelCheck;
+	}
+	public void setCancelCheck(String cancelCheck) {
+		this.cancelCheck = cancelCheck;
 	}
 	
 	

@@ -30,9 +30,20 @@ h1 {
 	text-decoration: underline;
 }
 
+#kakaopay_wrap {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 200px;
+}
+
+
 </style>
 </head>
 <body>
+<c:import url="../default/header.jsp"/>
+	<div id="kakaopay_wrap">
 	<h1>카카오페이 결제 승인 리스트</h1>
 	<table class="table">
 		<thead>
@@ -48,7 +59,7 @@ h1 {
 			<c:forEach var="KPAL" items="${kakaoPaymAppList }">
 			<tr>
 				<td scope="row">${KPAL.cid }</td>
-				<td><a href="kakaoPaymentOrderInfo?cid=${KPAL.cid }&tid=${KPAL.tid }">${KPAL.tid }</a></td>
+				<td><a href="kakaoPaymentOrderInfo?cid=${KPAL.cid }&tid=${KPAL.tid }">${KPAL.tid }</a><span style="color:red;">${KPAL.cancelCheck }</span></td>
 				<td>${KPAL.item_name }</td>
 				<td>${KPAL.quantity }</td>
 				<td>${KPAL.approved_at }</td>
@@ -78,5 +89,6 @@ h1 {
 			</tr>
 		</tfoot>
 	</table>
+	</div>
 </body>
 </html>

@@ -20,6 +20,7 @@
 		<result property="created_at" column="created_at"/>
 		<result property="approved_at" column="approved_at"/>
 		<result property="payload" column="payload"/>
+		<result property="cancelCheck" column="cancelCheck"/>
 	</resultMap>
 	
 	<insert id="registKakaoPaymentApproveResult">
@@ -38,7 +39,8 @@
 			   #{quantity}, 
 			   #{created_at}, 
 			   #{approved_at}, 
-			   #{payload,jdbcType=VARCHAR} 
+			   #{payload,jdbcType=VARCHAR}, 
+			   #{cancelCheck,jdbcType=VARCHAR}
 		)
 	</insert>
 	
@@ -52,6 +54,10 @@
 		(SELECT * FROM kakaopay_approve_result ORDER BY approved_at DESC)A )B
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
+	
+	<update id="cancelCheck">
+		UPDATE kakaopay_approve_result SET cancelCheck = 'cancel' WHERE tid = #{tid}
+	</update>
 	
 	
 	
