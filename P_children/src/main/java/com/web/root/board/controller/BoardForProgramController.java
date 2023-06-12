@@ -24,6 +24,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardForProgramService;
+import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
 
@@ -69,9 +70,20 @@ public class BoardForProgramController implements MemberSession{
 	@GetMapping("programBoardAllList")
 	public String programBoardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		bfps.programBoardAllList(model, num, request);
-		String id = (String) session.getAttribute(LOGIN);
 		
-		ms.userInfo(id, model);
+		// 카카오톡 로그인 check
+		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+		
+		// 로그인값 불러오기
+		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			String id = (String) session.getAttribute(LOGIN);
+			ms.userInfo(id, model);
+		} else {
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(kakaoIdCheck);
+			memberDTO.setGrade("bronze");
+			model.addAttribute("info", memberDTO);
+		}
 		model.addAttribute("admin", ADMIN);
 		return "/programBoard/programBoardAllList"; 
 	}
@@ -85,10 +97,24 @@ public class BoardForProgramController implements MemberSession{
 		model.addAttribute("programBoardDTO", programBoardDTO);
 		model.addAttribute("user", user);
 		
-		ms.userInfo(user, model);
+		// 카카오톡 로그인 check
+		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+		
+		// 로그인값 불러오기
+		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			String id = (String) session.getAttribute(LOGIN);
+			ms.userInfo(id, model);
+		} else {
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(kakaoIdCheck);
+			memberDTO.setGrade("bronze");
+			model.addAttribute("info", memberDTO);
+		}
+		
+		// grade 확인을 위한 admin(== "gold") 추가
 		model.addAttribute("admin", ADMIN);
-		String[] h = {"a", "b", "c"};
-		model.addAttribute("holy", h);
+		
+		// 조회수 증가
 		bfps.programHitplus(programBoardDTO);
 		return "/programBoard/programBoardContentView";
 	}
@@ -145,7 +171,5 @@ public class BoardForProgramController implements MemberSession{
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.println(message);		
-		
-		
 	}
 }

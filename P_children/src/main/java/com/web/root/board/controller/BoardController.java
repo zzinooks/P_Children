@@ -26,6 +26,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardService;
+import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
 
@@ -50,30 +51,29 @@ public class BoardController implements MemberSession{
 		// boardList 생성
 		bs.boardAllList(model, num, request);
 		
-		// 카카오톡 아이디 추가
-		String kakaoId = (String) session.getAttribute("kakaoId");
+		// 카카오톡 로그인 check
+		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
 		
-		if(kakaoId == null) { // 카카오톡 아이디 없을 때
-		String id = (String) session.getAttribute(LOGIN);
-		ms.userInfo(id, model);
-		} else { // 카카오톡 아이디 있을 때
-		model.addAttribute("kakaoId", kakaoId);
+		// 로그인값 불러오기
+		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			String id = (String) session.getAttribute(LOGIN);
+			ms.userInfo(id, model);
+		} else {
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(kakaoIdCheck);
+			memberDTO.setGrade("bronze");
+			model.addAttribute("info", memberDTO);
 		}
-		
+		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
 		model.addAttribute("admin", ADMIN);
 		return "/board/boardAllList"; 
 	}
 	
 	@RequestMapping("writeForm")
 	public String writeForm(HttpSession session, Model model) {
+		
 		String id = (String) session.getAttribute(LOGIN);
-		if(id.equals("noLogin")) { // 카카오 아이디로 로그인일 때
-			// 카카오톡 아이디 추가
-			String kakaoId = (String) session.getAttribute("kakaoId");
-			model.addAttribute("user", kakaoId);
-		} else {
-			model.addAttribute("user", id);
-		}
+		model.addAttribute("user", id);
 		return "/board/writeForm";
 	}
 	
@@ -98,11 +98,22 @@ public class BoardController implements MemberSession{
 		model.addAttribute("dto", dto);
 		model.addAttribute("user", user);
 		
-		ms.userInfo(user, model);
+		// 카카오톡 로그인 check
+		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+		
+		// 로그인값 불러오기
+		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			String id = (String) session.getAttribute(LOGIN);
+			ms.userInfo(id, model);
+		} else {
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(kakaoIdCheck);
+			memberDTO.setGrade("bronze");
+			model.addAttribute("info", memberDTO);
+		}
+		
 		model.addAttribute("admin", ADMIN);
 		
-		//String id = (String) session.getAttribute(LOGIN);
-		//	ms.userInfo(id, model);
 		
 		bs.hitplus(dto);
 		return "/board/contentView";
