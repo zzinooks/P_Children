@@ -71,18 +71,22 @@ public class BoardForProgramController implements MemberSession{
 	public String programBoardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		bfps.programBoardAllList(model, num, request);
 		
-		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-		
-		// 로그인값 불러오기
-		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
-			String id = (String) session.getAttribute(LOGIN);
-			ms.userInfo(id, model);
-		} else {
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
+		try {
+			// 카카오톡 로그인 check
+			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+			
+			// 로그인값 불러오기
+			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+				String id = (String) session.getAttribute(LOGIN);
+				ms.userInfo(id, model);
+			} else {
+				MemberDTO memberDTO = new MemberDTO();
+				memberDTO.setId(kakaoIdCheck);
+				memberDTO.setGrade("bronze");
+				model.addAttribute("info", memberDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		model.addAttribute("admin", ADMIN);
 		return "/programBoard/programBoardAllList"; 
@@ -97,18 +101,22 @@ public class BoardForProgramController implements MemberSession{
 		model.addAttribute("programBoardDTO", programBoardDTO);
 		model.addAttribute("user", user);
 		
-		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-		
-		// 로그인값 불러오기
-		if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
-			String id = (String) session.getAttribute(LOGIN);
-			ms.userInfo(id, model);
-		} else {
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
+		try {
+			// 카카오톡 로그인 check
+			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+			
+			// 로그인값 불러오기
+			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+				String id = (String) session.getAttribute(LOGIN);
+				ms.userInfo(id, model);
+			} else {
+				MemberDTO memberDTO = new MemberDTO();
+				memberDTO.setId(kakaoIdCheck);
+				memberDTO.setGrade("bronze");
+				model.addAttribute("info", memberDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		// grade 확인을 위한 admin(== "gold") 추가

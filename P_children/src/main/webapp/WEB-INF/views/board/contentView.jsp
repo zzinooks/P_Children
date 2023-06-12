@@ -179,7 +179,7 @@
 	// 댓글 수정하기 form 생성
 	function updateReply(reply_no){
 		
-		// 다른 댓글 켜져있을 경우 종료
+		// 다른 댓글 수정창 켜져있을 경우 종료
 		if($('#updateContent').val() != null){
 			replyData();
 		}
