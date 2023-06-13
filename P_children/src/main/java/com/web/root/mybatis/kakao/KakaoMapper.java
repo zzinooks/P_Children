@@ -1,5 +1,6 @@
 package com.web.root.mybatis.kakao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +19,8 @@ public interface KakaoMapper {
 	void cancelCheck(@Param("tid") String tid);
 
 	void insertProgramLatLng(KakaoMapLatLngDTO kakaoMapLatLngDTO);
+
+	ArrayList<KakaoMapLatLngDTO> selectKakaoMapLatLng();
 
 
 

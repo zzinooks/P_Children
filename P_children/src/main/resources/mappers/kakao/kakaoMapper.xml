@@ -23,6 +23,11 @@
 		<result property="cancelCheck" column="cancelCheck"/>
 	</resultMap>
 	
+	<resultMap type="com.web.root.kakao.dto.KakaoMapLatLngDTO" id="kakaoMapLatLng">
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+	</resultMap>
+	
 	<insert id="registKakaoPaymentApproveResult">
 		INSERT INTO kakaopay_approve_result 
 		VALUES(#{aid}, 
@@ -62,6 +67,10 @@
 	<insert id="insertProgramLatLng">
 		INSERT INTO programLatLng VALUES(#{lat}, #{lng})
 	</insert>
+	
+	<select id="selectKakaoMapLatLng" resultMap="kakaoMapLatLng">
+		SELECT * FROM programLatLng
+	</select>
 	
 	
 

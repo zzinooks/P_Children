@@ -1,18 +1,28 @@
 package com.web.root.kakao.service;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.web.root.kakao.dto.KakaoMapLatLngDTO;
 import com.web.root.mybatis.kakao.KakaoMapper;
 import com.web.root.session.name.KakaoDeveloper;
@@ -78,6 +88,47 @@ public class KakaoServiceImp1 implements KakaoService, KakaoDeveloper{
 		
 	}
 	
+	@Override
+	public void createLatLngJson(Model model, HttpSession session) {
+		JSONObject programsLatLng = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		FileWriter writer = null;
+
+		List<KakaoMapLatLngDTO> list = kakaoMapper.selectKakaoMapLatLng();
+		List<JSONObject> dataList = new ArrayList<JSONObject>();
+		
+		for(KakaoMapLatLngDTO dto : list) {
+			JSONObject data = new JSONObject();
+			data.put("lat", dto.getLat());
+			data.put("lng", dto.getLng());
+			dataList.add(data);
+		}
+		jsonArray.addAll(dataList);
+		programsLatLng.put("positions", jsonArray);
+		
+		
+		// json 파일 생성하기
+		String programsLatLng_json = new GsonBuilder()
+				     .setPrettyPrinting()
+				     .create()
+				     .toJson(programsLatLng);
+		session.setAttribute("programsLatLng", programsLatLng_json);
+		model.addAttribute("kakaoMapLatLng", programsLatLng_json);
+		
+//		try {
+//			writer = new FileWriter("C:\\Users\\Administrator\\git\\P_Children\\P_children\\src\\main\\webapp\\resources\\sungsu\\json\\programsLatLng.json"); 
+//			writer.write(programsLatLng_json);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if(writer != null) writer.close();
+//			} catch (Exception e2) {
+//				e2.printStackTrace();
+//			}
+//			 	
+//		}
+	}
 	
 	
 	
