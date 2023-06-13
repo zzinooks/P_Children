@@ -36,12 +36,6 @@ public class BoardServiceImpl implements BoardService {
 	
 
 	//============================ 주진욱 시작 ===========================================
-	/*
-	@Override
-	public void boardAllList(Model model) {
-		model.addAttribute("boardList", mapper.boardAllList());
-	}
-	*/
 
 	@Override
 	public void boardAllList(Model model, int num, HttpServletRequest request) {
@@ -193,6 +187,34 @@ public class BoardServiceImpl implements BoardService {
 			url = "/board/contentView?write_no=" + write_no;
 		}
 		return bfs.getMessage(request, msg, url);
+	}
+	
+	@Override
+	public void selectingCategory(Model model,String category, int num) {
+		
+		int pageLetter = 3; // 한 페이지 당 글 목록수
+		int allCount= mapper.selectBoardCountByCategory(category); // 전체 글수
+		//System.out.println("allCount 는!!" + allCount);
+		int repeat = allCount/pageLetter; // 마지막 페이지 번호
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter;
+		int start = end +1 - pageLetter;
+		
+		// 페이징
+		int totalPage = (allCount - 1)/pageLetter + 1;
+		int block = 3;
+		int startPage = (num - 1)/block*block + 1;
+		int endPage = startPage + block - 1;
+		if (endPage > totalPage) endPage = totalPage;
+
+	
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("boardList", mapper.boardAllListByCategory(category,start, end));
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("block", block);
+		model.addAttribute("totalPage", totalPage);	 
 	}
 
 	// 댓글 기능 ---------------------------------------------------------

@@ -125,6 +125,17 @@
 		DELETE FROM board2 WHERE write_no=#{write_no}
 	</delete>
 	
+	<select id="selectBoardCountByCategory" resultType="Integer">
+		SELECT COUNT(*) FROM board2 where category=#{category}
+	</select>
+	
+	<select id="boardAllListByCategory" resultMap="board">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM board2 WHERE category=#{category} ORDER BY write_no DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
 	<!-- 댓글 기능 -->
 	<insert id="addReply">
 		INSERT INTO reply2 VALUES(reply_seq.NEXTVAL, 0, 0, #{id}, #{content},#{write_no} ,SYSDATE)

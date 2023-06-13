@@ -5,12 +5,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous">
+</script>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>board/boardAllList.jsp</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <style type="text/css">
 
@@ -41,7 +44,6 @@ table tr:last-child {
 	text-decoration: underline;
 }
 </style>
-
 <script type="text/javascript">
 
 	function deleteConfirm(write_no, file_name){
@@ -53,16 +55,62 @@ table tr:last-child {
 		}
 		
 	}
+	
+	function selectingCategory(){
+		alert($('#selectedCategory').val() + '골라졌다!');
+		
+		if($('#selectedCategory').val() != 'total'){
+			
+			$.ajax({
+				url: "selectingCategory/"+$('#selectedCategory').val(),
+				type: "get",
+				dataType: "json",
+				//contentType: "application/json; charset=utf-8",
+				success: function(data){
+					alert("잘불러오는 중입니다!");
+					alert(data);
+					//$(".board_table").load(location.href+ ".board_table");
+					$("#selectedCategory").val('${boardList[0].category}') ;
+					let htm = "";
+					
+					htm += "<c:forEach var='dto' items='${boardList }'><tr>";
+					htm += "<td>${dto.id }</td>";
+					htm += "<td><a href='${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>'>${dto.title }</a></td>"
+					htm += "<td>${dto.savedate }</td><td>${dto.hit }</td>"
+					htm += "</tr></c:forEach>";
+					
+					$(".imsi").append(htm);
+					
+					
+					
+				}, //success end()
+				error: function(data) {
+					alert("category로 데이터 불러오기 실패!!");
+					alert(data);
+				}
+				
+			}) //ajax end()
+			
+		} // if end()
+	}
 
 </script>
-
 </head>
 <body>
-
-<c:import url="../default/header.jsp"/>
+	<c:import url="../default/header.jsp"/>
 	<section>
 		<h1> 게시판 </h1>
+		<div class="imsi"></div>
 		<div class="wrap board_table">
+			<!-- <select id="selectedCategory" name="selectedCategory" onchange="selectingCategory()">
+				<option value="total">전체</option>
+				<option value="informationSharing">정보 공유</option>
+				<option value="friendshipPromotion">친목 도모</option>
+				<option value="petSneak">펫 간식</option>
+				<option value="smallChat">잡담</option>
+				<option value="lookForPetFriend">펫 프랜드 구합니다</option>
+				<option value="BeingPetFriend">펫 프랜드 합니다</option>
+			</select> -->
 			<table class="table table-striped">
 				<tr>
 					<th width="70px"> 번 호 </th>
@@ -82,38 +130,38 @@ table tr:last-child {
 						</tr>
 					</c:when>
 					<c:otherwise>
-						<c:forEach var="dto" items="${boardList }">
-							<tr>
-								<td>${dto.write_no}</td>
-								<td>
-									<c:if test="${dto.category == 'informationSharing' }">
-									 정보 공유 
+							<c:forEach var="dto" items="${boardList }">
+								<tr>
+									<td>${dto.write_no}</td>
+									<td>
+										<c:if test="${dto.category == 'informationSharing' }">
+										 정보 공유 
+										</c:if>
+										<c:if test="${dto.category == 'friendshipPromotion' }">
+										 친목 도모 
+										</c:if>
+										<c:if test="${dto.category == 'petSneak' }">
+										 펫 간식 
+										</c:if>
+										<c:if test="${dto.category == 'smallChat' }">
+										 잡담 
+										</c:if>
+										<c:if test="${dto.category == 'lookForPetFriend' }">
+										 펫프랜드 구합니다 
+										</c:if>
+										<c:if test="${dto.category == 'BeingPetFriend' }">
+										 펫프랜드 합니다 
+										</c:if>
+									</td>
+									<td>${dto.id }</td>
+									<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
+									<td>${dto.savedate }</td>
+									<td>${dto.hit }</td>
+									<c:if test ="${info.grade == admin}">
+										<td><button onclick="deleteConfirm('${dto.write_no}', '${dto.file_name }')">삭제</button></td>
 									</c:if>
-									<c:if test="${dto.category == 'friendshipPromotion' }">
-									 친목 도모 
-									</c:if>
-									<c:if test="${dto.category == 'petSneak' }">
-									 펫 간식 
-									</c:if>
-									<c:if test="${dto.category == 'smallChat' }">
-									 잡담 
-									</c:if>
-									<c:if test="${dto.category == 'lookForPetFriend' }">
-									 펫프랜드 구합니다 
-									</c:if>
-									<c:if test="${dto.category == 'BeingPetFriend' }">
-									 펫프랜드 합니다 
-									</c:if>
-								</td>
-								<td>${dto.id }</td>
-								<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
-								<td>${dto.savedate }</td>
-								<td>${dto.hit }</td>
-								<c:if test ="${info.grade == admin}">
-									<td><button onclick="deleteConfirm('${dto.write_no}', '${dto.file_name }')">삭제</button></td>
-								</c:if>
-							<tr>
-						</c:forEach>
+								</tr>
+							</c:forEach>
 					</c:otherwise>
 				</c:choose>
 				<tr>
@@ -161,6 +209,6 @@ table tr:last-child {
 			</table>
 		</div>
 	</section>
-<c:import url="../default/footer.jsp"/>
+	<c:import url="../default/footer.jsp"/>
 </body>
 </html>

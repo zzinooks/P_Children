@@ -36,6 +36,7 @@ public interface BoardService {
 	
 	public String deleteBoard(Model model, HttpServletRequest request);
 	
+	public void selectingCategory(Model model,String category, int num);
 	// 댓글 기능 ----------------------------------------------------------
 	public int addReply(Map<String, Object> map);
 	

@@ -30,6 +30,10 @@ public interface BoardMapper {
 	
 	public int deleteBoard(int write_no);
 	
+	public int selectBoardCountByCategory(@Param("category") String category);
+	
+	public List<BoardDTO> boardAllListByCategory(@Param("category") String category, @Param("s") int start, @Param("e") int end);
+	
 	// 댓글 기능 ------------------------------------------------
 	
 	public int addReply(Map<String, Object> map);

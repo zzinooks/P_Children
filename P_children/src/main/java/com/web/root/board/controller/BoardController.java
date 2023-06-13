@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +46,7 @@ public class BoardController implements MemberSession{
 	
 	//============================ 주진욱 시작 ===========================================
 	
+	// board Read 기능: All List up 하기
 	@GetMapping("boardAllList")
 	public String boardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		
@@ -76,6 +78,7 @@ public class BoardController implements MemberSession{
 		return "/board/boardAllList"; 
 	}
 	
+	// board Create 기능을 위한 Form 생성
 	@RequestMapping("writeForm")
 	public String writeForm(HttpSession session, Model model) {
 		
@@ -84,6 +87,7 @@ public class BoardController implements MemberSession{
 		return "/board/writeForm";
 	}
 	
+	// board Create 기능 : 실제 DB 작업 시행
 	@PostMapping("writeSave")
 	public void writeSave(Model model, MultipartHttpServletRequest mul, 
 							HttpServletResponse response, 
@@ -96,6 +100,7 @@ public class BoardController implements MemberSession{
 		out.println(message);
 	}
 	
+	// board Read 기능 : content 하나 보기
 	@RequestMapping("contentView")
 	public String contentView(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
 		
@@ -130,6 +135,7 @@ public class BoardController implements MemberSession{
 		return "/board/contentView";
 	}
 	
+	// board 파일 업로드시 이미지에 보이게 하기
 	@GetMapping("download")
 	public void download(@RequestParam("file_name") String file_name, HttpServletResponse response) throws Exception {
 		
@@ -141,6 +147,7 @@ public class BoardController implements MemberSession{
 		
 	}
 	
+	// board Update Form 생성
 	@RequestMapping("modifyForm")
 	public String modifyForm(Model model, HttpServletRequest request) {
 		
@@ -150,6 +157,7 @@ public class BoardController implements MemberSession{
 		return "/board/modifyForm";
 	}
 	
+	// board Update 기능 : 수정사항 저장하기 (DB에 반영)
 	@PostMapping("modifySave")
 	public void modifySave(Model model,HttpServletRequest request, MultipartHttpServletRequest mul, HttpServletResponse response) throws IOException {
 		
@@ -171,6 +179,7 @@ public class BoardController implements MemberSession{
 	
 	} // modifySave() end
 	
+	// board Delete 기능 : (DB에 반영)
 	@RequestMapping("delete")
 	public void delete(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 파일 삭제
@@ -183,6 +192,42 @@ public class BoardController implements MemberSession{
 		PrintWriter out = response.getWriter();
 		out.println(message);
 	}
+	
+	// BoardAllList에서 category 선택시 해당 category 데이터 List up 하기
+	@RequestMapping(value="selectingCategory/{category}", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public int selectingCategory(@PathVariable("category") String category, @RequestParam(value="num", required = false, defaultValue="1") int num,
+			Model model, HttpSession session) {
+		System.out.println("num은 " + num);
+		System.out.println("여기까지" + category + "정보 잘 도착!");
+		bs.selectingCategory(model,category, num);
+		
+		
+		// 로그인 정보 저장
+		String user = (String) session.getAttribute(LOGIN);
+		model.addAttribute("num",num); // 페이지 번호 저장
+		
+		try {
+			// 카카오톡 로그인 check
+			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+			
+			// 로그인값 불러오기
+			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+				String id = (String) session.getAttribute(LOGIN);
+				ms.userInfo(id, model);
+			} else {
+				MemberDTO memberDTO = new MemberDTO();
+				memberDTO.setId(kakaoIdCheck);
+				memberDTO.setGrade("bronze");
+				model.addAttribute("info", memberDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("admin", ADMIN); // 관리자 아이디 저장
+		return 1;
+	}	
 	
 	
 	//============================ 주진욱 끝 ===========================================
