@@ -13,8 +13,12 @@
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 </head>
 <body>
+<<<<<<< HEAD
 	
 <<<<<<< HEAD
+=======
+	
+>>>>>>> branch 'main' of https://github.com/ssp930/P_Children.git
 		<c:import url="../default/header.jsp"/>
 		
 		<section><!-- body -->
