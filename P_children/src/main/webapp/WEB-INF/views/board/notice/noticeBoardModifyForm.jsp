@@ -50,13 +50,21 @@ h1 {
 		<form name="noticeBoardModifyForm" action="${contextPath }/board/notice/noticeBoardModifySave" enctype="multipart/form-data" method="post">
 			<input type="hidden" name="write_no" value="${noticeBoardDTO.write_no }"/>
 			<b> 구 분 </b><br>
-			<select name="category" id="noticeCategory">
+			<select name="category" id="notice_category">
+				<option value="" selected> -- 선택 -- </option>
+				<option value="noticeGeneral">일반</option>
+				<option value="noticeEvent">이벤트</option>
+				<option value="noticeProduct">상품</option>
+				<option value="noticeDeliveryDelay">배송지연</option>
+			</select><br><br>
+			
+			<!-- <select name="category" id="noticeCategory">
 				<option value="" selected> -- 선택 -- </option>
 				<option value="일반"> 일반 </option>
 				<option value="이벤트"> 이벤트 </option>
 				<option value="상품"> 상품 </option>
 				<option value="배송지연"> 배송지연 </option>
-			</select> <br><br>
+			</select> <br><br> -->
 			<b> 제 목 </b><br>
 			<input type="text" name="title" value="${noticeBoardDTO.title }"><br>
 			<b> 내 용 </b><br>

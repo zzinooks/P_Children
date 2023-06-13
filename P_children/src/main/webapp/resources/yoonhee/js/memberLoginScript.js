@@ -45,29 +45,22 @@ function findUserIdCheck(){
 
 
 // 비밀번호 찾기
-
 function findUserPwdCheck() {
 
-	if(document.findUserPwdForm.findUserId.value == ""){
+	if(document.userPwdForm.findUserId.value == ""){
 		alert("아이디를 입력해주세요");
-		document.findUserPwdForm.findUserId.focus();
+		document.userPwdForm.findUserId.focus();
 	} 
-	else if(document.findUserPwdForm.input_email.value == "") {
+	else if(document.userPwdForm.input_email.value == "") {
 		alert("이메일을 입력해주세요");
-		document.findUserPwdForm.input_email.focus();
+		document.userPwdForm.input_email.focus();
 	}
-	else if(document.findUserPwdForm.input_code.value == "") {
+	else if(document.userPwdForm.input_code.value == "") {
 		alert("인증코드를 입력해주세요");
-		document.findUserPwdForm.input_code.focus();
-	}
-	else if(document.findUserPwdForm.code.value != document.findUserPwdForm.email_code.value) {
-		alert("인증코드가 일치하지않습니다.");
-		document.findUserPwdForm.input_code.focus();
+		document.userPwdForm.input_code.focus();
 	}
 	else {
-		if(document.findUserPwdForm.code.value == document.findUserPwdForm.email_code.value){
-			document.findUserPwdForm.submit();
-		}
+		CheckCode();
 	}
 }
 

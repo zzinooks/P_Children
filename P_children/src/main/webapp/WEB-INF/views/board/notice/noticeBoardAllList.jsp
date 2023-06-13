@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"><script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath }/resources/yoonhee/js/noticeBoardScript.js?v=2"></script>
-
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,31 +34,12 @@
 		
 	}
 	
-	// 카테고리 분류
-	function selectCat(){
+	
+	// 카테고리 값 전달
+	function noticeCategoryChange(){
 		document.categorySelect.submit();
-		/*
-		let noticeCategorySelect = document.getElementById('noticeCategoryDivision');
-	 	let noticeCategoryOption = noticeCategorySelect.options[noticeCategorySelect.selectedIndex].value;
-	 	
-	 	console.log(noticeCategoryOption);
-		
-		if(!noticeCategoryOption == ""){
-			$.ajax({
-				url: "noticeCategorySelect",
-				type: "get",
-				data: {"noticeCategoryOption" : noticeCategoryOption},
-				success: function(option){
-					alert(option);
-					location.href='/root/board/notice/noticeBoardAllList';
-				},
-				error: function(){
-					alert("error");
-				}	
-			});
-		}
-		*/
 	}
+
 	
 </script>
 <style type="text/css">
@@ -97,24 +79,30 @@ body {
 .valueHiddenView {
 	display: none;
 }
+
+/* 검색 버튼 */
+.search_area {
+	text-align: center;
+}
 </style>
 
 </head>
 <body>
-<%-- <c:import url="../../default/header.jsp"/> --%>
+
+<c:import url="../../default/header.jsp"/>
+		
 	<h1>공지사항</h1>
 	<div class="wrap board_table">
-		<form name="categorySelect" action="${contextPath }/board/notice/noticeCategorySelect" method="get">
-			<select name="noticeCategorySelect" id="noticeCategoryDivision" onchange="selectCat()">
-				<option value="전체" <c:if test="${cate == '전체' }">selected</c:if>>전체</option>
-				<option value="일반" <c:if test="${cate == '일반' }">selected</c:if>>일반</option>
-				<option value="이벤트" <c:if test="${cate == '이벤트' }">selected</c:if>>이벤트</option>
-				<option value="상품" <c:if test="${cate == '상품' }">selected</c:if>>상품</option>
-				<option value="배송지연" <c:if test="${cate == '배송지연' }">selected</c:if>>배송지연</option>
+		<%-- <form name="categorySelect" action="${contextPath }/board/notice/noticeCategorySelect" method="get">
+			<select name="noticeCategorySelect" id="noticeCategoryDivision" onchange="noticeCategoryChange()">
+				<option value="전체" <c:if test="${notiCategory == '전체' }">selected</c:if>>전체</option>
+				<option value="일반" <c:if test="${notiCategory == '일반' }">selected</c:if>>일반</option>
+				<option value="이벤트" <c:if test="${notiCategory == '이벤트' }">selected</c:if>>이벤트</option>
+				<option value="상품" <c:if test="${notiCategory == '상품' }">selected</c:if>>상품</option>
+				<option value="배송지연" <c:if test="${notiCategory == '배송지연' }">selected</c:if>>배송지연</option>
 			</select>
-		</form>		
-		<input type="hidden" name="noticeBoardPageNum" value="1">
-		<input type="hidden" name="noticeBoardAmount" value="3">
+		</form> --%>
+
 		
 		<table class="table table-striped">
 			<tr>
@@ -142,20 +130,29 @@ body {
 							<td class="valueHiddenView" id="file_name">${noticeBoardDTO.file_name }</td><!-- 값만 받아오기 위해 숨김 -->
 							<!-- 카테고리 구분 -->
 							<td>
-								<c:if test="${noticeBoardDTO.category == '일반' }">
+								<c:if test="${noticeBoardDTO.category == 'noticeGeneral' }">
 								 일반 
 								</c:if>
-								<c:if test="${noticeBoardDTO.category == '이벤트' }">
+								<c:if test="${noticeBoardDTO.category == 'noticeEvent' }">
 								 이벤트 
 								</c:if>
-								<c:if test="${noticeBoardDTO.category == '상품' }">
+								<c:if test="${noticeBoardDTO.category == 'noticeProduct' }">
 								 상품 
 								</c:if>
-								<c:if test="${noticeBoardDTO.category == '배송지연' }">
+								<c:if test="${noticeBoardDTO.category == 'noticeDeliveryDelay' }">
 								 배송지연 
 								</c:if>
 							</td>
-							<td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}">${noticeBoardDTO.title }</a></td>
+							<c:choose>
+								<%-- <c:when test="${notice_category == '%%' || notice_category == null}"> --%>
+								<c:when test="${notice_category == null}">
+									<td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}">${noticeBoardDTO.title }</a></td>
+								</c:when>
+								<c:otherwise>
+									<%-- <td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}&notice_category=${notice_category}">${noticeBoardDTO.title }</a></td> --%>
+									<td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}">${noticeBoardDTO.title }</a></td>
+								</c:otherwise>
+							</c:choose>
 							<td>${noticeBoardDTO.id }</td>
 							<td>${noticeBoardDTO.savedate }</td>
 							<td>${noticeBoardDTO.hit }</td>
@@ -182,19 +179,39 @@ body {
 		
 				<!-- 페이징 -->
 				<div id="paging_block">
-					<c:if test="${startPage > block }">
-						[ <a href="${contextPath }/board/notice/noticeBoardAllList?num=${startPage-1 }" id="paging"> 이전 </a> ]
-					</c:if>
-					<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
-						<c:if test="${i == num}">
-							[ <a href="${contextPath }/board/notice/noticeBoardAllList?num=${i }" id="currentPaging"> ${i } </a> ]
+					<%-- 공지 게시판 들어가자마자 나오는 페이징 --%>
+					<c:if test="${notice_category == null}">
+						<c:if test="${startPage > block }">
+							[ <a href="${contextPath }/board/notice/noticeBoardAllList?num=${startPage-1 }" id="paging"> 이전 </a> ]
 						</c:if>
-						<c:if test="${i != num}">
-							[ <a href="${contextPath }/board/notice/noticeBoardAllList?num=${i }" id="paging"> ${i } </a> ]
+						<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
+							<c:if test="${i == num}">
+								[ <a href="${contextPath }/board/notice/noticeBoardAllList?num=${i }" id="currentPaging"> ${i } </a> ]
+							</c:if>
+							<c:if test="${i != num}">
+								[ <a href="${contextPath }/board/notice/noticeBoardAllList?num=${i }" id="paging"> ${i } </a> ]
+							</c:if>
+						</c:forEach>
+						<c:if test="${endPage < totalPage }">
+							[ <a href="${contextPath }/board/notice/noticeBoardAllList?num=${endPage+1 }" id="paging"> 다음 </a> ]
 						</c:if>
-					</c:forEach>
-					<c:if test="${endPage < totalPage }">
-						[ <a href="${contextPath }/board/notice/noticeBoardAllList?num=${endPage+1 }" id="paging"> 다음 </a> ]
+					</c:if> 
+					<%-- 검색 클릭시 페이징 --%>
+					<c:if test="${notice_category != null }">
+						<c:if test="${startPage > block }">
+							[ <a href="${contextPath }/board/notice/noticeSearchForm?num=${startPage-1 }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" id="paging"> 이전 </a> ]
+						</c:if>
+						<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
+							<c:if test="${i == num}">
+								[ <a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" id="currentPaging"> ${i } </a> ]
+							</c:if>
+							<c:if test="${i != num}">
+								[ <a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" id="paging"> ${i } </a> ]
+							</c:if>
+						</c:forEach>
+						<c:if test="${endPage < totalPage }">
+							[ <a href="${contextPath }/board/notice/noticeSearchForm?num=${endPage+1 }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" id="paging"> 다음 </a> ]
+						</c:if>
 					</c:if>
 				</div>
 				</td>
@@ -214,8 +231,29 @@ body {
 			</tr>
 		</table>
 		
+		<!-- 검색 -->
+		<form name="noticeSearchForm" action="${contextPath }/board/notice/noticeSearchForm" method="get">
+			<select name="notice_category" id="notice_category">
+				<option value="noticeAll" <c:if test="${notice_category == 'noticeAll' }">selected</c:if>>전체</option>
+				<option value="noticeGeneral" <c:if test="${notice_category == 'noticeGeneral' }">selected</c:if>>일반</option>
+				<option value="noticeEvent" <c:if test="${notice_category == 'noticeEvent' }">selected</c:if>>이벤트</option>
+				<option value="noticeProduct" <c:if test="${notice_category == 'noticeProduct' }">selected</c:if>>상품</option>
+				<option value="noticeDeliveryDelay" <c:if test="${notice_category == 'noticeDeliveryDelay' }">selected</c:if>>배송지연</option>
+			</select>
+			<select name="notice_searchCategory" id="notice_searchCategory">
+				<option value="title" <c:if test="${notice_searchCategory == 'title' }">selected</c:if>>제목</option>
+				<option value="content" <c:if test="${notice_searchCategory == 'content' }">selected</c:if>>내용</option>
+				<option value="id" <c:if test="${notice_searchCategory == 'id' }">selected</c:if>>작성자</option>
+				<option value="titleContent" <c:if test="${notice_searchCategory == 'titleContent' }">selected</c:if>>제목+내용</option><!-- 제목+내용 아직 구현 안됐습니다. -->
+			</select>
+			<input type="text" id="notice_searchKeyword" name="notice_searchKeyword" value="${notice_searchKeyword }">
+			<input type="submit" id="search_btn" value="검색">
+		</form>
+
+		
 		<a href="${contextPath }/index">메인으로</a>
 	</div>
-<%-- <c:import url="../../default/footer.jsp"/> --%>
+
+<c:import url="../../default/footer.jsp"/>
 </body>
 </html>

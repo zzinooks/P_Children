@@ -4,6 +4,7 @@ package com.web.root.board.service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -456,13 +459,53 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return bfs.getNoticeBoardMessage(request, msg, url);
 	}
-
-
+	
+	
+	
+	// 공지사항 카테고리 + 검색 조회
 	@Override
-	public void noticeCategorySelect(String noticeCategoryOption, Model m, int num) {
+	public void noticeSearchForm(String notice_category, String notice_searchCategory, String notice_searchKeyword, Model m, int num) {	
+		
+		List<NoticeBoardDTO> noticeBoardDTO = new ArrayList<NoticeBoardDTO>(); // notice 검색에 따라 List 담기
+		
+		// 카테고리 전체를 선택할 때 요청값을 "%%"로 변환 -> 쿼리문 like 사용한 검색을 위해서
+		if(notice_category.equals("noticeAll") || notice_category == null) {
+			notice_category = "%%";
+		}
+
+		// 검색 키워드를 입력하지 않았을때 빈 요청값을 "%%"로 변환 -> 쿼리문 like 사용한 검색을 위해서
+		if(notice_searchKeyword.equals("") || notice_searchKeyword == null) {
+			notice_searchKeyword = "%%"; 
+		}
+		
+		
+		NoticeBoardDTO notice_pageDTO = new NoticeBoardDTO();	// Page Count(*)의 크기를 담는 DTO (각 검색 카테고리별로)	
+		notice_pageDTO.setCategory(notice_category); 			// 카테고리 옵션 저장
+		notice_pageDTO.setKeyword(notice_searchKeyword);  		// 검색 키워드 저장
+		
+		
+		// 검색 카테고리 선택  -> 값 저장
+		if(notice_searchCategory.equals("title")) { // 제목으로 검색 
+			notice_pageDTO.setTitle(notice_searchKeyword); 	// 제목열에 키워드 값 저장
+			notice_pageDTO.setContent("%%"); 				// 나머지 전체 셋팅
+			notice_pageDTO.setId("%%"); 					// 나머지 전체 셋팅
+			
+		}else if(notice_searchCategory.equals("content")) { // 내용으로 검색
+			
+			notice_pageDTO.setContent(notice_searchKeyword); // 내용열에 키워드 값 저장	
+			notice_pageDTO.setTitle("%%");					 // 나머지 전체 셋팅
+			notice_pageDTO.setId("%%");						 // 나머지 전체 셋팅
+			
+		}else if(notice_searchCategory.equals("id")) {  // 작성자로 검색
+			
+			notice_pageDTO.setId(notice_searchKeyword);		// 아이디열에 키워드 값 저장
+			notice_pageDTO.setTitle("%%");					// 나머지 전체 셋팅
+			notice_pageDTO.setContent("%%");				// 나머지 전체 셋팅
+		}
+
 		
 		int pageLetter = 5;  // 한 페이지 당 글 목록수
-		int allCount = mapper.selectNoticeBoardCountCategory(noticeCategoryOption); // DB에 담겨있는 전체 글 수
+		int allCount = mapper.noticeBoardCountCategory(notice_pageDTO); // 카테고리가 ex)제목 등 해당 목록 전체 수 
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
 		if(allCount % pageLetter != 0) {
 		   repeat += 1;
@@ -476,19 +519,22 @@ public class BoardServiceImpl implements BoardService {
 		int startPage = (num - 1)/block * block + 1;
 		int endPage = startPage + block - 1;
 		if (endPage > totalPage) endPage = totalPage;
+		
+		// 페이징 범위 저장
+		notice_pageDTO.setStart(start);  // 시작 저장
+		notice_pageDTO.setEnd(end);		 // 끝 저장
 		   
-		List<NoticeBoardDTO> noticeBoardDTO = mapper.noticeCategorySelectCategory(noticeCategoryOption);
-		      
+		// 상단에 만들어둔 List 변수에 내용들을 담아 리스트 불러오기
+		noticeBoardDTO = mapper.noticeSearchFormCountList(notice_pageDTO);       
+			
 		m.addAttribute("repeat", repeat);
 		m.addAttribute("noticeBoardList", noticeBoardDTO); // 시작과 끝 페이지 안에서 내용 가져오기
 		m.addAttribute("endPage", endPage);
 		m.addAttribute("startPage", startPage);
 		m.addAttribute("block", block);
 		m.addAttribute("totalPage", totalPage);
-
-		System.out.println(noticeCategoryOption);
+		
 	}
-	
 	
 	
 		

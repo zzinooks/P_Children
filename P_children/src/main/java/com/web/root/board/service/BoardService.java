@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -76,10 +77,13 @@ public interface BoardService {
 	
 	// 공지사항 게시글 삭제
 	public String noticeBoardDelete(HttpServletRequest request);
-	
-	// 공지사항 게시글 카테고리 조회
-	public void noticeCategorySelect(String noticeCategoryOption, Model m, int num);
 		
+	// 공지사항 카테고리 + 검색 조회
+	public void noticeSearchForm(@Param("notice_category") String notice_category, 
+								 @Param("notice_searchCategory") String notice_searchCategory, 
+								 @Param("notice_searchKeyword") String notice_searchKeyword, Model m, int num);
+
+	
 	//============================ 최윤희 끝 ===========================================
 	
 	
