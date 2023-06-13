@@ -5,27 +5,39 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>카카오페이 결제 상세 내역</title>
+<title>카카오페이 결제 내역</title>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
 <style type="text/css">
-table, tr, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
-table {
-	margin: auto;
-}
-
-h1 {
-	text-align: center;
-}
-
+table             { 
+  border-	spacing: 1; 
+  border-collapse: collapse; 
+  background:white;
+  border-radius:6px;
+  overflow:hidden;
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  }
+    td,th{ 
+    padding-left:8px;
+    padding-right: 8px;
+    text-align:center;
+    }  
+ th { background-color: #A996DB; }
+  tbody tr     { 
+  height:40px; 
+  border-bottom:1px solid #E3F1D5 ;
+    &:last-child  { border:0; }
+  }
 </style>
 </head>
 <body>
-<c:import url="../default/header.jsp"/>
-	<h1>카카오페이 결제 승인 내역 상세</h1>
-	<form>
+
+	<c:import url="../default/header.jsp"/>
+	
+	<section ><!-- body -->
+		<div class="form-box-list"> <!--  container  -->
+		<div class="title" >카카오페이 결제 내역</div>
 		<table>
 			<tr>
 				<th>tid</th>
@@ -103,6 +115,10 @@ h1 {
 				</tr>
 			</c:if>
 		</table>
-	</form>
+		</div>
+	</section>
+
+	<c:import url="../default/footer.jsp"/>
+	
 </body>
 </html>

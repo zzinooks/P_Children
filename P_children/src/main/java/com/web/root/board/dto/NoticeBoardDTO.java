@@ -14,6 +14,9 @@ public class NoticeBoardDTO {
 		private int hit;
 		private String file_name;
 		private String id;
+		private String keyword;		// DB 컬럼에는 없음
+		private int start;			// DB 컬럼에는 없음
+		private int end;			// DB 컬럼에는 없음
 		
 		// getter와 setter
 		public int getWrite_no() {
@@ -71,8 +74,30 @@ public class NoticeBoardDTO {
 		public void setId(String id) {
 			this.id = id;
 		}
-	
 		
-	
+		
+		public String getKeyword() {
+			return keyword;
+		}
+		public void setKeyword(String keyword) {
+			this.keyword = keyword;
+		}
+		
+		public int getStart() {
+			return start;
+		}
+		public void setStart(int start) {
+			this.start = start;
+		}
+		
+		public int getEnd() {
+			return end;
+		}
+		public void setEnd(int end) {
+			this.end = end;
+		}
+		
+		
+		
 		
 }

@@ -39,6 +39,18 @@
 	</resultMap>
 	
 	<!--  공지사항 게시판  -->
+	<!-- <resultMap id="notice" type="com.web.root.board.dto.NoticeBoardDTO">
+		<id property="write_no" column="write_no"/> property는 DTO랑 column은 DB랑 같아야함 
+		<result property="category" column="category"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="savedate" column="savedate"/>
+		<result property="hit" column="hit"/>
+		<result property="file_name" column="file_name"/>
+		<result property="id" column="id"/>
+	</resultMap> -->
+	
+	<!--  공지사항 게시판  -->
 	<resultMap id="notice" type="com.web.root.board.dto.NoticeBoardDTO">
 		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
 		<result property="category" column="category"/>
@@ -48,6 +60,9 @@
 		<result property="hit" column="hit"/>
 		<result property="file_name" column="file_name"/>
 		<result property="id" column="id"/>
+		<result property="keyword" column="keyword"/>
+		<result property="start" column="start"/>
+		<result property="end" column="end"/>
 	</resultMap>
 	
 
@@ -109,6 +124,17 @@
 	<delete id="deleteBoard">
 		DELETE FROM board2 WHERE write_no=#{write_no}
 	</delete>
+	
+	<select id="selectBoardCountByCategory" resultType="Integer">
+		SELECT COUNT(*) FROM board2 where category=#{category}
+	</select>
+	
+	<select id="boardAllListByCategory" resultMap="board">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM board2 WHERE category=#{category} ORDER BY write_no DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
 	
 	<!-- 댓글 기능 -->
 	<insert id="addReply">
@@ -253,14 +279,22 @@
 		DELETE FROM notice WHERE write_no=#{write_no}
 	</delete>
 	
-	<!-- 공지사항 게시글 카테고리 조회 -->
-	<select id="noticeCategorySelectCategory" resultMap="notice"> 
-		SELECT * FROM notice WHERE category like #{noticeCategoryOption} ORDER BY savedate DESC
-	</select>
 	
-	<!-- DB에 담겨있는 전체 게시글 수 (전체 글 수) -->
-	<select id="selectNoticeBoardCountCategory" resultType="Integer"> 
-		SELECT COUNT(*) FROM notice where category like #{noticeCategoryOption}
+	
+	<!-- 공지사항 게시글 카테고리+검색 => 해당 검색 카테고리리를 통해 각각 글 갯수 가져오기 -->
+	<select id="noticeBoardCountCategory" resultType="Integer"> 
+		SELECT COUNT(*) FROM notice where category like #{category}
+		and (title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%')
+	</select>
+		
+	<!-- 공지사항 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기 -->
+	 <select id="noticeSearchFormCountList" resultMap="notice"> 
+			SELECT B.* FROM 
+			(SELECT ROWNUM rn, A.* FROM 
+			(SELECT * FROM notice where 
+			(title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%') 
+			and category like '%'||#{category}||'%' ORDER BY write_no DESC)A )B
+			WHERE rn BETWEEN #{start} and #{end} 
 	</select>
 	
 	<!--  ======================== 윤희 끝 ==========================   -->

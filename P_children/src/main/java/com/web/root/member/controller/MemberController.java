@@ -116,8 +116,10 @@ public class MemberController implements MemberSession{
 	
 	// 사용자 삭제
 	@RequestMapping("delete")
-	public void delete(Model model, HttpServletRequest request) {
+	public String delete(Model model, HttpServletRequest request, @RequestParam(value="num", required = false, defaultValue="1")int num) {
 		ms.deleteMember(model, request);
+		ms.memberInfo(model, num);
+		return "chenggyu/manager_memberList";
 	}
 	
 	// 	게시물 관리

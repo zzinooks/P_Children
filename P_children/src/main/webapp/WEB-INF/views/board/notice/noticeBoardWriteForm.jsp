@@ -43,13 +43,13 @@ h1 {
 			<!-- <b> 작성자 </b><br> --> 
 			<input type="hidden" name="id" value="${user }" readonly><br> <!-- 보통 작성시 작성자 표시안되어서 작성자 숨김 -->
 			<b> 구 분 </b><br>
-			<select name="category" id="noticeCategory">
+			<select name="category" id="notice_category">
 				<option value="" selected> -- 선택 -- </option>
-				<option value="일반"> 일반 </option>
-				<option value="이벤트"> 이벤트 </option>
-				<option value="상품"> 상품 </option>
-				<option value="배송지연"> 배송지연 </option>
-			</select> <br><br>
+				<option value="noticeGeneral">일반</option>
+				<option value="noticeEvent">이벤트</option>
+				<option value="noticeProduct">상품</option>
+				<option value="noticeDeliveryDelay">배송지연</option>
+			</select><br><br>
 			<b> 제 목 </b><br>
 			<input type="text" name="title"><br>
 			<b> 내 용 </b><br>
@@ -58,7 +58,6 @@ h1 {
 			<input type="file" name="file" onchange="readURL(this)"/>
 			<img src="#" id="preview" width="100px" height="100px"><br>
 			<br>
-			<!-- <input type="submit" value="완료"/> &nbsp; -->
 			<input type="button" onclick="noticeBoardWriteFormCheck()" value="완료"> &nbsp;
 			<input type="button" value="글목록" onclick="location.href='${contextPath}/board/notice/noticeBoardAllList'"/>
 		</form>
