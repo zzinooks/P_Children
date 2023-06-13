@@ -43,21 +43,21 @@ function findUserIdCheck(){
 // 비밀번호 찾기
 function findUserPwdCheck() {
 
-   if(document.userPwdForm.findUserId.value == ""){
-      alert("아이디를 입력해주세요");
-      document.userPwdForm.findUserId.focus();
-   } 
-   else if(document.userPwdForm.input_email.value == "") {
-      alert("이메일을 입력해주세요");
-      document.userPwdForm.input_email.focus();
-   }
-   else if(document.userPwdForm.input_code.value == "") {
-      alert("인증코드를 입력해주세요");
-      document.userPwdForm.input_code.focus();
-   }
-   else {
-      CheckCode();
-   }
+	if(document.userPwdForm.findUserId.value == ""){
+		alert("아이디를 입력해주세요");
+		document.userPwdForm.findUserId.focus();
+	} 
+	else if(document.userPwdForm.input_email.value == "") {
+		alert("이메일을 입력해주세요");
+		document.userPwdForm.input_email.focus();
+	}
+	else if(document.userPwdForm.input_code.value == "") {
+		alert("인증코드를 입력해주세요");
+		document.userPwdForm.input_code.focus();
+	}
+	else {
+		CheckCode();
+	}
 }
 
 

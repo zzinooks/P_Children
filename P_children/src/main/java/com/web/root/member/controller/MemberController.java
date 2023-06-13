@@ -145,13 +145,17 @@ public class MemberController implements MemberSession{
 	}
 	
 	@PostMapping("registMember")
-	public String hostRegist(MemberDTO dto, HttpServletRequest request) {
+	public String hostRegist(MemberDTO dto, HttpServletRequest request, Model model) {
 		String addrMerge = request.getParameter("addr1") + "/" 
 				  +request.getParameter("addr2") + "/"
 				  +request.getParameter("addr3") + "/"
 				  +request.getParameter("zonecode") + "/";
 		dto.setAddr(addrMerge);
-		String message = ms.registHost(dto);
+		int result = ms.registHost(dto, model);
+		if(result != 1) {
+			model.addAttribute("registRes", "죄송합니다. 회원가입 도중에 오류가 발생했습니다. 다시 시도를 해주시고, 안되면 고객센터에 연락바랍니다.");
+		}
+		model.addAttribute("registRes", "환영합니다~ 지금 바로 다양한 프로그램을 체험해 보세요!!");
 		return "yoonhee/memberLoginForm";
 	}
 	

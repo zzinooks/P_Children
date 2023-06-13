@@ -106,7 +106,13 @@ h1 {
 	<div class="wrap contentView">
 		<table class="table table-striped">
 			<tr>
-				<th width="100px"> 구 분 </th><td width="200px" class="form-control input-sm">${noticeBoardDTO.category }</td>
+				<th width="100px"> 구 분 </th>
+				<td width="200px" class="form-control input-sm">
+					<c:if test="${noticeBoardDTO.category == 'noticeGeneral' }"> 일반 </c:if>
+					<c:if test="${noticeBoardDTO.category == 'noticeEvent' }"> 이벤트 </c:if>
+					<c:if test="${noticeBoardDTO.category == 'noticeProduct' }"> 상품 </c:if>
+					<c:if test="${noticeBoardDTO.category == 'noticeDeliveryDelay' }"> 배송지연 </c:if>
+				</td>
 				<th width="100px"> 작성자 </th><td width="200px" class="form-control input-sm">${noticeBoardDTO.id }</td>
 			</tr>
 			<%-- <tr>
@@ -129,11 +135,19 @@ h1 {
 			</tr>
 			<tr>
 				<td colspan="4" align="center">
-				<c:if test="${info.grade == admin }"> <!-- 관리자만 -->
+				<c:if test="${info.grade == admin }">
 					<input type="button" value="수정하기" onclick="location.href='${contextPath }/board/notice/noticeBoardModifyForm?write_no=${noticeBoardDTO.write_no }'"> &nbsp;
 					<input type="button" value="삭제하기" onclick="noticeDeleteConfirm()" /> &nbsp;
 				</c:if>	
-					<input type="button" value="글목록" onclick="location.href='${contextPath }/board/notice/noticeBoardAllList?num=${num}'"> <!-- 글목록 클릭할 때 원래 페이지 목록으로 가도록 -->
+				<%-- 글목록  --%>
+				<c:choose>
+					<c:when test="${notice_category != null}">
+						<input type="button" value="글목록" onclick="location.href='${contextPath }/board/notice/noticeSearchForm?num=${num}&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}'">
+					</c:when>
+					<c:otherwise>
+						<input type="button" value="글목록" onclick="location.href='${contextPath }/board/notice/noticeBoardAllList?num=${num}'">
+					</c:otherwise>	
+				</c:choose>
 				</td>
 			</tr>
 		</table>

@@ -13,7 +13,6 @@
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 </head>
 <body>
-	
 		<c:import url="../default/header.jsp"/>
 		
 		<section><!-- body -->

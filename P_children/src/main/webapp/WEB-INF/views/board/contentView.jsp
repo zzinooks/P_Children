@@ -220,6 +220,11 @@
 	// 대댓글(답글) 보기
 	function reComment(reply_no){ // 댓글 reply_no(cGroup)에 해당하는 select 문, 자기 reply_no 순서대로 부르면 된다.
 		
+		// 대댓글 수정창이 켜져 있을 떄
+		if($('#updateReCommentContent').val() != null) {
+			$('.updateReComment').replaceWith(""); // 대댓글 수정 div 삭제
+		}
+		
 		if($("#rep" + reply_no).children(".reComment").length > 0) { // 대댓글(답글)이 나와 있을 경우
 			$("#rep" + reply_no).children(".reComment").remove(); // 대댓글 삭제
 		} else {
@@ -376,13 +381,17 @@
 		}
 		
 		// 대댓글 해당하는 댓글(부모댓글)의 reply_no 값'
-		let cGroup = $('#reComment' + reply_no).closest('div').siblings('.replyNo').val();
+		let cGroup = $('#reComment'+ reply_no).siblings('.reply_innerDiv').children('.replyNo').val();
 		
-		// 다른 댓글 수정창이 켜져있을 경우 종료
+		// 다른 대댓글 수정창이 켜져있을 경우 종료
 		if($('#updateReCommentContent').val() != null){
-			replyData();
-			console.log(cGroup);
-			reComment(cGroup);
+			// 다른 대댓글 수정창이 같은 댓글에 있을 때 
+			if(cGroup == $('.updateReComment').siblings('.reply_innerDiv').children('.replyNo').val()) {
+				cancleUpdateReComment(cGroup);
+			} else { // 다른 대댓글 수정창이 다른 댓글에 있을 때
+				let otherCGroup = $('.updateReComment').siblings('.reply_innerDiv').children('.replyNo').val();
+				cancleUpdateReComment(otherCGroup);
+			}
 		}
 		
 		let replyView = ""
@@ -390,14 +399,14 @@
 		replyView += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"
 		replyView += "<input type='hidden' id='updateReCommentReply_no' name='updateReCommentReply_no' value='" + $('#reComment' + reply_no).children('.replyNo').val() + "'>"
 		replyView += "<b> 의 수 정 내 용 : </b><textarea id='updateReCommentContent' name='updateReCommentContent' rows='5' cols='30' autofocus>" + $('#reComment' + reply_no).children('.repContent').text() + "</textarea><br>"
-		replyView += "<input type='button' onclick='updateReCommentConfirm("+ cGroup +")' value='수정 완료'>"
-		replyView += "<input type='button' onclick='cancleUpdateReComment("+ reply_no +","+ $('#reComment' + reply_no).closest('div').siblings('.replyNo').val() +")' value='취소'></form><br></div>"
+		replyView += "<input type='button' onclick='updateReCommentConfirm()' value='수정 완료'>"
+		replyView += "<input type='button' onclick='cancleUpdateReComment("+$('#reComment'+ reply_no).siblings('.reply_innerDiv').children('.replyNo').val()+")' value='취소'></form><br></div>"
 		$('#reComment'+ reply_no).replaceWith(replyView);
 		$('#reComment'+ reply_no).children('#updateReCommentContent').focus();	
 	}
 	
 	// 대댓글 수정 확인
-	function updateReCommentConfirm(cGroup){
+	function updateReCommentConfirm(){
 		if(!confirm('수정하시겠습니까?')){
 			return false;
 		} else {
@@ -406,7 +415,7 @@
 	}
 	
 	// 대댓글 수정 취소
-	function cancleUpdateReComment(reply_no, cGroup) {
+	function cancleUpdateReComment(cGroup) {
 		$('.updateReComment').replaceWith(""); // 대댓글 수정 div 삭제
 		$("#rep" + cGroup).children(".reComment").remove(); // 댓글에 해당하는 대댓글들 모두 삭제 (reComment에서 .reComment가 하나라도 있으면 안 열림)
 		//replyData();

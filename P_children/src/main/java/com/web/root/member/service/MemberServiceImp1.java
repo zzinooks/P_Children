@@ -26,7 +26,7 @@ import com.web.root.kakaoPay.dto.KakaoPaymentOrderInfoDTO;
 import com.web.root.member.dto.KakaoLoginDTO;
 //github.com/ssp930/P_Children
 import com.web.root.member.dto.MemberDTO;
-import com.web.root.mybatis.kakao.KakaoPayMapper;
+import com.web.root.mybatis.kakao.KakaoMapper;
 import com.web.root.mybatis.member.MemberMapper;
 
 @Service
@@ -42,7 +42,7 @@ public class MemberServiceImp1 implements MemberService {
 	JavaMailSender mailSender;
 	
 	@Autowired
-	KakaoPayMapper kakaoPayMapper;
+	KakaoMapper kakaoPayMapper;
 	
 	// 회원정보
 	@Override
@@ -137,18 +137,16 @@ public class MemberServiceImp1 implements MemberService {
 	//============================ 박성수 시작 ===========================================
 
 	@Override
-	public String registHost(MemberDTO dto) {
-		String message = "";
+	public int registHost(MemberDTO dto, Model model) {
 		int result = 0;
 		if(dto.getUserSelect().equals("member")) {
 			result = mapper.registMember(dto);
-			return message;
+			model.addAttribute("registId", dto.getId());
+			return result;
 		}
 		result = mapper.registHost(dto);
-		if(result == 1) {
-			message = "회원가입 완료.";
-		}
-		return message;
+		model.addAttribute("registId", dto.getId());
+		return result;
 	}
 	
 	@Override
@@ -178,7 +176,7 @@ public class MemberServiceImp1 implements MemberService {
 	}
 	
 	
-	
+	// 카카오 로그인 토큰받기
 	@Override
 	public String getkakaoToken(String code, String tokenURL) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -205,6 +203,7 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
+	// 카카오 로그인 완료 및 DB 저장
 	@Override
 	public int registKakaoUser(String token, String kakaoIdURL, HttpSession session) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -235,6 +234,7 @@ public class MemberServiceImp1 implements MemberService {
 		return result;
 	}
 	
+	// 카카오 로그아웃
 	@Override
 	public String kakaoLogout(String token, String kakaoLogouturl) {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -257,6 +257,7 @@ public class MemberServiceImp1 implements MemberService {
 		return kakaoLogoutId;
 	}
 	
+	// 카카오페이 결제 시작.
 	@Override
 	public String readyKakaoPay(
 				String adminKey,
