@@ -286,10 +286,10 @@ public class MemberServiceImp1 implements MemberService {
         params.add("cid", "TC0ONETIME");
         params.add("partner_order_id", "mateWith_Partner");
         params.add("partner_user_id", "mateWith_User");
-        params.add("item_name", itemDTO.getItem_name());
-        params.add("quantity", Integer.toString(itemDTO.getQuantity()));
-        params.add("total_amount", Integer.toString(itemDTO.getTotal_amount()));
-        params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10));
+        params.add("item_name", itemDTO.getItem_name()); // 프로그램 이름 넣을 자리
+        params.add("quantity", Integer.toString(itemDTO.getQuantity()));	// 1로 고정하기 (상품 수량)
+        params.add("total_amount", Integer.toString(itemDTO.getTotal_amount())); // 비용
+        params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10)); // 비용 그대로 (부과세)
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8080/root/member/success");
         params.add("fail_url", "http://localhost:8080/root/member/fail");

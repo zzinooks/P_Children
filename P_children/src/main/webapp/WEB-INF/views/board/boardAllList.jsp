@@ -45,7 +45,7 @@ table tr:last-child {
 }
 </style>
 <script type="text/javascript">
-
+	//게시글 삭제 문구 알림창
 	function deleteConfirm(write_no, file_name){
 		
 		if(!confirm('삭제하시겠습니까?')){
@@ -54,44 +54,6 @@ table tr:last-child {
 			location.href='${contextPath}/board/delete?write_no='+  write_no + '&file_name=' + file_name;
 		}
 		
-	}
-	
-	function selectingCategory(){
-		alert($('#selectedCategory').val() + '골라졌다!');
-		
-		if($('#selectedCategory').val() != 'total'){
-			
-			$.ajax({
-				url: "selectingCategory/"+$('#selectedCategory').val(),
-				type: "get",
-				dataType: "json",
-				//contentType: "application/json; charset=utf-8",
-				success: function(data){
-					alert("잘불러오는 중입니다!");
-					alert(data);
-					//$(".board_table").load(location.href+ ".board_table");
-					$("#selectedCategory").val('${boardList[0].category}') ;
-					let htm = "";
-					
-					htm += "<c:forEach var='dto' items='${boardList }'><tr>";
-					htm += "<td>${dto.id }</td>";
-					htm += "<td><a href='${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>'>${dto.title }</a></td>"
-					htm += "<td>${dto.savedate }</td><td>${dto.hit }</td>"
-					htm += "</tr></c:forEach>";
-					
-					$(".imsi").append(htm);
-					
-					
-					
-				}, //success end()
-				error: function(data) {
-					alert("category로 데이터 불러오기 실패!!");
-					alert(data);
-				}
-				
-			}) //ajax end()
-			
-		} // if end()
 	}
 
 </script>
@@ -102,15 +64,6 @@ table tr:last-child {
 		<h1> 게시판 </h1>
 		<div class="imsi"></div>
 		<div class="wrap board_table">
-			<!-- <select id="selectedCategory" name="selectedCategory" onchange="selectingCategory()">
-				<option value="total">전체</option>
-				<option value="informationSharing">정보 공유</option>
-				<option value="friendshipPromotion">친목 도모</option>
-				<option value="petSneak">펫 간식</option>
-				<option value="smallChat">잡담</option>
-				<option value="lookForPetFriend">펫 프랜드 구합니다</option>
-				<option value="BeingPetFriend">펫 프랜드 합니다</option>
-			</select> -->
 			<table class="table table-striped">
 				<tr>
 					<th width="70px"> 번 호 </th>
@@ -175,19 +128,39 @@ table tr:last-child {
 					</c:choose>
 						<!-- 페이징 -->
 						<div id="paging_block">
-							<c:if test="${startPage > block }">
-								[ <a href="boardAllList?num=${startPage-1 }" id="paging"> 이전 </a> ]
+							<!-- 자유 게시판에 들어가자마자 나오는 페이징  -->
+							<c:if test="${board_category == null}">
+								<c:if test="${startPage > block }">
+									[ <a href="${contextPath }/board/boardAllList?num=${startPage-1 }" id="paging"> 이전 </a> ]
+								</c:if>
+								<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
+									<c:if test="${i == num}">
+										[ <a href="${contextPath }/board/boardAllList?num=${i }" id="currentPaging"> ${i } </a> ]
+									</c:if>
+									<c:if test="${i != num}">
+										[ <a href="${contextPath }/board/boardAllList?num=${i }" id="paging"> ${i } </a> ]
+									</c:if>
+								</c:forEach>
+								<c:if test="${endPage < totalPage }">
+									[ <a href="${contextPath }/board/boardAllList?num=${endPage+1 }" id="paging"> 다음 </a> ]
+								</c:if>
 							</c:if>
-							<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
-								<c:if test="${i == num}">
-									[ <a href="boardAllList?num=${i }" id="currentPaging"> ${i } </a> ]
+							<!-- 검색 클릭시 페이징  -->
+							<c:if test="${board_category != null}">
+								<c:if test="${startPage > block }">
+									[ <a href="${contextPath }/board/boardSearchForm?num=${startPage-1 }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="paging"> 이전 </a> ]
 								</c:if>
-								<c:if test="${i != num}">
-									[ <a href="boardAllList?num=${i }" id="paging"> ${i } </a> ]
+								<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
+									<c:if test="${i == num}">
+										[ <a href="${contextPath }/board/boardSearchForm?num=${i }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="currentPaging"> ${i } </a> ]
+									</c:if>
+									<c:if test="${i != num}">
+										[ <a href="${contextPath }/board/boardSearchForm?num=${i }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="paging"> ${i } </a> ]
+									</c:if>
+								</c:forEach>
+								<c:if test="${endPage < totalPage }">
+									[ <a href="${contextPath }/board/boardSearchForm?num=${endPage+1 }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="paging"> 다음 </a> ]
 								</c:if>
-							</c:forEach>
-							<c:if test="${endPage < totalPage }">
-								[ <a href="boardAllList?num=${endPage+1 }" id="paging"> 다음 </a> ]
 							</c:if>
 						</div>
 					</td>
@@ -207,6 +180,27 @@ table tr:last-child {
 					</td>
 				</tr>
 			</table>
+			
+			<!-- 검색 버튼 -->
+			<form name="boardSearchForm" action="${contextPath }/board/board/boardSearchForm" method="get">
+				<select name="board_category" id="board_category">
+					<option value="total" <c:if test="${board_category == 'total' }">selected</c:if>>전체</option>
+					<option value="informationSharing" <c:if test="${board_category == 'informationSharing' }">selected</c:if>>정보 공유</option>
+					<option value="friendshipPromotion" <c:if test="${board_category == 'friendshipPromotion' }">selected</c:if>>친목 도모</option>
+					<option value="petSneak" <c:if test="${board_category == 'petSneak' }">selected</c:if>>펫 간식</option>
+					<option value="smallChat" <c:if test="${board_category == 'smallChat' }">selected</c:if>>잡담</option>
+					<option value="lookForPetFriend" <c:if test="${board_category == 'lookForPetFriend' }">selected</c:if>>펫 프랜드 구합니다</option>
+					<option value="BeingPetFriend" <c:if test="${board_category == 'BeingPetFriend' }">selected</c:if>>펫 프랜드 합니다</option>
+				</select>
+				<select name="board_searchCategory" id="board_searchCategory">
+					<option value="title" <c:if test="${board_searchCategory == 'title' }">selected</c:if>>제목</option>
+					<option value="content" <c:if test="${board_searchCategory == 'content' }">selected</c:if>>내용</option>
+					<option value="id" <c:if test="${board_searchCategory == 'id' }">selected</c:if>>작성자</option>
+					<option value="titleContent" <c:if test="${board_searchCategory == 'titleContent' }">selected</c:if>>제목+내용</option><!-- 제목+내용 아직 구현 안됐습니다. -->
+				</select>
+				<input type="text" id="board_searchKeyword" name="board_searchKeyword" value="${board_searchKeyword }">
+				<input type="submit" id="search_btn" value="검색">
+			</form>
 		</div>
 	</section>
 	<c:import url="../default/footer.jsp"/>
