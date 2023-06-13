@@ -82,6 +82,13 @@ public interface BoardService {
 		
 	//============================ 최윤희 끝 ===========================================
 	
+	// 청규
+	
+	// 문의 관리
+	public void manager_qna(Model model, int num);
+	
+	// 문의 게시판
+	public void member_qna(Model model, int num);
 	
 }
 

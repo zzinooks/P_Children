@@ -101,7 +101,9 @@ body {
 
 </head>
 <body>
-<%-- <c:import url="../../default/header.jsp"/> --%>
+
+	<c:import url="../../default/header.jsp"/>
+	
 	<h1>공지사항</h1>
 	<div class="wrap board_table">
 		<form name="categorySelect" action="${contextPath }/board/notice/noticeCategorySelect" method="get">
@@ -216,6 +218,8 @@ body {
 		
 		<a href="${contextPath }/index">메인으로</a>
 	</div>
-<%-- <c:import url="../../default/footer.jsp"/> --%>
+	
+		<c:import url="../../default/footer.jsp"/>
+		
 </body>
 </html>

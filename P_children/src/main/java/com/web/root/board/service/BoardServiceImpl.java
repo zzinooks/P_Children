@@ -494,7 +494,40 @@ public class BoardServiceImpl implements BoardService {
 		
 	//============================ 최윤희 끝 ===========================================
 	
+	// 청규
+	
+	// 문의 관리
+	@Override
+	public void manager_qna(Model model, int num) {
+		int pageLetter = 10; 
+		int allCount = mapper.selectQnaCount_manager(); 
+		int repeat = allCount/pageLetter;  
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("qnaList", mapper.manager_qna(start, end));		
+		
+	}
 
+
+	@Override
+	public void member_qna(Model model, int num) {
+		int pageLetter = 10; 
+		int allCount = mapper.selectQnaCount_member(); 
+		int repeat = allCount/pageLetter;  
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("qnaList", mapper.member_qna(start, end));				
+		
+	}
+	
+	// 문의 게시판
+	
 	
 	
 	

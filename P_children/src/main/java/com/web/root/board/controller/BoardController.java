@@ -355,7 +355,30 @@ public class BoardController implements MemberSession{
 		
 	//============================ 최윤희 끝 ===========================================
 	
+	//============================임청규 시작==========================================
 	
+	// 관리자 문의 관리
+	@RequestMapping("manager_qna")
+	public String manager_qna(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
+		bs.manager_qna(model, num);
+		return "chenggyu/manager_qna";
+	}
+	
+	// 회원 문의
+	@RequestMapping("member_qna")
+	public String member_qna(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
+		bs.member_qna(model, num);
+		return "chenggyu/member_qna";
+	}
+	
+	// 고객센터 
+	@RequestMapping("service/service_center")
+	public String service_center() {
+		return "board/service/service_center";
+	}
+	
+	
+	//============================임청규 끝==========================================
 	
 	
 	

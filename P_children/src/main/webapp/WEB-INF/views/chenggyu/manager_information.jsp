@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>manager_information</title>
+<title>Mate With 관리자 정보</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -48,7 +48,7 @@
 			</div>
 			<div class="button">
 				<input type="button" value="사용자 관리" onclick="location.href='manager_memberList'" class="but_1">
-				<input type="button" value="문의 관리" onclick="location.href='manager_qna'" class="but_1">
+				<input type="button" value="문의 관리" onclick="location.href='${contextPath }/board/manager_qna'" class="but_1">
 				<input type="button" value="카카오페이 승인 목록" onclick="location.href='kakaoPaymentApproveList'" class="but_1">
 			</div>
 		</form>

@@ -56,7 +56,7 @@ public class MemberController implements MemberSession{
 		return "chenggyu/member_modify";
 	}
 	
-	// 개인정보 수정
+	// 개인정보 수정 처리
 	@PostMapping("modify_save")
 	@ResponseBody
 	public void modify_save(HttpServletRequest request) {
@@ -72,7 +72,7 @@ public class MemberController implements MemberSession{
 		return "chenggyu/member_leave";
 	}
 	
-	// 회원 탈퇴
+	// 회원 탈퇴 처리
 	@PostMapping("member_leave_save")
 	@ResponseBody
 	public void member_leave_save(HttpServletRequest request, HttpSession session) {
@@ -82,7 +82,7 @@ public class MemberController implements MemberSession{
 		}
 	}
 	
-	// 회원 게시물
+	// 회원 게시물 X
 	@RequestMapping("member_board")
 	public String member_board(Model model, HttpSession session, @RequestParam(value="num", required = false, defaultValue="1" )int num ) {
 		String id = (String) session.getAttribute(LOGIN);
@@ -90,12 +90,6 @@ public class MemberController implements MemberSession{
 		ms.member_board(model, num);
 		model.addAttribute("dto", dto);
 		return "chenggyu/member_board";
-	}
-	
-	// 회원 문의
-	@RequestMapping("member_qna")
-	public String member_qna() {
-		return "chenggyu/member_qna";
 	}
 	
 	// 관리자 정보
@@ -122,20 +116,14 @@ public class MemberController implements MemberSession{
 		return "chenggyu/manager_memberList";
 	}
 	
-	// 	게시물 관리
+	// 	게시물 관리 X
 	@RequestMapping("manager_board")
 	public String manager_board(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
 		ms.manager_board(model, num);
 		return "chenggyu/manager_board";
 	}
 	
-	// 관리자 문의 관리
-	@RequestMapping("manager_qna")
-	public String manager_qna(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
-		ms.manager_qna(model, num);
-		return "chenggyu/manager_qna";
-	}
-	
+
 
 	//============================ 임청규 끝 ===========================================
 	

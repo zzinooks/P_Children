@@ -24,13 +24,10 @@ public interface MemberMapper {
 	
 	public int selectBoardCount();
 	public int selectMemberCount();
-	public int selectQnaCount();
 	public int selectMember_boardCount();
-	public int selectMember_boardCountById(String id);
 	
 	public List<MemberDTO> memberInfo(@Param("s") int start, @Param("e") int end);
 	public List<BoardDTO> manager_board(@Param("s") int start, @Param("e") int end);
-	public List<QnaDTO>	manager_qna(@Param("s") int start, @Param("e") int end);
 	public List<MemberDTO> member_board(@Param("s") int start, @Param("e") int end);
 	
 

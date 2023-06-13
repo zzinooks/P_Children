@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,7 +57,7 @@
 			</div>
 			<div class="button">
 				<input type="button" value="개인정보 수정" onclick="location.href='member_modify'" class="but_1">
-				<input type="button" value="문의" onclick="location.href='member_qna'" class="but_1">
+				<input type="button" value="문의" onclick="location.href='${contextPath }/board/member_qna'" class="but_1">
 				<input type="button" value="회원 탈퇴" onclick="location.href='member_leave'" class="but_1">
 			</div>
 		</form>

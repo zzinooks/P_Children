@@ -17,30 +17,28 @@ table             {
   background:white;
   border-radius:6px;
   overflow:hidden;
+  max-width:800px; 
   width:100%;
   margin:0 auto;
   position:relative;
   }
-    td,th{ 
+    td,th           { 
     padding-left:8px;
-    padding-right: 8px;
-    text-align:center;
+    text-align: center;
     }
 
   thead tr  { 
-    height:40px;
+    height:50px;
     background:#A996DB;
     font-size:16px;
   }
   
   tbody tr     { 
-  height:40px; 
+  height:48px; 
   border-bottom:1px solid #E3F1D5 ;
     &:last-child  { border:0; }
   }
-#left{
-	text-align: left;
-}
+ 
 </style>
 </head>
 <body>
@@ -56,7 +54,7 @@ table             {
 					<th>작성자</th>
 					<th>제목</th>
 					<th>작성일</th>
-					<th>상태</th>
+					<th >상태</th>
 			</tr>
 		</thead>
 			<c:if test="${qnaList.size() == 0 }">
@@ -69,7 +67,7 @@ table             {
 					<th> ${dto.id }</th>
 					<th> ${dto.title }</th>
 					<th> ${dto.savedate }</th>
-					<th> ${dto.status }</th>
+					<th > ${dto.status }</th>
 				</tr>
 			</c:forEach>	
 		</table>

@@ -61,8 +61,15 @@
 		<result property="write_group" column="write_group"/>
 		<result property="write_date" column="write_date"/>
 	</resultMap>
-
-
+	
+	<!-- 문의 게시판 -->
+	<resultMap id="qna" type="com.web.root.qna.dto.QnaDTO" >
+		<id property="id"  column="id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="savedate" column="savedate"/>
+		<result property="status" column="status"/>
+	</resultMap>
 
 	<!--  ======================== 진욱 시작 ==========================   -->
 
@@ -265,6 +272,31 @@
 	
 	<!--  ======================== 윤희 끝 ==========================   -->
 	
+	<!-- ======================== 임청규 시작 ======================= -->
+	
+	<select id="manager_qna" resultMap="qna">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM qna ORDER BY savedate DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<select id="selectQnaCount_manager" resultType="Integer">
+		SELECT COUNT(*) FROM qna
+	</select>
+	
+	<select id="member_qna" resultMap="qna">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM qna ORDER BY savedate DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<select id="selectQnaCount_member" resultType="Integer">
+		SELECT COUNT(*) FROM qna
+	</select>
+	
+	<!-- ======================== 임청규 끝 ======================= -->
 	
 	
 	

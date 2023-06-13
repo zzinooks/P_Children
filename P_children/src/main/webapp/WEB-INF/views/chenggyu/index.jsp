@@ -30,8 +30,8 @@
 			<p>- 반려 메이트에 관심이 있는데 어떻게 시작할지 몰랐던 분들!</p>
 			<p>- 반려 메이트를 키우기 전에 경험을 해보고 싶으신 분들!</p>
 			<p>- 반려 메이트에 대한 여러가지 정보를 알고 싶은 분들!</p>
-			<p>   모든 반려 메이트들을 사랑하는 분들 모두! Mate With Us!</p>
-            <h3>그 어려움을 Mate With 가 함께 나누겠습니다.</h3>		
+			<p>그 어려움을 Mate With 가 함께 나누겠습니다.</p>
+            <h3>모든 반려 메이트들을 사랑하는 분들 모두! Mate With Us!</h3>		
 		<button class="btn" onclick="location.href='${contextPath }/programBoard/programBoardAllList'">바로 가기</button>
 		<div class="social-media">
 <!-- 				<a href="#"><i class='bx bxl-facebook-circle'></i></a>

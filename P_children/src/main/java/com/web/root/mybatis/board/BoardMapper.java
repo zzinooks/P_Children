@@ -9,6 +9,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
+import com.web.root.qna.dto.QnaDTO;
 
 public interface BoardMapper {
 	
@@ -106,7 +107,15 @@ public interface BoardMapper {
 		
 	//============================ 최윤희 끝 ===========================================
 	
+	// 청규
+	public List<QnaDTO>	manager_qna(@Param("s") int start, @Param("e") int end);
 	
+	public int selectQnaCount_manager();
+	
+	public List<QnaDTO>	member_qna(@Param("s") int start, @Param("e") int end);
+	
+	public int selectQnaCount_member();
+
 	
 
 }
