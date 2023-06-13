@@ -218,7 +218,7 @@ body {
 			</tr>
 		</table>
 		
-		<!-- 검색 -->
+		<!-- 검색 버튼 -->
 		<form name="noticeSearchForm" action="${contextPath }/board/notice/noticeSearchForm" method="get">
 			<select name="notice_category" id="notice_category">
 				<option value="noticeAll" <c:if test="${notice_category == 'noticeAll' }">selected</c:if>>전체</option>
