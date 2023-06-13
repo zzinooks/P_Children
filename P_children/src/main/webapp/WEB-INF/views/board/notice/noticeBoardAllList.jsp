@@ -93,17 +93,6 @@ body {
 		
 	<h1>공지사항</h1>
 	<div class="wrap board_table">
-		<%-- <form name="categorySelect" action="${contextPath }/board/notice/noticeCategorySelect" method="get">
-			<select name="noticeCategorySelect" id="noticeCategoryDivision" onchange="noticeCategoryChange()">
-				<option value="전체" <c:if test="${notiCategory == '전체' }">selected</c:if>>전체</option>
-				<option value="일반" <c:if test="${notiCategory == '일반' }">selected</c:if>>일반</option>
-				<option value="이벤트" <c:if test="${notiCategory == '이벤트' }">selected</c:if>>이벤트</option>
-				<option value="상품" <c:if test="${notiCategory == '상품' }">selected</c:if>>상품</option>
-				<option value="배송지연" <c:if test="${notiCategory == '배송지연' }">selected</c:if>>배송지연</option>
-			</select>
-		</form> --%>
-
-		
 		<table class="table table-striped">
 			<tr>
 				<th width="150px"> 구 분 </th>
@@ -144,12 +133,10 @@ body {
 								</c:if>
 							</td>
 							<c:choose>
-								<%-- <c:when test="${notice_category == '%%' || notice_category == null}"> --%>
 								<c:when test="${notice_category == null}">
 									<td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}">${noticeBoardDTO.title }</a></td>
 								</c:when>
 								<c:otherwise>
-									<%-- <td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}&notice_category=${notice_category}">${noticeBoardDTO.title }</a></td> --%>
 									<td><a href="${contextPath }/board/notice/noticeBoardContentView?write_no=${noticeBoardDTO.write_no}&num=${num}&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}">${noticeBoardDTO.title }</a></td>
 								</c:otherwise>
 							</c:choose>
