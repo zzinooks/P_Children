@@ -94,6 +94,8 @@ public class KakaoServiceImp1 implements KakaoService, KakaoDeveloper{
 		
 		for(ProgramMapDTO dto : list) {
 			JSONObject data = new JSONObject();
+			data.put("write_no", dto.getWrite_no());
+			data.put("title", dto.getTitle());
 			data.put("lat", dto.getLat());
 			data.put("lng", dto.getLng());
 			dataList.add(data);
@@ -106,7 +108,7 @@ public class KakaoServiceImp1 implements KakaoService, KakaoDeveloper{
 				     .setPrettyPrinting()
 				     .create()
 				     .toJson(programsLatLng);
-		session.setAttribute("programsLatLng", programsLatLng_json);
+//		session.setAttribute("programsLatLng", programsLatLng_json);
 		model.addAttribute("kakaoMapLatLng", programsLatLng_json);
 		
 //		json 파일 생성하기

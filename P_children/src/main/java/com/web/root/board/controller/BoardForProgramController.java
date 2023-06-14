@@ -24,6 +24,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardForProgramService;
+import com.web.root.kakao.service.KakaoService;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
@@ -40,6 +41,9 @@ public class BoardForProgramController implements MemberSession{
 	
 	@Autowired
 	MemberService ms;
+
+	@Autowired
+	KakaoService ks;
 	
 	// 프로그램 입력 view 호출
 	@RequestMapping("writeFormForProgram")
@@ -193,4 +197,31 @@ public class BoardForProgramController implements MemberSession{
 		out.println(message);
 		
 	}
+	
+	// =============================== 성수 시작 ========================================
+	
+	// 프로그램 카카오 지도에 맵핑하기
+	@GetMapping("kakaoMapLatLng_json")
+	public String createProgramLatLng_json(Model model, HttpSession session) {
+		ks.createLatLngJson(model, session);
+		return "sungsu/kakaoMap/kakaoMapResult";
+	}
+	
+	
+	// =============================== 성수 끝 ========================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

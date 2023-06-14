@@ -1,7 +1,5 @@
 package com.web.root.board.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.root.board.dto.ProgramBoardDTO;
-import com.web.root.board.dto.ProgramBoardDTO_test;
 import com.web.root.kakao.dto.ProgramMapDTO;
 import com.web.root.kakao.service.KakaoServiceImp1;
 import com.web.root.mybatis.board.BoardMapper;
@@ -34,52 +31,32 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 	public String writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request) {
 		
 		// form 에서 받은 data 저장
-//		ProgramBoardDTO programBoardDTO = new ProgramBoardDTO();
-//		programBoardDTO.setId(mul.getParameter("id"));
-//		programBoardDTO.setTitle(mul.getParameter("title"));
-//		programBoardDTO.setPetKind(mul.getParameter("petKind"));
-//		programBoardDTO.setMateName(mul.getParameter("mateName"));
-//		programBoardDTO.setContent(mul.getParameter("content"));
-//		programBoardDTO.setPosition1(mul.getParameter("position1"));
-//		programBoardDTO.setPosition2(mul.getParameter("position2"));
-//		programBoardDTO.setStartDate(mul.getParameter("startDate"));
-//		programBoardDTO.setStartTime(mul.getParameter("startTime"));
-//		programBoardDTO.setEndDate(mul.getParameter("endDate"));
-//		programBoardDTO.setEndTime(mul.getParameter("endTime"));
-//		programBoardDTO.setPriceForProgram(Integer.parseInt(mul.getParameter("priceForProgram")));
-		
-		// =============================== 성수 시작 ==================================
-		ProgramBoardDTO_test dto = new ProgramBoardDTO_test();
-		dto.setId(mul.getParameter("id"));
-		dto.setTitle(mul.getParameter("title"));
-		dto.setPetKind(mul.getParameter("petKind"));
-		dto.setMateName(mul.getParameter("mateName"));
-		dto.setContent(mul.getParameter("content"));
-		dto.setPosition1(mul.getParameter("position1"));
-		dto.setPosition2(mul.getParameter("position2"));
-		dto.setStartDate(mul.getParameter("startDate"));
-		dto.setStartTime(mul.getParameter("startTime"));
-		dto.setEndDate(mul.getParameter("endDate"));
-		dto.setEndTime(mul.getParameter("endTime"));
-		dto.setPriceForProgram(Integer.parseInt(mul.getParameter("priceForProgram")));
-		dto.setProgram_key(dto.getId()+dto.getMateName()+dto.getTitle());
-		
-		// =============================== 성수 끝 ==================================
+		ProgramBoardDTO programBoardDTO = new ProgramBoardDTO();
+		programBoardDTO.setId(mul.getParameter("id"));
+		programBoardDTO.setTitle(mul.getParameter("title"));
+		programBoardDTO.setPetKind(mul.getParameter("petKind"));
+		programBoardDTO.setMateName(mul.getParameter("mateName"));
+		programBoardDTO.setContent(mul.getParameter("content"));
+		programBoardDTO.setPosition1(mul.getParameter("position1"));
+		programBoardDTO.setPosition2(mul.getParameter("position2"));
+		programBoardDTO.setStartDate(mul.getParameter("startDate"));
+		programBoardDTO.setStartTime(mul.getParameter("startTime"));
+		programBoardDTO.setEndDate(mul.getParameter("endDate"));
+		programBoardDTO.setEndTime(mul.getParameter("endTime"));
+		programBoardDTO.setPriceForProgram(Integer.parseInt(mul.getParameter("priceForProgram")));
 		
 		// form에서 받은 이미지 파일 받기
 		MultipartFile file = mul.getFile("file");
 		
 		if(file.getSize() != 0) {	// 이미지 파일 있을 경우
-			dto.setMateImage(bfs.saveFile(file));
+			programBoardDTO.setMateImage(bfs.saveFile(file));
 		} else {
-			dto.setMateImage("nan");
+			programBoardDTO.setMateImage("nan");
 		}
 		
 		int result = 0;
 		try {
-//			result = mapper.writeSaveForProgram(programBoardDTO);
-			// 성수
-			result = mapper.writeSaveForProgram_test(dto);
+			result = mapper.writeSaveForProgram(programBoardDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,15 +67,15 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 			url = "/programBoard/programBoardAllList";
 			// =============================== 성수 시작 ==================================
 			
-			ProgramBoardDTO_test dto2 = mapper.selectProgramInfo(dto.getProgram_key());
+			ProgramBoardDTO dto = mapper.selectProgramInfo();
 			ProgramMapDTO programMapDTO = new ProgramMapDTO();
-			programMapDTO.setWrite_no(dto2.getWrite_no());
-			programMapDTO.setTitle(dto2.getTitle());
+			programMapDTO.setWrite_no(dto.getWrite_no());
+			programMapDTO.setTitle(dto.getTitle());
 			
 			// 프로그램 좌표값 요청하기
 			KakaoServiceImp1 kakaoServiceImp1 = new KakaoServiceImp1();
 			programMapDTO = kakaoServiceImp1.getKakaoMapLatLng(
-					dto2.getPosition1()+" "+dto2.getPosition2()
+					dto.getPosition1()+" "+dto.getPosition2()
 				  , programMapDTO);
 			kakaoMapper.insertProgramMapInfo(programMapDTO);
 			
@@ -136,16 +113,6 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("block", block);
 		model.addAttribute("totalPage", totalPage);
-//		// =============================== 성수 시작 ==================================
-//		
-//		List<ProgramBoardDTO> programlist = mapper.selectAllProgram();
-//		for(ProgramBoardDTO dto : programlist) {
-//			
-//		}
-//		
-////		System.out.println(programBoardDTO.getWrite_no()+" / "+programBoardDTO.getTitle());
-//		
-//		// =============================== 성수 끝 ==================================
 		
 	}
 
