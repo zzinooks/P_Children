@@ -20,4 +20,7 @@ public interface BoardForProgramService {
 	public String modifySaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request);
 	
 	public String deleteProgram(Model model, HttpServletRequest request);
-}
+	
+	public String paidProgramContentView(HttpServletRequest request);
+	
+	}

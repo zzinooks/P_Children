@@ -37,6 +37,14 @@ public interface BoardMapper {
 	
 	public List<BoardDTO> boardAllListByCategory(@Param("category") String category, @Param("s") int start, @Param("e") int end);
 	
+	// 게시판 게시글 카테고리 수
+	public int boardCountCategory(Map<String, String> map); 
+
+	// 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
+	public List<BoardDTO> boardSearchFormCountList(Map<String, String> map);
+	
+	//카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
+	public int paidProgramContentView(@Param("write_no") int write_no);	
 	// 댓글 기능 ------------------------------------------------
 	
 	public int addReply(Map<String, Object> map);

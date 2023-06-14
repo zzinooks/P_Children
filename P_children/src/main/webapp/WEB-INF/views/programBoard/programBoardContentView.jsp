@@ -31,6 +31,15 @@
 		}
 		
 	}
+	
+	function confirmToPay() {
+		if(!confirm('결재 화면으로 이동하시겠습니까?')){
+			return false;
+		} else {
+			$("#programPayForm").submit();
+		}
+		
+	}
 </script>
 <style type="text/css">
 h1 {
@@ -104,6 +113,19 @@ h1 {
 	               </td>
 	            </tr>
 	         </form>
+	         <tr>
+	       		<td>
+	         	<form action="${contextPath }/member/kakaoPayBtn" method="get" id="programPayForm">
+	         		<input type="hidden" name="title" value="${programBoardDTO.title }"><br>
+	         		<input type="hidden" name="quantity" value="1"><br>
+	         		<input type="hidden" name="total_amount" value="${programBoardDTO.priceForProgram }"><br>
+	         		<input type="hidden" name="write_no" value="${programBoardDTO.write_no }"><br>
+	         		<input type="hidden" name="num" value="<%=num2 %>"><br>
+	         			
+	         		<button onclick="confirmToPay()">결재하기</button>
+	         	</form>
+	         	</td>
+	         </tr>
 	      </table>
 	      </div>
 	   </div>

@@ -264,7 +264,8 @@ public class MemberServiceImp1 implements MemberService {
 				String contentType,
 				String kakaoPayReadyUrl,
 				ItemDTO itemDTO,
-				HttpSession session) {
+				HttpSession session,
+				HttpServletRequest request) {
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
@@ -278,12 +279,12 @@ public class MemberServiceImp1 implements MemberService {
         params.add("cid", "TC0ONETIME");
         params.add("partner_order_id", "mateWith_Partner");
         params.add("partner_user_id", "mateWith_User");
-        params.add("item_name", itemDTO.getItem_name());
-        params.add("quantity", Integer.toString(itemDTO.getQuantity()));
-        params.add("total_amount", Integer.toString(itemDTO.getTotal_amount()));
-        params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10));
+        params.add("item_name", itemDTO.getItem_name()); // 프로그램 이름 넣을 자리
+        params.add("quantity", Integer.toString(itemDTO.getQuantity()));	// 1로 고정하기 (상품 수량)
+        params.add("total_amount", Integer.toString(itemDTO.getTotal_amount())); // 비용
+        params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10)); // 비용 그대로 (부과세)
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8080/root/member/success");
+        params.add("approval_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num")); // 승인 완료되면 이동하는 url
         params.add("fail_url", "http://localhost:8080/root/member/fail");
         params.add("cancel_url", "http://localhost:8080/root/member/kakaoPayBtn");
 

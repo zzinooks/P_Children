@@ -60,7 +60,7 @@ public interface MemberService {
 	
 	public String kakaoLogout(String token, String kakaologouturl);
 	
-	public String readyKakaoPay(String adminKey, String contentType, String kakaoPayReadyUrl, ItemDTO itemDTO, HttpSession session);	
+	public String readyKakaoPay(String adminKey, String contentType, String kakaoPayReadyUrl, ItemDTO itemDTO, HttpSession session, HttpServletRequest request);	
 	
 	public void kakaoPaymentApprove(String kakaoPaymentApproveUrl, String adminKey, String pg_token, HttpSession session);
 	

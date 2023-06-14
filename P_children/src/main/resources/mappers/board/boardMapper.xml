@@ -168,6 +168,22 @@
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 	
+	<!-- 게시판 게시글 카테고리+검색 => 해당 검색 카테고리리를 통해 각각 글 갯수 가져오기 -->
+	<select id="boardCountCategory" resultType="Integer"> 
+		SELECT COUNT(*) FROM board2 where category like #{category}
+		and (title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%')
+	</select>
+		
+	<!-- 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기 -->
+	<select id="boardSearchFormCountList" resultMap="board"> 
+			SELECT B.* FROM 
+			(SELECT ROWNUM rn, A.* FROM 
+			(SELECT * FROM board2 where 
+			(title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%') 
+			and category like '%'||#{category}||'%' ORDER BY write_no DESC)A )B
+			WHERE rn BETWEEN #{s} and #{e} 
+	</select>
+	
 	<!-- 댓글 기능 -->
 	<insert id="addReply">
 		INSERT INTO reply2 VALUES(reply_seq.NEXTVAL, 0, 0, #{id}, #{content},#{write_no} ,SYSDATE)
@@ -262,7 +278,12 @@
 	
 	<delete id="deleteProgram">
 		DELETE FROM programBoard WHERE write_no=#{write_no}	
-	</delete>	
+	</delete>
+	
+	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 -->
+	<update id="paidProgramContentView">
+		UPDATE programBoard SET state='결재 완료' WHERE write_no = #{write_no}
+	</update>
 	
 	<!--  ======================== 진욱 끝 ==========================   -->
 	
