@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.web.root.kakao.dto.ProgramMapDTO;
 import com.web.root.kakao.service.KakaoService;
 
 @Controller
@@ -30,7 +31,8 @@ public class KakaoController {
 	@RequestMapping("kakaoMapGetLatLng")
 	public String getLatLng(HttpServletRequest request) {
 		String addrMerge = request.getParameter("addr2"); 
-		ks.getKakaoMapLatLng(addrMerge);
+		ProgramMapDTO programMapDTO = new ProgramMapDTO();
+		ks.getKakaoMapLatLng(addrMerge, programMapDTO);
 		return "sungsu/kakaoMap/kakaoMapResult";
 	}
 	

@@ -44,6 +44,7 @@
 			let iwContent = '<a href="/root/programBoard/programContentView?write_no=82&num=null"'
 						   +' style="font-size:15px; color:blue; text-decoration:none;" target="_blank">설기와 산책을</a>'; 
 			// 진욱님 - 프로그램 제목, write_no, num 값을 programLatLng 테이블에 함께 저장해야 한다.
+			
 			let iwPosition = new kakao.maps.LatLng(lat, lng); //인포윈도우 표시 위치입니다
 
 			// 인포윈도우를 생성합니다

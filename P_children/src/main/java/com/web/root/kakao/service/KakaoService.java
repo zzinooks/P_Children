@@ -4,10 +4,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
+import com.web.root.kakao.dto.ProgramMapDTO;
+
 public interface KakaoService {
 
-	void getKakaoMapLatLng(String addrMerge);
-
 	void createLatLngJson(Model model, HttpSession session);
+
+	ProgramMapDTO getKakaoMapLatLng(String addrMerge, ProgramMapDTO programMapDTO);
 
 }

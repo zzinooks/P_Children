@@ -1,5 +1,6 @@
 package com.web.root.mybatis.board;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
+import com.web.root.board.dto.ProgramBoardDTO_test;
 import com.web.root.qna.dto.QnaDTO;
 
 public interface BoardMapper {
@@ -119,6 +121,19 @@ public interface BoardMapper {
 	public List<QnaDTO>	member_qna(@Param("s") int start, @Param("e") int end);
 	
 	public int selectQnaCount_member();
+
+
+	
+	// =============================== 성수 시작 ==================================
+
+
+	public int writeSaveForProgram_test(ProgramBoardDTO_test dto);
+
+	public ProgramBoardDTO_test selectProgramInfo(String program_key);
+	
+	
+	
+	// =============================== 성수 끝 ==================================
 
 	
 

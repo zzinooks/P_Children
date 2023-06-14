@@ -80,7 +80,7 @@ function deleteConfirm(write_no, file_name){
 						<c:forEach var="dto" items="${programBoardList }">
 							<tr>
 								<td>${dto.write_no }</td>
-								<td>${dto.id }</td>
+								<td>${dto.id }</td>                                        <!--  -->                         <!-- num 필요한지 진욱님께 체크 -->
 								<td><a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
 								<td>${dto.savedate }</td>
 								<td>${dto.state }</td>

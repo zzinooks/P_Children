@@ -38,6 +38,31 @@
 		<result property="state" column="state"/>
 	</resultMap>
 	
+	<!-- ============================ 성수 ======================= -->
+	
+	<resultMap  id="programBoard_test" type="com.web.root.board.dto.ProgramBoardDTO_test">
+		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="petKind" column="petKind"/>
+		<result property="mateName" column="mateName"/>
+		<result property="mateImage" column="mateImage"/>
+		<result property="content" column="content"/>
+		<result property="position1" column="position1"/>
+		<result property="position2" column="position2"/>
+		<result property="startDate" column="startDate"/>
+		<result property="startTime" column="startTime"/>
+		<result property="endDate" column="endDate"/>
+		<result property="endTime" column="endTime"/>
+		<result property="priceForProgram" column="priceForProgram"/>
+		<result property="savedate" column="savedate"/>
+		<result property="hit" column="hit"/>
+		<result property="state" column="state"/>
+		<result property="program_key" column="program_key"/>
+	</resultMap>
+	
+	<!-- ============================ 성수 ======================= -->
+	
 	<!--  공지사항 게시판  -->
 	<!-- <resultMap id="notice" type="com.web.root.board.dto.NoticeBoardDTO">
 		<id property="write_no" column="write_no"/> property는 DTO랑 column은 DB랑 같아야함 
@@ -331,6 +356,24 @@
 	</select>
 	
 	<!-- ======================== 임청규 끝 ======================= -->
+	
+	
+	<!-- 	// =============================== 성수 시작 ================================== -->
+	
+	<insert id="writeSaveForProgram_test">
+		INSERT INTO programBoard_test(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit, program_key)
+		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0, #{program_key})
+	</insert>
+	
+	<select id="selectProgramInfo" resultMap="programBoard_test">
+		SELECT * FROM programBoard_test WHERE program_key = #{program_key}
+	</select>
+	
+	
+	
+	
+	<!-- 	// =============================== 성수 끝 ================================== -->
+	
 	
 	
 	

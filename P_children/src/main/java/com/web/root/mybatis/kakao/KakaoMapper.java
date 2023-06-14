@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.web.root.kakao.dto.KakaoMapLatLngDTO;
+import com.web.root.kakao.dto.ProgramMapDTO;
 import com.web.root.kakaoPay.dto.KakaoPaymentApproveResultDTO;
 
 public interface KakaoMapper {
@@ -18,9 +19,9 @@ public interface KakaoMapper {
 
 	void cancelCheck(@Param("tid") String tid);
 
-	void insertProgramLatLng(KakaoMapLatLngDTO kakaoMapLatLngDTO);
+	void insertProgramMapInfo(ProgramMapDTO programMapDTO);
 
-	ArrayList<KakaoMapLatLngDTO> selectKakaoMapLatLng();
+	List<ProgramMapDTO> selectProgramMapInfo();
 
 
 
