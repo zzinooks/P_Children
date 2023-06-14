@@ -76,8 +76,15 @@
 		<result property="write_group" column="write_group"/>
 		<result property="write_date" column="write_date"/>
 	</resultMap>
-
-
+	
+	<!-- 문의 게시판 -->
+	<resultMap id="qna" type="com.web.root.qna.dto.QnaDTO" >
+		<id property="id"  column="id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="savedate" column="savedate"/>
+		<result property="status" column="status"/>
+	</resultMap>
 
 	<!--  ======================== 진욱 시작 ==========================   -->
 
@@ -134,6 +141,22 @@
 		(SELECT ROWNUM rn, A.* FROM
 		(SELECT * FROM board2 WHERE category=#{category} ORDER BY write_no DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<!-- 게시판 게시글 카테고리+검색 => 해당 검색 카테고리리를 통해 각각 글 갯수 가져오기 -->
+	<select id="boardCountCategory" resultType="Integer"> 
+		SELECT COUNT(*) FROM board2 where category like #{category}
+		and (title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%')
+	</select>
+		
+	<!-- 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기 -->
+	<select id="boardSearchFormCountList" resultMap="board"> 
+			SELECT B.* FROM 
+			(SELECT ROWNUM rn, A.* FROM 
+			(SELECT * FROM board2 where 
+			(title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%') 
+			and category like '%'||#{category}||'%' ORDER BY write_no DESC)A )B
+			WHERE rn BETWEEN #{s} and #{e} 
 	</select>
 	
 	<!-- 댓글 기능 -->
@@ -230,7 +253,12 @@
 	
 	<delete id="deleteProgram">
 		DELETE FROM programBoard WHERE write_no=#{write_no}	
-	</delete>	
+	</delete>
+	
+	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 -->
+	<update id="paidProgramContentView">
+		UPDATE programBoard SET state='결재 완료' WHERE write_no = #{write_no}
+	</update>
 	
 	<!--  ======================== 진욱 끝 ==========================   -->
 	
@@ -299,6 +327,31 @@
 	
 	<!--  ======================== 윤희 끝 ==========================   -->
 	
+	<!-- ======================== 임청규 시작 ======================= -->
+	
+	<select id="manager_qna" resultMap="qna">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM qna ORDER BY savedate DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<select id="selectQnaCount_manager" resultType="Integer">
+		SELECT COUNT(*) FROM qna
+	</select>
+	
+	<select id="member_qna" resultMap="qna">
+		SELECT B.* FROM
+		(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM qna ORDER BY savedate DESC)A )B
+		WHERE rn BETWEEN #{s} and #{e}
+	</select>
+	
+	<select id="selectQnaCount_member" resultType="Integer">
+		SELECT COUNT(*) FROM qna
+	</select>
+	
+	<!-- ======================== 임청규 끝 ======================= -->
 	
 	
 	

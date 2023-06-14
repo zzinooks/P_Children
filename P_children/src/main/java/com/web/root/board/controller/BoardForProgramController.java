@@ -180,4 +180,17 @@ public class BoardForProgramController implements MemberSession{
 		PrintWriter out = response.getWriter();
 		out.println(message);		
 	}
+	
+	// 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
+	@RequestMapping("paidProgramContentView")
+	public void paidProgramContentView(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		// 카카오 페이 승인 결과 DB에 연동
+		String message = bfps.paidProgramContentView(request);
+		
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println(message);
+		
+	}
 }

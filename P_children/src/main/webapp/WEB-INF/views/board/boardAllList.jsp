@@ -18,30 +18,30 @@
 <style type="text/css">
 
 h1 {
-	text-align: center;
+   text-align: center;
 }
 
 
 .wrap {
-	margin: 0 auto;
+   margin: 0 auto;
 }
 
 .table {
-	display: block;
-	justify-content: center;
+   display: block;
+   justify-content: center;
 }
 
 table tr:last-child {
-	text-align: right;
+   text-align: right;
 }
 
 #paging {
-	color: black;
-	text-decoration: none;
+   color: black;
+   text-decoration: none;
 }
 #currentPaging {
-	color: red;
-	text-decoration: underline;
+   color: red;
+   text-decoration: underline;
 }
 </style>
 <script type="text/javascript">
@@ -55,7 +55,6 @@ table tr:last-child {
 		}
 		
 	}
-
 </script>
 </head>
 <body>
@@ -182,7 +181,7 @@ table tr:last-child {
 			</table>
 			
 			<!-- 검색 버튼 -->
-			<form name="boardSearchForm" action="${contextPath }/board/board/boardSearchForm" method="get">
+			<form name="boardSearchForm" action="${contextPath }/board/boardSearchForm" method="get">
 				<select name="board_category" id="board_category">
 					<option value="total" <c:if test="${board_category == 'total' }">selected</c:if>>전체</option>
 					<option value="informationSharing" <c:if test="${board_category == 'informationSharing' }">selected</c:if>>정보 공유</option>
@@ -196,7 +195,6 @@ table tr:last-child {
 					<option value="title" <c:if test="${board_searchCategory == 'title' }">selected</c:if>>제목</option>
 					<option value="content" <c:if test="${board_searchCategory == 'content' }">selected</c:if>>내용</option>
 					<option value="id" <c:if test="${board_searchCategory == 'id' }">selected</c:if>>작성자</option>
-					<option value="titleContent" <c:if test="${board_searchCategory == 'titleContent' }">selected</c:if>>제목+내용</option><!-- 제목+내용 아직 구현 안됐습니다. -->
 				</select>
 				<input type="text" id="board_searchKeyword" name="board_searchKeyword" value="${board_searchKeyword }">
 				<input type="submit" id="search_btn" value="검색">

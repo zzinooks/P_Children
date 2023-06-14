@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.web.root.board.dto.ProgramBoardDTO;
+import com.web.root.board.service.BoardForProgramService;
 import com.web.root.kakaoPay.dto.ItemDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
@@ -30,6 +32,8 @@ public class MemberController implements MemberSession{
 	@Autowired
 	private MemberService ms;
 	
+	@Autowired	// kakaoPay 지불 완료 후 해당 프로그램 보드로 이동
+	BoardForProgramService bfps;
 	
 	//============================ 임청규 ===========================================
 	
@@ -56,7 +60,7 @@ public class MemberController implements MemberSession{
 		return "chenggyu/member_modify";
 	}
 	
-	// 개인정보 수정
+	// 개인정보 수정 처리
 	@PostMapping("modify_save")
 	@ResponseBody
 	public void modify_save(HttpServletRequest request) {
@@ -72,7 +76,7 @@ public class MemberController implements MemberSession{
 		return "chenggyu/member_leave";
 	}
 	
-	// 회원 탈퇴
+	// 회원 탈퇴 처리
 	@PostMapping("member_leave_save")
 	@ResponseBody
 	public void member_leave_save(HttpServletRequest request, HttpSession session) {
@@ -82,7 +86,7 @@ public class MemberController implements MemberSession{
 		}
 	}
 	
-	// 회원 게시물
+	// 회원 게시물 X
 	@RequestMapping("member_board")
 	public String member_board(Model model, HttpSession session, @RequestParam(value="num", required = false, defaultValue="1" )int num ) {
 		String id = (String) session.getAttribute(LOGIN);
@@ -90,12 +94,6 @@ public class MemberController implements MemberSession{
 		ms.member_board(model, num);
 		model.addAttribute("dto", dto);
 		return "chenggyu/member_board";
-	}
-	
-	// 회원 문의
-	@RequestMapping("member_qna")
-	public String member_qna() {
-		return "chenggyu/member_qna";
 	}
 	
 	// 관리자 정보
@@ -122,20 +120,14 @@ public class MemberController implements MemberSession{
 		return "chenggyu/manager_memberList";
 	}
 	
-	// 	게시물 관리
+	// 	게시물 관리 X
 	@RequestMapping("manager_board")
 	public String manager_board(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
 		ms.manager_board(model, num);
 		return "chenggyu/manager_board";
 	}
 	
-	// 관리자 문의 관리
-	@RequestMapping("manager_qna")
-	public String manager_qna(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
-		ms.manager_qna(model, num);
-		return "chenggyu/manager_qna";
-	}
-	
+
 
 	//============================ 임청규 끝 ===========================================
 	
@@ -157,13 +149,17 @@ public class MemberController implements MemberSession{
 	}
 	
 	@PostMapping("registMember")
-	public String hostRegist(MemberDTO dto, HttpServletRequest request) {
+	public String hostRegist(MemberDTO dto, HttpServletRequest request, Model model) {
 		String addrMerge = request.getParameter("addr1") + "/" 
 				  +request.getParameter("addr2") + "/"
 				  +request.getParameter("addr3") + "/"
 				  +request.getParameter("zonecode") + "/";
 		dto.setAddr(addrMerge);
-		String message = ms.registHost(dto);
+		int result = ms.registHost(dto, model);
+		if(result != 1) {
+			model.addAttribute("registRes", "죄송합니다. 회원가입 도중에 오류가 발생했습니다. 다시 시도를 해주시고, 안되면 고객센터에 연락바랍니다.");
+		}
+		model.addAttribute("registRes", "환영합니다~ 지금 바로 다양한 프로그램을 체험해 보세요!!");
 		return "yoonhee/memberLoginForm";
 	}
 	
@@ -235,24 +231,35 @@ public class MemberController implements MemberSession{
 	
 	// 제품 결제 form
 	@GetMapping("kakaoPayBtn")
-	public String kakaoPayBtn() {
+	public String kakaoPayBtn(HttpServletRequest request, Model model) {
+		String total_amount = request.getParameter("total_amount");
+		int tax_free_amount = Integer.parseInt(total_amount)/10;
+		
+		model.addAttribute("title", request.getParameter("title"));
+		model.addAttribute("quantity", request.getParameter("quantity"));
+		model.addAttribute("total_amount", request.getParameter("total_amount"));
+		model.addAttribute("write_no", request.getParameter("write_no"));
+		model.addAttribute("num", request.getParameter("num"));
+		model.addAttribute("tax_free_amount", tax_free_amount);
 		return "sungsu/kakaoPay";
 	}
 	
 	// 카카오 페이 결제 준비
 	@GetMapping("kakaoPay")
-	public RedirectView kakaoPayCode(ItemDTO itemDTO, HttpSession session) {
-		String kakaoPayRequestURL = ms.readyKakaoPay(ADMIN_KEY, CONTENT_TYPE, KAKAO_PAY_READY_URL, itemDTO, session);	
+	public RedirectView kakaoPayCode(ItemDTO itemDTO, HttpSession session, HttpServletRequest request) {
+		String kakaoPayRequestURL = ms.readyKakaoPay(ADMIN_KEY, CONTENT_TYPE, KAKAO_PAY_READY_URL, itemDTO, session, request);	
 		RedirectView redirectView = new RedirectView();
 		redirectView.setUrl(kakaoPayRequestURL);
+		System.out.println("kakaoPay 준비 완료!");
 		return redirectView;
 	}
 	
 	// 카카오 페이 결제 승인
 	private static final String KAKAO_PAYMENT_APPROVE_URL = "https://kapi.kakao.com/v1/payment/approve";
 	@RequestMapping("success")
-	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, HttpSession session) {
+	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, HttpSession session, Model model, HttpServletRequest request) {
 		ms.kakaoPaymentApprove(KAKAO_PAYMENT_APPROVE_URL, ADMIN_KEY, pg_token, session);
+		
 		return "sungsu/kakaoPaySuccess";
 	}
 	

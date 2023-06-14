@@ -26,7 +26,7 @@ import com.web.root.kakaoPay.dto.KakaoPaymentOrderInfoDTO;
 import com.web.root.member.dto.KakaoLoginDTO;
 //github.com/ssp930/P_Children
 import com.web.root.member.dto.MemberDTO;
-import com.web.root.mybatis.kakao.KakaoPayMapper;
+import com.web.root.mybatis.kakao.KakaoMapper;
 import com.web.root.mybatis.member.MemberMapper;
 
 @Service
@@ -42,14 +42,15 @@ public class MemberServiceImp1 implements MemberService {
 	JavaMailSender mailSender;
 	
 	@Autowired
-	KakaoPayMapper kakaoPayMapper;
+	KakaoMapper kakaoPayMapper;
 	
-	
+	// 회원정보
 	@Override
 	public MemberDTO member_information(String id) {
 		return mapper.member_information(id);
 	}
-
+	
+	// 회원정보 수정
 	@Override
 	public void modify_save(HttpServletRequest request) {
 		MemberDTO dto = new MemberDTO();
@@ -68,6 +69,7 @@ public class MemberServiceImp1 implements MemberService {
 		mapper.modify_save(dto);
 	}
 	
+	// 회원게시물 추가 예정
 	@Override
 	public void member_board(Model model, int num) {
 		int pageLetter = 5; 
@@ -80,7 +82,8 @@ public class MemberServiceImp1 implements MemberService {
 		model.addAttribute("repeat", repeat);
 		model.addAttribute("my_board_list", mapper.member_board(start, end));
 	}
-
+	
+	// 회원정보 게시판
 	@Override
 	public void memberInfo(Model model, int num) {
 		int pageLetter = 10; 
@@ -95,6 +98,7 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
+	// 게시판관리 추가 예정
 	public void manager_board(Model model, int num) {
 		int pageLetter = 5; 
 		int allCount = mapper.selectBoardCount(); 
@@ -105,24 +109,9 @@ public class MemberServiceImp1 implements MemberService {
 		int start = end + 1 - pageLetter;
 		model.addAttribute("repeat", repeat);
 		model.addAttribute("boardList", mapper.manager_board(start, end));
-	}
-
-	@Override
-	public void manager_qna(Model model, int num) {
-		int pageLetter = 10; 
-		int allCount = mapper.selectQnaCount(); 
-		int repeat = allCount/pageLetter;  
-		if(allCount % pageLetter != 0)
-			repeat += 1;
-		int end = num * pageLetter;
-		int start = end + 1 - pageLetter;
-		model.addAttribute("repeat", repeat);
-		model.addAttribute("qnaList", mapper.manager_qna(start, end));		
-		
-	}
+	}	
 	
-	
-
+	// 회원 탈퇴
 	@Override
 	public void member_leave_save(HttpServletRequest request) {
 		MemberDTO dto = new MemberDTO();
@@ -131,6 +120,7 @@ public class MemberServiceImp1 implements MemberService {
 		mapper.member_leave_save(dto);
 	}
 
+	// 회원 정보 저장
 	@Override
 	public void userInfo(String userid, Model model) {
 		MemberDTO dto = mapper.getMember(userid);
@@ -138,6 +128,7 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
+	// 회원삭제
 	public void deleteMember(Model model, HttpServletRequest request) {
 		String id = request.getParameter("id");
 		mapper.deleteMember(id);
@@ -146,18 +137,16 @@ public class MemberServiceImp1 implements MemberService {
 	//============================ 박성수 시작 ===========================================
 
 	@Override
-	public String registHost(MemberDTO dto) {
-		String message = "";
+	public int registHost(MemberDTO dto, Model model) {
 		int result = 0;
 		if(dto.getUserSelect().equals("member")) {
 			result = mapper.registMember(dto);
-			return message;
+			model.addAttribute("registId", dto.getId());
+			return result;
 		}
 		result = mapper.registHost(dto);
-		if(result == 1) {
-			message = "회원가입 완료.";
-		}
-		return message;
+		model.addAttribute("registId", dto.getId());
+		return result;
 	}
 	
 	@Override
@@ -187,7 +176,7 @@ public class MemberServiceImp1 implements MemberService {
 	}
 	
 	
-	
+	// 카카오 로그인 토큰받기
 	@Override
 	public String getkakaoToken(String code, String tokenURL) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -214,6 +203,7 @@ public class MemberServiceImp1 implements MemberService {
 		
 	}
 	
+	// 카카오 로그인 완료 및 DB 저장
 	@Override
 	public int registKakaoUser(String token, String kakaoIdURL, HttpSession session) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -244,6 +234,7 @@ public class MemberServiceImp1 implements MemberService {
 		return result;
 	}
 	
+	// 카카오 로그아웃
 	@Override
 	public String kakaoLogout(String token, String kakaoLogouturl) {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -266,13 +257,15 @@ public class MemberServiceImp1 implements MemberService {
 		return kakaoLogoutId;
 	}
 	
+	// 카카오페이 결제 시작.
 	@Override
 	public String readyKakaoPay(
 				String adminKey,
 				String contentType,
 				String kakaoPayReadyUrl,
 				ItemDTO itemDTO,
-				HttpSession session) {
+				HttpSession session,
+				HttpServletRequest request) {
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
@@ -291,7 +284,7 @@ public class MemberServiceImp1 implements MemberService {
         params.add("total_amount", Integer.toString(itemDTO.getTotal_amount())); // 비용
         params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10)); // 비용 그대로 (부과세)
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8080/root/member/success");
+        params.add("approval_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num")); // 승인 완료되면 이동하는 url
         params.add("fail_url", "http://localhost:8080/root/member/fail");
         params.add("cancel_url", "http://localhost:8080/root/member/kakaoPayBtn");
 

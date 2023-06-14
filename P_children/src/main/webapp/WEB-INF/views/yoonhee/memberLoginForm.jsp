@@ -55,11 +55,22 @@ $(document).ready(function(){
 		<div class="form-box">
 			<form name="memberLoginForm" action="${contextPath}/member/userCheck" method="post" >
 				<h2>Login</h2>
+				<c:if test="${registId != null }">
+					<h3>${registRes }</h3>
+				</c:if>
 				<div class="inputbox">
 					<div class="ion-icon">
 					<i class='bx bx-user'></i>
 					</div>
-					<input type="text"  name="id" value="${cookie.CookieId.value }" required="required">
+					<c:if test="${registId != null }">
+						<input type="text"  name="id" value="${registId}" required="required">
+					</c:if>
+					<c:if test="${cookie.CookieId.value != null }">
+						<input type="text"  name="id" value="${cookie.CookieId.value }" required="required">
+					</c:if>
+					<c:if test="${cookie.CookieId.value == null && registId == null }">
+						<input type="text"  name="id" required="required">
+					</c:if>
 					<label for="">아이디</label>
 				</div>
 				<div class="inputbox">

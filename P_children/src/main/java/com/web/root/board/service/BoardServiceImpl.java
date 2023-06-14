@@ -216,9 +216,88 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("block", block);
 		model.addAttribute("totalPage", totalPage);	 
 	}
+	
+	// 자유게시판 카테고리 + 검색 조회
+	@Override
+	public void boardSearchForm(String board_category, String board_searchCategory, String board_searchKeyword,
+			Model model, int num) {
+		List<BoardDTO> BoardDTOList = new ArrayList<BoardDTO>(); // board 검색에 따라 List 담기
+		
+		// 카테고리 전체를 선택할 때 요청값을 "%%"로 변환 -> 쿼리문 like 사용한 검색을 위해서
+		if(board_category.equals("total") || board_category == null) {
+			board_category = "%%";
+		}
+
+		// 검색 키워드를 입력하지 않았을때 빈 요청값을 "%%"로 변환 -> 쿼리문 like 사용한 검색을 위해서
+		if(board_searchKeyword.equals("") || board_searchKeyword == null) {
+			board_searchKeyword = "%%"; 
+		}
+		
+		
+		Map<String, String> map = new HashMap<String, String>();	// Page Count(*)의 크기를 담는 DTO (각 검색 카테고리별로)	
+		map.put("category", board_category); 			// 카테고리 옵션 저장
+		map.put("keyword",board_searchKeyword);  		// 검색 키워드 저장
+		
+		
+		// 검색 카테고리 선택  -> 값 저장
+		if(board_searchCategory.equals("title")) { // 제목으로 검색 
+			map.put("title",board_searchKeyword); 		// 제목열에 키워드 값 저장
+			map.put("content", "%%"); 					// 나머지 전체 셋팅
+			map.put("id","%%"); 						// 나머지 전체 셋팅
+			
+		}else if(board_searchCategory.equals("content")) { // 내용으로 검색
+			
+			map.put("content", board_searchKeyword); 	// 내용열에 키워드 값 저장	
+			map.put("title","%%");					 	// 나머지 전체 셋팅
+			map.put("id","%%"); 						// 나머지 전체 셋팅
+			
+		}else if(board_searchCategory.equals("id")) {  // 작성자로 검색
+			
+			map.put("id", board_searchKeyword);			// 아이디열에 키워드 값 저장
+			map.put("title", "%%");						// 나머지 전체 셋팅
+			map.put("content", "%%"); 					// 나머지 전체 셋팅
+		}
+
+		
+		int pageLetter = 5;  // 한 페이지 당 글 목록수
+		int allCount = mapper.boardCountCategory(map); // 카테고리가 ex)제목 등 해당 목록 전체 수 
+		int repeat = allCount/pageLetter; // 마지막 페이지 번호
+		if(allCount % pageLetter != 0) {
+		   repeat += 1;
+		}
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		  
+		// 페이징
+		int totalPage = (allCount - 1)/pageLetter + 1;
+		int block = 3;
+		int startPage = (num - 1)/block * block + 1;
+		int endPage = startPage + block - 1;
+		if (endPage > totalPage) endPage = totalPage;
+		
+		// 페이징 범위 저장
+		map.put("s", Integer.toString(start));  // 시작 저장
+		map.put("e",Integer.toString(end));		 // 끝 저장
+		   
+		// 상단에 만들어둔 List 변수에 내용들을 담아 리스트 불러오기
+		BoardDTOList = mapper.boardSearchFormCountList(map);       
+			
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("boardList", BoardDTOList); // 시작과 끝 페이지 안에서 내용 가져오기
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("block", block);
+		model.addAttribute("totalPage", totalPage);
+		
+	}
+	
+	
 
 	// 댓글 기능 ---------------------------------------------------------
 	
+
+
+
 	@Override
 	public int addReply(Map<String, Object> map) {
 		int result = mapper.addReply(map);
@@ -555,6 +634,7 @@ public class BoardServiceImpl implements BoardService {
 		m.addAttribute("startPage", startPage);
 		m.addAttribute("block", block);
 		m.addAttribute("totalPage", totalPage);
+
 		
 	}
 	
@@ -562,7 +642,40 @@ public class BoardServiceImpl implements BoardService {
 		
 	//============================ 최윤희 끝 ===========================================
 	
+	// 청규
+	
+	// 문의 관리
+	@Override
+	public void manager_qna(Model model, int num) {
+		int pageLetter = 10; 
+		int allCount = mapper.selectQnaCount_manager(); 
+		int repeat = allCount/pageLetter;  
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("qnaList", mapper.manager_qna(start, end));		
+		
+	}
 
+
+	@Override
+	public void member_qna(Model model, int num) {
+		int pageLetter = 10; 
+		int allCount = mapper.selectQnaCount_member(); 
+		int repeat = allCount/pageLetter;  
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("qnaList", mapper.member_qna(start, end));				
+		
+	}
+	
+	// 문의 게시판
+	
 	
 	
 	

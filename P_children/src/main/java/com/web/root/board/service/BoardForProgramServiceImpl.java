@@ -181,6 +181,33 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		}
 		return bfs.getMessage(request, msg, url);
 	}
+
+	
+	//카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
+	@Override
+	public String paidProgramContentView(HttpServletRequest request) {
+		
+		// url 결과값 받기
+		String write_no = request.getParameter("write_no");
+		String num = request.getParameter("num");
+		
+		int result = 0; // "결재 완료 후 승인 대기" 로 변경 성공유무 결과값 (1: 성공, 0: 실패)
+		
+		// DB 연동 진행
+		result = mapper.paidProgramContentView(Integer.parseInt(write_no));
+		
+		String msg, url;
+		if(result == 1) {
+			msg = "결제가 최종완료되었습니다";
+			url = "/programBoard/programContentView?write_no=" + write_no + "&num=" + num;
+		} else {
+			msg = "결제 결과 연동 실패!!";
+			url = "/programBoard/programContentView?write_no=" + write_no + "&num=" + num;
+		}
+		return bfs.getMessage(request, msg, url);
+	}
+	
+	
 	
 	
 	

@@ -37,6 +37,8 @@ public interface BoardService {
 	public String deleteBoard(Model model, HttpServletRequest request);
 	
 	public void selectingCategory(Model model,String category, int num);
+	
+	public void boardSearchForm(String board_category,String board_searchCategory,String board_searchKeyword,Model model,int num);
 	// 댓글 기능 ----------------------------------------------------------
 	public int addReply(Map<String, Object> map);
 	
@@ -87,6 +89,13 @@ public interface BoardService {
 	
 	//============================ 최윤희 끝 ===========================================
 	
+	// 청규
+	
+	// 문의 관리
+	public void manager_qna(Model model, int num);
+	
+	// 문의 게시판
+	public void member_qna(Model model, int num);
 	
 }
 

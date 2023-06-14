@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>manager_memberList</title>
+<title>Mate With 회원 관리</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <style type="text/css">
@@ -51,7 +51,7 @@ table             {
 	
 	<section ><!-- body -->
 		<div class="form-box-list"> <!--  container  -->
-		<div class="title" >사용자 관리</div>
+		<div class="title" >회원 관리</div>
 		<table >
 		<thead>
 			<tr>

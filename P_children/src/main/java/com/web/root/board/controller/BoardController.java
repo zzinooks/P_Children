@@ -193,20 +193,17 @@ public class BoardController implements MemberSession{
 		out.println(message);
 	}
 	
-	// BoardAllList에서 category 선택시 해당 category 데이터 List up 하기
-	@RequestMapping(value="selectingCategory/{category}", produces="application/json; charset=utf-8")
-	@ResponseBody
-	public int selectingCategory(@PathVariable("category") String category, @RequestParam(value="num", required = false, defaultValue="1") int num,
+	// 자유 게시판 카테고리 + 검색 조회
+	@RequestMapping("boardSearchForm")
+	public String selectingCategory(HttpServletRequest request, @RequestParam(value="num", required = false, defaultValue="1") int num,
 			Model model, HttpSession session) {
-		System.out.println("num은 " + num);
-		System.out.println("여기까지" + category + "정보 잘 도착!");
-		bs.selectingCategory(model,category, num);
-		
-		
-		// 로그인 정보 저장
-		String user = (String) session.getAttribute(LOGIN);
+	
 		model.addAttribute("num",num); // 페이지 번호 저장
 		
+		
+		// 로그인을 했을 때 아이디 정보값을 가져온다.
+		String user = (String) session.getAttribute(LOGIN);
+				
 		try {
 			// 카카오톡 로그인 check
 			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
@@ -225,8 +222,26 @@ public class BoardController implements MemberSession{
 			e.printStackTrace();
 		}
 		
+		String board_category = request.getParameter("board_category");				// 카테고리 옵션 저장
+		String board_searchCategory = request.getParameter("board_searchCategory");	// 검색 카테고리 옵션 저장
+		String board_searchKeyword = request.getParameter("board_searchKeyword");		// 검색 키워드 저장
+		
+		bs.boardSearchForm(board_category, board_searchCategory, board_searchKeyword, model, num); 	// 서비스에게 내용 넘겨줌
+		
+		model.addAttribute("num", num); 		// 페이지 번호 저장
+		model.addAttribute("admin", ADMIN); 	// 관리자 아이디 저장
+		
+		// 서비스에서 요청을 받지않은 이유는 처음 값 
+		// (카테고리: boardAll, 검색카테고리: 제목, 검색키워드: "") 을 저장하기 위해서
+		// 서비스에서는 쿼리문 조회를 위해서 해당 내용들을 "%%"로 바꾸기 때문에 .jsp에서는 "%%"가 사용불가
+		// 즉 서비스에서 요청내용을 받게되면 처음 쿼리문으로 전체를 "%%"로 변경 -> 다시 ""로 변환해줘야한다.
+		
+		model.addAttribute("board_category", board_category); 			// 요청온 카테고리 옵션 저장
+		model.addAttribute("board_searchCategory", board_searchCategory); // 요청온 검색 카테고리 저장
+		model.addAttribute("board_searchKeyword", board_searchKeyword); 	// 요청온 검색 키워드 저장
+		
 		model.addAttribute("admin", ADMIN); // 관리자 아이디 저장
-		return 1;
+		return "board/boardAllList";
 	}	
 	
 	
@@ -412,7 +427,30 @@ public class BoardController implements MemberSession{
 		
 	//============================ 최윤희 끝 ===========================================
 	
+	//============================임청규 시작==========================================
 	
+	// 관리자 문의 관리
+	@RequestMapping("manager_qna")
+	public String manager_qna(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
+		bs.manager_qna(model, num);
+		return "chenggyu/manager_qna";
+	}
+	
+	// 회원 문의
+	@RequestMapping("member_qna")
+	public String member_qna(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
+		bs.member_qna(model, num);
+		return "chenggyu/member_qna";
+	}
+	
+	// 고객센터 
+	@RequestMapping("service/service_center")
+	public String service_center() {
+		return "board/service/service_center";
+	}
+	
+	
+	//============================임청규 끝==========================================
 	
 	
 	

@@ -17,26 +17,36 @@ import com.web.root.member.dto.MemberDTO;
 public interface MemberService {
 	
 	//============================ 임청규 시작 ===========================================
-	public MemberDTO member_information(String id);
-	public void modify_save(HttpServletRequest request);
-	public void member_leave_save(HttpServletRequest request);
-	public void deleteMember(Model model, HttpServletRequest request);
-	
-	public int userCheck(HttpServletRequest request);
-	
+	// 회원 정보 저장
 	public void userInfo(String id, Model model);
 	
+	// 회원정보
+	public MemberDTO member_information(String id);
+	
+	// 회원정보 수정
+	public void modify_save(HttpServletRequest request);
+	
+	// 회원 탈퇴
+	public void member_leave_save(HttpServletRequest request);
+	
+	// 회원 삭제
+	public void deleteMember(Model model, HttpServletRequest request);
+	
+	// 게시판 회원정보
 	public void memberInfo(Model model, int num);
+	
+	// 게시판관리 추가 예정
 	public void manager_board(Model model, int num);
+	
+	// 회원게시물 추가 예정
 	public void member_board(Model model, int num);
-	public void manager_qna(Model model, int num);
 
 	//============================ 임청규 끝 ===========================================
 	
 	
 	//============================ 박성수 시작 ===========================================
 	
-	public String registHost(MemberDTO dto);
+	public int registHost(MemberDTO dto, Model model);
 
 	public String getHostInfo(String id);
 	
@@ -50,7 +60,7 @@ public interface MemberService {
 	
 	public String kakaoLogout(String token, String kakaologouturl);
 	
-	public String readyKakaoPay(String adminKey, String contentType, String kakaoPayReadyUrl, ItemDTO itemDTO, HttpSession session);	
+	public String readyKakaoPay(String adminKey, String contentType, String kakaoPayReadyUrl, ItemDTO itemDTO, HttpSession session, HttpServletRequest request);	
 	
 	public void kakaoPaymentApprove(String kakaoPaymentApproveUrl, String adminKey, String pg_token, HttpSession session);
 	
@@ -69,7 +79,8 @@ public interface MemberService {
 	
 	
 	//============================ 최윤희 시작 ===========================================
-	
+	// 유저 확인
+	public int userCheck(HttpServletRequest request);
 	
 	// 아이디 찾기
 	public int findUserId(HttpServletRequest request, Model model);
