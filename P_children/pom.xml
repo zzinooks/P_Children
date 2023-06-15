@@ -22,20 +22,21 @@
 	</repositories>
 	<dependencies>
 		
-		<!-- 부트페이 라이브러리 -->
-		<!-- https://mvnrepository.com/artifact/io.github.bootpay/backend-java -->
+		
+		<!-- json 라이브러리. json파일 생성 등등 -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
-		    <groupId>io.github.bootpay</groupId>
-		    <artifactId>backend-java</artifactId>
-		    <version>1.0.0</version>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10.1</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/io.github.bootpay/backend -->
+		<!-- json 라이브러리, 읽기, 쓰기 등등 -->
 		<dependency>
-		    <groupId>io.github.bootpay</groupId>
-		    <artifactId>backend</artifactId>
-		    <version>2.2.0</version>
-		</dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>

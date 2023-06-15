@@ -23,6 +23,14 @@
 		<result property="cancelCheck" column="cancelCheck"/>
 	</resultMap>
 	
+	<resultMap type="com.web.root.kakao.dto.ProgramMapDTO" id="programMap">
+		<id property="write_no" column="write_no"/>
+		<result property="title" column="title"/>
+		<result property="num" column="num"/>
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+	</resultMap>
+	
 	<insert id="registKakaoPaymentApproveResult">
 		INSERT INTO kakaopay_approve_result 
 		VALUES(#{aid}, 
@@ -59,9 +67,13 @@
 		UPDATE kakaopay_approve_result SET cancelCheck = 'cancel' WHERE tid = #{tid}
 	</update>
 	
-	<insert id="insertProgramLatLng">
-		INSERT INTO programLatLng VALUES(#{lat}, #{lng})
+	<insert id="insertProgramMapInfo">
+		INSERT INTO programMap VALUES(#{write_no}, #{title}, DEFAULT, #{lat}, #{lng})
 	</insert>
+	
+	<select id="selectProgramMapInfo" resultMap="programMap">
+		SELECT * FROM programMap
+	</select>
 	
 	
 

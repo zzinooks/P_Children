@@ -40,9 +40,9 @@
 		<div class="input-box-addr">
 		</div><br>
 		<input type="submit" value="좌표 찾기">
-		
 	</form>
-	
+	<br>
+	<a href="kakaoMapLatLng_json">프로그램 좌표에 뿌리기</a>
 </body>
 </body>
 </html>
