@@ -62,7 +62,7 @@ h1 {
 	         <form action="${contextPath }/programBoard/updateSaveForProgram" enctype="multipart/form-data" method="post">
 	            <tr>
 	               <th><b> 작성자 </b><br></th>
-	               <td>${user }</td>
+	               <td>${programBoardDTO.id }</td>
 	               <th><b> 프로그램 이 름 </b><br></th>
 	               <td>${programBoardDTO.title }</td>
 	            </tr>

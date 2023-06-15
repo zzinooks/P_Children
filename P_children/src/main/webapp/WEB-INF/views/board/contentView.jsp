@@ -53,7 +53,7 @@
 	
 	// 로그인 요구 기능
 	function loginPlease() {
-		alert("로그인 후 사용할 수 있는 기능입니다.");
+		alert("펫위드 아이디로 로그인 후 사용할 수 있는 기능입니다.");
 	}
 	
 	// 본문 관련 기능 끝 -------------------------------------------------------------------------------------------------------
@@ -441,18 +441,13 @@
 			data: JSON.stringify(form),
 			contentType: "application/json; charset=utf-8",
 			success: function(data) {
-				alert("찜 토글하기 성공~!");
-				alert(data.result);
-				alert(data.changedDibsNum);
 				if(data.result == 1) { // (처음으로 누른 경우) insert 결과가 1 이거나,(처음이 아닌 경우) dibs_state 가 1 일 때 
-					alert("토글 값은 1")
 					$("#dibs_image").attr("src", "https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714");
 				}
 				if(data.result == 0) { // dibs_state가 0일 때
-					alert("토글 값은 0")
 					$("#dibs_image").attr("src", "https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb");
 				}
-				$("#dibsNumPoint").html(data.changedDibsNum);
+				$("#dibsNumPoint").html(data.changedDibsNum + "명이 찜했습니다!");
 			},
 			error: function() {
 				alert("찜하기 실패...")
@@ -658,7 +653,7 @@ hr {
 						<button class="btn btn-light" 
 						onclick=
 							<c:choose>
-								<c:when test="${user == 'noLogin'}">"loginPlease()"</c:when>
+								<c:when test="${user == 'noLogin' || kakaoIdCheck != null}">"loginPlease()"</c:when>
 								<c:otherwise>"toggleDibs()"</c:otherwise>
 							</c:choose>
 							>
@@ -668,7 +663,7 @@ hr {
 							"https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb" 
 							</c:if>
 							<c:if test="${state == 1}">
-							"https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714	" 
+							"https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714" 
 							</c:if>
 							>
 						</button>
@@ -701,7 +696,21 @@ hr {
 						<c:if test="${loginUser != 'noLogin' }">
 							<input type="button" value="댓글달기" onclick="slide_click()"> &nbsp;
 						</c:if>
-						<input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList?num=<%=num2%>'">
+						<c:choose>
+							<c:when test="${toMyDibsBoard == 'yes' }">
+								<input type="button" value="글목록" onclick="location.href='${contextPath }/board/myDibsBoard?num=<%=num2%>'">
+							</c:when>
+							<c:otherwise>
+							<c:choose>
+								<c:when test="${board_category != null}">
+									<input type="button" value="글목록" onclick="location.href='${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}'">
+								</c:when>
+								<c:otherwise>
+									<input type="button" value="글목록" onclick="location.href='${contextPath }/board/boardAllList?num=<%=num2%>'">
+								</c:otherwise>	
+							</c:choose>
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 			</table>

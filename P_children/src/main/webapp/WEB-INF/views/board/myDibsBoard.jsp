@@ -64,7 +64,7 @@
 										</c:if>
 									</td>
 									<td>${dto.id }</td>
-									<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
+									<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>&toMyDibsBoard=yes">${dto.title }</a></td>
 									<td>${dto.savedate }</td>
 									<td>${dto.hit }</td>
 									<c:if test ="${info.grade == admin}">

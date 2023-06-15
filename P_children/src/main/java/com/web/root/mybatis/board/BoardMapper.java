@@ -11,7 +11,6 @@ import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
-import com.web.root.board.dto.ProgramBoardDTO_test;
 import com.web.root.qna.dto.QnaDTO;
 
 public interface BoardMapper {
@@ -162,9 +161,9 @@ public interface BoardMapper {
 	// =============================== 성수 시작 ==================================
 
 
-	public int writeSaveForProgram_test(ProgramBoardDTO_test dto);
+	//public int writeSaveForProgram_test(ProgramBoardDTO_test dto);
 
-	public ProgramBoardDTO_test selectProgramInfo(String program_key);
+	//public ProgramBoardDTO_test selectProgramInfo(String program_key);
 	
 	
 	

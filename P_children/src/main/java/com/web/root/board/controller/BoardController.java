@@ -116,9 +116,9 @@ public class BoardController implements MemberSession{
 		//(1-2) user 확인하기 및 정보 가져오기
 		String user = (String) session.getAttribute(LOGIN);
 				
-		try {
 			// 카카오톡 로그인 check
-			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+		try {
 			
 			// 로그인값 불러오기
 			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
@@ -135,7 +135,7 @@ public class BoardController implements MemberSession{
 		}
 		
 		//(1-3) boardDib(찜하기) 정보 가져오기
-		Map<String, Object> mapForBoardDib = new HashedMap();
+		Map<String, Object> mapForBoardDib = new HashMap<String, Object>();
 		mapForBoardDib.put("id", user);
 		mapForBoardDib.put("write_no", request.getParameter("write_no"));
 		
@@ -143,8 +143,17 @@ public class BoardController implements MemberSession{
 		
 		int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(request.getParameter("write_no")));
 		
+		
+		//(1-4) 자유게시판(mypage)에서 검색하고 글보기 했을 때 검색값들 넘겨주기
+		String board_category = request.getParameter("board_category");				// 카테고리 옵션 저장
+		String board_searchCategory = request.getParameter("board_searchCategory");	// 검색 카테고리 옵션 저장
+		String board_searchKeyword = request.getParameter("board_searchKeyword");		// 검색 키워드 저장
+		//===================================
+		
+		
 		//(2) 정보 담기
 		model.addAttribute("dto", dto);		// board 정보 model에 담기
+		model.addAttribute("kakaoIdCheck", kakaoIdCheck); // kakaoId 구분자 담기
 		model.addAttribute("user", user);	// user 정보 model에 담기
 		model.addAttribute("admin", ADMIN);	// admin(='gold') 정보 model에 담기 (grade 확인용)
 		
@@ -154,7 +163,12 @@ public class BoardController implements MemberSession{
 			model.addAttribute("state", boardDibsDTO.getDibs_state());
 		}
 		
-		model.addAttribute("dibsNum", dibsNum);
+		model.addAttribute("dibsNum", dibsNum);	// 이 게시판을 찜한 사람들의 숫자 담기
+		model.addAttribute("toMyDibsBoard", request.getParameter("toMyDibsBoard")); // 내가찜한 게시판에서 왔을 때 돌려보내는 변수 담기
+		
+		model.addAttribute("board_category", board_category); 			// 요청온 카테고리 옵션 저장
+		model.addAttribute("board_searchCategory", board_searchCategory); // 요청온 검색 카테고리 저장
+		model.addAttribute("board_searchKeyword", board_searchKeyword); 	// 요청온 검색 키워드 저장
 		
 		//(3) 조회수 증가
 		bs.hitplus(dto);

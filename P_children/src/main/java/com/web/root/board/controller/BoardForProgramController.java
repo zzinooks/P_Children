@@ -56,15 +56,15 @@ public class BoardForProgramController implements MemberSession{
 	}
 	
 	// 프로그램 입력 (DB에 입력)
-	@PostMapping("writeSaveForProgram")
-	public void writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
-		// programBoard 입력 및 결과 메시지 출력
-		String message = bfps.writeSaveForProgram(mul,request);
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.println(message);
-	}
+//	@PostMapping("writeSaveForProgram")
+//	public void writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		
+//		// programBoard 입력 및 결과 메시지 출력
+//		String message = bfps.writeSaveForProgram(mul,request);
+//		response.setContentType("text/html; charset=utf-8");
+//		PrintWriter out = response.getWriter();
+//		out.println(message);
+//	}
 	
 	// 프로그램 boardAllList
 	@GetMapping("programBoardAllList")
