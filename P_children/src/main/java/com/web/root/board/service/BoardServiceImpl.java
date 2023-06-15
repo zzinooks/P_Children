@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.root.board.dto.BoardDTO;
+import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.mybatis.board.BoardMapper;
@@ -408,6 +409,79 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	
+	// 찜하기 기능 -----------------------------------------------------------------------
+	
+	// 찜하기 객체 불러오기 기능(유저 아이디와 보드 넘버로)
+	@Override
+	public BoardDibsDTO getDibsByIdWriteNo(Map<String, Object> map) {
+		return mapper.getDibsByIdWriteNo(map);
+	}
+	
+	// 찜하기 토글 기능
+	@Override
+	public int toggleDibs(Map<String, Object> map) {
+		
+		// 처음으로 하트 누른 것인지 확인 ( 0: 처음이다, 1: 누른 적이 있다 )
+		int dibsExsistance = mapper.dibsExsistance(map);
+		
+		// 처음 하트를 누르는 경우
+		if(dibsExsistance == 0) { 
+			int insertResult = mapper.insertDibs(map); // dibs 테이블에 dib_state 1 로 생성한다
+			return insertResult;
+		}
+		
+		// 누른 적이 있는 경우
+		if(dibsExsistance == 1) {
+			BoardDibsDTO boardDibsDTO = getDibsByIdWriteNo(map); // 찜하기 객체 불러오기
+			
+			if(boardDibsDTO.getDibs_state() == 1) { // 1: 이미 찜한 경우 일 때
+				map.put("dibs_state", 0);
+				mapper.updateDib(map); // dib_sate를 0으로 수정한다
+				return 0;
+			} else {	// 0 : 찜하고 취소한 경우
+				map.put("dibs_state", 1);
+				mapper.updateDib(map); // dib_sate를 1로 수정한다
+				return 1;
+			}
+			
+		}
+		
+		return dibsExsistance;
+	}
+	
+	// MyPage board List 기능
+	@Override
+	public void myDibsBoardAllList(Model model, int num, HttpServletRequest request, String id) {
+		int pageLetter = 3; // 한 페이지 당 글 목록수
+		int allCount= mapper.selectMyDibsBoardCount(id); // 내가 찜한 전체 글수
+		int repeat = allCount/pageLetter; // 마지막 페이지 번호
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter;
+		int start = end +1 - pageLetter;
+		
+		// 페이징
+		int totalPage = (allCount - 1)/pageLetter + 1;
+		int block = 3;
+		int startPage = (num - 1)/block*block + 1;
+		int endPage = startPage + block - 1;
+		if (endPage > totalPage) endPage = totalPage;
+
+		// 정보 담기
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("boardList", mapper.myDibsBoardAllList(start, end, id));
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("block", block);
+		model.addAttribute("totalPage", totalPage);
+	}
+	
+	// 게시판이 받은 찜의 갯수 가져오기
+	@Override
+	public int getdibsNumByWriteNo(int write_no) {
+		return mapper.getdibsNumByWriteNo(write_no);
+	}
+	
 	//============================ 주진욱 끝 ===========================================
 	
 	
@@ -443,8 +517,7 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("totalPage", totalPage);
 		
 	}
-		
-	
+
 	// 공지사항 게시글 보기
 	public NoticeBoardDTO noticeBoardContentView(HttpServletRequest request) {
 		

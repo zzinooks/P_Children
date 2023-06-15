@@ -76,7 +76,7 @@ public class BoardForProgramController implements MemberSession{
 			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
 			
 			// 로그인값 불러오기
-			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
 				String id = (String) session.getAttribute(LOGIN);
 				ms.userInfo(id, model);
 			} else {
@@ -106,7 +106,7 @@ public class BoardForProgramController implements MemberSession{
 			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
 			
 			// 로그인값 불러오기
-			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
 				String id = (String) session.getAttribute(LOGIN);
 				ms.userInfo(id, model);
 			} else {

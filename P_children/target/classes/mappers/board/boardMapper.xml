@@ -38,6 +38,14 @@
 		<result property="state" column="state"/>
 	</resultMap>
 	
+	<!-- 찜하기 기능 -->
+	<resultMap  id="dibsboard" type="com.web.root.board.dto.BoardDibsDTO">
+		<result property="write_no" column="write_no"/> 	<!-- board의 write_no  -->
+		<result property="id" column="id"/>					<!-- user의 id -->
+		<result property="dibs_no" column="dibs_no"/>		<!-- 찜하기의 id라고 할 수 있다. -->
+		<result property="dibs_state" column="dibs_state"/>	<!-- 1이면 찜 0이면 찜하기 취소 -->
+	</resultMap>
+	
 	<!--  공지사항 게시판  -->
 	<!-- <resultMap id="notice" type="com.web.root.board.dto.NoticeBoardDTO">
 		<id property="write_no" column="write_no"/> property는 DTO랑 column은 DB랑 같아야함 
@@ -259,6 +267,55 @@
 	<update id="paidProgramContentView">
 		UPDATE programBoard SET state='결재 완료' WHERE write_no = #{write_no}
 	</update>
+	
+	<!-- 찜하기 기능 -->
+	
+	<!-- 처음으로 하트 누른 것인지 확인 -->
+	<select id="dibsExsistance" resultType="Integer">
+		SELECT COUNT(*) FROM dibs WHERE id=#{id} AND write_no=#{write_no}
+	</select>
+	
+	<!-- (처음으로 찜하기룰 눌렀을 떄) 찜하기 생성 기능 -->
+	<insert id="insertDibs">
+		INSERT INTO dibs VALUES(#{id}, #{write_no}, dibs_seq.NEXTVAL, 1)
+	</insert>
+	
+	<!-- 찜하기 객체 불러오기 (유저 아이디, 게시판 번호로) -->
+	<select id="getDibsByIdWriteNo" resultMap="dibsboard">
+		SELECT * FROM dibs WHERE id=#{id} AND write_no=#{write_no}
+	</select>
+	
+	<!-- (찜하기가 처음이 아닐 때) 찜하기 업데이트 기능 -->
+	<update id="updateDib">
+		UPDATE dibs SET dibs_state=#{dibs_state} WHERE id=#{id} AND write_no=#{write_no}
+	</update>
+	
+	<!-- 내가 찜한 게시판 수 가져오기 -->
+	<select id="selectMyDibsBoardCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM board2
+		WHERE write_no IN (SELECT write_no FROM dibs WHERE id=#{id} AND dibs_state=1)
+	</select>
+	
+	<!-- 내가 찜한 게시판 리스트 가져오기 -->
+	<select id="myDibsBoardAllList" resultMap="board">
+		SELECT B.* FROM
+    		(SELECT ROWNUM rn, A.* FROM
+        		(SELECT *
+        		 FROM board2
+        		 WHERE write_no IN (SELECT write_no FROM dibs WHERE id=#{id} AND dibs_state=1)
+    			 ORDER BY SAVEDATE DESC)A
+    		 ) B
+    	WHERE rn BETWEEN #{s} AND #{e}
+	</select>
+	
+	<!-- 게시판이 받은 찜의 갯수 가져오기 -->
+	<select id="getdibsNumByWriteNo" resultType="Integer">
+		SELECT count(*) FROM dibs WHERE write_no = #{write_no} AND dibs_state=1
+	</select>
+	
+	
+	
 	
 	<!--  ======================== 진욱 끝 ==========================   -->
 	

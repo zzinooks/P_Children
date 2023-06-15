@@ -51,6 +51,11 @@
 		
 	}
 	
+	// 로그인 요구 기능
+	function loginPlease() {
+		alert("로그인 후 사용할 수 있는 기능입니다.");
+	}
+	
 	// 본문 관련 기능 끝 -------------------------------------------------------------------------------------------------------
 	// 댓글 관련 기능 시작 -------------------------------------------------------------------------------------------------------
 	
@@ -342,9 +347,7 @@
 		for( i = 0; i <arr.length ; i++) {
 			form[arr[i].name] = arr[i].value
 		}
-		
-		// console.log(arr[3].value + "입니다");
-		
+				
 		if(arr[3].value != "") {
 			$.ajax({
 				url: "addReComment",
@@ -423,7 +426,43 @@
 	}
 	
 	// 대댓글 관련 기능 끝 -------------------------------------------------------------------------------------------------------
+	// 찜하기 관련 기능 시작 ------------------------------------------------------------------------------------------------------
+	function toggleDibs() {
+		let form = {}
+		let arr = $("#dibs_info").serializeArray();
+		for( i = 0; i <arr.length ; i++) {
+			form[arr[i].name] = arr[i].value;
+		}
+		
+		console.log(arr[1].value + "입니다");
+		$.ajax({
+			url: "toggleDibs/"+$("#write_no").val(),
+			type: "POST", 
+			data: JSON.stringify(form),
+			contentType: "application/json; charset=utf-8",
+			success: function(data) {
+				alert("찜 토글하기 성공~!");
+				alert(data.result);
+				alert(data.changedDibsNum);
+				if(data.result == 1) { // (처음으로 누른 경우) insert 결과가 1 이거나,(처음이 아닌 경우) dibs_state 가 1 일 때 
+					alert("토글 값은 1")
+					$("#dibs_image").attr("src", "https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714");
+				}
+				if(data.result == 0) { // dibs_state가 0일 때
+					alert("토글 값은 0")
+					$("#dibs_image").attr("src", "https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb");
+				}
+				$("#dibsNumPoint").html(data.changedDibsNum);
+			},
+			error: function() {
+				alert("찜하기 실패...")
+			}
+			
+		})
 
+	}
+	
+	// 찜하기 관련 기능 끝 ------------------------------------------------------------------------------------------------------
 </script>
 <style type="text/css">
 #modal_wrap {
@@ -610,6 +649,33 @@ hr {
 				<tr>
 					<th width="100px" > 제 목 </th><td  width="200px" class="form-control input-sm">${dto.title }</td>
 					<th width="100px"> 작성일 </th><td width="200px" class="form-control input-sm">${dto.savedate }</td>
+					<!-- 찜하기 기능 -->
+					<form id="dibs_info" action="" method="post" name="dibs_info">
+						<input type="hidden" name="write_no"  value="${dto.write_no }">
+						<input type="hidden" name="id"  value="${user }">
+					</form>
+					<td>
+						<button class="btn btn-light" 
+						onclick=
+							<c:choose>
+								<c:when test="${user == 'noLogin'}">"loginPlease()"</c:when>
+								<c:otherwise>"toggleDibs()"</c:otherwise>
+							</c:choose>
+							>
+							찜하기
+							<img id="dibs_image" width="20px" height="20px" alt="버튼" src=
+							<c:if test="${state == 0}">
+							"https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb" 
+							</c:if>
+							<c:if test="${state == 1}">
+							"https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714	" 
+							</c:if>
+							>
+						</button>
+						<button class="btn btn-light" id="dibsNum">
+							<div id="dibsNumPoint">${dibsNum}<div>명이 찜했습니다!
+						</button>
+					</td>
 				</tr>
 				<tr>
 					<th> 내 용 </th><td>${dto.content }</td>

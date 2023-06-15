@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.web.root.board.dto.BoardDTO;
+import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
@@ -43,6 +44,7 @@ public interface BoardMapper {
 	
 	//카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
 	public int paidProgramContentView(@Param("write_no") int write_no);	
+	
 	// 댓글 기능 ------------------------------------------------
 	
 	public int addReply(Map<String, Object> map);
@@ -60,7 +62,7 @@ public interface BoardMapper {
 	
 	public int updateReComment(Map<String, String> map);
 	
-	// 프로그램 보드
+	// 프로그램 보드 -----------------------------------------------
 	public int writeSaveForProgram(ProgramBoardDTO programBoardDTO);
 	
 	public int selectProgramBoardCount();
@@ -76,6 +78,31 @@ public interface BoardMapper {
 	public int modifySaveForProgramWithFile(ProgramBoardDTO programBoardDTO);
 	
 	public int deleteProgram(int write_no);
+	
+	
+	// 찜하기 기능 -----------------------------------------------
+	
+	// 처음으로 하트 누른 것인지 확인
+	public int dibsExsistance(Map<String, Object> map);
+	
+	// (처음으로 찜하기룰 눌렀을 떄) 찜하기 생성 기능
+	public int insertDibs(Map<String, Object> map);
+	
+	// 찜하기 객체 불러오기 (유저 아이디, 게시판 번호로)
+	public BoardDibsDTO getDibsByIdWriteNo(Map<String, Object> map);
+	
+	// (찜하기가 처음이 아닐 때) 찜하기 업데이트 기능
+	public void updateDib(Map<String, Object> map);
+	
+	// 내가 찜한 게시판 수 가져오기
+	public int selectMyDibsBoardCount(@Param("id") String id);
+	
+	// 내가 찜한 게시판 리스트 가져오기
+	public List<BoardDTO> myDibsBoardAllList(@Param("s") int start,@Param("e") int end,@Param("id") String id);
+	
+	// 게시판이 받은 찜의 갯수 가져오기
+	public int getdibsNumByWriteNo(@Param("write_no") int write_no);
+	
 	//============================ 주진욱 끝 ===========================================
 	
 	

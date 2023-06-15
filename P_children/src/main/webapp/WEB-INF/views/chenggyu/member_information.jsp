@@ -57,6 +57,7 @@
 			</div>
 			<div class="button">
 				<input type="button" value="개인정보 수정" onclick="location.href='member_modify'" class="but_1">
+				<input type="button" value="내가 찜한 게시글" onclick="location.href='${contextPath }/board/myDibsBoard'" class="but_1">
 				<input type="button" value="문의" onclick="location.href='${contextPath }/board/member_qna'" class="but_1">
 				<input type="button" value="회원 탈퇴" onclick="location.href='member_leave'" class="but_1">
 			</div>
