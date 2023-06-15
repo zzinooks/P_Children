@@ -58,6 +58,7 @@ function deleteConfirm(write_no, file_name){
 	<section>
 		<h1> 프로그램 게시판 </h1>
 		<div class="wrap board_table">
+			<button id="programMap" onclick="location.href='kakaoMapLatLng_json'">지도에서 프로그램 찾기</button>
 			<table class="table table-striped">
 				<tr>
 					<th width="70px"> 번 호 </th>
@@ -80,7 +81,7 @@ function deleteConfirm(write_no, file_name){
 						<c:forEach var="dto" items="${programBoardList }">
 							<tr>
 								<td>${dto.write_no }</td>
-								<td>${dto.id }</td>                                        <!--  -->                         <!-- num 필요한지 진욱님께 체크 -->
+								<td>${dto.id }</td>                                       
 								<td><a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
 								<td>${dto.savedate }</td>
 								<td>${dto.state }</td>

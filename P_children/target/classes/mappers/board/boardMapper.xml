@@ -412,17 +412,12 @@
 	
 	
 	<!-- 	// =============================== 성수 시작 ================================== -->
-	
-<!-- 	<insert id="writeSaveForProgram_test">
-		INSERT INTO programBoard_test(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit, program_key)
-		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0, #{program_key})
-	</insert>
-	
-	<select id="selectProgramInfo" resultMap="programBoard_test">
-		SELECT * FROM programBoard_test WHERE program_key = #{program_key}
-	</select> -->
-	
-	
+	<select id="selectProgramInfo" resultMap="programBoard">
+		SELECT B.* FROM
+	 	(SELECT ROWNUM rn, A.* FROM
+		(SELECT * FROM programboard ORDER BY write_no DESC)A )B
+		WHERE rn=1
+	</select>
 	
 	
 	<!-- 	// =============================== 성수 끝 ================================== -->

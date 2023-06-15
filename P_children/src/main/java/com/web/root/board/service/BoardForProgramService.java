@@ -9,7 +9,7 @@ import com.web.root.board.dto.ProgramBoardDTO;
 
 public interface BoardForProgramService {
 
-	//public String writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request);
+	public String writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request);
 	
 	public void programBoardAllList(Model model, int num, HttpServletRequest request);
 	

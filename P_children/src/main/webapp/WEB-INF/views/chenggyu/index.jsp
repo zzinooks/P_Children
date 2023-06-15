@@ -12,16 +12,113 @@
 <meta charset="UTF-8">
 <title>Mate With</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/index.css?v=2" rel="stylesheet" type="text/css">
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- ================================== 성수 시작 ================================== -->
+<!--  -->
+<script type="text/javascript">
+var slideIndex = 0;
+
+window.onload = function(){
+   showSlides();
+}
+
+function showSlides() {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+   
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {
+        slideIndex = 1
+    }
+    slides[slideIndex - 1].style.display = "block";
+
+    setTimeout(showSlides, 2000); // 2초마다 이미지가 체인지됩니다
+}
+</script>
+<style type="text/css">
+.Slidesbackground {
+    margin: 0;
+    padding: 0;
+
+}
+.slideshow-image{
+    border-radius:3%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.mySlides {
+    border-radius:3%;
+    width: 600px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.5);
+}
+
+.slideshow-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
+}
+</style>
+<!-- ================================== 성수 끝 ================================== -->
 </head>
 <body>
 	
 	<c:import url="../default/header.jsp"/>
 	
 	<section class="home-landing">
-		<div class="image-section" >
+		<%-- <div class="image-section" >
 			<img src="${pageContext.request.contextPath}/resources/chenggyu/pet_new.png" alt="">
-		</div>
+		</div> --%>
+		<!-- ================================== 성수 시작 ================================== -->
+		
+		<div>
+	      <span class="slideshow-container">
+	         <div class="Slidesbackground">
+	             <div class="mySlides fade">
+	             <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2369&q=80" class="slideshow-image">
+	             </div>
+	             <div class="mySlides fade">
+	                 <img src="https://images.unsplash.com/photo-1581888227599-779811939961?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2148&q=80" class="slideshow-image">
+	             </div>
+	             <div class="mySlides fade">
+	                 <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" class="slideshow-image">
+	             </div>
+	             <div class="mySlides fade">
+	                 <img src="https://images.unsplash.com/photo-1527526029430-319f10814151?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" class="slideshow-image">
+	             </div>
+	             <div class="mySlides fade">
+	                 <img src="https://images.unsplash.com/photo-1600077029182-92ac8906f9a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" class="slideshow-image">
+	             </div>
+	             <div class="mySlides fade">
+	                 <img src=https://cdn.cnn.com/cnnnext/dam/assets/201030094143-stock-rhodesian-ridgeback-super-tease.jpg" class="slideshow-image">
+	             </div>
+	         </div>
+	       </span>
+	   </div>
+		
+		<!-- ================================== 성수 끝 ================================== -->
 		<div class="text-section">
 			<h2>${loginUser } 환영합니다</h2>
 			<h3>반려 메이트를 키우는 것은 어려운 시작입니다.</h3>

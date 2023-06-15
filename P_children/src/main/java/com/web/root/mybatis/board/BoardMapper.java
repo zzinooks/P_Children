@@ -1,6 +1,5 @@
 package com.web.root.mybatis.board;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -160,11 +159,11 @@ public interface BoardMapper {
 	
 	// =============================== 성수 시작 ==================================
 
+	public ProgramBoardDTO selectProgramInfo();
 
 	//public int writeSaveForProgram_test(ProgramBoardDTO_test dto);
 
 	//public ProgramBoardDTO_test selectProgramInfo(String program_key);
-	
 	
 	
 	// =============================== 성수 끝 ==================================

@@ -36,17 +36,17 @@ public class KakaoController {
 		return "sungsu/kakaoMap/kakaoMapResult";
 	}
 	
-	@GetMapping("kakaoMapLatLng_json")
-	public String createProgramLatLng_json(Model model, HttpSession session) {
-		ks.createLatLngJson(model, session);
-		return "sungsu/kakaoMap/kakaoMapResult";
-	}
+//	@GetMapping("kakaoMapLatLng_json")
+//	public String createProgramLatLng_json(Model model, HttpSession session) {
+//		ks.createLatLngJson(model, session);
+//		return "sungsu/kakaoMap/kakaoMapResult";
+//	}
 	
-	@GetMapping("show_programsLatLng")
-	public ResponseEntity<String> show_programsLatLng_json(HttpSession session){
-		String programsLatLng = (String)session.getAttribute("programsLatLng");
-		return new ResponseEntity<String>(programsLatLng, HttpStatus.OK);
-	}
+//	@GetMapping("show_programsLatLng")
+//	public ResponseEntity<String> show_programsLatLng_json(HttpSession session){
+//		String programsLatLng = (String)session.getAttribute("programsLatLng");
+//		return new ResponseEntity<String>(programsLatLng, HttpStatus.OK);
+//	}
 	
 	
 	

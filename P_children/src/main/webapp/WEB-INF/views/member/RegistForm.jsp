@@ -39,6 +39,9 @@ function valueCheck() {
 		let mateName = document.querySelector("span#mateName_");
 		let mateBreed = document.querySelector("span#mateBreed_");
 		
+		const pwdExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
+		const phoneExp = /^[0-9]{11}$/;
+		
 		if(document.form.userid.value == ""){
 			id.style.color = "red";
 			id.innerHTML = "아이디를 입력해 주세요.";
@@ -49,9 +52,18 @@ function valueCheck() {
 			pwd.innerHTML = "비밀번호를 입력해 주세요.";
 			document.form.pwd.focus();
 		}
+		else if(!pwdExp.test(document.form.pwd.value)){
+			pwd.style.color = "red";
+			pwd.innerHTML = "비밀번호 형식을 확인해 주세요.";
+			document.form.pwd.focus();
+		}
 		else if(document.form.pwdCheck.value == ""){
 			pwdCheck.style.color = "red";
 			pwdCheck.innerHTML = "비밀번호를 확인해 주세요.";
+			document.form.pwdCheck.focus();
+		}
+		else if(pwdCheck.innerHTML == "비밀번호가 일치하지 않습니다."){
+			alert("비밀번호가 일치하지 않습니다. 확인해 주세요.")
 			document.form.pwdCheck.focus();
 		}
 		else if(document.form.nickname.value == ""){
@@ -62,6 +74,11 @@ function valueCheck() {
 		else if(document.form.phone.value == ""){
 			phone.style.color = "red";
 			phone.innerHTML = "전화번호를 입력해 주세요.";
+			document.form.phone.focus();
+		}
+		else if(!phoneExp.test(document.form.phone.value)){
+			phone.style.color = "red";
+			phone.innerHTML = "전화번호 형식을 확인해 주세요.";
 			document.form.phone.focus();
 		}
 		else if(document.form.email.value == ""){
@@ -113,7 +130,7 @@ function valueCheck() {
 				</div>
 				<div class="input-box">
 					<span class="details">비밀번호</span>
-					<input type="text" id="pwd" name="pwd" placeholder="영문, 숫자, 특수문자 조합">
+					<input type="text" id="pwd" name="pwd" placeholder="영문, 숫자, @$!%*#?& 조합">
 					<span id="pwd_"></span>
 				</div>
 				<div class="input-box">
@@ -123,11 +140,11 @@ function valueCheck() {
 				</div>
 				<div class="input-box">
 					<span class="details">닉네임</span>
-					<input type="text" id="nickname" name="nickname" oninput="deleteSpan_nickname()" placeholder="띄어쓰기와 특수문자" >
+					<input type="text" id="nickname" name="nickname" oninput="deleteSpan_nickname()" placeholder="nickname" >
 				</div>
 				<div class="input-box">
 					<span class="details">휴대번호</span>
-					<input type="text" id="phone" name="phone" oninput="deleteSpan_phone()" placeholder="숫자만 입력해 주세요.">
+					<input type="text" id="phone" name="phone" oninput="deleteSpan_phone()" placeholder="숫자만 입력해 주세요." >
 					<span id="phone_"></span>
 				</div>
 				<div class="input-box">

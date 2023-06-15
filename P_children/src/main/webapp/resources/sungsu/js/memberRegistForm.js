@@ -63,11 +63,11 @@ $(function(){
 		let pwd = $("#pwd").val();
 		
 		if(check === pwd && check != "") {
+			$("#pwdCheck_").css("color", "black");
 			$("#pwdCheck_").text("비밀번호가 일치합니다.");
-			$("#pwdCheck_").css("color", "black");
 		} else {
-			$("#pwdCheck_").text("비밀번호가 일치하지 않습니다.");
 			$("#pwdCheck_").css("color", "black");
+			$("#pwdCheck_").text("비밀번호가 일치하지 않습니다.");
 		}
 		
 	});

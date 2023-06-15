@@ -40,9 +40,15 @@
 			return;
 		}
 		
+		const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		let email = $("#input_email").val();
 		
 		if(!email == ""){
+			if(!regExp.test(email)){
+				alert("이메일 형식이 맞지 않습니다. 다시 확인해 주세요.");
+				return;
+			}
+			
 			$.ajax({
 				url: "sendEmail",
 				type: "get",
@@ -91,7 +97,7 @@
 					<div class="ion-icon">
 					<i class='bx bx-envelope' onclick="sendEmail()"></i>
 					</div>
-					<input type="text"  id="input_email"  name="email"  required="required">
+					<input type="email"  id="input_email"  name="email"  required="required" >
 					<label for="">이메일</label>
 				</div>
 				<div class="main" id='main'>
