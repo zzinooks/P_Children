@@ -1,6 +1,7 @@
 package com.web.root.board.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -22,5 +23,6 @@ public interface BoardForProgramService {
 	public String deleteProgram(Model model, HttpServletRequest request);
 	
 	public String paidProgramContentView(HttpServletRequest request);
+
 	
 	}

@@ -43,9 +43,9 @@ public interface MemberMapper {
 	
 	public MemberDTO checkEmail_host(String email);
 	
-	public int registKakaoUser(KakaoLoginDTO kakaoLogindto);
+	public int registKakaoUser(MemberDTO memberRegist);
 	
-	public KakaoLoginDTO kakaoUserCheck(String kakaoId);
+	public MemberDTO kakaoUserCheck(String kakaoId);
 	
 	
 	

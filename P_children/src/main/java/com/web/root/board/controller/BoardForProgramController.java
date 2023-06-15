@@ -2,7 +2,6 @@ package com.web.root.board.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardForProgramService;
+import com.web.root.kakao.resource.KakaoDeveloper;
 import com.web.root.kakao.service.KakaoService;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
@@ -31,7 +30,7 @@ import com.web.root.session.name.MemberSession;
 
 @Controller
 @RequestMapping("programBoard")
-public class BoardForProgramController implements MemberSession{
+public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 
 	@Autowired
 	BoardForProgramService bfps;
@@ -187,7 +186,9 @@ public class BoardForProgramController implements MemberSession{
 	
 	// 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
 	@RequestMapping("paidProgramContentView")
-	public void paidProgramContentView(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void paidProgramContentView(HttpServletRequest request, HttpServletResponse response, @RequestParam("pg_token") String pg_token, HttpSession session, Model model) throws IOException {
+		// 성수 : 결제 승인해주는 코드인데 빠져있어서 추가했습니다~
+		ms.kakaoPaymentApprove(KAKAO_PAYMENT_APPROVE_URL, ADMIN_KEY, pg_token, session);
 		
 		// 카카오 페이 승인 결과 DB에 연동
 		String message = bfps.paidProgramContentView(request);

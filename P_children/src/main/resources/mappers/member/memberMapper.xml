@@ -49,13 +49,13 @@
 	</insert>
 
 	<!-- 카카오로그인 아이디, member 테이블에서 데이터 유무 체크 -->
-	<select id="kakaoUserCheck" resultMap="kakaoUser">
+	<select id="kakaoUserCheck" resultMap="member">
 		SELECT * FROM member WHERE Id=#{kakaoId}
 	</select> 
 
 	<!-- 카카오 유저 member 테이블에 등록 -->
 	<insert id="registKakaoUser">
-		INSERT INTO member(id, email) VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
+		INSERT INTO member(id, email) VALUES (#{id}, #{email,jdbcType=VARCHAR})
 	</insert>	
 	
 	<!-- 회원정보  -->
