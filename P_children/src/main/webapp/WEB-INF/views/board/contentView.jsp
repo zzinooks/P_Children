@@ -705,7 +705,7 @@ hr {
 						<!-- 아직 미완성 입니다. if 조건 걸아야합니다. -->
 						<input type="button" value="글목록" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${num }'">
 						<%-- <input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList?num=<%=num2%>'"> --%>
-						<!-- 06.14_최윤희 끝 -->
+						<!-- 06.14_최윤희_끝 -->
 					</td>
 				</tr>
 			</table>
