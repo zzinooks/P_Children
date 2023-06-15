@@ -87,11 +87,17 @@
 	
 	<!-- 문의 게시판 -->
 	<resultMap id="qna" type="com.web.root.qna.dto.QnaDTO" >
-		<id property="id"  column="id"/>
+		<id property="write_no" column="write_no"/>
+		<result property="id" column="id"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="savedate" column="savedate"/>
 		<result property="status" column="status"/>
+	</resultMap>
+	
+	<resultMap id="qna_rep" type="com.web.root.qna.dto.Qna_RepDTO" >
+		<id property="write_group" column="write_group"/>
+		<result property="content" column="content"/>
 	</resultMap>
 
 	<!--  ======================== 진욱 시작 ==========================   -->
@@ -400,13 +406,33 @@
 	<select id="member_qna" resultMap="qna">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
-		(SELECT * FROM qna ORDER BY savedate DESC)A )B
+		(SELECT * FROM qna WHERE id=#{id} ORDER BY savedate DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 	
 	<select id="selectQnaCount_member" resultType="Integer">
-		SELECT COUNT(*) FROM qna
+		SELECT COUNT(*) FROM qna WHERE id=#{id}
 	</select>
+	
+	<insert id="member_write_save">
+		INSERT INTO qna VALUES(write_no_qna.NEXTVAL, #{id}, #{title}, #{content}, SYSDATE, 1)
+	</insert>
+	
+	<insert id="manager_write_save">
+		INSERT INTO qna_rep VALUES(#{content}, #{write_group})
+	</insert>
+	
+	<select id="contentView_qna" resultMap="qna">
+		SELECT * FROM qna WHERE write_no=#{write_no}
+	</select>
+	
+	<select id="contentView_rep_qna" resultMap="qna_rep">
+		SELECT * FROM qna_rep WHERE write_group=#{write_group}
+	</select>
+	
+	<update id="qna_state">
+		UPDATE qna SET status= status+1 WHERE write_no=#{asdf}
+	</update>
 	
 	<!-- ======================== 임청규 끝 ======================= -->
 	

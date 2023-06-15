@@ -14,6 +14,8 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.qna.dto.QnaDTO;
+import com.web.root.qna.dto.Qna_RepDTO;
 
 
 public interface BoardService {
@@ -104,7 +106,18 @@ public interface BoardService {
 	public void manager_qna(Model model, int num);
 	
 	// 문의 게시판
-	public void member_qna(Model model, int num);
+	public void member_qna(Model model, int num, String id);
+	
+	// 글 저장
+	public void member_write_save(HttpServletRequest request);
+	
+	public QnaDTO contentView_qna(Model model, HttpServletRequest request);
+	
+	public Qna_RepDTO contentView_rep_qna(Model model, HttpServletRequest request);
+	
+	public void  manager_write_save(HttpServletRequest request, Model model);
+	
+	public void qna_state(HttpServletRequest request);
 	
 }
 

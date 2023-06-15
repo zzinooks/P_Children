@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
@@ -34,6 +35,8 @@ import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardService;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
+import com.web.root.qna.dto.QnaDTO;
+import com.web.root.qna.dto.Qna_RepDTO;
 import com.web.root.session.name.MemberSession;
 
 @Controller
@@ -516,21 +519,70 @@ public class BoardController implements MemberSession{
 	
 	// 회원 문의
 	@RequestMapping("member_qna")
-	public String member_qna(Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
-		bs.member_qna(model, num);
+	public String member_qna(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num) {
+		String id = (String) session.getAttribute(LOGIN);
+		
+		bs.member_qna(model, num, id);
 		return "chenggyu/member_qna";
 	}
 	
+	// 문의글 작성
+	@RequestMapping("member_writeForm")
+	public String member_writeForm(HttpSession session, Model model) {
+		String id = (String) session.getAttribute(LOGIN);
+		model.addAttribute("id", id);
+		return "board/service/member_writeForm";
+	}
+	
+	// 문의글 저장
+	@PostMapping("member_write_save")
+	@ResponseBody
+	public void member_write_save(HttpServletRequest request) {
+		bs.member_write_save(request);
+	}
+	
+	// 관리자 답변 작성
+	@RequestMapping("manager_write_save")
+	@ResponseBody
+	public void manager_write_save(HttpServletRequest request, Model model, HttpSession session, RedirectAttributes rs) {
+		bs.manager_write_save(request, model);
+		bs.qna_state(request);
+		
+		String id = (String) session.getAttribute(LOGIN);
+		QnaDTO qna_dto = bs.contentView_qna(model, request);
+		Qna_RepDTO qna_rep_dto = bs.contentView_rep_qna(model, request);
+		ms.userInfo(id, model);
+		
+		model.addAttribute("id", id);
+		model.addAttribute("qna_dto", qna_dto);
+		model.addAttribute("qna_rep_dto", qna_rep_dto);
+		model.addAttribute("admin", ADMIN);
+	}
+	
+	// 문의 내용 확인
+	@RequestMapping("ContentView")
+	public String ContentView(Model model, HttpServletRequest request, HttpSession session) {
+		
+		String id = (String) session.getAttribute(LOGIN);
+		QnaDTO qna_dto = bs.contentView_qna(model, request);
+		Qna_RepDTO qna_rep_dto = bs.contentView_rep_qna(model, request);
+		ms.userInfo(id, model);
+		
+		model.addAttribute("id", id);
+		model.addAttribute("qna_dto", qna_dto);
+		model.addAttribute("qna_rep_dto", qna_rep_dto);
+		model.addAttribute("admin", ADMIN); 
+		
+		return "board/service/ContentView";
+	}
+	
 	// 고객센터 
-	@RequestMapping("service/service_center")
+	@RequestMapping("service_center")
 	public String service_center() {
 		return "board/service/service_center";
 	}
 	
 	
 	//============================임청규 끝==========================================
-	
-	
-	
 	
 }

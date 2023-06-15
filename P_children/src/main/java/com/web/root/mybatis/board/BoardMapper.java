@@ -11,6 +11,7 @@ import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.qna.dto.QnaDTO;
+import com.web.root.qna.dto.Qna_RepDTO;
 
 public interface BoardMapper {
 	
@@ -151,9 +152,18 @@ public interface BoardMapper {
 	
 	public int selectQnaCount_manager();
 	
-	public List<QnaDTO>	member_qna(@Param("s") int start, @Param("e") int end);
+	public List<QnaDTO>	member_qna(@Param("s") int start, @Param("e") int end, @Param("id") String id);
 	
-	public int selectQnaCount_member();
+	public int selectQnaCount_member(@Param("id") String id);
+
+	public void member_write_save(QnaDTO dto);
+	
+	public void manager_write_save(Qna_RepDTO dto);
+	
+	public QnaDTO contentView_qna(QnaDTO dto);
+	public Qna_RepDTO contentView_rep_qna(Qna_RepDTO dto);
+	
+	public void qna_state(@Param("asdf") int write_no);
 
 
 	

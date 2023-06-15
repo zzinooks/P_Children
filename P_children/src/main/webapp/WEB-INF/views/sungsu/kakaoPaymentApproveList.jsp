@@ -6,7 +6,8 @@
 <html>
 <meta charset="UTF-8">
 <title>카카오페이 결제 승인 목록 페이지</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 table             { 
   border-spacing: 1; 
@@ -35,9 +36,6 @@ table             {
   border-bottom:1px solid #E3F1D5 ;
     &:last-child  { border:0; }
   }
-#left{
-	text-align: left;
-}
 </style>
 </head>
 <body>
@@ -46,7 +44,7 @@ table             {
 	
 		<section ><!-- body -->
 		<div class="form-box-list"> <!--  container  -->
-		<div class="title" >카카오페이 결제 관리</div>
+		<div class="title" >카카오페이 관리</div>
 		<table >
 		<thead>
 			<tr>
@@ -72,22 +70,26 @@ table             {
 					</tr>
 				</c:forEach>
 		</table>
-			<div class="under-section">
-						<c:if test="${startPage > block }">
-							<a href="kakaoPaymentApproveList?num=${startPage-1 }" > 이전 </a>
+			<div class="page_wrap">
+			   <div class="page_nation">
+			      <!-- <a class="arrow pprev" href="#"></a> -->
+			      	<c:if test="${startPage > block }">
+							<a href="kakaoPaymentApproveList?num=${startPage-1 }"   class="arrow prev"> &nbsp;이전&nbsp; </a>
 						</c:if>
 						<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
 							<c:if test="${i == num}">
-								<a href="kakaoPaymentApproveList?num=${i }" > ${i } </a>
+								<a href="kakaoPaymentApproveList?num=${i }"  class="active"> &nbsp;${i }&nbsp; </a>
 							</c:if>
 							<c:if test="${i != num}">
-								<a href="kakaoPaymentApproveList?num=${i }" > ${i } </a>
+								<a href="kakaoPaymentApproveList?num=${i }" class="active"> &nbsp;${i }&nbsp; </a>
 							</c:if>
-						</c:forEach>
 						<c:if test="${endPage < totalPage }">
-							<a href="kakaoPaymentApproveList?num=${endPage+1 }" > 다음 </a>
+							<a href="kakaoPaymentApproveList?num=${endPage+1 }" class="arrow next" > &nbsp;다음&nbsp; </a>
 						</c:if>
-			</div>
+						</c:forEach>
+			      <!-- <a class="arrow nnext" href="#"></a> -->
+			   </div>
+			</div>			
 		</div>
 	</section>
 		

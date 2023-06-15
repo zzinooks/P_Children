@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Mate With 회원 관리</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <style type="text/css">
 table             { 
@@ -83,11 +84,15 @@ table             {
 					</tr>
 				</c:forEach>
 		</table>
-			<div class="under-section">	
-				<c:forEach  var="num" begin="1" end="${repeat }">
-							<a href="manager_memberList?num=${num }" > &nbsp; ${num } &nbsp;</a>
-				</c:forEach>
-			</div>
+			<div class="page_wrap">
+			   <div class="page_nation">
+			      <!-- <a class="arrow pprev" href="#"></a> -->
+					<c:forEach  var="num" begin="1" end="${repeat }">
+								<a href="manager_memberList?num=${num }" class="active"> &nbsp; ${num } &nbsp;</a>
+					</c:forEach>
+			      <!-- <a class="arrow nnext" href="#"></a> -->
+			   </div>
+			</div>			
 		</div>
 	</section>
 

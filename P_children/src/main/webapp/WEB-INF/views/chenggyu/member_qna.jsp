@@ -4,12 +4,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>member_qna</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
+<title>Mate With 문의</title>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 table             { 
   border-spacing: 1; 
@@ -38,7 +40,6 @@ table             {
   border-bottom:1px solid #E3F1D5 ;
     &:last-child  { border:0; }
   }
- 
 </style>
 </head>
 <body>
@@ -65,19 +66,28 @@ table             {
 			<c:forEach var="dto"  items="${qnaList }">
 				<tr>	
 					<th> ${dto.id }</th>
-					<th> ${dto.title }</th>
+					<th> <a href="${contextPath}/board/ContentView?write_no=${dto.write_no}">${dto.title }</a></th>
 					<th > ${dto.savedate }</th>
-					<th > ${dto.status }</th>
+					<c:if test="${dto.status == 1}">
+					<th>접수</th>
+					</c:if>
+					<c:if test="${dto.status != 1}">
+					<th>완료</th>
+					</c:if>
 				</tr>
 			</c:forEach>	
 		</table>
-			<div class="under-section">
-				<c:forEach  var="num" begin="1" end="${repeat }">
-							<a href="member_qna?num=${num }" id="pg"> &nbsp; ${num } &nbsp;</a>
-				</c:forEach>
-				<input type="button" value="작성" onclick="leave()" class="but_1">
+		<input type="button" value="작성" onclick="location.href='${contextPath }/board/member_writeForm'"  class="but_2">
+			<div class="page_wrap">
+			   <div class="page_nation">
+			      <!-- <a class="arrow pprev" href="#"></a> -->
+					<c:forEach  var="num" begin="1" end="${repeat }">
+								<a href="member_qna?num=${num }" class="active" > &nbsp; ${num } &nbsp;</a>
+					</c:forEach>
+			      <!-- <a class="arrow nnext" href="#"></a> -->
+			   </div>
+			</div>					
 		</div>
-	</div>
 	</section>
 
 		<c:import url="../default/footer.jsp"/>

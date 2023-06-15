@@ -2,18 +2,13 @@ package com.web.root.board.service;
 
 
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -25,6 +20,8 @@ import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.mybatis.board.BoardMapper;
+import com.web.root.qna.dto.QnaDTO;
+import com.web.root.qna.dto.Qna_RepDTO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -732,33 +729,75 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
-
+	// 나의 문의
 	@Override
-	public void member_qna(Model model, int num) {
+	public void member_qna(Model model, int num, String id) {
+		
 		int pageLetter = 10; 
-		int allCount = mapper.selectQnaCount_member(); 
+		int allCount = mapper.selectQnaCount_member(id); 
 		int repeat = allCount/pageLetter;  
 		if(allCount % pageLetter != 0)
 			repeat += 1;
 		int end = num * pageLetter;
 		int start = end + 1 - pageLetter;
 		model.addAttribute("repeat", repeat);
-		model.addAttribute("qnaList", mapper.member_qna(start, end));				
+		model.addAttribute("qnaList", mapper.member_qna(start, end, id));				
 		
 	}
 	
-	// 문의 게시판
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
+	//  문의 작성
+	public void member_write_save(HttpServletRequest request) {
+		QnaDTO dto = new QnaDTO();
+		dto.setId(request.getParameter("id"));
+		dto.setTitle(request.getParameter("title"));
+		dto.setContent(request.getParameter("content"));
+		
+		mapper.member_write_save(dto);
+	}
+	
+	//  문의 답변 작성
+	public void manager_write_save(HttpServletRequest request, Model model) {
+		int write_no = Integer.parseInt(request.getParameter("write_no"));
+		Qna_RepDTO dto = new Qna_RepDTO();
+		dto.setContent(request.getParameter("content"));
+		dto.setWrite_group(write_no);
+	
+		mapper.manager_write_save(dto);
+		model.addAttribute("qna_reply", dto);
+	}
+	
+	
+	// 글 확인
+	@Override
+	public QnaDTO contentView_qna(Model model, HttpServletRequest request) {
+		
+		int write_no = Integer.parseInt(request.getParameter("write_no"));
+		
+		QnaDTO dto = new QnaDTO();
+		dto.setWrite_no(write_no);
+		
+		return mapper.contentView_qna(dto);
+	}
+
+	@Override
+	public Qna_RepDTO contentView_rep_qna(Model model, HttpServletRequest request) {
+		
+		int write_group = Integer.parseInt(request.getParameter("write_no"));
+		
+		Qna_RepDTO dto = new Qna_RepDTO();
+		dto.setWrite_group(write_group);
+		
+		return mapper.contentView_rep_qna(dto);
+	}
+
+
+	@Override
+	public void qna_state(HttpServletRequest request) {
+		int write_no = Integer.parseInt(request.getParameter("write_no"));
+		mapper.qna_state(write_no);
+		
+	}
+	
 	
 }

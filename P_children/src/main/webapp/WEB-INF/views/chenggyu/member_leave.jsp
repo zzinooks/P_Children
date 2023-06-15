@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>member_leave</title>
+<title>Mate With 회원 탈퇴</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <script type="text/javascript">
@@ -18,6 +18,9 @@ function leave(){
 	if( pwd != ${dto.pwd} ){
 		alert("비밀번호를 확인해주세요");
 	} else {
+		if(!confirm('회원탈퇴 하시겠습니까?')){
+			return false;
+	} else {
 	$.ajax({
 		url: "member_leave_save",
 		type: "POST",
@@ -26,6 +29,7 @@ function leave(){
 			$("#count").text(data)
 			console.log("성공");
 			 window.location.href = "${contextPath }/root/index" ;
+			 alert("이용해주셔서 감사했습니다");
 		},
 		error: function(){
 			console.log("실패");
@@ -33,6 +37,7 @@ function leave(){
 		
 	})
 	}
+}
 }
 </script>
 </head>
