@@ -59,10 +59,10 @@ section{
 /* 버튼 */
 .form-box .button{
 	margin-top: 10px;
-	text-align: center;
+	text-align: ;
 }
 .but_1 {
-	width: 80%;
+	width: 100%;
 	height: 40px;
 	border-radius: 40px;
 	background: #A996DB;
@@ -72,6 +72,19 @@ section{
 	font-size: 1em;
 	font-weight: 600;
 	margin-top: 5px;
+}
+.but_2 {
+	width: 100%;
+	height: 40px;
+	border-radius: 40px;
+	background: #A996DB;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-size: 1em;
+	font-weight: 600;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 /* 아이디/등급/닉네임/휴대번호/이메일  */
 .user-details .input-box .details{
@@ -114,25 +127,15 @@ from .user-details .input-box_addr{
 	font-size: 15px;
 	margin-bottom: 5px;
 }
-.but_1 {
-	width: 100%;
-	height: 40px;
-	border-radius: 40px;
-	background: #A996DB;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	font-size: 1em;
-	font-weight: 600;
-	margin-top: 5px;
-}
 .under-section{
 	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .under-section a{
-	width: 200px;
-	height: 200px;
-	margin: auto;
+	font-size: 15px;
+	font-weight: 50%;
+	margin: 5px;
 	border-radius: 50%;
 	background: #A996DB;
 	text-decoration: none;
@@ -159,4 +162,62 @@ from .user-details .input-box_addr{
 	border: 2px solid #A996DB;
 	border-radius: 20px;
 	backdrop-filter: blur(15px);
+}
+/* 메뉴바 */
+.menu {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 40px;
+ background: #A996DB;
+ margin-top: 10px;
+ font-size: 1em;
+ font-weight: 600;
+}
+
+.menu > li {
+  width: 100%; /*20*5=100%*/
+  float: left;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 40px;
+  background: #A996DB;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.menu a {
+  color: black;
+}
+
+.submenu > li {
+  line-height: 50px;
+  background-color: #A996DB;
+}
+
+.submenu {
+  height: 0; /*ul의 높이를 안보이게 처리*/
+  overflow: hidden;
+}
+.submenu_ > li {
+  line-height: 50px;
+  background-color: #A996DB;
+}
+
+.submenu_ {
+  height: 0; /*ul의 높이를 안보이게 처리*/
+  overflow: hidden;
+}
+
+.menu > li:hover {
+  background-color: #A996DB;
+  transition-duration: 0.5s;
+}
+
+.menu > li:hover .submenu {
+  height: 150px; /*서브메뉴 li한개의 높이 50*5*/
+  transition-duration: 1s;
+}
+.menu > li:hover .submenu_ {
+  height: 50px; /*서브메뉴 li한개의 높이 50*5*/
+  transition-duration: 1s;
 }

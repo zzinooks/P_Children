@@ -4,12 +4,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>manager_qna</title>
+<title>Mate With 문의 관리</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 table             { 
   border-spacing: 1; 
@@ -65,17 +67,26 @@ table             {
 			<c:forEach var="dto"  items="${qnaList }">
 				<tr>	
 					<th> ${dto.id }</th>
-					<th> ${dto.title }</th>
+					<th> <a href="${contextPath}/board/ContentView?write_no=${dto.write_no}">${dto.title }</a></th>
 					<th> ${dto.savedate }</th>
-					<th > ${dto.status }</th>
+					<c:if test="${dto.status == 1}">
+					<th>대기</th>
+					</c:if>
+					<c:if test="${dto.status != 1}">
+					<th>완료</th>
+					</c:if>
 				</tr>
 			</c:forEach>	
 		</table>
-			<div class="under-section">
-				<c:forEach  var="num" begin="1" end="${repeat }">
-							<a href="manager_qna?num=${num }" id="pg"> &nbsp; ${num } &nbsp;</a>
-				</c:forEach>
-			</div>
+			<div class="page_wrap">
+			   <div class="page_nation">
+			      <!-- <a class="arrow pprev" href="#"></a> -->  
+					<c:forEach  var="num" begin="1" end="${repeat }">
+								<a href="manager_qna?num=${num }" class="active"> &nbsp; ${num } &nbsp;</a>
+					</c:forEach>
+			      <!-- <a class="arrow nnext" href="#"></a> -->
+			   </div>
+			</div>		
 		</div>
 	</section>
 	
