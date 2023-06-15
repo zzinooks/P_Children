@@ -28,6 +28,12 @@ public class BoardDTO {
 	private String file_name;
 	private String id;
 	
+	//==== 06.14 윤희 추가 =====
+	private int start;		// DB에 컬럼 없음
+	private int end;		// DB에 컬럼 없음
+	//==== 06.14 윤희 끝 =====
+	
+	
 	// 생성자
 	public BoardDTO() {
 		super();
@@ -103,6 +109,24 @@ public class BoardDTO {
 	}
 	
 	
+	//==== 06.14 윤희 추가 =====
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getEnd() {
+		return end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
+	//==== 윤희 끝 =====
 	
 
 }

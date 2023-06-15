@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mappers/file/boardMapper.xml -->
+<mapper namespace="com.web.root.mybatis.mypageBoard.MypageBoardMapper">
+
+	<!-- 자유 게시판 -->
+	<resultMap id="board" type="com.web.root.board.dto.BoardDTO">
+		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
+		<result property="category" column="category"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="savedate" column="savedate"/>
+		<result property="hit" column="hit"/>
+		<result property="file_name" column="file_name"/>
+		<result property="id" column="id"/>
+		<result property="keyword" column="keyword"/>
+		<result property="start" column="start"/>
+		<result property="end" column="end"/>
+	</resultMap>
+	
+	<!--  ======================== 윤희 시작 ==========================   -->
+	
+	<!-- 해당 아이디에 담겨있는 전체 글 수 -->
+	<select id="mypageBoardAllCount" resultType="Integer"> 
+		SELECT COUNT(*) FROM board2 WHERE id=#{id}
+	</select>
+	
+	<!-- 해당 아이디 게시글 페이징 -->
+	<select id="mypageBoardList" resultMap="board"> 
+		SELECT B.* FROM 
+		(SELECT ROWNUM rn, A.* FROM 
+		(SELECT * FROM board2 where id=#{id} ORDER BY write_no DESC)A )B 
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+
+	<!--  ======================== 윤희 끝 ==========================   -->
+	
+
+	
+	
+	
+</mapper>
