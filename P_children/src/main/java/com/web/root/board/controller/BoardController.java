@@ -156,6 +156,10 @@ public class BoardController implements MemberSession{
 		
 		model.addAttribute("dibsNum", dibsNum);
 		
+		//==== 06.14_최윤희 : 마이페이지로인한 num추가
+		model.addAttribute("num", request.getParameter("num"));
+		//==== 06.14_최윤희 끝		
+		
 		//(3) 조회수 증가
 		bs.hitplus(dto);
 		
