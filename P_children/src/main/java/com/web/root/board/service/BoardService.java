@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.root.board.dto.BoardDTO;
+import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 
@@ -55,6 +56,14 @@ public interface BoardService {
 	
 	public String updateReComment(HttpServletRequest request);
 	
+	// 찜하기 기능 -------------------------------------------------
+	public int toggleDibs(Map<String, Object> map);
+	
+	public BoardDibsDTO getDibsByIdWriteNo(Map<String, Object> map);
+	
+	public void myDibsBoardAllList(Model model, int num, HttpServletRequest request, String id);
+	
+	public int getdibsNumByWriteNo(int write_no);
 	
 	//============================ 주진욱 끝 ===========================================
 	

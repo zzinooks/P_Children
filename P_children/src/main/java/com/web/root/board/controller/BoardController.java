@@ -5,11 +5,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.root.board.dto.BoardDTO;
+import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardService;
@@ -58,7 +63,7 @@ public class BoardController implements MemberSession{
 			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
 			
 			// 로그인값 불러오기
-			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
 				String id = (String) session.getAttribute(LOGIN);
 				ms.userInfo(id, model);
 			} else {
@@ -104,18 +109,19 @@ public class BoardController implements MemberSession{
 	@RequestMapping("contentView")
 	public String contentView(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
 		
+		//(1) 정보 가져오기
+		//(1-1) board 하나 정보 가져오기
 		BoardDTO dto = bs.contentView(model, request);
+		
+		//(1-2) user 확인하기 및 정보 가져오기
 		String user = (String) session.getAttribute(LOGIN);
-		
-		model.addAttribute("dto", dto);
-		model.addAttribute("user", user);
-		
+				
 		try {
 			// 카카오톡 로그인 check
 			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
 			
 			// 로그인값 불러오기
-			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
 				String id = (String) session.getAttribute(LOGIN);
 				ms.userInfo(id, model);
 			} else {
@@ -128,10 +134,31 @@ public class BoardController implements MemberSession{
 			e.printStackTrace();
 		}
 		
-		model.addAttribute("admin", ADMIN);
+		//(1-3) boardDib(찜하기) 정보 가져오기
+		Map<String, Object> mapForBoardDib = new HashedMap();
+		mapForBoardDib.put("id", user);
+		mapForBoardDib.put("write_no", request.getParameter("write_no"));
 		
+		BoardDibsDTO boardDibsDTO = bs.getDibsByIdWriteNo(mapForBoardDib);
 		
+		int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(request.getParameter("write_no")));
+		
+		//(2) 정보 담기
+		model.addAttribute("dto", dto);		// board 정보 model에 담기
+		model.addAttribute("user", user);	// user 정보 model에 담기
+		model.addAttribute("admin", ADMIN);	// admin(='gold') 정보 model에 담기 (grade 확인용)
+		
+		if(boardDibsDTO == null) {	// 찜한 적이 없을 때
+			model.addAttribute("state", 0);
+		} else {					// 찜한 적이 있을 때
+			model.addAttribute("state", boardDibsDTO.getDibs_state());
+		}
+		
+		model.addAttribute("dibsNum", dibsNum);
+		
+		//(3) 조회수 증가
 		bs.hitplus(dto);
+		
 		return "/board/contentView";
 	}
 	
@@ -209,7 +236,7 @@ public class BoardController implements MemberSession{
 			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
 			
 			// 로그인값 불러오기
-			if(kakaoIdCheck.equals(null)) { // 일반 로그인, noLogin 인 경우
+			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
 				String id = (String) session.getAttribute(LOGIN);
 				ms.userInfo(id, model);
 			} else {
@@ -242,7 +269,58 @@ public class BoardController implements MemberSession{
 		
 		model.addAttribute("admin", ADMIN); // 관리자 아이디 저장
 		return "board/boardAllList";
-	}	
+	}
+	
+	// 여기서부터는 찜하기 기능
+	// 찜하기 버튼 클릭시 토글 기능
+	@PostMapping(value="toggleDibs/{write_no}", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public Map<String, Object> toggleDibs(@RequestBody Map<String, Object> map,@PathVariable("write_no") String write_no, HttpSession session, Model model, HttpServletRequest request) {
+		int result = bs.toggleDibs(map);
+		System.out.println(write_no +"입니다~!!");
+		int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(write_no));
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		returnMap.put("result", result);
+		returnMap.put("changedDibsNum", dibsNum);
+		
+		return returnMap;
+	}
+	
+	// 내가 찜한 게시글 보기 페이지로 이동
+	@RequestMapping("myDibsBoard")
+	public String myDibsBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
+		
+		// 카카오톡 로그인 check
+		try {
+			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+			
+			// 로그인값 불러오기
+			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
+				String id = (String) session.getAttribute(LOGIN);
+				ms.userInfo(id, model);
+				
+				// boardList 생성
+				bs.myDibsBoardAllList(model, num, request, id);
+			} else {
+				MemberDTO memberDTO = new MemberDTO();
+				memberDTO.setId(kakaoIdCheck);
+				memberDTO.setGrade("bronze");
+				model.addAttribute("info", memberDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+				
+		
+		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
+		model.addAttribute("admin", ADMIN);		
+		
+		return "board/myDibsBoard";
+	}
 	
 	
 	//============================ 주진욱 끝 ===========================================

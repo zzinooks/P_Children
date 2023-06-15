@@ -1,5 +1,5 @@
 
-<!-- board/boardAllList.jsp -->
+<!-- board/myDibsBoard.jsp -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -13,61 +13,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>board/boardAllList.jsp</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
-<style type="text/css">
-
-h1 {
-   text-align: center;
-}
-
-
-.wrap {
-   margin: 0 auto;
-}
-
-.table {
-   display: block;
-   justify-content: center;
-}
-
-table tr:last-child {
-   text-align: right;
-}
-
-#paging {
-   color: black;
-   text-decoration: none;
-}
-#currentPaging {
-   color: red;
-   text-decoration: underline;
-}
-</style>
-<script type="text/javascript">
-	//게시글 삭제 문구 알림창
-	function deleteConfirm(write_no, file_name){
-		
-		if(!confirm('삭제하시겠습니까?')){
-			return false;
-		} else {
-			location.href='${contextPath}/board/delete?write_no='+  write_no + '&file_name=' + file_name;
-		}
-		
-	}
-	
-	/*function colorConfirm() {
-		let h = $("#paging").css("color");
-		$("#paging").css("color", "rgb(222, 000, 000)");
-		alert(h);
-		
-	}*/
-</script>
+<title>내가 찜한 게시글~!!</title>
 </head>
-<body onload="colorConfirm()">
+<body>
 	<c:import url="../default/header.jsp"/>
 	<section>
-		<h1> 게시판 </h1> <h1></h1>
+		<h1> 내가 찜한 게시판 ♥ </h1>
 		<div class="imsi"></div>
 		<div class="wrap board_table">
 			<table class="table table-striped">
@@ -137,21 +88,21 @@ table tr:last-child {
 							<!-- 자유 게시판에 들어가자마자 나오는 페이징  -->
 							<c:if test="${board_category == null}">
 								<c:if test="${startPage > block }">
-									[ <a href="${contextPath }/board/boardAllList?num=${startPage-1 }" id="paging"> 이전 </a> ]
+									[ <a href="${contextPath }/board/myDibsBoard?num=${startPage-1 }" id="paging"> 이전 </a> ]
 								</c:if>
 								<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
 									<c:if test="${i == num}">
-										[ <a href="${contextPath }/board/boardAllList?num=${i }" id="currentPaging"> ${i } </a> ]
+										[ <a href="${contextPath }/board/myDibsBoard?num=${i }" id="currentPaging"> ${i } </a> ]
 									</c:if>
 									<c:if test="${i != num}">
-										[ <a href="${contextPath }/board/boardAllList?num=${i }" id="paging"> ${i } </a> ]
+										[ <a href="${contextPath }/board/myDibsBoard?num=${i }" id="paging"> ${i } </a> ]
 									</c:if>
 								</c:forEach>
 								<c:if test="${endPage < totalPage }">
-									[ <a href="${contextPath }/board/boardAllList?num=${endPage+1 }" id="paging"> 다음 </a> ]
+									[ <a href="${contextPath }/board/myDibsBoard?num=${endPage+1 }" id="paging"> 다음 </a> ]
 								</c:if>
 							</c:if>
-							<!-- 검색 클릭시 페이징  -->
+							<!-- 검색 클릭시 페이징  
 							<c:if test="${board_category != null}">
 								<c:if test="${startPage > block }">
 									[ <a href="${contextPath }/board/boardSearchForm?num=${startPage-1 }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="paging"> 이전 </a> ]
@@ -168,10 +119,11 @@ table tr:last-child {
 									[ <a href="${contextPath }/board/boardSearchForm?num=${endPage+1 }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="paging"> 다음 </a> ]
 								</c:if>
 							</c:if>
+							-->
 						</div>
 					</td>
 				</tr>
-				<tr>
+				<%-- <tr>
 					<c:choose>
 						<c:when test="${info.grade == admin}">
 							<td colspan="7" align="center">
@@ -184,10 +136,10 @@ table tr:last-child {
 						<a href="${contextPath }/board/writeForm">글작성</a>
 						</c:if>
 					</td>
-				</tr>
+				</tr> --%>
 			</table>
 			
-			<!-- 검색 버튼 -->
+			<!-- 검색 버튼 
 			<form name="boardSearchForm" action="${contextPath }/board/boardSearchForm" method="get">
 				<select name="board_category" id="board_category">
 					<option value="total" <c:if test="${board_category == 'total' }">selected</c:if>>전체</option>
@@ -207,6 +159,7 @@ table tr:last-child {
 				<input type="submit" id="search_btn" value="검색">
 			</form>
 		</div>
+		-->
 	</section>
 	<c:import url="../default/footer.jsp"/>
 </body>
