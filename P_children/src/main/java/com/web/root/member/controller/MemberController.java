@@ -211,6 +211,7 @@ public class MemberController implements MemberSession{
 		String code = request.getParameter("code");
 		String token = ms.getkakaoToken(code, tokenURL);
 		int result = ms.registKakaoUser(token, kakaoIdURL, session);
+		
 		if(result != 1) {
 			String message = null;
 			String path = request.getContextPath();

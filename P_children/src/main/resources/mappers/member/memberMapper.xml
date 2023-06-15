@@ -48,9 +48,14 @@
 		(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT, #{userSelect}, #{mateName}, #{mateBreed}, DEFAULT)
 	</insert>
 
-	<!--  -->
+	<!-- 카카오로그인 아이디, member 테이블에서 데이터 유무 체크 -->
+	<select id="kakaoUserCheck" resultMap="kakaoUser">
+		SELECT * FROM member WHERE Id=#{kakaoId}
+	</select> 
+
+	<!-- 카카오 유저 member 테이블에 등록 -->
 	<insert id="registKakaoUser">
-		INSERT INTO kakaoUser VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
+		INSERT INTO member(id, email) VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
 	</insert>	
 	
 	<!-- 회원정보  -->
@@ -63,10 +68,6 @@
 		SELECT * FROM member WHERE email=#{email}
 	</select>
 	
-	<!-- 카카오로그인 아이디 데이터 체크 -->
-	<select id="kakaoUserCheck" resultMap="kakaoUser">
-		SELECT * FROM kakaoUser WHERE kakaoId=#{kakaoId}
-	</select> 
    
    
 
