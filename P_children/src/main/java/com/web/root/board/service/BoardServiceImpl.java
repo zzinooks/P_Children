@@ -38,7 +38,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void boardAllList(Model model, int num, HttpServletRequest request) {
 		
-		int pageLetter = 3; // 한 페이지 당 글 목록수
+		int pageLetter = 10; // 한 페이지 당 글 목록수
 		int allCount= mapper.selectBoardCount(); // 전체 글수
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
 		if(allCount % pageLetter != 0)
@@ -190,7 +190,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void selectingCategory(Model model,String category, int num) {
 		
-		int pageLetter = 3; // 한 페이지 당 글 목록수
+		int pageLetter = 10; // 한 페이지 당 글 목록수
 		int allCount= mapper.selectBoardCountByCategory(category); // 전체 글수
 		//System.out.println("allCount 는!!" + allCount);
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
@@ -257,7 +257,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		
-		int pageLetter = 5;  // 한 페이지 당 글 목록수
+		int pageLetter = 10;  // 한 페이지 당 글 목록수
 		int allCount = mapper.boardCountCategory(map); // 카테고리가 ex)제목 등 해당 목록 전체 수 
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
 		if(allCount % pageLetter != 0) {
@@ -449,7 +449,7 @@ public class BoardServiceImpl implements BoardService {
 	// MyPage board List 기능
 	@Override
 	public void myDibsBoardAllList(Model model, int num, HttpServletRequest request, String id) {
-		int pageLetter = 3; // 한 페이지 당 글 목록수
+		int pageLetter = 10; // 한 페이지 당 글 목록수
 		int allCount= mapper.selectMyDibsBoardCount(id); // 내가 찜한 전체 글수
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
 		if(allCount % pageLetter != 0)
@@ -490,7 +490,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void noticeBoardAllList(Model model, int num, HttpServletRequest request) {
 		
-		int pageLetter = 5;  // 한 페이지 당 글 목록수
+		int pageLetter = 10;  // 한 페이지 당 글 목록수
 		int allCount = mapper.selectNoticeBoardCount(); // DB에 담겨있는 전체 글 수
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
 		if(allCount % pageLetter != 0) {
@@ -675,7 +675,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		
-		int pageLetter = 5;  // 한 페이지 당 글 목록수
+		int pageLetter = 10;  // 한 페이지 당 글 목록수
 		int allCount = mapper.noticeBoardCountCategory(notice_pageDTO); // 카테고리가 ex)제목 등 해당 목록 전체 수 
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
 		if(allCount % pageLetter != 0) {

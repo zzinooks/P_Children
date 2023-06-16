@@ -20,18 +20,55 @@
 		<result property="end" column="end"/>
 	</resultMap>
 	
+	<!-- 프로그램 게시판 -->
+	<resultMap  id="programBoard" type="com.web.root.board.dto.ProgramBoardDTO">
+		<id property="write_no" column="write_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="petKind" column="petKind"/>
+		<result property="mateName" column="mateName"/>
+		<result property="mateImage" column="mateImage"/>
+		<result property="content" column="content"/>
+		<result property="position1" column="position1"/>
+		<result property="position2" column="position2"/>
+		<result property="startDate" column="startDate"/>
+		<result property="startTime" column="startTime"/>
+		<result property="endDate" column="endDate"/>
+		<result property="endTime" column="endTime"/>
+		<result property="priceForProgram" column="priceForProgram"/>
+		<result property="savedate" column="savedate"/>
+		<result property="hit" column="hit"/>
+		<result property="state" column="state"/>
+		<result property="start" column="start"/>			<!-- 0615_윤희 추가: DB 컬럼 없음, 변수만 있음 -->
+		<result property="end" column="end"/>				<!-- 0615_윤희 추가: DB 컬럼 없음, 변수만 있음 -->
+	</resultMap>
+	
+	
 	<!--  ======================== 윤희 시작 ==========================   -->
 	
-	<!-- 해당 아이디에 담겨있는 전체 글 수 -->
+	<!-- (커뮤니티) 해당 아이디에 담겨있는 전체 글 수 -->
 	<select id="mypageBoardAllCount" resultType="Integer"> 
 		SELECT COUNT(*) FROM board2 WHERE id=#{id}
 	</select>
 	
-	<!-- 해당 아이디 게시글 페이징 -->
+	<!-- (커뮤니티) 해당 아이디 게시글 페이징 -->
 	<select id="mypageBoardList" resultMap="board"> 
 		SELECT B.* FROM 
 		(SELECT ROWNUM rn, A.* FROM 
 		(SELECT * FROM board2 where id=#{id} ORDER BY write_no DESC)A )B 
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<!-- (프로그램) 해당 아이디에 담겨있는 전체 글 수 -->
+	<select id="mypageBoardProgramAllCount" resultType="Integer"> 
+		SELECT COUNT(*) FROM programBoard WHERE id=#{id}
+	</select>
+	
+	<!-- (프로그램) 해당 아이디 게시글 페이징 -->
+	<select id="mypageBoardProgramList" resultMap="programBoard"> 
+		SELECT B.* FROM 
+		(SELECT ROWNUM rn, A.* FROM 
+		(SELECT * FROM programBoard where id=#{id} ORDER BY write_no DESC)A )B 
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 

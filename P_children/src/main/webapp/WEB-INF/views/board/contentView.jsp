@@ -4,13 +4,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
-<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous">
-</script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
-
-
 <%
 	String num2 = request.getParameter("num");
 	if(num2.equals("null")){
@@ -21,9 +17,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>board/contentView.jsp</title>
+<title>Mate With 자유게시판 글보기</title>
 <script type="text/javascript">
-
 	// 본문 관련 기능 시작 -------------------------------------------------------------------------------------------------------
 
 	// 파일 업로드 시 img 태그에 그림 화면 보이기
@@ -53,7 +48,7 @@
 	
 	// 로그인 요구 기능
 	function loginPlease() {
-		alert("로그인 후 사용할 수 있는 기능입니다.");
+		alert("펫위드 아이디로 로그인 후 사용할 수 있는 기능입니다.");
 	}
 	
 	// 본문 관련 기능 끝 -------------------------------------------------------------------------------------------------------
@@ -441,18 +436,13 @@
 			data: JSON.stringify(form),
 			contentType: "application/json; charset=utf-8",
 			success: function(data) {
-				alert("찜 토글하기 성공~!");
-				alert(data.result);
-				alert(data.changedDibsNum);
 				if(data.result == 1) { // (처음으로 누른 경우) insert 결과가 1 이거나,(처음이 아닌 경우) dibs_state 가 1 일 때 
-					alert("토글 값은 1")
 					$("#dibs_image").attr("src", "https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714");
 				}
 				if(data.result == 0) { // dibs_state가 0일 때
-					alert("토글 값은 0")
 					$("#dibs_image").attr("src", "https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb");
 				}
-				$("#dibsNumPoint").html(data.changedDibsNum);
+				$("#dibsNumPoint").html(data.changedDibsNum + "명이 찜했습니다!");
 			},
 			error: function() {
 				alert("찜하기 실패...")
@@ -481,10 +471,16 @@
 	position: fixed;
 	z-index: 10;
 	margin: 0 auto;
-	top: 30px; left: 0; right: 0;
-	width: 300px;
-	height: 350px;
+	top: 60%; left: 0; right: 0;
+	width: 50%;
+	height: 250px;
 	background: rgba(210, 240, 250, 0.9);
+}
+#first_{
+	width: 50%;
+	height: 250px;
+	padding-top: 10px;
+	margin: 0 auto;
 }
 
 #second {
@@ -509,7 +505,7 @@ h1 {
 
 .reply {
 	background-color: #f2f2f2;
-	width: 1000px;
+	width: 100%;
 	/* border: 1px solid red; */
 	padding: 5px;
 	margin-top: 5px;
@@ -561,31 +557,62 @@ hr {
 	color: #ee4a63;
 	text-align: right;
 }
-
+table             { 
+  border-spacing: 1; 
+  border-collapse: collapse; 
+  background:white;
+  border-radius:6px;
+  overflow:hidden;
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  }
+    th{ 
+    padding-left:8px;
+    padding-right: 8px;
+    text-align:center;
+    }  
+    td{ 
+    padding-left:8px;
+    padding-right: 8px;
+    text-align:left;
+    }  
+ th { background-color: #A996DB; 
+ width: auto;}
+  tbody tr     { 
+  height:40px; 
+  border-bottom:1px solid #E3F1D5 ;
+    &:last-child  { border:0; }
+  }
+  a{
+	text-decoration-line: none;
+}
+button{
+	border:none;
+}
 </style>
-</head>
+</head>z
 <body onload="replyData()">
+
 	<c:import url="../default/header.jsp"/>
-	<section>
+	
 		<!-- 관리자 확인 -->
 		<div>
 			<input type="hidden" id='userGrade' value="${info.grade }">
 			<input type="hidden" id="admin" value="${admin }">
 		</div>
+		
 		<!-- 답글 작성 페이지 -->
 		<div id="modal_wrap">
 			<div id="first">
-				<div style="width: 600px; margin: 0 auto; padding-top: 20px;">
+				<div id="first_">
 					<form id="frm" action="#">
 						<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
 						<input type="hidden" id="user" name="id" value="${user }">
 						<b>답글(댓글) 작성 페이지</b>
-						<hr>
 						<b>작성자 : ${user }</b>
-						<hr>
 						<b>내 용</b><br>
 						<textarea id="content" name="content" rows="5" cols="30"></textarea>
-						<hr>
 						<button type="button" onclick="rep()">답 글</button>
 						<button type="button" onclick="slide_hide()">취 소</button>
 					</form>
@@ -596,7 +623,7 @@ hr {
 		<!-- 답글 수정 페이지 -->
 		<div id="modal_wrap">
 			<div id="second">
-				<div style="width: 400px; margin: 0 auto; padding-top: 20px;">
+				<div >
 					<form id="updateFrm" action="#">
 						<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
 						<input type="hidden" id="user" name="id" value="${user }">
@@ -615,16 +642,15 @@ hr {
 			</div>
 		</div>
 		
-		<!-- 본문 -->
-		<h1> 글보기 </h1>
-		<br><br>
-		<div class="wrap contentView">
-			<table class="table table-striped">
+		<section ><!-- body -->
+			<div class="form-box-list"> <!--  container  -->
+			<div class="title" >게시판</div>
+			<table>
 				<tr>
-					<th width="100px"> 글번호 </th><td width="200px" class="form-control input-sm">${dto.write_no }</td>
-					<th width="100px"> 작성자 </th><td width="200px" class="form-control input-sm">${dto.id }</td>
-					<th width="100px"> 분류 </th>
-					<td width="200px" class="form-control input-sm">
+					<th>제목</th>
+						<td class="form-control input-sm">${dto.title }</td>
+					<th>분류</th>
+						<td>				
 						<c:if test="${dto.category == 'informationSharing' }">
 						 정보 공유 
 						</c:if>
@@ -644,7 +670,6 @@ hr {
 						 펫프랜드 합니다 
 						</c:if>
 					</td>
-					
 				</tr>
 				<tr>
 					<th width="100px" > 제 목 </th><td  width="200px" class="form-control input-sm">${dto.title }</td>
@@ -658,17 +683,17 @@ hr {
 						<button class="btn btn-light" 
 						onclick=
 							<c:choose>
-								<c:when test="${user == 'noLogin'}">"loginPlease()"</c:when>
+								<c:when test="${user == null || kakaoIdCheck != null}">"loginPlease()"</c:when>
 								<c:otherwise>"toggleDibs()"</c:otherwise>
 							</c:choose>
 							>
 							찜하기
 							<img id="dibs_image" width="20px" height="20px" alt="버튼" src=
-							<c:if test="${state == 0}">
+							<c:if test="${state == 0 || user == null}">
 							"https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb" 
 							</c:if>
 							<c:if test="${state == 1}">
-							"https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714	" 
+							"https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714" 
 							</c:if>
 							>
 						</button>
@@ -676,16 +701,21 @@ hr {
 							<div id="dibsNumPoint">${dibsNum}<div>명이 찜했습니다!
 						</button>
 					</td>
+					<!-- 찜하기 기능 끝 -->
 				</tr>
 				<tr>
-					<th> 내 용 </th><td>${dto.content }</td>
+					<th>내용</th>
+					<td colspan="3" >${dto.content }</td>
+				</tr>
+				<tr>
+					<th>이미지</th>
 					<td colspan="4">
 						<c:if test="${dto.file_name == 'nan'}">
 							<b>이미지가 없습니다...</b>
 						</c:if>
 						<c:if test="${dto.file_name != 'nan'}">
 							<img src="${contextPath }/board/download?file_name=${dto.file_name}" width="200px" height="200px">
-						</c:if>
+						</c:if>				
 					</td>
 				</tr>
 				<tr>
@@ -698,19 +728,42 @@ hr {
 							<input type="button" value="수정하기" onclick="location.href='${contextPath }/board/modifyForm?write_no=${dto.write_no }&num=<%=num2%>'" /> &nbsp;
 							<input type="button" value="삭제하기" onclick="deleteConfirm()" /> &nbsp;
 						</c:if>
-						<c:if test="${loginUser != 'noLogin' }">
+						<c:if test="${user != null}">
 							<input type="button" value="댓글달기" onclick="slide_click()"> &nbsp;
 						</c:if>
+						<c:choose>
+							<c:when test="${toMyDibsBoard == 'yes' }">
+								<input type="button" value="글목록" onclick="location.href='${contextPath }/board/myDibsBoard?num=<%=num2%>'">
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${board_category != null}">
+										<input type="button" value="글목록" onclick="location.href='${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}'">
+									</c:when>
+									<c:otherwise>
+										<input type="button" value="글목록" onclick="location.href='${contextPath }/board/boardAllList?num=<%=num2%>'">
+									</c:otherwise>	
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
 						<!-- 06.14_최윤희 추가 : 마이페이지에서 글보기 -> 글목록 누르면 다시 마이페이지로 가기 -->
 						<!-- 아직 미완성 입니다. if 조건 걸아야합니다. -->
-						<input type="button" value="글목록" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${num }'">
-						<%-- <input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList?num=<%=num2%>'"> --%>
+						<c:if test="">
+						<input type="button" value="글목록" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${num}'">
+						</c:if>
+						<input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList?num=<%=num2%>'">
 						<!-- 06.14_최윤희_끝 -->
 					</td>
+					<!-- <td colspan="4"><div id="reply"></div></td> -->
 				</tr>
 			</table>
+			
+			<input type="button" value="댓글달기" onclick="slide_click()">
+			
 		</div>
 	</section>
+	
 	<c:import url="../default/footer.jsp"/>
+	
 </body>
 </html>

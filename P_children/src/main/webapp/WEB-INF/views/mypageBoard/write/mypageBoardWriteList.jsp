@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내가 작성한 게시판</title>
+<title>Mate With 작성한 게시글 보기</title>
 <style type="text/css">
 table, th, tr, td {
 	border: 1px solid black;
@@ -26,7 +26,9 @@ table, th, tr, td {
 </style>
 </head>
 <body>
-	 <h1>작성한 게시글</h1>
+	 <h1>커뮤니티 작성 게시글</h1>
+	 
+	 	<!-- 커뮤니티 게시판 테이블 시작 -->
 		<table>
 			<!-- 제목 칼럼 -->
 			<tr>
@@ -91,22 +93,19 @@ table, th, tr, td {
 			<tr>
 				<td colspan="5" align="center">
 					<div>
-						<!-- 카테고리 선택이 null 이면 -> 검색 안했을 때 -->
-						<c:if test="${myBoard_category == null}">
-							<c:if test="${startPage > block }">
-								[ <a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${startPage-1 }" id="paging"> 이전 </a> ]
+						<c:if test="${startPage > block }">
+							[ <a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${startPage-1 }" id="paging"> 이전 </a> ]
+						</c:if>
+						<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
+							<c:if test="${i == num}">
+								[ <a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${i }" id="currentPaging"> ${i } </a> ]
 							</c:if>
-							<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
-								<c:if test="${i == num}">
-									[ <a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${i }" id="currentPaging"> ${i } </a> ]
-								</c:if>
-								<c:if test="${i != num}">
-									[ <a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${i }" id="paging"> ${i } </a> ]
-								</c:if>
-							</c:forEach>
-							<c:if test="${endPage < totalPage }">
-								[ <a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${endPage+1 }" id="paging"> 다음 </a> ]
+							<c:if test="${i != num}">
+								[ <a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${i }" id="paging"> ${i } </a> ]
 							</c:if>
+						</c:forEach>
+						<c:if test="${endPage < totalPage }">
+							[ <a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${endPage+1 }" id="paging"> 다음 </a> ]
 						</c:if>
 					</div>
 				</td>

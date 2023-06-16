@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내가 찜한 게시글~!!</title>
+<title>Mate With 내가 찜한 게시글</title>
 </head>
 <body>
 	<c:import url="../default/header.jsp"/>
@@ -64,7 +64,7 @@
 										</c:if>
 									</td>
 									<td>${dto.id }</td>
-									<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
+									<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>&toMyDibsBoard=yes">${dto.title }</a></td>
 									<td>${dto.savedate }</td>
 									<td>${dto.hit }</td>
 									<c:if test ="${info.grade == admin}">
