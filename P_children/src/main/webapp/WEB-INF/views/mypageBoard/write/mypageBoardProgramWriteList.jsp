@@ -52,7 +52,7 @@ table, th, tr, td {
 						<tr>
 							<td class="valueHiddenView" id="file_name">${mypageBoardProgramList.mateImage}</td> <!-- 숨기는 값 -->
 							<td>${mypageBoardProgramList.write_no}</td>
-							<td><a href="${contextPath}/programBoard/programContentView?write_no=${mypageBoardProgramList.write_no}&num=${num}">${mypageBoardProgramList.title }</a></td>
+							<td><a href="${contextPath}/programBoard/programContentView?write_no=${mypageBoardProgramList.write_no}&num=${num}&programBoardNum=${programBoardCheckNum }">${mypageBoardProgramList.title }</a></td>
 							<td>${mypageBoardProgramList.id}</td>
 							<td>${mypageBoardProgramList.savedate}</td>
 							<td>${mypageBoardProgramList.state}</td>

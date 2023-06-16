@@ -83,24 +83,13 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 	public String programBoardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		bfps.programBoardAllList(model, num, request);
 		
-		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-			
-		// 로그인값 불러오기
-		if(kakaoIdCheck == null) { // 일반 로그인, 비로그인인 경우 (카카오톡이 아닌 경우)
-			String id = (String) session.getAttribute(LOGIN);
-			if(id == null) { // 비로그인인 경우
-				model.addAttribute("id", id);
-			} else {	// 일반 로그인인 경우
-				ms.userInfo(id, model);
-			}
-			
-		} else { // 카카오톡 로그인인 경우
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
-		}
+		// (1-2) 로그인값 불러오기
+	      String id = (String) session.getAttribute(LOGIN);
+	      if(id == null) { // 비로그인인 경우
+	         model.addAttribute("id", id);
+	      } else {   // 일반 로그인인 경우
+	         ms.userInfo(id, model);
+	      }
 		model.addAttribute("admin", ADMIN);
 		
 		return "/programBoard/programBoardAllList";  
@@ -108,63 +97,60 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 	}
 	
 	// 프로그램 contentView
-	@RequestMapping("programContentView")
-	public String programContentView(Model model, HttpServletRequest request, HttpSession session) {
-		
-		// (1) 정보 가져오기
-		// (1-1) programBoard 정보 하나 가져오기
-		ProgramBoardDTO programBoardDTO = bfps.programContentView(model, request);
-		
-		// (1-2) 로그인값 불러오기
-		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute(LOGIN);
-		
-		// 로그인값 불러오기
-		if(kakaoIdCheck == null) { // 일반 로그인, 비로그인인 경우 (카카오톡이 아닌 경우)
-			String id = (String) session.getAttribute(LOGIN);
-			if(id == null) { // 비로그인인 경우
-				model.addAttribute("id", id);
-			} else {	// 일반 로그인인 경우
-				ms.userInfo(id, model);
-			}
-			
-		} else { // 카카오톡 로그인인 경우
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
-		}
-		
-		//(1-3) boardDib(찜하기) 정보 가져오기
-		Map<String, Object> mapForBoardDib = new HashMap<String, Object>();
-		if(kakaoIdCheck != null) { // 로그인 했을 시 찜했는지 확인하는 정보 가져오기
-			mapForBoardDib.put("id", kakaoIdCheck);
-			mapForBoardDib.put("write_no", request.getParameter("write_no"));
-			BoardDibsDTO boardDibsDTO = bs.getDibsByIdWriteNo(mapForBoardDib);		
-		
-			// 정보 담기
-			if(boardDibsDTO == null) {	// 찜한 적이 없을 때
-				model.addAttribute("state", 0);
-			} else {					// 찜한 적이 있을 때
-				model.addAttribute("state", boardDibsDTO.getDibs_state());
-			}
-		}
-		
-		// (1-4) 게시판 찜한 숫자 가져오기
-		int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(request.getParameter("write_no"))); 
-		
-		// (2) 정보 담기
-		model.addAttribute("programBoardDTO", programBoardDTO);
-		model.addAttribute("user", kakaoIdCheck);
-		// grade 확인을 위한 admin(== "gold") 추가
-		model.addAttribute("admin", ADMIN);
-		
-		model.addAttribute("dibsNum", dibsNum);
-		// (3) 조회수 증가
-		bfps.programHitplus(programBoardDTO);
-		
-		return "/programBoard/programBoardContentView";
-	}
+   @RequestMapping("programContentView")
+   public String programContentView(Model model, HttpServletRequest request, HttpSession session) {
+      
+	   //=== 0616_최윤희 추가: 마이페이지에서 프로그램게시글 -> 제목 -> 다시 글목록 눌렀을 때 마이페이지로 돌아오기위한 정보값
+	   if(request.getParameter("programBoardNum") != null) {
+		   int myProgramBoardCheckNum = Integer.parseInt(request.getParameter("programBoardNum")); // 마이페이지에서 제목을 눌러 정보값을 전달 받음
+		   model.addAttribute("myProgramBoardCheckNum", myProgramBoardCheckNum); // boardCheckNum의 값은 1입니다.
+		   model.addAttribute("num", request.getParameter("num"));
+	   }
+	   //==== 06.16_최윤희 끝
+	   
+	   
+      // (1) 정보 가져오기
+      // (1-1) programBoard 정보 하나 가져오기
+      ProgramBoardDTO programBoardDTO = bfps.programContentView(model, request);
+      
+      // (1-2) 로그인값 불러오기
+      String id = (String) session.getAttribute(LOGIN);
+      if(id == null) { // 비로그인인 경우
+         model.addAttribute("id", id);
+      } else {   // 일반 로그인인 경우
+         ms.userInfo(id, model);
+      }
+      
+      //(1-3) boardDib(찜하기) 정보 가져오기
+      Map<String, Object> mapForBoardDib = new HashMap<String, Object>();
+      if(id != null) { // 로그인 했을 시 찜했는지 확인하는 정보 가져오기
+         mapForBoardDib.put("id", id);
+         mapForBoardDib.put("write_no", request.getParameter("write_no"));
+         BoardDibsDTO boardDibsDTO = bs.getDibsByIdWriteNo(mapForBoardDib);      
+      
+         // 정보 담기
+         if(boardDibsDTO == null) {   // 찜한 적이 없을 때
+            model.addAttribute("state", 0);
+         } else {               // 찜한 적이 있을 때
+            model.addAttribute("state", boardDibsDTO.getDibs_state());
+         }
+      }
+      
+      // (1-4) 게시판 찜한 숫자 가져오기
+      int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(request.getParameter("write_no"))); 
+      
+      // (2) 정보 담기
+      model.addAttribute("programBoardDTO", programBoardDTO);
+      model.addAttribute("user", id);
+      // grade 확인을 위한 admin(== "gold") 추가
+      model.addAttribute("admin", ADMIN);
+      
+      model.addAttribute("dibsNum", dibsNum);
+      // (3) 조회수 증가
+      bfps.programHitplus(programBoardDTO);
+      
+      return "/programBoard/programBoardContentView";
+   }
 	
 	// 프로그램 modifyView
 	@RequestMapping("modifyProgramForm")

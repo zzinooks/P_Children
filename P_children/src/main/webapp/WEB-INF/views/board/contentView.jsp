@@ -755,8 +755,14 @@ button{
                            <c:when test="${board_category != null}">
                               <li><a href="${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}">목록</a></li>
                            </c:when>
+                           <%-- 0616_최윤희 추가: 마이페이지 에서 해당 contentView 글목록을 가면 다시 마이페이 목록으로 갑니다. --%>
+                           <%-- 해당 boardCheckNum이 마이페이지 커뮤니티 게시판 구별 --%>
+                           <c:when test="${myBoardCheckNum == 2}">
+                           	  <li><a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${num}">목록</a></li>
+                           </c:when>
+                           <%-- 0616_최윤희 끝 --%>
                            <c:otherwise>
-                              <li><a href="location.href='${contextPath }/board/boardAllList?num=<%=num2%>>">목록</a></li>
+                              <li><a href="${contextPath }/board/boardAllList?num=<%=num2%>">목록</a></li>
                            </c:otherwise>   
                         </c:choose>
                      </c:otherwise>
