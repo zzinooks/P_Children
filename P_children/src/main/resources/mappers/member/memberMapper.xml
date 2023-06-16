@@ -47,6 +47,11 @@
 		INSERT INTO member VALUES
 		(#{id}, #{pwd}, #{nickname}, #{phone}, #{email}, #{addr}, DEFAULT, #{userSelect}, #{mateName}, #{mateBreed}, DEFAULT)
 	</insert>
+
+	<!-- 카카오 유저 member 테이블에 등록 -->
+	<insert id="registKakaoUser">
+		INSERT INTO member(id, email) VALUES (#{kakaoId}, #{kakaoLoginEmail,jdbcType=VARCHAR})
+	</insert>	
 	
 	<!-- 회원정보  -->
 	<select id="getHostInfo" resultMap="member">
@@ -57,7 +62,7 @@
 	<select id="checkEmail" resultMap="member">
 		SELECT * FROM member WHERE email=#{email}
 	</select>
- 
+
  	<!-- 카카오로그인 아이디, member 테이블에서 데이터 유무 체크 -->
    <select id="kakaoUserCheck" resultMap="member">
       SELECT * FROM member WHERE Id=#{kakaoId}

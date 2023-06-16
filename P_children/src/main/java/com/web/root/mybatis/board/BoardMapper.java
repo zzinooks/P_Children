@@ -43,8 +43,10 @@ public interface BoardMapper {
 	// 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
 	public List<BoardDTO> boardSearchFormCountList(Map<String, String> map);
 	
-	//카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
+	// 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동(신청한 완료 뒤 : 신청한 인원 < 총원 ) 
 	public int paidProgramContentView(@Param("write_no") int write_no);	
+	// 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동(신청한 완료 뒤 : 신청한 인원 = 총원 )
+	public int lastPaidProgramContentView(@Param("write_no") int write_no);	
 	
 	// 댓글 기능 ------------------------------------------------
 	
@@ -175,7 +177,9 @@ public interface BoardMapper {
 
 	public ProgramBoardDTO selectProgramInfo();
 
-	
+	//public int writeSaveForProgram_test(ProgramBoardDTO_test dto);
+
+	//public ProgramBoardDTO_test selectProgramInfo(String program_key);
 	
 	
 	// =============================== 성수 끝 ==================================

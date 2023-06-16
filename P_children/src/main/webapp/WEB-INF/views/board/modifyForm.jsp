@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>board/modifyForm.jsp</title>
+<title>Mate With 자유게시판 글수정하기</title>
 <script type="text/javascript">
 	function readURL(input){
 		var file = input.files[0]; // 파일 정보

@@ -36,6 +36,9 @@
 		<result property="savedate" column="savedate"/>
 		<result property="hit" column="hit"/>
 		<result property="state" column="state"/>
+		<result property="currentRegisterCount" column="currentRegisterCount"/>
+		<result property="totalRegisterCount" column="totalRegisterCount"/>
+		
 	</resultMap>
 	
 	<!-- 찜하기 기능 -->
@@ -195,8 +198,8 @@
 	
 	<!-- 프로그램 게시판 -->
 	<insert id="writeSaveForProgram">
-		INSERT INTO programBoard(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit)
-		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0)
+		INSERT INTO programBoard(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit, totalRegisterCount)
+		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0, #{totalRegisterCount})
 	</insert>
 
 	<select id="selectProgramBoardCount" resultType="Integer">
@@ -257,9 +260,14 @@
 		DELETE FROM programBoard WHERE write_no=#{write_no}	
 	</delete>
 	
-	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 -->
+	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 (신청한 완료 뒤 : 신청한 인원 < 총원 )  -->
 	<update id="paidProgramContentView">
-		UPDATE programBoard SET state='결재 완료' WHERE write_no = #{write_no}
+		UPDATE programBoard SET currentRegisterCount = currentRegisterCount+1 WHERE write_no = #{write_no}
+	</update>
+	
+	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 (신청한 완료 뒤 : 신청한 인원 = 총원 )  -->
+	<update id="lastPaidProgramContentView">
+		UPDATE programBoard SET currentRegisterCount = currentRegisterCount+1, state='결재 완료' WHERE write_no = #{write_no}
 	</update>
 	
 	<!-- 찜하기 기능 -->
@@ -433,7 +441,6 @@
 	
 	
 	<!-- 	// =============================== 성수 시작 ================================== -->
-	
 	<select id="selectProgramInfo" resultMap="programBoard">
 		SELECT B.* FROM
 	 	(SELECT ROWNUM rn, A.* FROM

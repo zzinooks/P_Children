@@ -26,6 +26,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 	@Autowired
 	KakaoMapper kakaoMapper;
 	
+
 	// 프로그램 입력(DB에 저장)
 	@Override
 	public String writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request) {
@@ -44,6 +45,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		programBoardDTO.setEndDate(mul.getParameter("endDate"));
 		programBoardDTO.setEndTime(mul.getParameter("endTime"));
 		programBoardDTO.setPriceForProgram(Integer.parseInt(mul.getParameter("priceForProgram")));
+		programBoardDTO.setTotalRegisterCount(Integer.parseInt(mul.getParameter("totalRegisterCount")));
 		
 		// form에서 받은 이미지 파일 받기
 		MultipartFile file = mul.getFile("file");
@@ -211,8 +213,20 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		
 		int result = 0; // "결재 완료 후 승인 대기" 로 변경 성공유무 결과값 (1: 성공, 0: 실패)
 		
+		// 받은 결과값으로 결제된 prgroamBoardDTO 정보 불러오기
+		ProgramBoardDTO programBoardDTOToGat = new ProgramBoardDTO();
+		programBoardDTOToGat.setWrite_no(Integer.parseInt(write_no));
+		ProgramBoardDTO programBoardDTO = mapper.programContentView(programBoardDTOToGat);
+		
+		int IsSameCurrentWithTotal = programBoardDTO.getCurrentRegisterCount()+1; // 이번 결재가 끝나면 신청한 사람이 총원과 같은지 판단하는 숫자
+		
 		// DB 연동 진행
-		result = mapper.paidProgramContentView(Integer.parseInt(write_no));
+		if( IsSameCurrentWithTotal == programBoardDTO.getTotalRegisterCount()) { // 이번 신청이 끝나면 신청한 사람의 숫자와 총원이 같을 때
+			result = mapper.lastPaidProgramContentView(Integer.parseInt(write_no));
+		} else {	// 아직 신청할 수 있는 인원이 남았을 때
+			result = mapper.paidProgramContentView(Integer.parseInt(write_no));
+		}
+		
 		
 		String msg, url;
 		if(result == 1) {
