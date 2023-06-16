@@ -123,7 +123,7 @@ a{
 					<th >이미지</th>
 					<td ><input type="file" name="file" onchange="readURL(this)"/></td>
 				</tr>
-		        <tr id="preview_tr" style="display: none;">
+		        <tr id="preview_tr" style="display: none">
 		            <td colspan="4"><img src="" id="preview" width="500px" height="250px"></td>
 		        </tr>
 			</table>

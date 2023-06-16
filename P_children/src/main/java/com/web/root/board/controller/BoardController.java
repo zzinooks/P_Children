@@ -120,29 +120,18 @@ public class BoardController implements MemberSession{
 		BoardDTO boardDTO = bs.contentView(model, request);
 		
 		// (1-2) 로그인값 불러오기
-		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-			
-		// 로그인값 불러오기
-		if(kakaoIdCheck == null) { // 일반 로그인, 비로그인인 경우 (카카오톡이 아닌 경우)
-			String id = (String) session.getAttribute(LOGIN);
-			if(id == null) { // 비로그인인 경우
-				model.addAttribute("id", id);
-			} else {	// 일반 로그인인 경우
-				ms.userInfo(id, model);
-			}
-			
-		} else { // 카카오톡 로그인인 경우
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
 		}
 		
 		//(1-3) boardDib(찜하기) 정보 가져오기
 		Map<String, Object> mapForBoardDib = new HashMap<String, Object>();
-		if(kakaoIdCheck != null) { // 로그인 했을 시 찜했는지 확인하는 정보 가져오기
-			mapForBoardDib.put("id", kakaoIdCheck);
+		
+		if(id != null) { // 로그인 했을 시 찜했는지 확인하는 정보 가져오기
+			mapForBoardDib.put("id", id);
 			mapForBoardDib.put("write_no", request.getParameter("write_no"));
 			BoardDibsDTO boardDibsDTO = bs.getDibsByIdWriteNo(mapForBoardDib);
 			
@@ -152,6 +141,7 @@ public class BoardController implements MemberSession{
 			} else {					// 찜한 적이 있을 때
 				model.addAttribute("state", boardDibsDTO.getDibs_state());
 			}
+			
 		}
 		
 		// (1-4) 게시판 찜한 숫자 가져오기
@@ -166,7 +156,7 @@ public class BoardController implements MemberSession{
 		
 		//(2) 정보 담기
 		model.addAttribute("dto", boardDTO);		// board 정보 model에 담기
-		model.addAttribute("kakaoIdCheck", kakaoIdCheck); // kakaoId 구분자 담기
+		model.addAttribute("kakaoIdCheck", id); // kakaoId 구분자 담기
 		model.addAttribute("admin", ADMIN);	// admin(='gold') 정보 model에 담기 (grade 확인용)
 		
 		model.addAttribute("dibsNum", dibsNum);	// 이 게시판을 찜한 사람들의 숫자 담기
@@ -252,23 +242,12 @@ public class BoardController implements MemberSession{
 		model.addAttribute("num",num); // 페이지 번호 저장
 		
 		
-		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-			
-		// 로그인값 불러오기
-		if(kakaoIdCheck == null) { // 일반 로그인, 비로그인인 경우 (카카오톡이 아닌 경우)
-			String id = (String) session.getAttribute(LOGIN);
-			if(id == null) { // 비로그인인 경우
-				model.addAttribute("id", id);
-			} else {	// 일반 로그인인 경우
-				ms.userInfo(id, model);
-			}
-			
-		} else { // 카카오톡 로그인인 경우
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
+		// (1-2) 로그인값 불러오기
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
 		}
 		
 		String board_category = request.getParameter("board_category");				// 카테고리 옵션 저장
@@ -314,23 +293,12 @@ public class BoardController implements MemberSession{
 	@RequestMapping("myDibsBoard")
 	public String myDibsBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
 		
-		// 카카오톡 로그인 check
-		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-			
-		// 로그인값 불러오기
-		if(kakaoIdCheck == null) { // 일반 로그인, 비로그인인 경우 (카카오톡이 아닌 경우)
-			String id = (String) session.getAttribute(LOGIN);
-			if(id == null) { // 비로그인인 경우
-				model.addAttribute("id", id);
-			} else {	// 일반 로그인인 경우
-				ms.userInfo(id, model);
-			}
-			
-		} else { // 카카오톡 로그인인 경우
-			MemberDTO memberDTO = new MemberDTO();
-			memberDTO.setId(kakaoIdCheck);
-			memberDTO.setGrade("bronze");
-			model.addAttribute("info", memberDTO);
+		// (1-2) 로그인값 불러오기
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
 		}
 		
 		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기

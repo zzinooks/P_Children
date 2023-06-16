@@ -55,6 +55,10 @@ public class ProgramBoardDTO {
 	private int end;		// DB에 컬럼 없음
 	//=====0615_최윤희 끝	
 	
+	//=====0616_주진욱 추가
+	private int dibsCount;
+	//=====0616_주진욱 끝
+	
 	
 	// 생성자
 	public ProgramBoardDTO() {
@@ -226,6 +230,11 @@ public class ProgramBoardDTO {
 	}
 	
 	//==== 0615_윤희 끝 =====
+	
+	
+	//==== 0616_진욱 시작 =====
+	//==== 0616_진욱 끝 =====
+	
 
 	
 
