@@ -91,7 +91,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 	@Override
 	public void programBoardAllList(Model model, int num, HttpServletRequest request) {
 		
-		int pageLetter = 3; // 한 페이지 당 글 목록수
+		int pageLetter = 10; // 한 페이지 당 글 목록수
 		int allCount= mapper.selectProgramBoardCount(); // 전체 글수
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
 		if(allCount % pageLetter != 0)

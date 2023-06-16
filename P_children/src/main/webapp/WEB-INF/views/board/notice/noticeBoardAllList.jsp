@@ -86,9 +86,9 @@ table             {
 			<table >
 			<thead>
 				<tr>
-						<th> 구 분 </th>
+						<th> 분 류 </th>
 						<th> 제 목</th>
-						<th> 작성자</th>
+						<th> 작성자</th>						
 						<th>작성일</th>
 						<th>조회수</th>
 						<c:if test ="${info.grade == admin}">
@@ -146,7 +146,7 @@ table             {
 			<!--  관리자 글 작성 -->
 			<div class="button">
 				<c:if test="${info.grade == admin}">
-				<input type="button" value="글작성" onclick="location.href='noticeBoardWriteForm'" class="but_2">
+					<input type="button" value="글작성" onclick="location.href='noticeBoardWriteForm'" class="but_2">
 				</c:if>			
 			</div>		
 			<!-- 검색 -->
@@ -210,7 +210,7 @@ table             {
 								</c:if>
 						</div>
 					</div>	
-					</c:if>			
+				</c:if>			
 		</div>
 	</section>
 	
