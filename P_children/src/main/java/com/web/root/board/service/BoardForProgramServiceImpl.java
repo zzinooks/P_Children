@@ -1,6 +1,7 @@
 package com.web.root.board.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,14 +9,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.kakao.dto.ProgramMapDTO;
 import com.web.root.kakao.service.KakaoServiceImp1;
 import com.web.root.mybatis.board.BoardMapper;
 import com.web.root.mybatis.kakao.KakaoMapper;
+import com.web.root.session.name.MemberSession;
 
 @Service
-public class BoardForProgramServiceImpl implements BoardForProgramService {
+public class BoardForProgramServiceImpl implements BoardForProgramService, MemberSession {
 
 	@Autowired
 	BoardMapper mapper;
@@ -205,11 +208,20 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 	
 	//카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
 	@Override
-	public String paidProgramContentView(HttpServletRequest request) {
+	public String paidProgramContentView(HttpServletRequest request, HttpSession session) {
 		
 		// url 결과값 받기
 		String write_no = request.getParameter("write_no");
 		String num = request.getParameter("num");
+		String title = request.getParameter("title");
+		System.out.println(title);
+		String paymentId = (String) session.getAttribute(LOGIN);
+		
+		PaidProgramInfoDTO paidProgramInfoDTO = new PaidProgramInfoDTO();
+		paidProgramInfoDTO.setPaymentId(paymentId);
+		paidProgramInfoDTO.setTitle(title);
+		paidProgramInfoDTO.setWrite_no(Integer.parseInt(write_no));
+		paidProgramInfoDTO.setNum(Integer.parseInt(num));
 		
 		int result = 0; // "결재 완료 후 승인 대기" 로 변경 성공유무 결과값 (1: 성공, 0: 실패)
 		
@@ -230,6 +242,8 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		
 		String msg, url;
 		if(result == 1) {
+			// 성수 : DB에 결제한 프로그램 정보 저장.
+			mapper.insertPaidProgramInfo(paidProgramInfoDTO);
 			msg = "결제가 최종완료되었습니다";
 			url = "/programBoard/programContentView?write_no=" + write_no + "&num=" + num;
 		} else {

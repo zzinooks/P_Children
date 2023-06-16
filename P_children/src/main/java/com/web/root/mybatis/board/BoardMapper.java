@@ -9,6 +9,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.qna.dto.QnaDTO;
 import com.web.root.qna.dto.Qna_RepDTO;
@@ -177,9 +178,9 @@ public interface BoardMapper {
 
 	public ProgramBoardDTO selectProgramInfo();
 
-	//public int writeSaveForProgram_test(ProgramBoardDTO_test dto);
+	public void insertPaidProgramInfo(PaidProgramInfoDTO paidProgramInfoDTO);
 
-	//public ProgramBoardDTO_test selectProgramInfo(String program_key);
+
 	
 	
 	// =============================== 성수 끝 ==================================

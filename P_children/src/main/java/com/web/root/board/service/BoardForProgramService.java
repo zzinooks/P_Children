@@ -22,7 +22,7 @@ public interface BoardForProgramService {
 	
 	public String deleteProgram(Model model, HttpServletRequest request);
 	
-	public String paidProgramContentView(HttpServletRequest request);
+	public String paidProgramContentView(HttpServletRequest request, HttpSession session);
 
 	public String kakaoPayFail(HttpServletRequest request);
 

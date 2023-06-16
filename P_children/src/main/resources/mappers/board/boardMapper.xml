@@ -90,6 +90,14 @@
 		<id property="write_group" column="write_group"/>
 		<result property="content" column="content"/>
 	</resultMap>
+	
+	<!-- 성수 : 내가 결제한 프로그램 정보 저장 테이블 -->
+	<resultMap type="com.web.root.board.dto.PaidProgramInfoDTO" id="paidProgramInfo">
+		<id property="paymentId" column="paymentId"/>
+		<result property="title" column="title"/> 
+		<result property="write_no" column="write_no"/> 
+		<result property="num" column="num"/> 
+	</resultMap>
 
 	<!--  ======================== 진욱 시작 ==========================   -->
 
@@ -448,6 +456,9 @@
 		WHERE rn=1
 	</select>
 	
+	<insert id="insertPaidProgramInfo">
+		INSERT INTO paidProgramInfo VALUES(#{paymentId}, #{title}, #{write_no}, #{num})
+	</insert>
 	
 	<!-- 	// =============================== 성수 끝 ================================== -->
 	
