@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -87,6 +88,69 @@ public class MypageBoardController implements MemberSession {
 		
 		return "mypageBoard/write/mypageBoardProgramWriteList";
 	}
+	
+	// ======================================= 박성수 시작 =================================================
+	@GetMapping("write/paidProgramInfoList")
+	public String myPagePaidProgramInfoList(
+			Model model,
+			HttpSession session,
+			@RequestParam(value = "pg_num", required = false, defaultValue = "1") int pg_num) {
+		
+		String id = (String)session.getAttribute(LOGIN);
+		mbs.selectPaidProgramList(id, pg_num, model);
+		
+		return "mypageBoard/write/myPagePaidProgramList";
+	}
+	
+	
+	// ======================================= 박성수 시작 =================================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

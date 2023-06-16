@@ -214,11 +214,10 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		String write_no = request.getParameter("write_no");
 		String num = request.getParameter("num");
 		String title = request.getParameter("title");
-		System.out.println(title);
 		String paymentId = (String) session.getAttribute(LOGIN);
 		
 		PaidProgramInfoDTO paidProgramInfoDTO = new PaidProgramInfoDTO();
-		paidProgramInfoDTO.setPaymentId(paymentId);
+		paidProgramInfoDTO.setId(paymentId);
 		paidProgramInfoDTO.setTitle(title);
 		paidProgramInfoDTO.setWrite_no(Integer.parseInt(write_no));
 		paidProgramInfoDTO.setNum(Integer.parseInt(num));

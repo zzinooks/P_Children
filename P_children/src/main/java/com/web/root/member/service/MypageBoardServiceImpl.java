@@ -100,6 +100,53 @@ public class MypageBoardServiceImpl implements MypageBoardService {
 	//============================ 최윤희 끝 ===========================================
 	
 	
+	// ======================================= 박성수 시작 =================================================
+	
+	@Override
+	public void selectPaidProgramList(String id, int pg_num, Model model) {
+		// num = 현재 페이지
+				int pageLetter = 5; // 한 페이지 당 글 목록수
+				int allCount= mapper.selectPaidProgramInfoCount(); // 전체 글수
+				int repeat = allCount/pageLetter; // 마지막 페이지 번호
+				if(allCount % pageLetter != 0)
+					repeat += 1;
+				int end = pg_num * pageLetter; // start ~ end -> 각 페이지에 불러올 글을 위한 쿼리용 숫자.
+				int start = end +1 - pageLetter;
+				
+				// 페이징
+				int totalPage = (allCount - 1)/pageLetter + 1;
+				int block = 3;
+				int startPage = (pg_num - 1)/block*block + 1;
+				int endPage = startPage + block - 1;
+				if (endPage > totalPage) endPage = totalPage;
+			
+				model.addAttribute("repeat", repeat);
+				model.addAttribute("paidProgramList", mapper.selectPaidProgramList(id, start, end));
+				model.addAttribute("endPage", endPage);
+				model.addAttribute("startPage", startPage);
+				model.addAttribute("block", block);
+				model.addAttribute("totalPage", totalPage);
+	}
+	
+	// ======================================= 박성수 끝 =================================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 

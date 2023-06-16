@@ -1,16 +1,16 @@
 package com.web.root.board.dto;
 
 public class PaidProgramInfoDTO {
-	private String paymentId;
+	private String id;
 	private String title;
 	private int write_no;
 	private int num;
 	
-	public String getPaymentId() {
-		return paymentId;
+	public String getId() {
+		return id;
 	}
-	public void setPaymentId(String paymentId) {
-		this.paymentId = paymentId;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getTitle() {
 		return title;
@@ -30,6 +30,9 @@ public class PaidProgramInfoDTO {
 	public void setNum(int num) {
 		this.num = num;
 	}
+	
+	
+	
 	
 	
 }
