@@ -126,8 +126,9 @@ table             {
 											<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}">${dto.title }</a></td>
 										</c:otherwise>
 									</c:choose>
+									<td>${dto.savedate }</td>
 									<td>${dto.hit }</td>
-									<td></td>
+									<td>${dto.dibsCount }</td>
 									<c:if test ="${info.grade == admin}">
 										<td><button onclick="deleteConfirm('${dto.write_no}', '${dto.file_name }')">삭제</button></td>
 									</c:if>

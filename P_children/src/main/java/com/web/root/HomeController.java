@@ -40,8 +40,6 @@ public class HomeController implements MemberSession {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		System.out.println("헬로");
-		System.out.println("헬로02");
 		return "home";
 	}
 	

@@ -746,14 +746,21 @@ button{
                  <a href="#">메뉴</a>
                  <hr>
                  <ul class="submenu">
-                     <c:choose>
-                        <c:when test="${dto.category != null}">
-                            <li>목록</li>
-                      </c:when>
-                     <c:otherwise>                   
-                         <li><a href="${contextPath}/board/boardAllList?num=<%=num2%>">목록</a></li>
-                         </c:otherwise>
-                      </c:choose>   
+                 	<c:choose>
+							<c:when test="${toMyDibsBoard == 'yes' }">
+								<li><a href="${contextPath }/board/myDibsBoard?num=<%=num2%>">목록</a></li>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${board_category != null}">
+										<li><a href="${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}">목록</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="location.href='${contextPath }/board/boardAllList?num=<%=num2%>>">목록</a></li>
+									</c:otherwise>	
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
                       <hr>
                       <li><a href="${contextPath }/board/modifyForm?write_no=${dto.write_no }&num=<%=num2%>">수정</a></li>
                       <hr>
