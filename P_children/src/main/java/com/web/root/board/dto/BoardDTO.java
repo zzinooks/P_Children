@@ -28,18 +28,22 @@ public class BoardDTO {
 	private String file_name;
 	private String id;
 	
-	//==== 06.14 윤희 추가 =====
-	private int start;		// DB에 컬럼 없음
-	private int end;		// DB에 컬럼 없음
-	//==== 06.14 윤희 끝 =====
+	//==== 06.16 윤희 추가 =====
+	private int boardNum = 2;	// DB에 컬럼 없음
+	private int start;			// DB에 컬럼 없음
+	private int end;			// DB에 컬럼 없음
+	//==== 06.16 윤희 끝 =====
 	
+	//==== 06.16 진욱 추가 =====
+	private int dibsCount;		// DB에 컬럼 없음
+	//==== 06.14 진욱 끝 =====
 	
 	// 생성자
 	public BoardDTO() {
 		super();
 	}
 	
-	public BoardDTO(int write_no, String category, String title, String content, String savedate, int hit, String file_name, String id) {
+	public BoardDTO(int write_no, String category, String title, String content, String savedate, int hit, String file_name, String id,int dibsCount) {
 		super();
 		this.write_no = write_no;
 		this.category = category;
@@ -49,6 +53,7 @@ public class BoardDTO {
 		this.hit = hit;
 		this.file_name = file_name;
 		this.id = id;
+		this.dibsCount =dibsCount;
 	}
 
 	// getter와 setter
@@ -109,8 +114,16 @@ public class BoardDTO {
 	}
 	
 	
-	//==== 06.14 윤희 추가 =====
+	//==== 06.15 윤희 추가 =====
 
+	public int getBoardNum() {
+		return boardNum;
+	}
+	
+	public void setBoardNum(int boardNum) {
+		this.boardNum = 2;
+	}
+	
 	public int getStart() {
 		return start;
 	}
@@ -127,6 +140,18 @@ public class BoardDTO {
 		this.end = end;
 	}
 	//==== 윤희 끝 =====
+
+	//==== 06.16 진욱 추가 =====
+	public int getDibsCount() {
+		return dibsCount;
+	}
+
+	public void setDibsCount(int dibsCount) {
+		this.dibsCount = dibsCount;
+	}
+	//==== 진욱 끝 =====	
+	
+	
 	
 
 }

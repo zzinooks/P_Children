@@ -72,14 +72,7 @@ table, th, tr, td {
 									 펫프랜드 합니다 
 									</c:if>
 								</td>
-								<c:choose>
-									<c:when test="${myBoard_category == null}">
-										<td><a href="${contextPath }/board/contentView?write_no=${mypageBoardList.write_no}&num=${num}">${mypageBoardList.title }</a></td>
-									</c:when>
-									<c:otherwise>
-										<td><a href="${contextPath }/mypageBoard/write/myBoardSearchForm?write_no=${mypageBoardList.write_no}&num=${num}&myBoard_category=${myBoard_category }&myBoard_searchCategory=${myBoard_searchCategory}&myBoard_searchKeyword=${myBoard_searchKeyword}">${mypageBoardList.title }</a></td>
-									</c:otherwise>
-								</c:choose>
+								<td><a href="${contextPath }/board/contentView?write_no=${mypageBoardList.write_no}&num=${num}&boardNum=${myBoardCheckNum }">${mypageBoardList.title }</a></td>
 								<td>${mypageBoardList.id}</td>
 								<td>${mypageBoardList.savedate}</td>
 								<td>${mypageBoardList.hit}</td>
@@ -115,6 +108,10 @@ table, th, tr, td {
 		</table>	
 		<!-- 테이블 끝 -->
 		
+		<!-- 호스트만 프로그램 작성글 뜨도록 -->
+		<c:if test="${info.userSelect == 'host' }">
+		<a href="${contextPath }/mypageBoard/write/mypageBoardProgramWriteList">프로그램 작성글</a>
+		</c:if>
 		<a href="${contextPath }/index">메인으로</a>
 </body>
 </html>

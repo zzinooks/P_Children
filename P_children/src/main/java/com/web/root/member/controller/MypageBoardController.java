@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardService;
 import com.web.root.member.dto.MemberDTO;
@@ -29,7 +30,7 @@ public class MypageBoardController implements MemberSession {
 	@Autowired
 	private BoardService bs;
 	
-	// 마이페이지 작성한 게시글 목록 (member, host 구분)
+	// (커뮤니티) 마이페이지 작성한 게시글 목록
 	@RequestMapping("write/mypageBoardWriteList")
 	public String mypageBoardWriteList(HttpSession session, Model m,
 									  @RequestParam(value="num", required = false, defaultValue="1") int num,
@@ -45,15 +46,20 @@ public class MypageBoardController implements MemberSession {
 			ms.userInfo(id, m); // 회원정보 저장 ex. info.id
 		}
 		
+		//=== 마이페이지 관련 정보
+		BoardDTO boardCheckNum = new BoardDTO();
+		// 마이페이지 커뮤니티 게시글 -> 제목클릭 -> board contentViewf -> 다시 글목록 클릭 시 마이페이지 게시글로 오도록 정보값 지정
+		m.addAttribute("myBoardCheckNum", boardCheckNum.getBoardNum());
+		//====
+		
 		mbs.mypageBoardCommunityWriteList(id, m, num); 	// 커뮤니티 게시판 페이징, 카운트 얻는 mbs: 아이디, 모델, 페이지번호 넘겨줌
 		
 		m.addAttribute("num", num); 		 			// 페이지 번호 저장
-		
 		return "mypageBoard/write/mypageBoardWriteList";
 	}
 	
 	
-	// 마이페이지 작성한 게시글 목록 (member, host 구분)
+	// (프로그램) 마이페이지 작성한 게시글 목록 (member, host 구분)
 	@RequestMapping("write/mypageBoardProgramWriteList")
 	public String mypageBoardProgramWriteList(HttpSession session, Model m,
 									  		  @RequestParam(value="num", required = false, defaultValue="1") int num,
@@ -69,9 +75,15 @@ public class MypageBoardController implements MemberSession {
 			ms.userInfo(id, m); // 회원정보 저장 ex. info.id
 		}
 		
+		//=== 마이페이지 관련 정보
+		ProgramBoardDTO programBoardCheckNum = new ProgramBoardDTO();
+		// 마이페이지 커뮤니티 게시글 -> 제목클릭 -> board contentViewf -> 다시 글목록 클릭 시 마이페이지 게시글로 오도록 정보값 지정
+		m.addAttribute("programBoardCheckNum", programBoardCheckNum.getProgramBoardNum());
+		//===
+		
 		mbs.mypageBoardProgramWriteList(id, m, num); // 프로그램 게시판 페이징, 카운트 얻는 mbs: 아이디, 모델, 페이지번호 넘겨줌
 
-		m.addAttribute("num", num); 		 		// 페이지 번호 저장
+		m.addAttribute("num", num); 		 		 // 페이지 번호 저장
 		
 		return "mypageBoard/write/mypageBoardProgramWriteList";
 	}

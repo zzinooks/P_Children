@@ -164,7 +164,17 @@ h1 {
 	                  <input type="button" onclick="location.href='${contextPath}/programBoard/modifyProgramForm?write_no=${programBoardDTO.write_no }&num=<%=num2 %>'" value="수정"/> &nbsp;
 	                  <input type="button" value="삭제" onclick="confirmDelete()"/> &nbsp; 
 	                </c:if>
-	                  <input type="button" value="글목록" onclick="location.href='${contextPath}/programBoard/programBoardAllList'"/>
+	                <c:choose>
+	                	<c:when test="${myProgramBoardCheckNum == 1 }">
+		               <%-- 0616_최윤희 추가: 마이페이지 -> 프로그램 게시글 제목 클릭 -> 다시 마이페이지 프로그램 게시글로 --%>
+		               <%-- 프로그램 체크 번호가 1이면 해당 글목록 버튼 --%>
+		               	  <input type="button" value="글목록" onclick="location.href='${contextPath}/mypageBoard/write/mypageBoardProgramWriteList?programBoardNum=${programBoardCheckNum }&num=${num }'"/>
+		               <%-- 0616_최윤희 끝 --%>
+		               </c:when>
+		               	<c:otherwise>
+	                  		<input type="button" value="글목록" onclick="location.href='${contextPath}/programBoard/programBoardAllList'"/>
+	                  	</c:otherwise>
+		             </c:choose>
 	               </td>
 	               <td><b> 현황</b></td>
 	               <td>${programBoardDTO.state } &nbsp; ${programBoardDTO.currentRegisterCount } / ${programBoardDTO.totalRegisterCount }</td>

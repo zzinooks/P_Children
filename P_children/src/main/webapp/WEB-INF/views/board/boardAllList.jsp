@@ -24,13 +24,6 @@
 		}
 		
 	}
-	
-	/*function colorConfirm() {
-		let h = $("#paging").css("color");
-		$("#paging").css("color", "rgb(222, 000, 000)");
-		alert(h);
-		
-	}*/
 </script>
 <style type="text/css">
 table             { 
@@ -130,11 +123,18 @@ table             {
 										 펫프랜드 합니다 
 										</c:if>
 									</td>
-									<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
+									<c:choose>
+										<c:when test="${board_category == null}">
+											<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
+										</c:when>
+										<c:otherwise>
+											<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}">${dto.title }</a></td>
+										</c:otherwise>
+									</c:choose>
 									<td>${dto.id }</td>
 									<td>${dto.savedate }</td>
 									<td>${dto.hit }</td>
-									<td></td>
+									<td>${dto.dibsCount }</td>
 									<c:if test ="${info.grade == admin}">
 										<td><button onclick="deleteConfirm('${dto.write_no}', '${dto.file_name }')">삭제</button></td>
 									</c:if>
