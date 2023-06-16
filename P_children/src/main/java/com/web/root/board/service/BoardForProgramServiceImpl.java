@@ -225,6 +225,17 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		return bfs.getMessage(request, msg, url);
 	}
 	
+	@Override
+	public String kakaoPayFail(HttpServletRequest request) {
+		String write_no = request.getParameter("write_no");
+		String num = request.getParameter("num");
+		
+		String msg = "결제 오류. 다시 시도해 주세요.";
+		String url = "/programBoard/programContentView?write_no=" + write_no + "&num=" + num;
+		
+		return bfs.getMessage(request, msg, url);
+	}
+	
 	
 	
 	

@@ -287,7 +287,7 @@ public class MemberServiceImp1 implements MemberService {
         params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10)); // 비용 그대로 (부과세)
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num")); // 승인 완료되면 이동하는 url
-        params.add("fail_url", "http://localhost:8080/root/member/fail");
+        params.add("fail_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num"));
         params.add("cancel_url", "http://localhost:8080/root/programBoard/programBoardAllList");
 
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
@@ -296,7 +296,7 @@ public class MemberServiceImp1 implements MemberService {
         
         String kakaoPayRequestURL = ""; 
         String tid = "";
-        String created_at = "";
+        
 		try {
 			kakaoPayRequestURL = objectMapper.readTree(response.getBody())
 								.get("next_redirect_pc_url").asText();

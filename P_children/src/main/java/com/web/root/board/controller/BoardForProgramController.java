@@ -187,7 +187,15 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 	// 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
 	@RequestMapping("paidProgramContentView")
 	public void paidProgramContentView(HttpServletRequest request, HttpServletResponse response, @RequestParam("pg_token") String pg_token, HttpSession session, Model model) throws IOException {
-		// 성수 : 결제 승인해주는 코드인데 빠져있어서 추가했습니다~
+		// 성수 : 카카오 페이 실패시 진행 코드. 테스트 때는 그럴일이 없어서 확인 불가 ㅋㅋ
+		if(pg_token == null) {
+			String message = bfps.kakaoPayFail(request);
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.println(message);
+		}
+		
+		// 카카오 페이 결제 승인
 		ms.kakaoPaymentApprove(KAKAO_PAYMENT_APPROVE_URL, ADMIN_KEY, pg_token, session);
 		
 		// 카카오 페이 승인 결과 DB에 연동

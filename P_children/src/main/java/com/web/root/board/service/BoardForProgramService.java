@@ -24,5 +24,7 @@ public interface BoardForProgramService {
 	
 	public String paidProgramContentView(HttpServletRequest request);
 
+	public String kakaoPayFail(HttpServletRequest request);
+
 	
 	}
