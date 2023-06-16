@@ -102,7 +102,6 @@ function valueCheck() {
 				document.form.mateBreed.focus();
 			}
 			else {
-				al
 				document.form.submit();
 			}
 		}

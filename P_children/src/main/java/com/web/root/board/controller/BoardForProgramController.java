@@ -22,13 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardForProgramService;
-import com.web.root.kakao.resource.KakaoDeveloper;
 import com.web.root.board.service.BoardService;
+import com.web.root.kakao.resource.KakaoDeveloper;
 import com.web.root.kakao.service.KakaoService;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
@@ -223,8 +222,8 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 		// 카카오 페이 결제 승인
 		ms.kakaoPaymentApprove(KAKAO_PAYMENT_APPROVE_URL, ADMIN_KEY, pg_token, session);
 		
-		// 카카오 페이 승인 결과 DB에 연동
-		String message = bfps.paidProgramContentView(request);
+		// 카카오 페이 승인 결과 DB에 연동 -> 성수 : id 저장을 위해 session 추가
+		String message = bfps.paidProgramContentView(request, session);
 		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();

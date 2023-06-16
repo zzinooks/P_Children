@@ -286,7 +286,9 @@ public class MemberServiceImp1 implements MemberService {
         params.add("total_amount", Integer.toString(itemDTO.getTotal_amount())); // 비용
         params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10)); // 비용 그대로 (부과세)
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num")); // 승인 완료되면 이동하는 url
+        params.add("approval_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no")
+        		+"&num="+request.getParameter("num")
+        		+"&title="+request.getParameter("title")); // 정상 결제되면 승인 페이지로 이동하는 url
         params.add("fail_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num"));
         params.add("cancel_url", "http://localhost:8080/root/programBoard/programBoardAllList");
 

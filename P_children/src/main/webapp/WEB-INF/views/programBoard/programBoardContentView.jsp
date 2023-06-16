@@ -34,7 +34,7 @@
 	
 	// 결재화면 이동 확인
 	function confirmToPay() {
-		if(!confirm('결재 화면으로 이동하시겠습니까?')){
+		if(!confirm('결제 화면으로 이동하시겠습니까?')){
 			return false;
 		} else {
 			$("#programPayForm").submit();
@@ -188,7 +188,7 @@ h1 {
 	         		<input type="hidden" name="total_amount" value="${programBoardDTO.priceForProgram }"><br>
 	         		<input type="hidden" id="write_no" name="write_no" value="${programBoardDTO.write_no }"><br>
 	         		<input type="hidden" name="num" value="<%=num2 %>"><br>	         			
-	         		<c:if test="${user != null }"><button onclick="confirmToPay()">결재하기</button></c:if>
+	         		<c:if test="${user != null }"><button onclick="confirmToPay()">결제하기</button></c:if>
 	         	</form>
 	         	</td>
 	         </tr>
