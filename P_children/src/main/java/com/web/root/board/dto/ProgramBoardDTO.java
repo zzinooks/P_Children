@@ -50,10 +50,11 @@ public class ProgramBoardDTO {
 	private int currentRegisterCount;
 	private int totalRegisterCount;
 	
-	//=====0615_최윤희 추가
-	private int start;		// DB에 컬럼 없음
-	private int end;		// DB에 컬럼 없음
-	//=====0615_최윤희 끝	
+	//=====0616_최윤희 추가
+	private int programBoardNum = 1;	// DB에 컬럼 없음
+	private int start;					// DB에 컬럼 없음
+	private int end;					// DB에 컬럼 없음
+	//=====0616_최윤희 끝	
 	
 	
 	// 생성자
@@ -207,12 +208,18 @@ public class ProgramBoardDTO {
 	
 	
 	
-	//==== 0615 윤희 추가 =====
-
+	//==== 0616 윤희 추가 =====
+	
+	public int getProgramBoardNum() {
+		return programBoardNum;
+	}
+	public void setProgramBoardNum(int programBoardNum) {
+		this.programBoardNum = 1;
+	}
+	
 	public int getStart() {
 		return start;
 	}
-
 	public void setStart(int start) {
 		this.start = start;
 	}
@@ -225,7 +232,7 @@ public class ProgramBoardDTO {
 		this.end = end;
 	}
 	
-	//==== 0615_윤희 끝 =====
+	//==== 0616_윤희 끝 =====
 
 	
 
