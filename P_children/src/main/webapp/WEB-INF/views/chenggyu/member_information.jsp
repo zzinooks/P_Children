@@ -10,19 +10,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 회원정보</title>
-<!-- 0614_최윤희 : 추가 -->
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<!-- 0614_최윤희 끝-->
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 
-   <!-- 0614_최윤희 : 추가 -->
    //마이페이지 작성글 보러가기
+   /*
    function mypageBoardWriteList() {
-      $("#idgoForm").submit();
+      $("#userSelectForm").submit();
    }
-   <!-- 0614_최윤희 : 끝 -->
-
+	*/
 </script>
 </head>
 <body>
@@ -70,7 +67,12 @@
             <input type="button" value="개인정보 수정" onclick="location.href='member_modify'" class="but_1">
             <input type="button" value="내가 찜한 게시글" onclick="location.href='${contextPath }/board/myDibsBoard'" class="but_1">
             <!-- 0614_최윤희 : 게시글 버튼 추가 -->
-            <input type="button" value="내가 작성한 게시글" onclick="mypageBoardWriteList()" class="but_1">
+            <c:if test="${dto.userSelect == 'host'}">
+            	<input type="button" value="내가 작성한 게시글" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardProgramWriteList'" class="but_1">
+            </c:if>
+            <c:if test="${dto.userSelect == 'member'}">
+            	<input type="button" value="내가 작성한 게시글" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList'" class="but_1">
+            </c:if>
             <!-- 0614_최윤희 끝 -->
             <input type="button" value="문의" onclick="location.href='${contextPath }/board/member_qna'" class="but_1">
             <input type="button" value="회원 탈퇴" onclick="location.href='member_leave'" class="but_1">
@@ -82,9 +84,9 @@
    <c:import url="../default/footer.jsp"/>
    
    <!-- 0614_최윤희 : 작성 게시글 정보 가져가는 form : section 안으로 들어가면 전달안됩니다. -->
-   <form id="idgoForm" name="idgoForm" method="post" action="${contextPath}/mypageBoard/write/mypageBoardWriteList">
-      <input type="hidden" name="idValue" id="idValue" value="${dto.id }">
-   </form>
+  <%--  <form id="userSelectForm" name="userSelectForm" method="post" action="${contextPath}/mypageBoard/write/mypageBoardWriteList">
+      <input type="hidden" name="userSelectValue" id="userSelectValue" value="${dto.userSelect }">
+   </form> --%>
    <!-- 0614_최윤희 끝 -->
    
 </body>

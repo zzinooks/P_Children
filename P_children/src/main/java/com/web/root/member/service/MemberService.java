@@ -56,7 +56,7 @@ public interface MemberService {
 	
 	public String getkakaoToken(String code, String tokenurl) throws IOException;
 	
-	public int registKakaoUser(String token, String kakaoidurl, HttpSession session) throws IOException;
+	public String registKakaoUser(String token, String kakaoidurl, HttpSession session) throws IOException;
 	
 	public String kakaoLogout(String token, String kakaologouturl);
 	

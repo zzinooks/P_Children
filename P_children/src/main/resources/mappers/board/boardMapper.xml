@@ -36,6 +36,9 @@
 		<result property="savedate" column="savedate"/>
 		<result property="hit" column="hit"/>
 		<result property="state" column="state"/>
+		<result property="currentRegisterCount" column="currentRegisterCount"/>
+		<result property="totalRegisterCount" column="totalRegisterCount"/>
+		
 	</resultMap>
 	
 	<!-- 찜하기 기능 -->
@@ -45,18 +48,6 @@
 		<result property="dibs_no" column="dibs_no"/>		<!-- 찜하기의 id라고 할 수 있다. -->
 		<result property="dibs_state" column="dibs_state"/>	<!-- 1이면 찜 0이면 찜하기 취소 -->
 	</resultMap>
-	
-	<!--  공지사항 게시판  -->
-	<!-- <resultMap id="notice" type="com.web.root.board.dto.NoticeBoardDTO">
-		<id property="write_no" column="write_no"/> property는 DTO랑 column은 DB랑 같아야함 
-		<result property="category" column="category"/>
-		<result property="title" column="title"/>
-		<result property="content" column="content"/>
-		<result property="savedate" column="savedate"/>
-		<result property="hit" column="hit"/>
-		<result property="file_name" column="file_name"/>
-		<result property="id" column="id"/>
-	</resultMap> -->
 	
 	<!--  공지사항 게시판  -->
 	<resultMap id="notice" type="com.web.root.board.dto.NoticeBoardDTO">
@@ -207,8 +198,8 @@
 	
 	<!-- 프로그램 게시판 -->
 	<insert id="writeSaveForProgram">
-		INSERT INTO programBoard(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit)
-		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0)
+		INSERT INTO programBoard(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit, totalRegisterCount)
+		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0, #{totalRegisterCount})
 	</insert>
 
 	<select id="selectProgramBoardCount" resultType="Integer">
@@ -269,9 +260,14 @@
 		DELETE FROM programBoard WHERE write_no=#{write_no}	
 	</delete>
 	
-	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 -->
+	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 (신청한 완료 뒤 : 신청한 인원 < 총원 )  -->
 	<update id="paidProgramContentView">
-		UPDATE programBoard SET state='결재 완료' WHERE write_no = #{write_no}
+		UPDATE programBoard SET currentRegisterCount = currentRegisterCount+1 WHERE write_no = #{write_no}
+	</update>
+	
+	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 (신청한 완료 뒤 : 신청한 인원 = 총원 )  -->
+	<update id="lastPaidProgramContentView">
+		UPDATE programBoard SET currentRegisterCount = currentRegisterCount+1, state='결재 완료' WHERE write_no = #{write_no}
 	</update>
 	
 	<!-- 찜하기 기능 -->
@@ -388,6 +384,13 @@
 			WHERE rn BETWEEN #{start} and #{end} 
 	</select>
 	
+	<!-- 마이페이지 프로그램 게시판 내용 필요해서 조회 -->
+	<select id="programBoardInformation" resultMap="programBoard">
+		SELECT * FROM programBoard WHERE id=#{id}
+	</select>
+	
+	
+	
 	<!--  ======================== 윤희 끝 ==========================   -->
 	
 	<!-- ======================== 임청규 시작 ======================= -->
@@ -438,7 +441,6 @@
 	
 	
 	<!-- 	// =============================== 성수 시작 ================================== -->
-	
 	<select id="selectProgramInfo" resultMap="programBoard">
 		SELECT B.* FROM
 	 	(SELECT ROWNUM rn, A.* FROM

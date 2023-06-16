@@ -205,7 +205,7 @@ public class MemberServiceImp1 implements MemberService {
 	
 	// 카카오 로그인 완료 및 DB 저장
 	@Override
-	public int registKakaoUser(String token, String kakaoIdURL, HttpSession session) throws IOException {
+	public String registKakaoUser(String token, String kakaoIdURL, HttpSession session) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -222,16 +222,18 @@ public class MemberServiceImp1 implements MemberService {
 		if(responseBody.get("kakao_account").get("email") != null) {
 			kakaoLoginEmail = responseBody.get("kakao_account").get("email").asText();
 		}
-		KakaoLoginDTO kakaoLogindto = new KakaoLoginDTO(kakaoId, kakaoLoginEmail);
-		KakaoLoginDTO kakaoUserCheck = mapper.kakaoUserCheck(kakaoId);
+		MemberDTO memberRegist = new MemberDTO();
+		memberRegist.setId(kakaoId);
+		memberRegist.setEmail(kakaoLoginEmail);
+		MemberDTO userCheck = mapper.kakaoUserCheck(kakaoId);
 		
 		int result = 0;
-		if(kakaoUserCheck == null) {
-			result = mapper.registKakaoUser(kakaoLogindto);
+		if(userCheck == null) {
+			result = mapper.registKakaoUser(memberRegist);
 		}
-		session.setAttribute("kakaoId", kakaoId);
+		session.setAttribute("loginUser", kakaoId);
 		session.setAttribute("kakaoAccessToken", token);
-		return result;
+		return kakaoId;
 	}
 	
 	// 카카오 로그아웃
@@ -285,8 +287,8 @@ public class MemberServiceImp1 implements MemberService {
         params.add("vat_amount", Integer.toString(itemDTO.getTotal_amount()/10)); // 비용 그대로 (부과세)
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num")); // 승인 완료되면 이동하는 url
-        params.add("fail_url", "http://localhost:8080/root/member/fail");
-        params.add("cancel_url", "http://localhost:8080/root/member/kakaoPayBtn");
+        params.add("fail_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num"));
+        params.add("cancel_url", "http://localhost:8080/root/programBoard/programBoardAllList");
 
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = 
@@ -294,7 +296,7 @@ public class MemberServiceImp1 implements MemberService {
         
         String kakaoPayRequestURL = ""; 
         String tid = "";
-        String created_at = "";
+        
 		try {
 			kakaoPayRequestURL = objectMapper.readTree(response.getBody())
 								.get("next_redirect_pc_url").asText();

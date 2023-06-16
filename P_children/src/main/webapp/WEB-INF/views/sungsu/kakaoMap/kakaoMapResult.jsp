@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Mate With 지도로 프로그램 보기</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js"
 	integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
 	crossorigin="anonymous"></script>

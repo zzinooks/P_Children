@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardForProgramService;
+import com.web.root.kakao.resource.KakaoDeveloper;
 import com.web.root.kakaoPay.dto.ItemDTO;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
@@ -27,7 +27,7 @@ import com.web.root.session.name.MemberSession;
 
 @Controller
 @RequestMapping("member")
-public class MemberController implements MemberSession{
+public class MemberController implements MemberSession, KakaoDeveloper{
 	
 	@Autowired
 	private MemberService ms;
@@ -47,6 +47,12 @@ public class MemberController implements MemberSession{
 	public String member_information( Model model, HttpServletRequest request, HttpSession session) {
 		String id = (String) session.getAttribute(LOGIN);
 		MemberDTO dto = ms.member_information(id);
+		
+		//===0615_최윤희 추가: 프로그램게시판 정보 필요
+		//ProgramBoardDTO programBoardDTO = bfps.programBoardInformation(id);
+		//model.addAttribute("programBoardDTO", programBoardDTO);
+		//0615_최윤희 끝
+		
 		model.addAttribute("dto", dto);
 		return "chenggyu/member_information";
 	}
@@ -191,11 +197,6 @@ public class MemberController implements MemberSession{
 		
 	}
 	
-	// 카카오 로그인 API
-	private static final String tokenURL = "https://kauth.kakao.com/oauth/token";
-	private static final String kakaoIdURL = "https://kapi.kakao.com/v2/user/me";
-	private static final String kakaoLogoutURL = "https://kapi.kakao.com/v1/user/logout";
-	
 	@GetMapping("kakaoCode")
 	public String getKakaoCode(
 			HttpServletRequest request, 
@@ -203,15 +204,16 @@ public class MemberController implements MemberSession{
 			HttpSession session) throws IOException {
 		if(request.getParameter("kakaoLogout") != null && request.getParameter("kakaoLogout").equals("true")) {
 			String kakaoLogoutId = ms.kakaoLogout((String)session.getAttribute("kakaoAccessToken"), kakaoLogoutURL);
-			if(kakaoLogoutId.equals((String)session.getAttribute("kakaoId"))) {
+			if(kakaoLogoutId.equals((String)session.getAttribute(LOGIN))) {
 				session.invalidate();
 			}
 			return "redirect:/index";
 		}
 		String code = request.getParameter("code");
 		String token = ms.getkakaoToken(code, tokenURL);
-		int result = ms.registKakaoUser(token, kakaoIdURL, session);
-		if(result != 1) {
+		String kakaoId = ms.registKakaoUser(token, kakaoIdURL, session);
+		
+		if(kakaoId == null) {
 			String message = null;
 			String path = request.getContextPath();
 			message = "<script>alert('로그인 실패. 재시도 해주세요.');";
@@ -222,12 +224,6 @@ public class MemberController implements MemberSession{
 		}
 		return "redirect:/index";
 	}
-	
-	
-	// 카카오 페이 API
-	private static final String ADMIN_KEY = "487a1c3ee2f111ea410da257fbcfadff";
-	private static final String CONTENT_TYPE = "application/x-www-form-urlencoded;charset=utf-8";
-	private static final String KAKAO_PAY_READY_URL = "https://kapi.kakao.com/v1/payment/ready";
 	
 	// 제품 결제 form
 	@GetMapping("kakaoPayBtn")
@@ -254,15 +250,6 @@ public class MemberController implements MemberSession{
 		return redirectView;
 	}
 	
-	// 카카오 페이 결제 승인
-	private static final String KAKAO_PAYMENT_APPROVE_URL = "https://kapi.kakao.com/v1/payment/approve";
-	@RequestMapping("success")
-	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, HttpSession session, Model model, HttpServletRequest request) {
-		ms.kakaoPaymentApprove(KAKAO_PAYMENT_APPROVE_URL, ADMIN_KEY, pg_token, session);
-		
-		return "sungsu/kakaoPaySuccess";
-	}
-	
 	// 카카오 페이 결제 실패
 	@RequestMapping("fail")
 	public String kakaoPayFail() {
@@ -280,7 +267,6 @@ public class MemberController implements MemberSession{
 	}
 	
 	// 카카오페이 결제 상세 조회
-	private static final String KAKAO_PAYMENT_ORDER_URL = "https://kapi.kakao.com/v1/payment/order";
 	@GetMapping("kakaoPaymentOrderInfo")
 	public String kakaoPaymentOrder(Model model, HttpServletRequest request) {
 		ms.selectKakaoPaymentOrderInfo(KAKAO_PAYMENT_ORDER_URL, ADMIN_KEY,model, request);
@@ -288,7 +274,6 @@ public class MemberController implements MemberSession{
 	}
 	
 	// 카카오페이 결제 취소
-		private static final String KAKAO_PAYMENT_CANCEL_URL = "https://kapi.kakao.com/v1/payment/cancel";
 		@GetMapping("kakaoPaymentCancel")
 		public RedirectView kakaoPaymentCancel(HttpServletRequest request, Model model) {
 			ms.kakaoPaymentCancel(KAKAO_PAYMENT_CANCEL_URL, ADMIN_KEY, CONTENT_TYPE, request, model);

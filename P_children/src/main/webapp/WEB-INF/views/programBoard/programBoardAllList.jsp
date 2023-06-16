@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>programBoard/programBoardAllList.jsp</title>
+<title>Mate With 프로그램 게시판</title>
 <style type="text/css">
 
 h1 {
@@ -40,15 +40,15 @@ table tr:last-child {
 </style>
 
 <script type="text/javascript">
-function deleteConfirm(write_no, file_name){
-	
-	if(!confirm('삭제하시겠습니까?')){
-		return false;
-	} else {
-		location.href='${contextPath}/programBoard/deleteProgram?write_no=' + write_no + '&file_name=' + file_name;
+	function deleteConfirm(write_no, file_name){
+		
+		if(!confirm('삭제하시겠습니까?')){
+			return false;
+		} else {
+			location.href='${contextPath}/programBoard/deleteProgram?write_no=' + write_no + '&file_name=' + file_name;
+		}
+		
 	}
-	
-}
 
 </script>
 
@@ -65,8 +65,9 @@ function deleteConfirm(write_no, file_name){
 					<th width="100px"> ID </th>
 					<th width="200px"> 제 목 </th>
 					<th width="200px"> 날 짜 </th>
-					<th width="100px"> 예약현황 </th>
+					<th width="200px"> 예약현황 <br>(현재 신청인원 / 총원) </th>
 					<th width="70px"> 조회수 </th>
+					<th width="70px"> <img width="30px" height="30px" src="https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714"> </th>
 					<c:if test ="${info.grade == admin}">
 									<th>관리자 권한</th>
 					</c:if>
@@ -84,8 +85,9 @@ function deleteConfirm(write_no, file_name){
 								<td>${dto.id }</td>                                       
 								<td><a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
 								<td>${dto.savedate }</td>
-								<td>${dto.state }</td>
+								<td>${dto.state } &nbsp; ${dto.currentRegisterCount } / ${dto.totalRegisterCount }</td>
 								<td>${dto.hit }</td>
+								<td> 찜수나올예정</td>
 								<c:if test ="${info.grade == admin}">
 									<td><button onclick="deleteConfirm('${dto.write_no}', '${dto.mateImage }')">삭제</button></td>
 								</c:if>
@@ -130,7 +132,7 @@ function deleteConfirm(write_no, file_name){
 							<td colspan="7" align="center">
 						</c:otherwise>
 					</c:choose>
-						<c:if test="${loginUser != 'noLogin' }">
+						<c:if test="${info.userSelect == 'host' }">
 						<a href="${contextPath }/programBoard/writeFormForProgram">글작성</a>
 						</c:if>
 					</td>

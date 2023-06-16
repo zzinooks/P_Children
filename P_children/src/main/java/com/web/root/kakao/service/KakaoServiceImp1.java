@@ -6,7 +6,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -24,8 +23,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.GsonBuilder;
 import com.web.root.kakao.dto.ProgramMapDTO;
+import com.web.root.kakao.resource.KakaoDeveloper;
 import com.web.root.mybatis.kakao.KakaoMapper;
-import com.web.root.session.name.KakaoDeveloper;
 
 @Service
 public class KakaoServiceImp1 implements KakaoService, KakaoDeveloper{
