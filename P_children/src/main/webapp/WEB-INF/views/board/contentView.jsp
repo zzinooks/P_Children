@@ -21,7 +21,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>board/contentView.jsp</title>
+<title>Mate With 자유게시판 글보기</title>
 <script type="text/javascript">
 
 	// 본문 관련 기능 시작 -------------------------------------------------------------------------------------------------------
@@ -558,7 +558,7 @@ hr {
 }
 
 </style>
-</head>
+</head>z
 <body onload="replyData()">
 	<c:import url="../default/header.jsp"/>
 	<section>
@@ -653,13 +653,13 @@ hr {
 						<button class="btn btn-light" 
 						onclick=
 							<c:choose>
-								<c:when test="${user == 'noLogin' || kakaoIdCheck != null}">"loginPlease()"</c:when>
+								<c:when test="${user == null || kakaoIdCheck != null}">"loginPlease()"</c:when>
 								<c:otherwise>"toggleDibs()"</c:otherwise>
 							</c:choose>
 							>
 							찜하기
 							<img id="dibs_image" width="20px" height="20px" alt="버튼" src=
-							<c:if test="${state == 0}">
+							<c:if test="${state == 0 || user == null}">
 							"https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb" 
 							</c:if>
 							<c:if test="${state == 1}">
@@ -671,6 +671,7 @@ hr {
 							<div id="dibsNumPoint">${dibsNum}<div>명이 찜했습니다!
 						</button>
 					</td>
+					<!-- 찜하기 기능 끝 -->
 				</tr>
 				<tr>
 					<th> 내 용 </th><td>${dto.content }</td>
@@ -693,7 +694,7 @@ hr {
 							<input type="button" value="수정하기" onclick="location.href='${contextPath }/board/modifyForm?write_no=${dto.write_no }&num=<%=num2%>'" /> &nbsp;
 							<input type="button" value="삭제하기" onclick="deleteConfirm()" /> &nbsp;
 						</c:if>
-						<c:if test="${loginUser != 'noLogin' }">
+						<c:if test="${user != null}">
 							<input type="button" value="댓글달기" onclick="slide_click()"> &nbsp;
 						</c:if>
 						<c:choose>
@@ -701,14 +702,14 @@ hr {
 								<input type="button" value="글목록" onclick="location.href='${contextPath }/board/myDibsBoard?num=<%=num2%>'">
 							</c:when>
 							<c:otherwise>
-							<c:choose>
-								<c:when test="${board_category != null}">
-									<input type="button" value="글목록" onclick="location.href='${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}'">
-								</c:when>
-								<c:otherwise>
-									<input type="button" value="글목록" onclick="location.href='${contextPath }/board/boardAllList?num=<%=num2%>'">
-								</c:otherwise>	
-							</c:choose>
+								<c:choose>
+									<c:when test="${board_category != null}">
+										<input type="button" value="글목록" onclick="location.href='${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}'">
+									</c:when>
+									<c:otherwise>
+										<input type="button" value="글목록" onclick="location.href='${contextPath }/board/boardAllList?num=<%=num2%>'">
+									</c:otherwise>	
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
 						<!-- 06.14_최윤희 추가 : 마이페이지에서 글보기 -> 글목록 누르면 다시 마이페이지로 가기 -->

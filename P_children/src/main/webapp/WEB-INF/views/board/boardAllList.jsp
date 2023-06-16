@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>board/boardAllList.jsp</title>
+<title>Mate With 자유게시판</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <style type="text/css">
 
@@ -67,7 +67,7 @@ table tr:last-child {
 <body onload="colorConfirm()">
 	<c:import url="../default/header.jsp"/>
 	<section>
-		<h1> 게시판 </h1> <h1></h1>
+		<h1> 자유게시판 </h1> <h1></h1>
 		<div class="imsi"></div>
 		<div class="wrap board_table">
 			<table class="table table-striped">
@@ -187,7 +187,7 @@ table tr:last-child {
 							<td colspan="6" align="center">
 						</c:otherwise>
 					</c:choose>
-						<c:if test="${loginUser != 'noLogin' || kakaoId != null}">
+						<c:if test="${loginUser != null || kakaoId != null}">
 						<a href="${contextPath }/board/writeForm">글작성</a>
 						</c:if>
 					</td>

@@ -21,7 +21,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>펫위드-프로그램 수정</title>
+<title>Mate With 프로그램 수정</title>
 <script type="text/javascript">
 
 	// 파일 업로드 되면 img 태그에 파일 이미지 보이게 하기

@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내가 찜한 게시글~!!</title>
+<title>Mate With 내가 찜한 게시글</title>
 </head>
 <body>
 	<c:import url="../default/header.jsp"/>

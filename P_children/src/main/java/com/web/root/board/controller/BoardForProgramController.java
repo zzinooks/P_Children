@@ -2,6 +2,7 @@ package com.web.root.board.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.root.board.dto.BoardDTO;
+import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardForProgramService;
+import com.web.root.board.service.BoardService;
 import com.web.root.kakao.service.KakaoService;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
@@ -45,6 +49,9 @@ public class BoardForProgramController implements MemberSession{
 	@Autowired
 	KakaoService ks;
 	
+	@Autowired
+	BoardService bs;
+	
 	// 프로그램 입력 view 호출
 	@RequestMapping("writeFormForProgram")
 	public String writeFormForProgram (Model model, HttpSession session) {
@@ -60,74 +67,101 @@ public class BoardForProgramController implements MemberSession{
 	}
 	
 	// 프로그램 입력 (DB에 입력)
-//	@PostMapping("writeSaveForProgram")
-//	public void writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request, HttpServletResponse response) throws IOException {
-//		
-//		// programBoard 입력 및 결과 메시지 출력
-//		String message = bfps.writeSaveForProgram(mul,request);
-//		response.setContentType("text/html; charset=utf-8");
-//		PrintWriter out = response.getWriter();
-//		out.println(message);
-//	}
+	@PostMapping("writeSaveForProgram")
+	public void writeSaveForProgram(MultipartHttpServletRequest mul, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		// programBoard 입력 및 결과 메시지 출력
+		String message = bfps.writeSaveForProgram(mul,request);
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println(message);
+	}
 	
 	// 프로그램 boardAllList
 	@GetMapping("programBoardAllList")
 	public String programBoardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		bfps.programBoardAllList(model, num, request);
 		
-		try {
-			// 카카오톡 로그인 check
-			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
+		// 카카오톡 로그인 check
+		String kakaoIdCheck = (String) session.getAttribute("kakaoId");
 			
-			// 로그인값 불러오기
-			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
-				String id = (String) session.getAttribute(LOGIN);
+		// 로그인값 불러오기
+		if(kakaoIdCheck == null) { // 일반 로그인, 비로그인인 경우 (카카오톡이 아닌 경우)
+			String id = (String) session.getAttribute(LOGIN);
+			if(id == null) { // 비로그인인 경우
+				model.addAttribute("id", id);
+			} else {	// 일반 로그인인 경우
 				ms.userInfo(id, model);
-			} else {
-				MemberDTO memberDTO = new MemberDTO();
-				memberDTO.setId(kakaoIdCheck);
-				memberDTO.setGrade("bronze");
-				model.addAttribute("info", memberDTO);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			
+		} else { // 카카오톡 로그인인 경우
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(kakaoIdCheck);
+			memberDTO.setGrade("bronze");
+			model.addAttribute("info", memberDTO);
 		}
 		model.addAttribute("admin", ADMIN);
-		return "/programBoard/programBoardAllList"; 
+		
+		return "/programBoard/programBoardAllList";  
+		
 	}
 	
 	// 프로그램 contentView
 	@RequestMapping("programContentView")
 	public String programContentView(Model model, HttpServletRequest request, HttpSession session) {
+		
+		// (1) 정보 가져오기
+		// (1-1) programBoard 정보 하나 가져오기
 		ProgramBoardDTO programBoardDTO = bfps.programContentView(model, request);
-		String user = (String) session.getAttribute(LOGIN);
 		
-		model.addAttribute("programBoardDTO", programBoardDTO);
-		model.addAttribute("user", user);
+		// (1-2) 로그인값 불러오기
+		// 카카오톡 로그인 check
+		String kakaoIdCheck = (String) session.getAttribute(LOGIN);
 		
-		try {
-			// 카카오톡 로그인 check
-			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
-			
-			// 로그인값 불러오기
-			if(kakaoIdCheck == null) { // 일반 로그인, noLogin 인 경우
-				String id = (String) session.getAttribute(LOGIN);
+		// 로그인값 불러오기
+		if(kakaoIdCheck == null) { // 일반 로그인, 비로그인인 경우 (카카오톡이 아닌 경우)
+			String id = (String) session.getAttribute(LOGIN);
+			if(id == null) { // 비로그인인 경우
+				model.addAttribute("id", id);
+			} else {	// 일반 로그인인 경우
 				ms.userInfo(id, model);
-			} else {
-				MemberDTO memberDTO = new MemberDTO();
-				memberDTO.setId(kakaoIdCheck);
-				memberDTO.setGrade("bronze");
-				model.addAttribute("info", memberDTO);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			
+		} else { // 카카오톡 로그인인 경우
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(kakaoIdCheck);
+			memberDTO.setGrade("bronze");
+			model.addAttribute("info", memberDTO);
 		}
 		
+		//(1-3) boardDib(찜하기) 정보 가져오기
+		Map<String, Object> mapForBoardDib = new HashMap<String, Object>();
+		if(kakaoIdCheck != null) { // 로그인 했을 시 찜했는지 확인하는 정보 가져오기
+			mapForBoardDib.put("id", kakaoIdCheck);
+			mapForBoardDib.put("write_no", request.getParameter("write_no"));
+			BoardDibsDTO boardDibsDTO = bs.getDibsByIdWriteNo(mapForBoardDib);		
+		
+			// 정보 담기
+			if(boardDibsDTO == null) {	// 찜한 적이 없을 때
+				model.addAttribute("state", 0);
+			} else {					// 찜한 적이 있을 때
+				model.addAttribute("state", boardDibsDTO.getDibs_state());
+			}
+		}
+		
+		// (1-4) 게시판 찜한 숫자 가져오기
+		int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(request.getParameter("write_no"))); 
+		
+		// (2) 정보 담기
+		model.addAttribute("programBoardDTO", programBoardDTO);
+		model.addAttribute("user", kakaoIdCheck);
 		// grade 확인을 위한 admin(== "gold") 추가
 		model.addAttribute("admin", ADMIN);
 		
-		// 조회수 증가
+		model.addAttribute("dibsNum", dibsNum);
+		// (3) 조회수 증가
 		bfps.programHitplus(programBoardDTO);
+		
 		return "/programBoard/programBoardContentView";
 	}
 	
@@ -196,6 +230,24 @@ public class BoardForProgramController implements MemberSession{
 		PrintWriter out = response.getWriter();
 		out.println(message);
 		
+	}
+	
+	// 여기서부터는 찜하기 기능
+	// 찜하기 버튼 클릭시 토글 기능(프로그램 게시판)
+	@PostMapping(value="toggleDibs/{write_no}", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public Map<String, Object> toggleDibs(@RequestBody Map<String, Object> map,@PathVariable("write_no") String write_no, HttpSession session, Model model, HttpServletRequest request) {
+		int result = bs.toggleDibs(map);
+		System.out.println(write_no +"입니다~!!");
+		int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(write_no));
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		System.out.println(result + ": result");
+		System.out.println(dibsNum + ": dibsNum");
+		returnMap.put("result", result);
+		returnMap.put("changedDibsNum", dibsNum);
+		
+		return returnMap;
 	}
 	
 	// =============================== 성수 시작 ========================================

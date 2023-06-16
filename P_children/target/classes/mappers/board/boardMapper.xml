@@ -36,6 +36,9 @@
 		<result property="savedate" column="savedate"/>
 		<result property="hit" column="hit"/>
 		<result property="state" column="state"/>
+		<result property="currentRegisterCount" column="currentRegisterCount"/>
+		<result property="totalRegisterCount" column="totalRegisterCount"/>
+		
 	</resultMap>
 	
 	<!-- 찜하기 기능 -->
@@ -87,11 +90,17 @@
 	
 	<!-- 문의 게시판 -->
 	<resultMap id="qna" type="com.web.root.qna.dto.QnaDTO" >
-		<id property="id"  column="id"/>
+		<id property="write_no" column="write_no"/>
+		<result property="id" column="id"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="savedate" column="savedate"/>
 		<result property="status" column="status"/>
+	</resultMap>
+	
+	<resultMap id="qna_rep" type="com.web.root.qna.dto.Qna_RepDTO" >
+		<id property="write_group" column="write_group"/>
+		<result property="content" column="content"/>
 	</resultMap>
 
 	<!--  ======================== 진욱 시작 ==========================   -->
@@ -201,8 +210,8 @@
 	
 	<!-- 프로그램 게시판 -->
 	<insert id="writeSaveForProgram">
-		INSERT INTO programBoard(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit)
-		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0)
+		INSERT INTO programBoard(write_no, id, title, petKind, mateName, mateImage, content, position1, position2, startDate, startTime, endDate, endTime, priceForProgram, saveDate, hit, totalRegisterCount)
+		VALUES (board_seq.NEXTVAL, #{id}, #{title}, #{petKind}, #{mateName}, #{mateImage}, #{content}, #{position1}, #{position2}, #{startDate}, #{startTime}, #{endDate}, #{endTime}, #{priceForProgram}, SYSDATE, 0, #{totalRegisterCount})
 	</insert>
 
 	<select id="selectProgramBoardCount" resultType="Integer">
@@ -263,9 +272,14 @@
 		DELETE FROM programBoard WHERE write_no=#{write_no}	
 	</delete>
 	
-	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 -->
+	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 (신청한 완료 뒤 : 신청한 인원 < 총원 )  -->
 	<update id="paidProgramContentView">
-		UPDATE programBoard SET state='결재 완료' WHERE write_no = #{write_no}
+		UPDATE programBoard SET currentRegisterCount = currentRegisterCount+1 WHERE write_no = #{write_no}
+	</update>
+	
+	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 (신청한 완료 뒤 : 신청한 인원 = 총원 )  -->
+	<update id="lastPaidProgramContentView">
+		UPDATE programBoard SET currentRegisterCount = currentRegisterCount+1, state='결재 완료' WHERE write_no = #{write_no}
 	</update>
 	
 	<!-- 찜하기 기능 -->
@@ -400,13 +414,33 @@
 	<select id="member_qna" resultMap="qna">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
-		(SELECT * FROM qna ORDER BY savedate DESC)A )B
+		(SELECT * FROM qna WHERE id=#{id} ORDER BY savedate DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 	
 	<select id="selectQnaCount_member" resultType="Integer">
-		SELECT COUNT(*) FROM qna
+		SELECT COUNT(*) FROM qna WHERE id=#{id}
 	</select>
+	
+	<insert id="member_write_save">
+		INSERT INTO qna VALUES(write_no_qna.NEXTVAL, #{id}, #{title}, #{content}, SYSDATE, 1)
+	</insert>
+	
+	<insert id="manager_write_save">
+		INSERT INTO qna_rep VALUES(#{content}, #{write_group})
+	</insert>
+	
+	<select id="contentView_qna" resultMap="qna">
+		SELECT * FROM qna WHERE write_no=#{write_no}
+	</select>
+	
+	<select id="contentView_rep_qna" resultMap="qna_rep">
+		SELECT * FROM qna_rep WHERE write_group=#{write_group}
+	</select>
+	
+	<update id="qna_state">
+		UPDATE qna SET status= status+1 WHERE write_no=#{asdf}
+	</update>
 	
 	<!-- ======================== 임청규 끝 ======================= -->
 	

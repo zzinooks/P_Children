@@ -21,7 +21,10 @@ endTime VARCHAR2(20),
 priceForProgram NUMBER(20),
 savedate DATE DEFAULT SYSDATE,
 hit NUMBER(10) DEFAULT 0,
-state VARCHAR2(20) '예약 가능'
+state VARCHAR2(20) '예약 가능',
+currentRegisterCount NUMBER(10),
+totalRegisterCount NUMBER(10)
+)
 
  */
 public class ProgramBoardDTO {
@@ -44,6 +47,8 @@ public class ProgramBoardDTO {
 	private String savedate;
 	private int hit;
 	private String state;
+	private int currentRegisterCount;
+	private int totalRegisterCount;
 	
 	
 	// 생성자
@@ -52,7 +57,7 @@ public class ProgramBoardDTO {
 	}
 	public ProgramBoardDTO(int write_no, String id, String title, String petKind, String mateName, String mateImage,
 			String content, String position1, String position2, String startDate, String startTime, String endDate,
-			String endTime, int priceForProgram, String savedate, int hit, String state) {
+			String endTime, int priceForProgram, String savedate, int hit, String state, int currentRegisterCount, int totalRegisterCount) {
 		super();
 		this.write_no = write_no;
 		this.id = id;
@@ -71,6 +76,8 @@ public class ProgramBoardDTO {
 		this.savedate = savedate;
 		this.hit = hit;
 		this.state = state;
+		this.currentRegisterCount = currentRegisterCount;
+		this.totalRegisterCount = totalRegisterCount;
 	}
 	
 	
@@ -179,6 +186,20 @@ public class ProgramBoardDTO {
 	public void setState(String state) {
 		this.state = state;
 	}
+	public int getCurrentRegisterCount() {
+		return currentRegisterCount;
+	}
+	public void setCurrentRegisterCount(int currentRegisterCount) {
+		this.currentRegisterCount = currentRegisterCount;
+	}
+	public int getTotalRegisterCount() {
+		return totalRegisterCount;
+	}
+	public void setTotalRegisterCount(int totalRegisterCount) {
+		this.totalRegisterCount = totalRegisterCount;
+	}
+
+	
 	
 	
 	

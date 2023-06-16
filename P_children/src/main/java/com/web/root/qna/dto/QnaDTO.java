@@ -2,12 +2,19 @@ package com.web.root.qna.dto;
 
 public class QnaDTO {
 	
+	private int write_no;
 	private String id;
 	private String title;
 	private String content;
 	private String savedate;
 	private String status;
 	
+	public int getWrite_no() {
+		return write_no;
+	}
+	public void setWrite_no(int write_no) {
+		this.write_no = write_no;
+	}
 	public String getId() {
 		return id;
 	}

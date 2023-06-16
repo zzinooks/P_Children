@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>member_modify</title>
+<title>Mate With 회원정보 수정</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/regist.css?v=1" rel="stylesheet" type="text/css">
@@ -126,7 +126,7 @@ function valueCheck() {
 	<section><!-- body -->
 		<div class="form-box"> <!--  container  -->
 		<div class="title">개인 정보 수정</div>
-		<form id="modfiy_form" name="form" action="${path }/member/modify_save"  method="post">
+		<form id="modfiy_form" name="form" action="${path }/member/member_write_save"  method="post">
 			<div class="user-details">
 				<div class="input-box">
 					<span class="details">아이디</span>

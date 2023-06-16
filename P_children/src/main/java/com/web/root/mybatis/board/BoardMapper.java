@@ -11,6 +11,7 @@ import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.qna.dto.QnaDTO;
+import com.web.root.qna.dto.Qna_RepDTO;
 
 public interface BoardMapper {
 	
@@ -42,8 +43,10 @@ public interface BoardMapper {
 	// 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
 	public List<BoardDTO> boardSearchFormCountList(Map<String, String> map);
 	
-	//카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
+	// 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동(신청한 완료 뒤 : 신청한 인원 < 총원 ) 
 	public int paidProgramContentView(@Param("write_no") int write_no);	
+	// 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동(신청한 완료 뒤 : 신청한 인원 = 총원 )
+	public int lastPaidProgramContentView(@Param("write_no") int write_no);	
 	
 	// 댓글 기능 ------------------------------------------------
 	
@@ -151,9 +154,18 @@ public interface BoardMapper {
 	
 	public int selectQnaCount_manager();
 	
-	public List<QnaDTO>	member_qna(@Param("s") int start, @Param("e") int end);
+	public List<QnaDTO>	member_qna(@Param("s") int start, @Param("e") int end, @Param("id") String id);
 	
-	public int selectQnaCount_member();
+	public int selectQnaCount_member(@Param("id") String id);
+
+	public void member_write_save(QnaDTO dto);
+	
+	public void manager_write_save(Qna_RepDTO dto);
+	
+	public QnaDTO contentView_qna(QnaDTO dto);
+	public Qna_RepDTO contentView_rep_qna(Qna_RepDTO dto);
+	
+	public void qna_state(@Param("asdf") int write_no);
 
 
 	

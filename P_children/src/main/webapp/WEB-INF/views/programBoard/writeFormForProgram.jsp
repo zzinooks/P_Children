@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>펫위드-프로그램 등록</title>
+<title>Mate With 프로그램 등록</title>
 <script type="text/javascript">
 	// 파일 업로드시 정보 불러오기
    function readURL(input){
@@ -657,8 +657,8 @@ h1 {
 	               </td>
 	            </tr>
 	            <tr>
-	               <th rowspan="3"><b> 내 용 </b></th>
-	               <td rowspan="3" style="right-padding: 0"><textarea name="content" rows="10" cols="50"></textarea></td>
+	               <th rowspan="4"><b> 내 용 </b></th>
+	               <td rowspan="4" style="right-padding: 0"><textarea name="content" rows="10" cols="50"></textarea></td>
 	               <th style="left-padding: 0"> 시 작 날 짜 <br><br> 시작 시간 </th>
 	               <td><input type="text" id="datepicker1" name="startDate"> <br><br> <input type="time" name="startTime" id="startTime"></td>
 	            </tr>
@@ -669,6 +669,10 @@ h1 {
 	            <tr>
 	               <th style="left-padding: 0">프 로 그 램  비 용</th>
 	               <td colspan="3"><input type="text" name="priceForProgram" id="priceForProgram" placeholder="숫자만 입력하세요"/> <b>원</b></td>
+	            </tr>
+	            <tr>
+	            	<th style="left-padding: 0">참여 총 인원 </th>
+	               <td colspan="3"><input type="number" name="totalRegisterCount" id="totalRegisterCount" placeholder="1명부터" min="1" step="1" value="1"/> <b>명</b></td>
 	            </tr>
 	            <tr>
 	               <td colspan="4">
