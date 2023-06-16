@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 게시글 작성</title>
+<title>Mate With 공지사항 작성</title>
 <script type="text/javascript">
 	function readURL(input){
 		var file = input.files[0]; // 파일 정보

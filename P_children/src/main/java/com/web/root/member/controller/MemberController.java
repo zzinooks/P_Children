@@ -47,6 +47,12 @@ public class MemberController implements MemberSession{
 	public String member_information( Model model, HttpServletRequest request, HttpSession session) {
 		String id = (String) session.getAttribute(LOGIN);
 		MemberDTO dto = ms.member_information(id);
+		
+		//===0615_최윤희 추가: 프로그램게시판 정보 필요
+		//ProgramBoardDTO programBoardDTO = bfps.programBoardInformation(id);
+		//model.addAttribute("programBoardDTO", programBoardDTO);
+		//0615_최윤희 끝
+		
 		model.addAttribute("dto", dto);
 		return "chenggyu/member_information";
 	}

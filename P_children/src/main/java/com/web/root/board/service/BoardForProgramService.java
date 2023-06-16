@@ -23,4 +23,12 @@ public interface BoardForProgramService {
 	
 	public String paidProgramContentView(HttpServletRequest request);
 	
+	
+	//========================== 윤희 시작 =============================
+	
+	// 마이페이지 프로그램 게시글 정보 필요
+	public ProgramBoardDTO programBoardInformation(String id);
+	
+	//========================== 윤희 끝 ===============================
+	
 	}

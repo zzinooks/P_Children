@@ -144,6 +144,10 @@ public interface BoardMapper {
 
 	// 공지사항 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
 	public List<NoticeBoardDTO> noticeSearchFormCountList(NoticeBoardDTO notice_pageDTO);
+	
+	// 마이페이지 host 정보 얻기위함
+	public ProgramBoardDTO programBoardInformation(String id);
+	
 
 	//============================ 최윤희 끝 ===========================================
 	

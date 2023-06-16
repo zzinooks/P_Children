@@ -703,8 +703,10 @@ hr {
 						</c:if>
 						<!-- 06.14_최윤희 추가 : 마이페이지에서 글보기 -> 글목록 누르면 다시 마이페이지로 가기 -->
 						<!-- 아직 미완성 입니다. if 조건 걸아야합니다. -->
-						<input type="button" value="글목록" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${num }'">
-						<%-- <input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList?num=<%=num2%>'"> --%>
+						<c:if test="">
+						<input type="button" value="글목록" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${num}'">
+						</c:if>
+						<input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList?num=<%=num2%>'">
 						<!-- 06.14_최윤희_끝 -->
 					</td>
 				</tr>

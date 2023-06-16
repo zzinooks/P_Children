@@ -376,6 +376,13 @@
 			WHERE rn BETWEEN #{start} and #{end} 
 	</select>
 	
+	<!-- 마이페이지 프로그램 게시판 내용 필요해서 조회 -->
+	<select id="programBoardInformation" resultMap="programBoard">
+		SELECT * FROM programBoard WHERE id=#{id}
+	</select>
+	
+	
+	
 	<!--  ======================== 윤희 끝 ==========================   -->
 	
 	<!-- ======================== 임청규 시작 ======================= -->

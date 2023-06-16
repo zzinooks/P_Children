@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardService;
 import com.web.root.member.dto.MemberDTO;
@@ -161,7 +162,7 @@ public class BoardController implements MemberSession{
 		
 		//==== 06.14_최윤희 : 마이페이지로인한 num추가
 		model.addAttribute("num", request.getParameter("num"));
-		//==== 06.14_최윤희 끝		
+		//==== 06.14_최윤희 끝
 		
 		//(3) 조회수 증가
 		bs.hitplus(dto);

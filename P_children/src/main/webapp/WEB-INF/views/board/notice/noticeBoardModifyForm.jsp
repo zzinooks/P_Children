@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 수정</title>
+<title>Mate With 공지사항 수정</title>
 <script type="text/javascript">
 	function readURL(input){
 		var file = input.files[0]; // 파일 정보
@@ -49,6 +49,7 @@ h1 {
 		<div class="modify_save">
 		<form name="noticeBoardModifyForm" action="${contextPath }/board/notice/noticeBoardModifySave" enctype="multipart/form-data" method="post">
 			<input type="hidden" name="write_no" value="${noticeBoardDTO.write_no }"/>
+			<%-- <input type="hidden" name="file_name" value="${noticeBoardDTO.file_name }"/> --%>
 			<b> 구 분 </b><br>
 			<select name="category" id="notice_category">
 				<option value="" selected> -- 선택 -- </option>

@@ -99,12 +99,13 @@ public class BoardForProgramController implements MemberSession{
 	// 프로그램 contentView
 	@RequestMapping("programContentView")
 	public String programContentView(Model model, HttpServletRequest request, HttpSession session) {
+		
 		ProgramBoardDTO programBoardDTO = bfps.programContentView(model, request);
 		String user = (String) session.getAttribute(LOGIN);
 		
 		model.addAttribute("programBoardDTO", programBoardDTO);
 		model.addAttribute("user", user);
-		
+
 		try {
 			// 카카오톡 로그인 check
 			String kakaoIdCheck = (String) session.getAttribute("kakaoId");
@@ -144,6 +145,7 @@ public class BoardForProgramController implements MemberSession{
 		
 		return "programBoard/modifyProgramForm";
 	}
+	
 	
 	// 프로그램 수정(DB에서 수정)
 	@RequestMapping("modifySaveForProgram")
