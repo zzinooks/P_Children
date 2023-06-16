@@ -74,7 +74,7 @@ table             {
 		<section ><!-- body -->
 			<div class="form-box-list"> <!--  container  -->
 				<div class="title" > 게시판 </div>
-				<table >
+				<table>
 				<thead>
 					<tr>
 							<th> 분 류</th>
@@ -137,7 +137,7 @@ table             {
 				</c:choose>
 				</table>
 				<div class="button">
-					<c:if test="${loginUser != 'noLogin' || kakaoId != null}">
+					<c:if test="${loginUser != null || kakaoId != null}">
 							<input type="button" value="글작성" onclick="location.href='${contextPath }/board/writeForm'" class="but_2">
 					</c:if>
 				</div>
