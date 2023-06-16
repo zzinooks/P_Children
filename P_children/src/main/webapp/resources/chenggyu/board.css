@@ -183,10 +183,12 @@ from .user-details .input-box_addr{
   background: #A996DB;
   font-size: 1em;
   font-weight: 600;
+    text-decoration-line: none;
 }
 
 .menu a {
   color: black;
+  text-decoration-line: none;
 }
 
 .submenu > li {
@@ -210,7 +212,7 @@ from .user-details .input-box_addr{
 
 .menu > li:hover {
   background-color: #A996DB;
-  transition-duration: 0.5s;
+  transition-duration: 1s;
 }
 
 .menu > li:hover .submenu {
@@ -220,4 +222,8 @@ from .user-details .input-box_addr{
 .menu > li:hover .submenu_ {
   height: 50px; /*서브메뉴 li한개의 높이 50*5*/
   transition-duration: 1s;
+
+}
+a{
+	text-decoration-line: none;
 }

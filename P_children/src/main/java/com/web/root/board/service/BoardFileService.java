@@ -25,7 +25,7 @@ public interface BoardFileService {
 	//============================ 최윤희 시작 ===========================================
 	
 	// 공지 게시판 파일 저장 위치
-	public static final String IMAGE_NOTICE_REPO = "C:\\P_Children_notice_board_image\\image_notice_repo";
+	public static final String IMAGE_NOTICE_REPO = "C:\\mateImage";
 	
 	// 파일 이름 저장
 	public String noticeBoardSaveFile(MultipartFile file);

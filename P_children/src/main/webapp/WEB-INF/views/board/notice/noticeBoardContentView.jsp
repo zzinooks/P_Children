@@ -46,10 +46,15 @@ table             {
   margin:0 auto;
   position:relative;
   }
-    td,th{ 
+    th{ 
     padding-left:8px;
     padding-right: 8px;
     text-align:center;
+    }  
+    td{ 
+    padding-left:8px;
+    padding-right: 8px;
+    text-align:left;
     }  
  th { background-color: #A996DB; 
  width: auto;}
@@ -58,6 +63,9 @@ table             {
   border-bottom:1px solid #E3F1D5 ;
     &:last-child  { border:0; }
   }
+  a{
+	text-decoration-line: none;
+}
 </style>
 </head>
 <body onload="replyData()">
@@ -71,7 +79,7 @@ table             {
 				<tr>
 					<th>제목</th>
 						<td>${noticeBoardDTO.title }</td>
-					<th>구분</th>
+					<th>분류</th>
 						<td>				
 							<c:if test="${noticeBoardDTO.category == 'noticeGeneral' }"> 일반 </c:if>
 							<c:if test="${noticeBoardDTO.category == 'noticeEvent' }"> 이벤트 </c:if>
@@ -80,18 +88,22 @@ table             {
 						</td>
 				</tr>
 				<tr>
-					<th>작성자</th>
-						<td>${noticeBoardDTO.id }</td>				
+					<th>글번호</th>
+						<td>${noticeBoardDTO.write_no }</td>				
 					<th>작성일</th>
 						<td>${noticeBoardDTO.savedate }</td>
 			   </tr>
+			   	<tr>
+					<th>작성자</th>
+					<td colspan="3">${noticeBoardDTO.id }</td>
+				</tr>
 				<tr>
 					<th>내용</th>
-					<td>${noticeBoardDTO.content }</td>
+					<td colspan="3" >${noticeBoardDTO.content }</td>
 				</tr>
 				<tr>
 					<th>이미지</th>
-					<td>
+					<td colspan="3">
 						<c:if test="${noticeBoardDTO.file_name == 'nan'}">
 							<p>이미지가 없습니다...</p>
 						</c:if>
@@ -123,8 +135,8 @@ table             {
 				<ul class="menu">
 			      <li>
 			        <a href="#">메뉴</a>
+			        <hr>
 			        <ul class="submenu">
-				         <hr>
 				         <c:choose>
 					         <c:when test="${notice_category != null}">
 					          	<li><a href="${contextPath }/board/notice/noticeSearchForm?num=${num}&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}">목록</a></li>

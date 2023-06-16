@@ -74,19 +74,19 @@ table             {
 			   <div class="page_nation">
 			      <!-- <a class="arrow pprev" href="#"></a> -->
 			      	<c:if test="${startPage > block }">
-							<a href="kakaoPaymentApproveList?num=${startPage-1 }"   class="arrow prev"> &nbsp;이전&nbsp; </a>
+							<a href="kakaoPaymentApproveList?num=${startPage-1 }"   class="arrow prev"> 이전 </a>
 						</c:if>
 						<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
 							<c:if test="${i == num}">
-								<a href="kakaoPaymentApproveList?num=${i }"  class="active"> &nbsp;${i }&nbsp; </a>
+								<a href="kakaoPaymentApproveList?num=${i }"  class="active"> ${i } </a>
 							</c:if>
 							<c:if test="${i != num}">
-								<a href="kakaoPaymentApproveList?num=${i }" class="active"> &nbsp;${i }&nbsp; </a>
+								<a href="kakaoPaymentApproveList?num=${i }" class="active"> ${i } </a>
 							</c:if>
-						<c:if test="${endPage < totalPage }">
-							<a href="kakaoPaymentApproveList?num=${endPage+1 }" class="arrow next" > &nbsp;다음&nbsp; </a>
-						</c:if>
 						</c:forEach>
+						<c:if test="${endPage < totalPage }">
+							<a href="kakaoPaymentApproveList?num=${endPage+1 }" class="arrow next" > 다음 </a>
+						</c:if>
 			      <!-- <a class="arrow nnext" href="#"></a> -->
 			   </div>
 			</div>			

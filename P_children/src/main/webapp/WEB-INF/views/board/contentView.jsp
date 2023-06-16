@@ -4,13 +4,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
-<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous">
-</script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
-
-
 <%
 	String num2 = request.getParameter("num");
 	if(num2.equals("null")){
@@ -23,7 +19,6 @@
 <meta charset="UTF-8">
 <title>Mate With 자유게시판 글보기</title>
 <script type="text/javascript">
-
 	// 본문 관련 기능 시작 -------------------------------------------------------------------------------------------------------
 
 	// 파일 업로드 시 img 태그에 그림 화면 보이기
@@ -476,10 +471,16 @@
 	position: fixed;
 	z-index: 10;
 	margin: 0 auto;
-	top: 30px; left: 0; right: 0;
-	width: 300px;
-	height: 350px;
+	top: 60%; left: 0; right: 0;
+	width: 50%;
+	height: 250px;
 	background: rgba(210, 240, 250, 0.9);
+}
+#first_{
+	width: 50%;
+	height: 250px;
+	padding-top: 10px;
+	margin: 0 auto;
 }
 
 #second {
@@ -504,7 +505,7 @@ h1 {
 
 .reply {
 	background-color: #f2f2f2;
-	width: 1000px;
+	width: 100%;
 	/* border: 1px solid red; */
 	padding: 5px;
 	margin-top: 5px;
@@ -556,31 +557,62 @@ hr {
 	color: #ee4a63;
 	text-align: right;
 }
-
+table             { 
+  border-spacing: 1; 
+  border-collapse: collapse; 
+  background:white;
+  border-radius:6px;
+  overflow:hidden;
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  }
+    th{ 
+    padding-left:8px;
+    padding-right: 8px;
+    text-align:center;
+    }  
+    td{ 
+    padding-left:8px;
+    padding-right: 8px;
+    text-align:left;
+    }  
+ th { background-color: #A996DB; 
+ width: auto;}
+  tbody tr     { 
+  height:40px; 
+  border-bottom:1px solid #E3F1D5 ;
+    &:last-child  { border:0; }
+  }
+  a{
+	text-decoration-line: none;
+}
+button{
+	border:none;
+}
 </style>
 </head>z
 <body onload="replyData()">
+
 	<c:import url="../default/header.jsp"/>
-	<section>
+	
 		<!-- 관리자 확인 -->
 		<div>
 			<input type="hidden" id='userGrade' value="${info.grade }">
 			<input type="hidden" id="admin" value="${admin }">
 		</div>
+		
 		<!-- 답글 작성 페이지 -->
 		<div id="modal_wrap">
 			<div id="first">
-				<div style="width: 600px; margin: 0 auto; padding-top: 20px;">
+				<div id="first_">
 					<form id="frm" action="#">
 						<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
 						<input type="hidden" id="user" name="id" value="${user }">
 						<b>답글(댓글) 작성 페이지</b>
-						<hr>
 						<b>작성자 : ${user }</b>
-						<hr>
 						<b>내 용</b><br>
 						<textarea id="content" name="content" rows="5" cols="30"></textarea>
-						<hr>
 						<button type="button" onclick="rep()">답 글</button>
 						<button type="button" onclick="slide_hide()">취 소</button>
 					</form>
@@ -591,7 +623,7 @@ hr {
 		<!-- 답글 수정 페이지 -->
 		<div id="modal_wrap">
 			<div id="second">
-				<div style="width: 400px; margin: 0 auto; padding-top: 20px;">
+				<div >
 					<form id="updateFrm" action="#">
 						<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
 						<input type="hidden" id="user" name="id" value="${user }">
@@ -610,16 +642,15 @@ hr {
 			</div>
 		</div>
 		
-		<!-- 본문 -->
-		<h1> 글보기 </h1>
-		<br><br>
-		<div class="wrap contentView">
-			<table class="table table-striped">
+		<section ><!-- body -->
+			<div class="form-box-list"> <!--  container  -->
+			<div class="title" >게시판</div>
+			<table>
 				<tr>
-					<th width="100px"> 글번호 </th><td width="200px" class="form-control input-sm">${dto.write_no }</td>
-					<th width="100px"> 작성자 </th><td width="200px" class="form-control input-sm">${dto.id }</td>
-					<th width="100px"> 분류 </th>
-					<td width="200px" class="form-control input-sm">
+					<th>제목</th>
+						<td class="form-control input-sm">${dto.title }</td>
+					<th>분류</th>
+						<td>				
 						<c:if test="${dto.category == 'informationSharing' }">
 						 정보 공유 
 						</c:if>
@@ -639,7 +670,6 @@ hr {
 						 펫프랜드 합니다 
 						</c:if>
 					</td>
-					
 				</tr>
 				<tr>
 					<th width="100px" > 제 목 </th><td  width="200px" class="form-control input-sm">${dto.title }</td>
@@ -674,14 +704,18 @@ hr {
 					<!-- 찜하기 기능 끝 -->
 				</tr>
 				<tr>
-					<th> 내 용 </th><td>${dto.content }</td>
+					<th>내용</th>
+					<td colspan="3" >${dto.content }</td>
+				</tr>
+				<tr>
+					<th>이미지</th>
 					<td colspan="4">
 						<c:if test="${dto.file_name == 'nan'}">
 							<b>이미지가 없습니다...</b>
 						</c:if>
 						<c:if test="${dto.file_name != 'nan'}">
 							<img src="${contextPath }/board/download?file_name=${dto.file_name}" width="200px" height="200px">
-						</c:if>
+						</c:if>				
 					</td>
 				</tr>
 				<tr>
@@ -718,10 +752,16 @@ hr {
 						<%-- <input type="button" value="글목록" onclick="location.href='${contextPath}/board/boardAllList?num=<%=num2%>'"> --%>
 						<!-- 06.14_최윤희_끝 -->
 					</td>
+					<!-- <td colspan="4"><div id="reply"></div></td> -->
 				</tr>
 			</table>
+			
+			<input type="button" value="댓글달기" onclick="slide_click()">
+			
 		</div>
 	</section>
+	
 	<c:import url="../default/footer.jsp"/>
+	
 </body>
 </html>
