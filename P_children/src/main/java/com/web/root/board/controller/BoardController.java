@@ -97,6 +97,7 @@ public class BoardController implements MemberSession{
 		out.println(message);
 	}
 	
+
    // board Read 기능 : content 하나 보기
    @RequestMapping("contentView")
    public String contentView(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
@@ -233,12 +234,12 @@ public class BoardController implements MemberSession{
 		
 		
 		// (1-2) 로그인값 불러오기
-	      String id = (String) session.getAttribute(LOGIN);
-	      if(id == null) { // 비로그인인 경우
-	         model.addAttribute("id", id);
-	      } else {   // 일반 로그인인 경우
-	         ms.userInfo(id, model);
-	      }
+		  String id = (String) session.getAttribute(LOGIN);
+		  if(id == null) { // 비로그인인 경우
+			  model.addAttribute("id", id);
+		  } else {   // 일반 로그인인 경우
+		     ms.userInfo(id, model);
+		  }
 		
 		String board_category = request.getParameter("board_category");				// 카테고리 옵션 저장
 		String board_searchCategory = request.getParameter("board_searchCategory");	// 검색 카테고리 옵션 저장
@@ -284,13 +285,12 @@ public class BoardController implements MemberSession{
 	public String myDibsBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
 		
 		// (1-2) 로그인값 불러오기
-	      String id = (String) session.getAttribute(LOGIN);
-	      if(id == null) { // 비로그인인 경우
-	         model.addAttribute("id", id);
-	      } else {   // 일반 로그인인 경우
-	         ms.userInfo(id, model);
-	      }
-		
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
+		}
 		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
 		model.addAttribute("admin", ADMIN);		
 		

@@ -83,20 +83,22 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 	public String programBoardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		bfps.programBoardAllList(model, num, request);
 		
-		// (1-2) 로그인값 불러오기
-	      String id = (String) session.getAttribute(LOGIN);
-	      if(id == null) { // 비로그인인 경우
-	         model.addAttribute("id", id);
-	      } else {   // 일반 로그인인 경우
-	         ms.userInfo(id, model);
-	      }
-		model.addAttribute("admin", ADMIN);
+		// 로그인값 불러오기
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
+		}
+		
+		model.addAttribute("admin", ADMIN); // grade 확인을 위한 admin(='gold') 정보담기
 		
 		return "/programBoard/programBoardAllList";  
 		
 	}
 	
 	// 프로그램 contentView
+
    @RequestMapping("programContentView")
    public String programContentView(Model model, HttpServletRequest request, HttpSession session) {
       

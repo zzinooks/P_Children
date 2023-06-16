@@ -53,9 +53,19 @@ public class BoardServiceImpl implements BoardService {
 		int endPage = startPage + block - 1;
 		if (endPage > totalPage) endPage = totalPage;
 
+		// 좋아요 불러오기
+		List<BoardDTO> boardList = mapper.boardAllList(start, end);
+		
+		// 각 게시판 마다 속한 좋아요 숫자를 불러온다
+		for (BoardDTO boardDTO : boardList) {
+			boardDTO.setDibsCount(mapper.getdibsNumByWriteNo(boardDTO.getWrite_no()));
+			System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(boardDTO.getWrite_no()));
+		}
+		
 	
+		// 정보 담기
 		model.addAttribute("repeat", repeat);
-		model.addAttribute("boardList", mapper.boardAllList(start, end));
+		model.addAttribute("boardList", boardList);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("block", block);
