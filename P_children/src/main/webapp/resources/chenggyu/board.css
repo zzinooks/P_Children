@@ -16,10 +16,13 @@ body{
 	border-bottom: 100vh solid #C5FAD5;
 	border-right: 400px solid transparent;
 	position: absolute;
+	z-index: -20;
 }
 /* 홈페이지 바디 */
 section{
 	display: flex;
+	padding-top: 5%;
+	padding-bottom: 5%;
 	min-height: 100vh;
 	justify-content: center;
 	align-items: center;

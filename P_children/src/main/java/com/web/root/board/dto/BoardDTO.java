@@ -28,10 +28,11 @@ public class BoardDTO {
 	private String file_name;
 	private String id;
 	
-	//==== 06.14 윤희 추가 =====
-	private int start;		// DB에 컬럼 없음
-	private int end;		// DB에 컬럼 없음
-	//==== 06.14 윤희 끝 =====
+	//==== 06.16 윤희 추가 =====
+	private int boardNum = 2;	// DB에 컬럼 없음
+	private int start;			// DB에 컬럼 없음
+	private int end;			// DB에 컬럼 없음
+	//==== 06.16 윤희 끝 =====
 	
 	//==== 06.16 진욱 추가 =====
 	private int dibsCount;		// DB에 컬럼 없음
@@ -113,8 +114,16 @@ public class BoardDTO {
 	}
 	
 	
-	//==== 06.14 윤희 추가 =====
+	//==== 06.15 윤희 추가 =====
 
+	public int getBoardNum() {
+		return boardNum;
+	}
+	
+	public void setBoardNum(int boardNum) {
+		this.boardNum = 2;
+	}
+	
 	public int getStart() {
 		return start;
 	}

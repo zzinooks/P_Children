@@ -24,13 +24,6 @@
 		}
 		
 	}
-	
-	/*function colorConfirm() {
-		let h = $("#paging").css("color");
-		$("#paging").css("color", "rgb(222, 000, 000)");
-		alert(h);
-		
-	}*/
 </script>
 <style type="text/css">
 table             { 

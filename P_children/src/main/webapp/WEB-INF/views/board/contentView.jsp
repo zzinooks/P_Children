@@ -96,7 +96,7 @@
    
    // 댓글 리스트업 기능(댓글 보이게 하는 기능)
    function replyData() {
-      $("div.rep").show();
+	   $("div.rep").show();
       $.ajax({
          url: "replyData/"+$("#write_no").val(), //val() = value
          type: "get",
@@ -174,6 +174,8 @@
    
    // 댓글 수정하기 form 생성
    function updateReply(reply_no){
+	   
+	   $("div.rep").addClass("hidden");
       
       
       // 다른 댓글 수정창 켜져있을 경우 종료
@@ -313,9 +315,9 @@
    
    // 대댓글 삽입 폼
    function ShowAddReCommentForm(reply_no){ // 답글 삽입 폼 생성
-      
-      $("div.rep").addClass("hidden");
-      
+	   
+	   $("div.rep").addClass("hidden");
+   
       // 다른 댓글 켜져있을 경우 종료
       if($('#updateContent').val() != null){
          replyData();   
@@ -431,7 +433,7 @@
       if(!confirm('수정하시겠습니까?')){
          return false;
       } else {
-         $("div.rep").show();
+     	 $("div.rep").show();
          $("#updateReCommentResultFrm").submit();
       }
    }
@@ -654,17 +656,17 @@ button{
 }
  textarea{
     border-radius: 5px;
-      border: 2px solid #A996DB;
-     padding: 10px;
-     width: 100%;
-     height: 100px;
-     resize: none;
+	border: 2px solid #A996DB;
+    padding: 10px;
+    width: 100%;
+    height: 100px;
+    resize: none;
   }
   .replyView{
-     text-align: right;
+  	text-align: right;
   }
   .recom{
-     text-align: right;  
+  	text-align: right;  
   }
     .recom input{
     border:none;
@@ -676,20 +678,20 @@ button{
   }
   
     .replyView input{
-     margin: 5px;
-   border:none;
-   background: none;
+  	margin: 5px;
+	border:none;
+	background: none;
   }
 #recom{
-    font-size: 17px;
-     margin: 5px;
-   background: none;
-   border: none;
+ 	font-size: 17px;
+  	margin: 5px;
+	background: none;
+	border: none;
 }
 .no_reply{
     border-radius: 5px;
-      border: 2px solid #A996DB;
-      background: white;
+  	 border: 2px solid #A996DB;
+  	 background: white;
      padding: 10px;
      width: 100%;
      height: 100px;
@@ -817,12 +819,13 @@ button{
          </form>
                   <input class="rep_but" type="button" value="댓글달기" onclick="rep()">
          </div>
-         </c:if>         
+         </c:if> 
+         <c:if test="${loginUser == dto.id  ||  info.grade == admin}"><!-- 관리자 작성자 -->
          <ul class="menu">
                <li>
                  <a href="#">메뉴</a>
                  <hr>
-            <ul class="submenu">
+				<ul class="submenu">
                     <c:choose>
                      <c:when test="${toMyDibsBoard == 'yes' }">
                         <li><a href="${contextPath }/board/myDibsBoard?num=<%=num2%>">목록</a></li>
@@ -832,6 +835,12 @@ button{
                            <c:when test="${board_category != null}">
                               <li><a href="${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}">목록</a></li>
                            </c:when>
+                           <%-- 0616_최윤희 추가: 마이페이지 에서 해당 contentView 글목록을 가면 다시 마이페이 목록으로 갑니다. --%>
+                           <%-- 해당 boardCheckNum이 마이페이지 커뮤니티 게시판 구별 --%>
+                           <c:when test="${myBoardCheckNum == 2}">
+                           	  <li><a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${num}">목록</a></li>
+                           </c:when>
+                           <%-- 0616_최윤희 끝 --%>
                            <c:otherwise>
                               <li><a href="${contextPath }/board/boardAllList?num=<%=num2%>">목록</a></li>
                            </c:otherwise>   
@@ -845,7 +854,32 @@ button{
                     </ul>
                   </li>
                 </ul>
-           
+                </c:if> 
+               <c:if test="${loginUser != dto.id }"><!-- 작성자x 비로그인 -->
+               <ul class="menu">
+               <li>
+                 <a href="#">메뉴</a>
+                 <hr>
+				<ul class="submenu_">
+                    <c:choose>
+	                     <c:when test="${toMyDibsBoard == 'yes' }">
+	                        <li><a href="${contextPath }/board/myDibsBoard?num=<%=num2%>">목록</a></li>
+	                     </c:when>
+	                     <c:otherwise>
+	                        <c:choose>
+	                           <c:when test="${board_category != null}">
+	                              <li><a href="${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}">목록</a></li>
+	                           </c:when>
+	                           <c:otherwise>
+	                              <li><a href="${contextPath }/board/boardAllList?num=<%=num2%>">목록</a></li>
+	                           </c:otherwise>   
+	                        </c:choose>
+	                     </c:otherwise>
+	                  </c:choose>
+	                  </ul>
+	               	</li>
+				</ul>
+              </c:if>
       </div>
    </section>
    
