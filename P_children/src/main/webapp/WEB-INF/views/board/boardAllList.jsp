@@ -66,6 +66,15 @@ table             {
 #right{
 	text-align: right;
 }
+#board_category {
+	margin: 5px;
+}
+#board_searchCategory{
+	margin: 5px;
+}
+#board_searchKeyword{
+	margin: 5px;
+}
 </style>
 </head>
 <body onload="colorConfirm()">
@@ -82,8 +91,8 @@ table             {
 							<th> 제 목 </th>
 							<th>작성자</th>
 							<th> 작성일 </th>
+							<th> 좋아요 </th>							
 							<th> 조회수 </th>
-							<th> 좋아요 </th>
 							<c:if test ="${info.grade == admin}">
 							<th>관리자 권한</th>
 							</c:if>
@@ -121,8 +130,8 @@ table             {
 									<td><a href="${contextPath }/board/contentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
 									<td>${dto.id }</td>
 									<td>${dto.savedate }</td>
+									<td></td>									
 									<td>${dto.hit }</td>
-									<td></td>
 									<c:if test ="${info.grade == admin}">
 										<td><button onclick="deleteConfirm('${dto.write_no}', '${dto.file_name }')">삭제</button></td>
 									</c:if>
@@ -136,23 +145,24 @@ table             {
 							<input type="button" value="글작성" onclick="location.href='${contextPath }/board/writeForm'" class="but_2">
 					</c:if>
 				</div>
-			<!-- 검색 --> <!-- 수정 -->
+			<!-- 검색 -->
 			<div  class="page_wrap">
-				<form name="noticeSearchForm" action="${contextPath }/board/notice/noticeSearchForm" method="get">
-					<select name="notice_category" id="notice_category">
-						<option value="noticeAll" <c:if test="${notice_category == 'noticeAll' }">selected</c:if>>전체</option>
-						<option value="noticeGeneral" <c:if test="${notice_category == 'noticeGeneral' }">selected</c:if>>일반</option>
-						<option value="noticeEvent" <c:if test="${notice_category == 'noticeEvent' }">selected</c:if>>이벤트</option>
-						<option value="noticeProduct" <c:if test="${notice_category == 'noticeProduct' }">selected</c:if>>상품</option>
-						<option value="noticeDeliveryDelay" <c:if test="${notice_category == 'noticeDeliveryDelay' }">selected</c:if>>배송지연</option>
+				<form name="boardSearchForm" action="${contextPath }/board/boardSearchForm" method="get">
+					<select name="board_category" id="board_category">
+						<option value="total" <c:if test="${board_category == 'total' }">selected</c:if>>전체</option>
+						<option value="informationSharing" <c:if test="${board_category == 'informationSharing' }">selected</c:if>>정보 공유</option>
+						<option value="friendshipPromotion" <c:if test="${board_category == 'friendshipPromotion' }">selected</c:if>>친목 도모</option>
+						<option value="petSneak" <c:if test="${board_category == 'petSneak' }">selected</c:if>>펫 간식</option>
+						<option value="smallChat" <c:if test="${board_category == 'smallChat' }">selected</c:if>>잡담</option>
+						<option value="lookForPetFriend" <c:if test="${board_category == 'lookForPetFriend' }">selected</c:if>>펫 프랜드 구합니다</option>
+						<option value="BeingPetFriend" <c:if test="${board_category == 'BeingPetFriend' }">selected</c:if>>펫 프랜드 합니다</option>
 					</select>
-					<select name="notice_searchCategory" id="notice_searchCategory">
-						<option value="title" <c:if test="${notice_searchCategory == 'title' }">selected</c:if>>제목</option>
-						<option value="content" <c:if test="${notice_searchCategory == 'content' }">selected</c:if>>내용</option>
-						<option value="id" <c:if test="${notice_searchCategory == 'id' }">selected</c:if>>작성자</option>
-						<option value="titleContent" <c:if test="${notice_searchCategory == 'titleContent' }">selected</c:if>>제목+내용</option><!-- 제목+내용 아직 구현 안됐습니다. -->
+					<select name="board_searchCategory" id="board_searchCategory">
+						<option value="title" <c:if test="${board_searchCategory == 'title' }">selected</c:if>>제목</option>
+						<option value="content" <c:if test="${board_searchCategory == 'content' }">selected</c:if>>내용</option>
+						<option value="id" <c:if test="${board_searchCategory == 'id' }">selected</c:if>>작성자</option>
 					</select>
-					<input type="text" id="notice_searchKeyword" name="notice_searchKeyword" value="${notice_searchKeyword }">
+					<input type="text" id="board_searchKeyword" name="board_searchKeyword" value="${board_searchKeyword }">
 					<input type="submit" id="search_btn" value="검색">
 				</form>
 			</div>				
@@ -178,23 +188,23 @@ table             {
 							</c:if>	
 					</div>				
 				</div>
-				<!-- 검색 페이징 --><!-- 수정 -->
-				<c:if test="${notice_category != null }">
+				<!-- 검색 페이징 -->
+				<c:if test="${board_category != null}">
 					<div  class="page_wrap">
-						<div class="page_nation">	
+						<div class="page_nation">				
 								<c:if test="${startPage > block }">
-									<a href="${contextPath }/board/notice/noticeSearchForm?num=${startPage-1 }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="arrow prev"> 이전 </a>
+									 <a href="${contextPath }/board/boardSearchForm?num=${startPage-1 }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" class="arrow prev"> 이전 </a> 
 								</c:if>
 								<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
 									<c:if test="${i == num}">
-										<a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="active"> ${i } </a>
+										 <a href="${contextPath }/board/boardSearchForm?num=${i }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" class="active"> ${i } </a> 
 									</c:if>
 									<c:if test="${i != num}">
-										<a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="active"> ${i } </a>
+										 <a href="${contextPath }/board/boardSearchForm?num=${i }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" class="active"> ${i } </a> 
 									</c:if>
 								</c:forEach>
 								<c:if test="${endPage < totalPage }">
-									<a href="${contextPath }/board/notice/noticeSearchForm?num=${endPage+1 }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="arrow next" > 다음 </a>
+									 <a href="${contextPath }/board/boardSearchForm?num=${endPage+1 }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" class="arrow next"> 다음 </a> 
 								</c:if>
 						</div>
 					</div>	

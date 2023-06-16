@@ -74,6 +74,18 @@ table             {
 #right{
 	text-align: right;
 }
+#notice_category {
+	margin: 5px;
+}
+#notice_searchCategory{
+	margin: 5px;
+}
+#notice_searchKeyword{
+	margin: 5px;
+}
+#search_btn{
+	margin: 5px;
+}
 </style>
 </head>
 <body>

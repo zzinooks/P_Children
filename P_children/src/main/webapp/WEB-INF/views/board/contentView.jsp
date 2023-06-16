@@ -33,18 +33,7 @@
 			
 		}
 	}
-	
-	
-	// 글 삭제 confirm 기능
-	function deleteConfirm() {
-		
-		if(!confirm('삭제하시겠습니까?')){
-			return false;
-		} else {
-			location.href='${contextPath }/board/delete?write_no=${dto.write_no }&file_name=${dto.file_name }';
-		}
-		
-	}
+
 	
 	// 로그인 요구 기능
 	function loginPlease() {
@@ -69,7 +58,7 @@
 	
 	// 댓글 추가
 	function rep() {
-		if($("#content").val() == "") { // 내용이 없을 때
+		if($("#frm #content").val() == "") { // 내용이 없을 때
 			alert("댓글 내용이 없습니다!");
 		} else {
 			let form = {}
@@ -87,8 +76,7 @@
 				success: function(data) {
 					if(data == 1)
 						alert("댓글 추가 성공~!")
-						slide_hide();
-						$("#content").val(' ');
+						$("#frm #content").val(' ');
 						replyData();
 				},
 				error: function() {
@@ -127,7 +115,7 @@
 							htm += "<input type='hidden' class='replyNo' value='" + redata.reply_no + "'/>"
 							htm += "<a onclick='reComment("+ redata.reply_no +")'><img class='dotdotdot' src='https://cdn-icons-png.flaticon.com/512/545/545704.png?w=826&t=st=1686467160~exp=1686467760~hmac=4aa18ca649ccc3b017deba1a114c3a4f7da99ce5a1ca4094f8362e06c9979fb1'></a> "
 							
-							if('${loginUser}' != "noLogin") {
+							if('${loginUser}' != null) {
 								htm += "<button onclick='ShowAddReCommentForm("+ redata.reply_no+")'>대댓글 달기</button>"
 							}
 							// 댓글 작성자와 현재 유저가 일치하는 경우
@@ -148,8 +136,7 @@
 				})
 				} // if(rep.list.length > 0) end
 				else { // 댓글이 없는 경우
-					 htm += "<div align='left'>";
-					 htm += "<h6>등록된 댓글이 없습니다.</h6>";
+					 htm += "<div align='center'>";
 					 htm += "</div>";
 				}
 				
@@ -176,6 +163,8 @@
 		}
 	}
 	
+
+	
 	// 댓글 수정하기 form 생성
 	function updateReply(reply_no){
 		
@@ -194,13 +183,18 @@
 			 cancelAddReComment();
 		} 
 		
+	    $("div.rep").addClass("hidden");
+	    
 		let replyView = ""
-		replyView += "<div align='left'><form  id='updateResultFrm' action='${contextPath }/board/updateReply?num=<%=num2%>'><b>"+ $("#user").val() +"</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
+		replyView += "<b>"+ $("#user").val() +"</b>"
+		replyView += "<div align='left'><form  id='updateResultFrm' action='${contextPath }/board/updateReply?num=<%=num2%>'><input type='hidden' name='id' value='" + $("#user").val() + "' readonly>";
 		replyView += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"
 		replyView += "<input type='hidden' id='updateReply_no' name='updateReply_no' value='" + reply_no + "'>"
-		replyView += "<b> 의 수 정 내 용 : </b><textarea id='updateContent' name='updateContent' rows='5' cols='30' autofocus>" + $('#rep' + reply_no).children('.reply_innerDiv').children('.repContent').text() + "</textarea><br></div>"
+		replyView += "<textarea id='updateContent' name='updateContent' rows='5' cols='30' autofocus>" + $('#rep' + reply_no).children('.reply_innerDiv').children('.repContent').text() + "</textarea><br></div>"
+		replyView +="<div align='right'>"
 		replyView += "<input type='button' onclick='updateReplyConfirm()' value='수정 완료'>"
 		replyView += "<input type='button' onclick='replyData()' value='취소'></form><br>"
+		replyView +="</div>"
 		$('#rep'+ reply_no).replaceWith(replyView);
 		$('#rep'+ reply_no).children('#updateContent').focus();	
 	}
@@ -270,8 +264,8 @@
 					})
 					} // if(rep.list.length > 0) end
 					else { // 댓글이 없는 경우
-						 htm += "<div class='reComment' align='left'>";
-						 htm += "<h6>등록된 대댓글이 없습니다.</h6>";
+						 htm += "<div class='reComment' align='center'>";
+						 htm += "<h5>등록된 대댓글이 없습니다.</h5>";
 						 htm += "</div>";
 					}
 					
@@ -351,7 +345,7 @@
 				contentType: "application/json; charset=utf-8",
 				success: function(data) {
 					if(data == 1)
-						alert("답글 추가 성공~!")
+						alert("댓글 추가 성공")
 						cancelAddReComment();  	// 추가 성공 후 답글 입력창 종료
 						reComment(cGroup);
 				},
@@ -509,9 +503,9 @@ h1 {
 }
 
 .reply {
-	background-color: #f2f2f2;
+	background-color: white;
 	width: 100%;
-	/* border: 1px solid red; */
+	border: 2px solid #A996DB;
 	padding: 5px;
 	margin-top: 5px;
 	border-radius: 5px;
@@ -544,7 +538,6 @@ hr {
 	background-color: cookie;
 	margin: 5px 0px 5px 100px;
 	padding : 5px 30px 5px 30px;
-
 	border-top: 2px solid #eaeaea;
 	width: 700px;
 	
@@ -559,7 +552,7 @@ hr {
 	display: inline-block;
 	float: right;
 	margin-left: 5px;
-	color: #ee4a63;
+	color: gray;
 	text-align: right;
 }
 table             { 
@@ -595,6 +588,43 @@ table             {
 button{
 	border:none;
 }
+
+  .hidden {
+    display: none;
+  }
+  .left{
+  	text-align: right;
+  }
+#rep_but{
+	border:none;
+	background: none;
+}
+.rep_but{
+	width: 100%;
+	height: 40px;
+	border-radius: 40px;
+	background: #A996DB;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-size: 1em;
+	font-weight: 600;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.rep{
+	border: 1px solid #A996DB;
+	border-radius: 40px;
+	border: none;
+}
+ textarea{
+ 	border-radius: 5px;
+	border: 2px solid #A996DB;
+  	padding: 10px;
+  	width: 100%;
+  	height: 100px;
+  	resize: none;
+  }
 </style>
 </head>
 <body onload="replyData()">
@@ -607,23 +637,6 @@ button{
 			<input type="hidden" id="admin" value="${admin }">
 		</div>
 		
-		<!-- 답글 작성 페이지 -->
-		<div id="modal_wrap">
-			<div id="first">
-				<div id="first_">
-					<form id="frm" action="#">
-						<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
-						<input type="hidden" id="user" name="id" value="${user }">
-						<b>답글(댓글) 작성 페이지</b>
-						<b>작성자 : ${user }</b>
-						<b>내 용</b><br>
-						<textarea id="content" name="content" rows="5" cols="30"></textarea>
-						<button type="button" onclick="rep()">답 글</button>
-						<button type="button" onclick="slide_hide()">취 소</button>
-					</form>
-				</div>
-			</div>
-		</div>
 		
 		<!-- 답글 수정 페이지 -->
 		<div id="modal_wrap">
@@ -631,15 +644,11 @@ button{
 				<div >
 					<form id="updateFrm" action="#">
 						<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
-						<input type="hidden" id="user" name="id" value="${user }">
+						<input type="hidden" id="user" name="id" value="${loginUser }">
 						<b>답글(댓글) 수정 페이지</b>
-						<hr>
-						<b>작성자 : ${user }</b>
-						<hr>
-						<hr>
+						<b>작성자 : ${loginUser }</b>
 						<b>내 용</b><br>
 						<textarea id="content" name="content" rows="5" cols="30"></textarea>
-						<hr>
 						<button type="button" onclick="repUpdate()">수 정</button>
 						<button type="button" onclick="slide_hide()">취 소</button>
 					</form>
@@ -692,7 +701,7 @@ button{
 							</button>
 							<button class="btn btn-light" 
 											onclick= <c:choose>
-																<c:when test="${user == 'noLogin'}">"loginPlease()"</c:when>
+																<c:when test="${loginUser == 'null'}">"loginPlease()"</c:when>
 																<c:otherwise>"toggleDibs()"</c:otherwise>
 															</c:choose>
 							>
@@ -707,7 +716,7 @@ button{
 						</button>
 							<form id="dibs_info" action="" method="post" name="dibs_info">
 								<input type="hidden" name="write_no"  value="${dto.write_no }">
-								<input type="hidden" name="id"  value="${user }">
+								<input type="hidden" name="id"  value="${loginUser }">
 							</form>
 						</td>
 				</tr>
@@ -726,13 +735,48 @@ button{
 						</c:if>				
 					</td>
 				</tr>
-				<tr>
-					<td colspan="4"><div id="reply"></div></td>
-				</tr>
 			</table>
-			
-			<input type="button" value="댓글달기" onclick="slide_click()">
-			
+			<div id="reply" ></div>
+			<div class="rep">
+				<form id="frm" action="#">
+						<input type="hidden" id="write_no" name="write_no" value="${dto.write_no }">
+						<input type="hidden" id="user" name="id" value="${loginUser }">
+						<b>${loginUser } 님</b>
+						<br>
+						<textarea id="content" name="content" rows="5" cols="30"></textarea>
+				</form>
+				<input class="rep_but" type="button" value="댓글달기" onclick="rep()">
+			</div>
+
+			<c:if test="${dto.id == loginUser || info.grade == admin }">
+			<ul class="menu">
+			      <li>
+			        <a href="#">메뉴</a>
+			        <hr>
+					<ul class="submenu">
+                    <c:choose>
+                     <c:when test="${toMyDibsBoard == 'yes' }">
+                        <li><a href="${contextPath }/board/myDibsBoard?num=<%=num2%>">목록</a></li>
+                     </c:when>
+                     <c:otherwise>
+                        <c:choose>
+                           <c:when test="${board_category != null}">
+                              <li><a href="${contextPath }/board/boardSearchForm?num=<%=num2%>&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}">목록</a></li>
+                           </c:when>
+                           <c:otherwise>
+                              <li><a href="location.href='${contextPath }/board/boardAllList?num=<%=num2%>>">목록</a></li>
+                           </c:otherwise>   
+                        </c:choose>
+                     </c:otherwise>
+                  </c:choose>
+                      <hr>
+                      <li><a href="${contextPath }/board/modifyForm?write_no=${dto.write_no }&num=<%=num2%>">수정</a></li>
+                      <hr>
+                      <li><a href="${contextPath }/board/delete?write_no=${dto.write_no }&file_name=${dto.file_name }">삭제</a></li>
+                    </ul>
+                  </li>
+                </ul>
+			    </c:if>	
 		</div>
 	</section>
 	
