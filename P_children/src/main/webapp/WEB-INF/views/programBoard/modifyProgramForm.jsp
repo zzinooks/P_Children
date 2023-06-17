@@ -692,9 +692,10 @@ h1 {
 	               <td>
 	               	<input list="state_list" type="text" id="state" name="state" value="${programBoardDTO.state }">
 	               	<datalist id="state_list">
-	               		<option value="예약 가능" label="예약 가능"/>
-	               		<option value="승인 대기" label="승인 대기"/>
-	               		<option value="예약 완료" label="예약 완료"/>	
+	               		<option value="예약가능" label="예약 가능"/> <!-- 초기값 -->
+	               		<option value="승인대기" label="승인 대기"/> <!-- 승인대기는 필요없을 것 같습니다..? -->
+	               		<option value="결재완료" label="결재 완료"/> <!-- 자신이 결재 했을 때 받는 것은 결재 완료 -->
+	               		<option value="예약완료" label="예약 완료"/> <!-- 참여 인원이 꽈 차면 예약 완료 --> 
 	               	</datalist>
 	               </td>
 	            </tr>

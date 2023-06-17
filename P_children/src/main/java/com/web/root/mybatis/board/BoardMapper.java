@@ -83,6 +83,13 @@ public interface BoardMapper {
 	
 	public int deleteProgram(int write_no);
 	
+	// 게시판 게시글 카테고리 수
+	public int programBoardCountCategory(Map<String, String> map); 
+
+	// 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
+	public List<ProgramBoardDTO> programBoardSearchFormCountList(Map<String, String> map);
+	
+	
 	
 	// 찜하기 기능 -----------------------------------------------
 	
