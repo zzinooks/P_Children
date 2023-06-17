@@ -25,6 +25,9 @@ public interface BoardForProgramService {
 	public String paidProgramContentView(HttpServletRequest request, HttpSession session);
 
 	public String kakaoPayFail(HttpServletRequest request);
+	
+	// 프로그램 게시판 카테고리 + 검색 조회
+	public void programBoardSearchForm(String programBoard_state,String programBoard_searchCategory,String programBoard_searchKeyword,Model model,int num);
 
 	
 	
