@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +10,35 @@
 <title>Mate With 내가 결제한 프로그램</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function cancel_request(id, write_no) {
+	if(confirm("프로그램 결제 취소를 신청하시겠습니까?")){
+		$.ajax({
+			url: "cancelRequest",
+			type: "post",
+			data: {
+				"id" : id,
+				"write_no" : write_no
+				},
+			success: function(result){
+				if(result == 'ok'){
+					alert('결제 취소 신청이 완료되었습니다. 페이지를 새로고침 해주세요.');
+					$('#newPg').text('페이지를 새로고침 해주세요.');
+				} else {
+					alert("Error! 고객센터로 문의해 주세요.");
+				}
+			},
+			error: function(){
+				alert("Error");
+			}
+			
+		});
+
+	}
+	
+} 
+</script>
 <style type="text/css">
 table             { 
   border-spacing: 1; 
@@ -45,25 +75,32 @@ table             {
 	
 		<section ><!-- body -->
 		<div class="form-box-list"> <!--  container  -->
-		<div class="title" >카카오페이 관리</div>
+		<div class="title" >내가 결제한 프로그램</div>
 		<table >
 		<thead>
 			<tr>
-					<th>결제한 프로그램</th>
+					<th>프로그램 이름</th>
 					<th>바로가기</th>
+					<th>결제 취소 신청</th>
 			</tr>
 		</thead>
 				<c:if test="${paidProgramList.size() == 0 }">
 					<tr>
-						<th colspan="2">없음</th>
+						<th colspan="3">없음</th>
 					</tr>
 				</c:if>
 			<c:forEach var="PP" items="${paidProgramList}">
 					<tr>
 						<td>${PP.title}</td>
 						<td><button onclick="location.href='${contextPath}/programBoard/programContentView?write_no=${PP.write_no }&num=${PP.num }'">프로그램 보기</button></td>
+						<c:if test="${PP.cancel_request == 'N' }">
+							<td><button onclick="cancel_request('${PP.id}', '${PP.write_no }')">결제 취소 신청하기</button> &nbsp; <span id="newPg"></span></td>
+						</c:if>
+						<c:if test="${PP.cancel_request == 'Y' }">
+							<td><span>결제 취소 신청 완료 (취소가 되면 결제한 프로그램이 현재 페이지에서 사라집니다.)</span></td>
+						</c:if>
 					</tr>
-				</c:forEach>
+			</c:forEach>
 		</table>
 			<div class="page_wrap">
 			   <div class="page_nation">

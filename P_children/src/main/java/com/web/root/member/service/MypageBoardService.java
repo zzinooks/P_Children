@@ -1,5 +1,7 @@
 package com.web.root.member.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.ui.Model;
 
 public interface MypageBoardService {
@@ -12,6 +14,8 @@ public interface MypageBoardService {
 
 	// ======================================= 박성수 시작 =================================================
 	public void selectPaidProgramList(String id, int pg_num, Model model);
+
+	public String updateCancelRequest(HttpServletRequest request);
 	
 	
 	// ======================================= 박성수 시작 =================================================

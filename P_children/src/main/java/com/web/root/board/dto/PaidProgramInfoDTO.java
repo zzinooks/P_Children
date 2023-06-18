@@ -5,6 +5,7 @@ public class PaidProgramInfoDTO {
 	private String title;
 	private int write_no;
 	private int num;
+	private String cancel_request;
 	
 	public String getId() {
 		return id;
@@ -29,6 +30,12 @@ public class PaidProgramInfoDTO {
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	public String getCancel_request() {
+		return cancel_request;
+	}
+	public void setCancel_request(String cancel_request) {
+		this.cancel_request = cancel_request;
 	}
 	
 	

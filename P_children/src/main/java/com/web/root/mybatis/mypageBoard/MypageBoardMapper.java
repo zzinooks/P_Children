@@ -33,6 +33,8 @@ public interface MypageBoardMapper {
 	public int selectPaidProgramInfoCount();
 
 	public ArrayList<PaidProgramInfoDTO> selectPaidProgramList(@Param("id") String id, @Param("start") int start, @Param("end") int end);
+
+	public int updateCancelRequest(@Param("id") String id, @Param("num") int write_no);
 	
 	
 	// ======================================= 박성수 끝 =================================================

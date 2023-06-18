@@ -3,12 +3,13 @@ package com.web.root.member.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.web.root.board.dto.BoardDTO;
-import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.mybatis.mypageBoard.MypageBoardMapper;
 
@@ -126,6 +127,22 @@ public class MypageBoardServiceImpl implements MypageBoardService {
 				model.addAttribute("startPage", startPage);
 				model.addAttribute("block", block);
 				model.addAttribute("totalPage", totalPage);
+	}
+	
+	@Override
+	public String updateCancelRequest(HttpServletRequest request) {
+		String result = "";
+		String id = request.getParameter("id");
+		int write_no = Integer.parseInt(request.getParameter("write_no"));
+		int res = mapper.updateCancelRequest(id, write_no);
+		
+		if(res == 1) {
+			result = "ok";
+		} else {
+			result = "false";
+		}
+		
+		return result;
 	}
 	
 	// ======================================= 박성수 끝 =================================================

@@ -49,6 +49,7 @@
 		<result property="title" column="title"/>
 		<result property="write_no" column="write_no"/>
 		<result property="num" column="num"/>
+		<result property="cancel_request" column="cancel_request"/>
 	</resultMap>
 	
 	<!--  ======================== 윤희 시작 ==========================   -->
@@ -94,6 +95,9 @@
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	
+	<update id="updateCancelRequest">
+		UPDATE paidProgramInfo SET cancel_request = 'Y' where id = #{id} and write_no = #{num}
+	</update>
 	
 	<!-- ======================================= 박성수 끝 ================================================= -->
 	
