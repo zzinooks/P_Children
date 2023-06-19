@@ -23,12 +23,21 @@
 </script>
 </head>
 <body>
-   
    <c:import url="../default/header.jsp"/>
       
       <section><!-- body -->
       <div class="form-box"> <!--  container  -->
-      <div class="title">회원 정보</div>
+      <div class="title" >회원 정보</div>
+      
+      <!-- 0616_최윤희 추가: 호스트 인증 버튼 : 버튼 디자인, 위치 바뀌어도 상관없습니다~ -->
+      	<c:if test="${dto.certified  == 'N' }">
+      		<button onclick="location.href='${contextPath }/mypageBoard/certified/hostCertificationForm'">HOST 인증 신청하기</button>
+      	</c:if>
+      	<c:if test="${dto.certified  == 'G' }">
+      		<button>HOST 인증 심사중</button>
+      	</c:if>
+      <!-- 0616_최윤희 끝 --> 
+      
       <form>
          <div class="user-details">
             <div class="input-box">
@@ -62,17 +71,24 @@
                <input type="text" id="mateBreed" name="mateBreed" oninput="deleteSpan_mateBreed()" value="${dto.mateBreed}" readonly="readonly">
             </div>
             </c:if>
+            <%-- 호스트 인증되면 나타나는 인증마크 이미지 --%>
+            <c:if test="${dto.certified  == 'Y' && dto.grade != 'gold' }">
+            	<img src="${contextPath }/resources/image/hostMark/certification.png" width="100px" height="100px">
+			</c:if> 
          </div>
          <div class="button">
             <input type="button" value="개인정보 수정" onclick="location.href='member_modify'" class="but_1">
             <input type="button" value="내가 찜한 게시글" onclick="location.href='${contextPath }/board/myDibsBoard'" class="but_1">
-            <!-- 0614_최윤희 : 게시글 버튼 추가 -->
+            <!-- 0616_최윤희 : 게시글 버튼 추가 -->
             <c:if test="${dto.userSelect == 'host'}">
             	<input type="button" value="내가 작성한 게시글" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardProgramWriteList'" class="but_1">
             </c:if>
             <c:if test="${dto.userSelect == 'member'}">
             	<input type="button" value="내가 작성한 게시글" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList'" class="but_1">
             </c:if>
+            <!-- 0616_최윤희 끝 -->
+            <!-- ================ 박성수 : 내가 결제한 프로그램 목록  -->
+            <input type="button" value="내가 결제한 프로그램" onclick="location.href='${contextPath }/mypageBoard/write/paidProgramInfoList'" class="but_1">
             <!-- 0614_최윤희 끝 -->
             <input type="button" value="문의" onclick="location.href='${contextPath }/board/member_qna'" class="but_1">
             <input type="button" value="회원 탈퇴" onclick="location.href='member_leave'" class="but_1">
@@ -82,12 +98,6 @@
    </section>
    
    <c:import url="../default/footer.jsp"/>
-   
-   <!-- 0614_최윤희 : 작성 게시글 정보 가져가는 form : section 안으로 들어가면 전달안됩니다. -->
-  <%--  <form id="userSelectForm" name="userSelectForm" method="post" action="${contextPath}/mypageBoard/write/mypageBoardWriteList">
-      <input type="hidden" name="userSelectValue" id="userSelectValue" value="${dto.userSelect }">
-   </form> --%>
-   <!-- 0614_최윤희 끝 -->
    
 </body>
 </html>

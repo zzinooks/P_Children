@@ -146,7 +146,7 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
       Map<String, Object> mapForPaidProgramBoard = new HashMap<String, Object>();
       
       mapForPaidProgramBoard.put("write_no", Integer.parseInt(request.getParameter("write_no")));
-      List<PaidProgramInfoDTO> paidProgramInfoList = bs.paidProgramInfoByHostIdAndWriteNo(mapForPaidProgramBoard);
+      List<PaidProgramInfoDTO> paidProgramInfoList = bfps.paidProgramInfoByHostIdAndWriteNo(mapForPaidProgramBoard);
       for (PaidProgramInfoDTO paidProgramInfoDTO : paidProgramInfoList) {
 		System.out.println("제목 :" + paidProgramInfoDTO.getTitle());
 	}

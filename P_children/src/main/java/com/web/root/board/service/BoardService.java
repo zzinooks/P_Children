@@ -67,10 +67,7 @@ public interface BoardService {
 	public void myDibsBoardAllList(Model model, int num, HttpServletRequest request, String id);
 	
 	public int getdibsNumByWriteNo(int write_no);
-	
-	// 프로그램 게시판 결재 보드 관련 기능 -----------------------------------
-	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map);
-	
+		
 	//============================ 주진욱 끝 ===========================================
 	
 	
@@ -100,7 +97,6 @@ public interface BoardService {
 	public void noticeSearchForm(@Param("notice_category") String notice_category, 
 								 @Param("notice_searchCategory") String notice_searchCategory, 
 								 @Param("notice_searchKeyword") String notice_searchKeyword, Model m, int num);
-
 	
 	//============================ 최윤희 끝 ===========================================
 	

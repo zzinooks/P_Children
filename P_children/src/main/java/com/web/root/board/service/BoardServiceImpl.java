@@ -722,15 +722,7 @@ public class BoardServiceImpl implements BoardService {
 
 		
 	}
-	
-	// 프로그램 보드 결재 게시판 기능 관련 ------------------------
-	
-	@Override
-	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map) {
-		return mapper.paidProgramInfoByHostIdAndWriteNo(map);
-	}	
-	
-		
+			
 	//============================ 최윤희 끝 ===========================================
 	
 	// 청규

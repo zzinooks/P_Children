@@ -7,18 +7,11 @@ public class PaidProgramInfoDTO {
 	private int num;
 	private String cancel_request;
 	
-	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getCancel_request() {
-		return cancel_request;
-	}
-	public void setCancel_request(String cancel_request) {
-		this.cancel_request = cancel_request;
 	}
 	public String getTitle() {
 		return title;
@@ -38,6 +31,15 @@ public class PaidProgramInfoDTO {
 	public void setNum(int num) {
 		this.num = num;
 	}
+	public String getCancel_request() {
+		return cancel_request;
+	}
+	public void setCancel_request(String cancel_request) {
+		this.cancel_request = cancel_request;
+	}
+	
+	
+	
 	
 	
 }

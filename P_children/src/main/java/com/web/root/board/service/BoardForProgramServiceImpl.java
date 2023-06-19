@@ -313,11 +313,10 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		String write_no = request.getParameter("write_no");
 		String num = request.getParameter("num");
 		String title = request.getParameter("title");
-		System.out.println(title);
 		String paymentId = (String) session.getAttribute(LOGIN);
 		
 		PaidProgramInfoDTO paidProgramInfoDTO = new PaidProgramInfoDTO();
-		//paidProgramInfoDTO.setPaymentId(paymentId);
+		paidProgramInfoDTO.setId(paymentId);
 		paidProgramInfoDTO.setTitle(title);
 		paidProgramInfoDTO.setWrite_no(Integer.parseInt(write_no));
 		paidProgramInfoDTO.setNum(Integer.parseInt(num));
@@ -363,7 +362,11 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		return bfs.getMessage(request, msg, url);
 	}
 	
-	
+	// 프로그램 보드 결재 게시판 기능 관련 ------------------------
+	@Override
+	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map) {
+		return mapper.paidProgramInfoByHostIdAndWriteNo(map);
+	}		
 	
 	//============================ 윤희 시작 =============================================
 	
