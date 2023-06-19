@@ -22,6 +22,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.mybatis.board.BoardMapper;
 import com.web.root.qna.dto.QnaDTO;
 import com.web.root.qna.dto.Qna_RepDTO;
@@ -461,6 +462,8 @@ public class BoardServiceImpl implements BoardService {
 	// MyPage board List 기능
 	@Override
 	public void myDibsBoardAllList(Model model, int num, HttpServletRequest request, String id) {
+		
+		// 한 페이지 정보 설정
 		int pageLetter = 10; // 한 페이지 당 글 목록수
 		int allCount= mapper.selectMyDibsBoardCount(id); // 내가 찜한 전체 글수
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
@@ -469,7 +472,7 @@ public class BoardServiceImpl implements BoardService {
 		int end = num * pageLetter;
 		int start = end +1 - pageLetter;
 		
-		// 페이징
+		// 페이징 정보 설정
 		int totalPage = (allCount - 1)/pageLetter + 1;
 		int block = 3;
 		int startPage = (num - 1)/block*block + 1;
@@ -719,8 +722,7 @@ public class BoardServiceImpl implements BoardService {
 
 		
 	}
-	
-		
+			
 	//============================ 최윤희 끝 ===========================================
 	
 	// 청규
@@ -739,6 +741,9 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("qnaList", mapper.manager_qna(start, end));		
 		
 	}
+
+
+
 
 	// 나의 문의
 	@Override

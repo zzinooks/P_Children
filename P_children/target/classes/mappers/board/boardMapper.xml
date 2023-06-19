@@ -92,12 +92,21 @@
 		<result property="content" column="content"/>
 	</resultMap>
 	
-	<!-- 성수 : 내가 결제한 프로그램 정보 저장 테이블 -->
-	<resultMap type="com.web.root.board.dto.PaidProgramInfoDTO" id="paidProgramInfo">
+ 	<!-- 성수 : 내가 결제한 프로그램 정보 저장 테이블 -->
+<!--	<resultMap type="com.web.root.board.dto.PaidProgramInfoDTO" id="paidProgramInfo">
 		<id property="paymentId" column="paymentId"/>
 		<result property="title" column="title"/> 
 		<result property="write_no" column="write_no"/> 
 		<result property="num" column="num"/> 
+	</resultMap> -->
+	
+	<!-- 프로그램 게시판 결재 확인 기능 -->
+	<resultMap  id="paidProgramInfo" type="com.web.root.board.dto.PaidProgramInfoDTO">
+		<result property="id" column="id"/>					<!-- host의 id -->
+		<result property="title" column="title"/>			<!-- 프로그램 게시판의 제목 -->		
+		<result property="write_no" column="write_no"/> 	<!-- 프로그램 게시판의 write_no  -->
+		<result property="num" column="num"/>				<!-- num -->
+		<result property="cancel_request" column="cancel_request"/> <!-- 취소 진행 여부 -->
 	</resultMap>
 
 	<!--  ======================== 진욱 시작 ==========================   -->
@@ -283,6 +292,10 @@
 			(title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%' and mateName like '%'||#{mateName}||'%') 
 			and state like '%'||#{state}||'%' ORDER BY write_no DESC)A )B
 			WHERE rn BETWEEN #{s} and #{e} 
+	</select>
+	
+	<select id="paidProgramInfoByHostIdAndWriteNo" resultMap="paidProgramInfo">
+		SELECT * FROM paidprograminfo WHERE write_no=#{write_no}
 	</select>
 	
 	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 (신청한 완료 뒤 : 신청한 인원 < 총원 )  -->
@@ -473,9 +486,9 @@
 		WHERE rn=1
 	</select>
 	
-	<insert id="insertPaidProgramInfo">
+<!-- 	<insert id="insertPaidProgramInfo">
 		INSERT INTO paidProgramInfo VALUES(#{paymentId}, #{title}, #{write_no}, #{num})
-	</insert>
+	</insert> -->
 	
 	<!-- 	// =============================== 성수 끝 ================================== -->
 	
