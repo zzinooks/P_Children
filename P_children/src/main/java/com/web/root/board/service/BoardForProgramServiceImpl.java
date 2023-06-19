@@ -124,7 +124,6 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		// 각 게시판 마다 속한 좋아요 숫자를 불러온다
 		for (ProgramBoardDTO programBoardDTO : programBoardList) {
 			programBoardDTO.setDibsCount(mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
-			//System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
 		}
 		
 		// 정보 담기
@@ -363,12 +362,20 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 	}
 	
 	// 프로그램 보드 결재 게시판 기능 관련 ------------------------
+	
+	// 게시판 기준 Paid ProgramInfoDTO 불러오기
 	@Override
-	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map) {
-		return mapper.paidProgramInfoByHostIdAndWriteNo(map);
-	}		
+	public List<PaidProgramInfoDTO> paidProgramInfoByWriteNo(Map<String, Object> map) {
+		return mapper.paidProgramInfoByWriteNo(map);
+	}
 	
-	
+	// host 기준 Paid ProgramInfoDTO 불러오기
+	@Override
+	public List<PaidProgramInfoDTO> paidProgramInfoById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	// MyPage board List 기능
 	@Override
 	public void myDibsProgramBoardAllList(Model model, int num, HttpServletRequest request, String id) {

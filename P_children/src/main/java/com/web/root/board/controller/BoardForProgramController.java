@@ -58,6 +58,7 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 	@RequestMapping("writeFormForProgram")
 	public String writeFormForProgram (Model model, HttpSession session) {
 		model.addAttribute("user", session.getAttribute(LOGIN));
+		ms.userInfo((String) session.getAttribute(LOGIN), model);
 		return "programBoard/writeFormForProgram";
 	}
 	
@@ -142,14 +143,16 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
       // (1-4) 게시판 찜한 숫자 가져오기
       int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(request.getParameter("write_no")));
       
-      // (1-5) 프로그램 게시판 결재 목록 불러오기
-      Map<String, Object> mapForPaidProgramBoard = new HashMap<String, Object>();
-      
-      mapForPaidProgramBoard.put("write_no", Integer.parseInt(request.getParameter("write_no")));
-      List<PaidProgramInfoDTO> paidProgramInfoList = bfps.paidProgramInfoByHostIdAndWriteNo(mapForPaidProgramBoard);
-      for (PaidProgramInfoDTO paidProgramInfoDTO : paidProgramInfoList) {
-		System.out.println("제목 :" + paidProgramInfoDTO.getTitle());
-	}
+      // (1-5) 프로그램 게시판에서 검색하고 글보기 했을 때 검색값들 넘겨주기
+        String programBoard_state = request.getParameter("programBoard_state");				// 카테고리 옵션 저장
+		String programBoard_searchCategory = request.getParameter("programBoard_searchCategory");	// 검색 카테고리 옵션 저장
+		String programBoard_searchKeyword = request.getParameter("programBoard_searchKeyword");		// 검색 키워드 저장
+		
+		
+		// 서비스에서 요청을 받지않은 이유는 처음 값 
+		// (카테고리: programBoardAll, 검색카테고리: 제목, 검색키워드: "") 을 저장하기 위해서
+		// 서비스에서는 쿼리문 조회를 위해서 해당 내용들을 "%%"로 바꾸기 때문에 .jsp에서는 "%%"가 사용불가
+		// 즉 서비스에서 요청내용을 받게되면 처음 쿼리문으로 전체를 "%%"로 변경 -> 다시 ""로 변환해줘야한다.
       
       // (1-6) myPage 내가 찜한 게시판에서 온 경우 정보 불러오기
       String toMyDibsProgramBoard = request.getParameter("toMyDibsProgramBoard");
@@ -163,9 +166,13 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
       
       model.addAttribute("dibsNum", dibsNum);
       
-      model.addAttribute("paidProgramInfoList", paidProgramInfoList);
-      
       model.addAttribute("toMyDibsProgramBoard", toMyDibsProgramBoard);
+      
+      // 프로그램 게시판에서 검색하고 글보기 시 검색값 정보 담기
+      model.addAttribute("programBoard_state", programBoard_state);
+      model.addAttribute("programBoard_searchCategory", programBoard_searchCategory);
+      model.addAttribute("programBoard_searchKeyword", programBoard_searchKeyword);
+      
       // (3) 조회수 증가
       bfps.programHitplus(programBoardDTO);
       

@@ -191,7 +191,7 @@ public interface BoardMapper {
 	public void insertPaidProgramInfo(PaidProgramInfoDTO paidProgramInfoDTO);
 
 	// 진욱 추가
-	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map);
+	public List<PaidProgramInfoDTO> paidProgramInfoByWriteNo(Map<String, Object> map);
 	
 	
 	// =============================== 성수 끝 ==================================

@@ -36,10 +36,10 @@ table, th, tr, td {
 				<th>작성자</th>
 				<th>작성일</th>
 				<th>예약현황</th>
-				<th>조회수</th>		
+				<th>조회수</th>
+				<th>프로그램 참여 인원</th>	
 			</tr>
 			<!-- // 제목 칼럼 끝 -->
-			
 			<!-- 내용 시작 -->
 			<c:choose>
 				<c:when test="${empty mypageBoardProgramList}">
@@ -57,7 +57,26 @@ table, th, tr, td {
 							<td>${mypageBoardProgramList.savedate}</td>
 							<td>${mypageBoardProgramList.state}</td>
 							<td>${mypageBoardProgramList.hit}</td>
+							<td>${mypageBoardProgramList.currentRegisterCount} / ${mypageBoardProgramList.totalRegisterCount}</td>
 						</tr>
+						<tr>
+							<th> id </th>
+							<th colspan="5"> 결재 상황 </th>
+							<th>취소 승인 버튼</th>
+						</tr>
+							<c:forEach var="paidProgramInfoDTO" items="${mypageBoardProgramList.paidProgramInfoDTO }">
+								<tr>
+									<td>${paidProgramInfoDTO.id }</td>
+									<c:if test="${paidProgramInfoDTO.cancel_request == 'Y'}">
+			      						<td colspan="5">취소 요청</td>
+			      					</c:if>
+			      					<c:if test="${paidProgramInfoDTO.cancel_request == 'N'}">
+			      						<td>결재 완료</td>
+			      					</c:if>
+			      					<td><button>취소 승인(구현중)</button></td>
+								</tr>
+							</c:forEach>
+						
 					</c:forEach>
 				</c:otherwise>
 			</c:choose>
@@ -65,7 +84,7 @@ table, th, tr, td {
 			
 			<!-- 페이징 시작 -->
 			<tr>
-				<td colspan="6" align="center">
+				<td colspan="7" align="center">
 					<div>
 						<c:if test="${startPage > block }">
 							[ <a href="${contextPath }/mypageBoard/write/mypageBoardProgramWriteList?num=${startPage-1 }" id="paging"> 이전 </a> ]

@@ -34,8 +34,9 @@ public interface BoardForProgramService {
 	public void programBoardSearchForm(String programBoard_state,String programBoard_searchCategory,String programBoard_searchKeyword,Model model,int num);
 
 	// 프로그램 게시판 결재 보드 관련 기능 -----------------------------------
-	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map);
+	public List<PaidProgramInfoDTO> paidProgramInfoByWriteNo(Map<String, Object> map);
 	
+	public List<PaidProgramInfoDTO> paidProgramInfoById(String id);
 	
 	// 프로그램 게시판 찜하기 관련 기능 ---------------------------------------
 	

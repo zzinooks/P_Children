@@ -1,7 +1,9 @@
 package com.web.root.member.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.web.root.board.dto.BoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
+import com.web.root.mybatis.board.BoardMapper;
 import com.web.root.mybatis.mypageBoard.MypageBoardMapper;
 
 @Service
@@ -18,6 +22,12 @@ public class MypageBoardServiceImpl implements MypageBoardService {
 
 	@Autowired
 	private MypageBoardMapper mapper;
+	
+	// 진욱 추가 (06/19) 시작 -------------------------------------------------
+	@Autowired
+	private BoardMapper boardMapper;
+	
+	// 진욱 추가 (06/19) 끝 --------------------------------------------------
 	
 	
 	//============================ 최윤희 시작 ===========================================
@@ -89,6 +99,19 @@ public class MypageBoardServiceImpl implements MypageBoardService {
 		
 		myboardProgramListPageDTO = mapper.mypageBoardProgramList(myboardProgramDTO);
 		
+		// 진욱 추가 (06/19) 시작 -------------------------------------------------
+		for (ProgramBoardDTO programBoardDTO : myboardProgramListPageDTO) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("write_no", programBoardDTO.getWrite_no());
+			programBoardDTO.setPaidProgramInfoDTO(boardMapper.paidProgramInfoByWriteNo(map));
+			List<PaidProgramInfoDTO> ListOfPaidProgramInfoDTO = programBoardDTO.getPaidProgramInfoDTO();
+			//for (PaidProgramInfoDTO paidProgramInfoDTO : ListOfPaidProgramInfoDTO) {
+			//	System.out.println(paidProgramInfoDTO.getId());
+			//}
+			
+		}
+		
+		// 진욱 추가 (06/19) 끝 --------------------------------------------------
 		m.addAttribute("repeat", repeat);
 		m.addAttribute("mypageBoardProgramList", myboardProgramListPageDTO ); // 시작과 끝 페이지 안에서 내용 가져오기
 		m.addAttribute("endPage", endPage);

@@ -294,7 +294,7 @@
 			WHERE rn BETWEEN #{s} and #{e} 
 	</select>
 	
-	<select id="paidProgramInfoByHostIdAndWriteNo" resultMap="paidProgramInfo">
+	<select id="paidProgramInfoByWriteNo" resultMap="paidProgramInfo">
 		SELECT * FROM paidprograminfo WHERE write_no=#{write_no}
 	</select>
 	
