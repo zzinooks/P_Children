@@ -14,6 +14,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.qna.dto.QnaDTO;
 import com.web.root.qna.dto.Qna_RepDTO;
 
@@ -66,7 +67,7 @@ public interface BoardService {
 	public void myDibsBoardAllList(Model model, int num, HttpServletRequest request, String id);
 	
 	public int getdibsNumByWriteNo(int write_no);
-	
+		
 	//============================ 주진욱 끝 ===========================================
 	
 	
@@ -96,7 +97,6 @@ public interface BoardService {
 	public void noticeSearchForm(@Param("notice_category") String notice_category, 
 								 @Param("notice_searchCategory") String notice_searchCategory, 
 								 @Param("notice_searchKeyword") String notice_searchKeyword, Model m, int num);
-
 	
 	//============================ 최윤희 끝 ===========================================
 	

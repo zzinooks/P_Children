@@ -55,13 +55,13 @@ table             {
 #right{
 	text-align: right;
 }
-#notice_category {
+#programBoard_state {
 	margin: 5px;
 }
-#notice_searchCategory{
+#programBoard_searchCategory{
 	margin: 5px;
 }
-#notice_searchKeyword{
+#programBoard_searchKeyword{
 	margin: 5px;
 }
 #search_btn{
@@ -106,7 +106,7 @@ table             {
 								<td>${dto.savedate }</td>
 								<td>${dto.state } &nbsp; ${dto.currentRegisterCount } / ${dto.totalRegisterCount }</td>
 								<td>${dto.hit }</td>
-								<td> 찜수나올예정</td>
+								<td>${dto.dibsCount }</td>
 								<c:if test ="${info.grade == admin}">
 									<td><button onclick="deleteConfirm('${dto.write_no}', '${dto.mateImage }')">삭제</button></td>
 								</c:if>
@@ -120,25 +120,25 @@ table             {
 					<input type="button" value="글작성" onclick="location.href='${contextPath }/programBoard/writeFormForProgram'" class="but_2">
 				</c:if>			
 			</div>		
-			<!-- 검색 추가 예정 -->
-			<div  class="page_wrap">
-			<form name="noticeSearchForm" action="${contextPath }/board/notice/noticeSearchForm" method="get">
-				<select name="notice_category" id="notice_category">
-					<option value="noticeAll" <c:if test="${notice_category == 'noticeAll' }">selected</c:if>>전체</option>
-					<option value="noticeGeneral" <c:if test="${notice_category == 'noticeGeneral' }">selected</c:if>>일반</option>
-					<option value="noticeEvent" <c:if test="${notice_category == 'noticeEvent' }">selected</c:if>>이벤트</option>
-					<option value="noticeProduct" <c:if test="${notice_category == 'noticeProduct' }">selected</c:if>>상품</option>
-					<option value="noticeDeliveryDelay" <c:if test="${notice_category == 'noticeDeliveryDelay' }">selected</c:if>>배송지연</option>
-				</select>
-				<select name="notice_searchCategory" id="notice_searchCategory">
-					<option value="title" <c:if test="${notice_searchCategory == 'title' }">selected</c:if>>제목</option>
-					<option value="content" <c:if test="${notice_searchCategory == 'content' }">selected</c:if>>내용</option>
-					<option value="id" <c:if test="${notice_searchCategory == 'id' }">selected</c:if>>작성자</option>
-					<option value="titleContent" <c:if test="${notice_searchCategory == 'titleContent' }">selected</c:if>>제목+내용</option><!-- 제목+내용 아직 구현 안됐습니다. -->
-				</select>
-				<input type="text" id="notice_searchKeyword" name="notice_searchKeyword" value="${notice_searchKeyword }">
-				<input type="submit" id="search_btn" value="검색">
-			</form>
+			<!-- 검색 -->
+			<div class="page_wrap">
+				<form name="programBoardSearchForm" action="${contextPath }/programBoard/programBoardSearchForm" method="get">
+					<select name="programBoard_state" id="programBoard_state">
+						<option value="total" <c:if test="${programBoard_state == 'total' }">selected</c:if>>전체</option>
+	               		<option value="예약가능" <c:if test="${programBoard_state == '예약가능' }">selected</c:if>>예약 가능</option> <!-- 초기값 -->
+	               		<option value="승인대기" <c:if test="${programBoard_state == '승인대기' }">selected</c:if>>승인 대기</option> <!-- 승인대기는 필요없을 것 같습니다..? -->
+	               		<option value="결재완료" <c:if test="${programBoard_state == '결재완료' }">selected</c:if>>결재 완료</option> <!-- 자신이 결재 했을 때 받는 것은 결재 완료 -->
+	               		<option value="예약완료" <c:if test="${programBoard_state == '예약완료' }">selected</c:if>>예약 완료</option> <!-- 참여 인원이 꽈 차면 예약 완료 --> 
+					</select>
+					<select name="programBoard_searchCategory" id="programBoard_searchCategory">
+						<option value="title" <c:if test="${programBoard_searchCategory == 'title' }">selected</c:if>>제목</option>
+						<option value="content" <c:if test="${programBoard_searchCategory == 'content' }">selected</c:if>>내용</option>
+						<option value="mateName" <c:if test="${programBoard_searchCategory == 'mateName' }">selected</c:if>>강아지 이름</option>
+						<option value="id" <c:if test="${programBoard_searchCategory == 'id' }">selected</c:if>>작성자</option>
+					</select>
+					<input type="text" id="programBoardSearchForm_searchKeyword" name="programBoard_searchKeyword" value="${programBoard_searchKeyword }">
+					<input type="submit" id="search_btn" value="검색">
+				</form>
 			</div>
 			<!-- 페이징 -->
 			<c:if test="${notice_category == null}">
@@ -161,27 +161,27 @@ table             {
 					</div>
 				</div>
 			</c:if>
-			<!-- 검색 페이징 추가 예정-->
+			<!-- 검색 페이징-->
 			<c:if test="${notice_category != null }">
 					<div  class="page_wrap">
 						<div class="page_nation">	
-								<c:if test="${startPage > block }">
-									<a href="${contextPath }/board/notice/noticeSearchForm?num=${startPage-1 }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="arrow prev"> 이전 </a>
-								</c:if>
-								<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
-									<c:if test="${i == num}">
-										<a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="active"> ${i } </a>
-									</c:if>
-									<c:if test="${i != num}">
-										<a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="active"> ${i } </a>
-									</c:if>
-								</c:forEach>
-								<c:if test="${endPage < totalPage }">
-									<a href="${contextPath }/board/notice/noticeSearchForm?num=${endPage+1 }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="arrow next" > 다음 </a>
+										<c:if test="${startPage > block }">
+											 <a href="${contextPath }/programBoard/programBoardSearchForm?num=${startPage-1 }&programBoard_state=${programBoard_state }&programBoard_searchCategory=${programBoard_searchCategory}&programBoard_searchKeyword=${programBoard_searchKeyword}" class="arrow prev"> 이전 </a> 
+										</c:if>
+										<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
+											<c:if test="${i == num}">
+												 <a href="${contextPath }/programBoard/programBoardSearchForm?num=${i }&programBoard_state=${programBoard_state }&programBoard_searchCategory=${programBoard_searchCategory}&programBoard_searchKeyword=${programBoard_searchKeyword}" class="active"> ${i } </a> 
+											</c:if>
+											<c:if test="${i != num}">
+												 <a href="${contextPath }/programBoard/programBoardSearchForm?num=${i }&programBoard_state=${programBoard_state }&programBoard_searchCategory=${programBoard_searchCategory}&programBoard_searchKeyword=${programBoard_searchKeyword}" class="active"> ${i } </a> 
+											</c:if>
+										</c:forEach>
+										<c:if test="${endPage < totalPage }">
+											 <a href="${contextPath }/programBoard/programBoardSearchForm?num=${endPage+1 }&programBoard_state=${programBoard_category }&programBoard_searchCategory=${programBoard_searchCategory}&programBoard_searchKeyword=${programBoard_searchKeyword}" class="arrow next"> 다음 </a> 
 								</c:if>
 						</div>
-					</div>	
-				</c:if>			
+					</div>
+			</c:if>
 		</div>
 	</section>
 

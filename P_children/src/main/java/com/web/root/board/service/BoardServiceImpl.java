@@ -2,7 +2,10 @@ package com.web.root.board.service;
 
 
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +22,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.mybatis.board.BoardMapper;
 import com.web.root.qna.dto.QnaDTO;
 import com.web.root.qna.dto.Qna_RepDTO;
@@ -94,7 +98,6 @@ public class BoardServiceImpl implements BoardService {
 //			File saveFile = new File(IMAGE_REPO+"/"+sysFileName);
 //			
 //			// DB에 파일 이름 정보 저장
-//			dto.setImage_file_name(sysFileName);
 			
 			dto.setFile_name(bfs.saveFile(file));
 			
@@ -229,7 +232,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void boardSearchForm(String board_category, String board_searchCategory, String board_searchKeyword,
 			Model model, int num) {
-		List<BoardDTO> BoardDTOList = new ArrayList<BoardDTO>(); // board 검색에 따라 List 담기
+		List<BoardDTO> boardDTOList = new ArrayList<BoardDTO>(); // board 검색에 따라 List 담기
 		
 		// 카테고리 전체를 선택할 때 요청값을 "%%"로 변환 -> 쿼리문 like 사용한 검색을 위해서
 		if(board_category.equals("total") || board_category == null) {
@@ -288,10 +291,10 @@ public class BoardServiceImpl implements BoardService {
 		map.put("e",Integer.toString(end));		 // 끝 저장
 		   
 		// 상단에 만들어둔 List 변수에 내용들을 담아 리스트 불러오기
-		BoardDTOList = mapper.boardSearchFormCountList(map);       
+		boardDTOList = mapper.boardSearchFormCountList(map);       
 			
 		model.addAttribute("repeat", repeat);
-		model.addAttribute("boardList", BoardDTOList); // 시작과 끝 페이지 안에서 내용 가져오기
+		model.addAttribute("boardList", boardDTOList); // 시작과 끝 페이지 안에서 내용 가져오기
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("block", block);
@@ -459,6 +462,8 @@ public class BoardServiceImpl implements BoardService {
 	// MyPage board List 기능
 	@Override
 	public void myDibsBoardAllList(Model model, int num, HttpServletRequest request, String id) {
+		
+		// 한 페이지 정보 설정
 		int pageLetter = 10; // 한 페이지 당 글 목록수
 		int allCount= mapper.selectMyDibsBoardCount(id); // 내가 찜한 전체 글수
 		int repeat = allCount/pageLetter; // 마지막 페이지 번호
@@ -467,7 +472,7 @@ public class BoardServiceImpl implements BoardService {
 		int end = num * pageLetter;
 		int start = end +1 - pageLetter;
 		
-		// 페이징
+		// 페이징 정보 설정
 		int totalPage = (allCount - 1)/pageLetter + 1;
 		int block = 3;
 		int startPage = (num - 1)/block*block + 1;
@@ -717,9 +722,7 @@ public class BoardServiceImpl implements BoardService {
 
 		
 	}
-	
-	
-		
+			
 	//============================ 최윤희 끝 ===========================================
 	
 	// 청규
@@ -738,6 +741,9 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("qnaList", mapper.manager_qna(start, end));		
 		
 	}
+
+
+
 
 	// 나의 문의
 	@Override

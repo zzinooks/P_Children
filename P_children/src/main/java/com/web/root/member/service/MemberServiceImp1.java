@@ -267,7 +267,6 @@ public class MemberServiceImp1 implements MemberService {
 				ItemDTO itemDTO,
 				HttpSession session,
 				HttpServletRequest request) {
-		
 		ObjectMapper objectMapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
 		RestTemplate restTemplate = new RestTemplate();
@@ -287,7 +286,7 @@ public class MemberServiceImp1 implements MemberService {
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no")
         		+"&num="+request.getParameter("num")
-        		+"&title="+request.getParameter("title")); // 정상 결제되면 승인 페이지로 이동하는 url
+        		+"&title="+request.getParameter("item_name")); // 정상 결제되면 승인 페이지로 이동하는 url
         params.add("fail_url", "http://localhost:8080/root/programBoard/paidProgramContentView?write_no="+request.getParameter("write_no") +"&num="+request.getParameter("num"));
         params.add("cancel_url", "http://localhost:8080/root/programBoard/programBoardAllList");
 

@@ -83,6 +83,13 @@ public interface BoardMapper {
 	
 	public int deleteProgram(int write_no);
 	
+	// 게시판 게시글 카테고리 수
+	public int programBoardCountCategory(Map<String, String> map); 
+
+	// 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
+	public List<ProgramBoardDTO> programBoardSearchFormCountList(Map<String, String> map);
+	
+	
 	
 	// 찜하기 기능 -----------------------------------------------
 	
@@ -106,6 +113,12 @@ public interface BoardMapper {
 	
 	// 게시판이 받은 찜의 갯수 가져오기
 	public int getdibsNumByWriteNo(@Param("write_no") int write_no);
+	
+	// 내가 찜한 프로그램게시판 리스트 가져오기
+	public List<ProgramBoardDTO> myDibsProgramBoardAllList(@Param("s") int start,@Param("e") int end,@Param("id") String id);
+	
+	// 내가 찜한 프로그램게시판 수 가져오기
+	public int selectMyDibsProgramBoardCount(@Param("id") String id);
 	
 	//============================ 주진욱 끝 ===========================================
 	
@@ -141,9 +154,6 @@ public interface BoardMapper {
 	
 	// 공지사항 게시글 카테고리+검색 => 해당 검색 카테고리리를 통해 각각 글 갯수 가져오기
 	public int noticeBoardCountCategory(NoticeBoardDTO notice_pageDTO);
-	
-	// 공지사항 게시글 카테고리 수  ================== 검색 관련 수정 중 입니다. =============================
-	public int noticeSearchFormCount(String notice_category); 
 
 	// 공지사항 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
 	public List<NoticeBoardDTO> noticeSearchFormCountList(NoticeBoardDTO notice_pageDTO);
@@ -180,7 +190,8 @@ public interface BoardMapper {
 
 	public void insertPaidProgramInfo(PaidProgramInfoDTO paidProgramInfoDTO);
 
-
+	// 진욱 추가
+	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map);
 	
 	
 	// =============================== 성수 끝 ==================================

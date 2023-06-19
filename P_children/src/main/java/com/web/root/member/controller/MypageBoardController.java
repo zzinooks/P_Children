@@ -6,13 +6,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardService;
-import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
 import com.web.root.member.service.MypageBoardService;
 import com.web.root.session.name.MemberSession;
@@ -87,6 +89,76 @@ public class MypageBoardController implements MemberSession {
 		
 		return "mypageBoard/write/mypageBoardProgramWriteList";
 	}
+	
+	// ======================================= 박성수 시작 =================================================
+	@GetMapping("write/paidProgramInfoList")
+	public String myPagePaidProgramInfoList(
+			Model model,
+			HttpSession session,
+			@RequestParam(value = "pg_num", required = false, defaultValue = "1") int pg_num) {
+		
+		String id = (String)session.getAttribute(LOGIN);
+		mbs.selectPaidProgramList(id, pg_num, model);
+		
+		return "mypageBoard/write/myPagePaidProgramList";
+	}
+	
+	@PostMapping("write/cancelRequest")
+	@ResponseBody
+	public String cancelRequest(HttpServletRequest request) {
+		String result = mbs.updateCancelRequest(request);
+		return result;
+	}
+	
+	
+	// ======================================= 박성수 시작 =================================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
