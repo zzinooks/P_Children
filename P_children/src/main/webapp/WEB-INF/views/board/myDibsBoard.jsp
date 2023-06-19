@@ -14,12 +14,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 내가 찜한 게시글</title>
+<script type="text/javascript">
+	function chooseBoard() {
+		
+		if($("#selectBoard").val() =='내가찜한게시글') {
+			location.href="${contextPath}/board/myDibsBoard?num=1"
+		}
+		if($("#selectBoard").val() =='내가찜한프로그램게시글') {
+			location.href = "${contextPath}/board/myDibsProgramBoard?num=1";
+		}
+		
+	}
+
+</script>
 </head>
 <body>
 	<c:import url="../default/header.jsp"/>
 	<section>
 		<h1> 내가 찜한 게시판 ♥ </h1>
-		<div class="wrap board_table">
+		<select name="selectBoard" id="selectBoard" onchange="chooseBoard()">
+			<option value="내가찜한게시글" checked>내가찜한게시글</option>
+			<option value="내가찜한프로그램게시글">내가찜한프로그램게시글</option>
+		</select>
+		<div class="wrap board_table myDibsBoard">
 			<table class="table table-striped">
 				<tr>
 					<th width="70px"> 번 호 </th>
@@ -159,7 +176,6 @@
 			</form>
 		</div>
 		-->
-		</div>
 	</section>
 	<c:import url="../default/footer.jsp"/>
 </body>

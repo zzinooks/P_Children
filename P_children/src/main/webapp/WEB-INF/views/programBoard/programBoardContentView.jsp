@@ -172,7 +172,16 @@ h1 {
 		               <%-- 0616_최윤희 끝 --%>
 		               </c:when>
 		               	<c:otherwise>
-	                  		<input type="button" value="글목록" onclick="location.href='${contextPath}/programBoard/programBoardAllList'"/>
+		               		<c:choose>
+		               			<c:when test="${toMyDibsProgramBoard == 'yes' }">
+		               				<input type="button" value="글목록" onclick="location.href='${contextPath}/board/myDibsProgramBoard?num=<%=num2%>'"/>
+		               			</c:when>
+		               			<c:otherwise>
+		               				<input type="button" value="글목록" onclick="location.href='${contextPath}/programBoard/programBoardAllList?num=<%=num2 %>'"/>
+		               			</c:otherwise>
+		               		</c:choose>
+		               		
+	                  		
 	                  	</c:otherwise>
 		             </c:choose>
 	               </td>

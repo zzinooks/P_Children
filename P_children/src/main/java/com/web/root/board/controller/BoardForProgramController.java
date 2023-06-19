@@ -151,6 +151,10 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 		System.out.println("제목 :" + paidProgramInfoDTO.getTitle());
 	}
       
+      // (1-6) myPage 내가 찜한 게시판에서 온 경우 정보 불러오기
+      String toMyDibsProgramBoard = request.getParameter("toMyDibsProgramBoard");
+      
+      
       // (2) 정보 담기
       model.addAttribute("programBoardDTO", programBoardDTO);
       model.addAttribute("user", id);
@@ -160,6 +164,8 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
       model.addAttribute("dibsNum", dibsNum);
       
       model.addAttribute("paidProgramInfoList", paidProgramInfoList);
+      
+      model.addAttribute("toMyDibsProgramBoard", toMyDibsProgramBoard);
       // (3) 조회수 증가
       bfps.programHitplus(programBoardDTO);
       
