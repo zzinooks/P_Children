@@ -33,6 +33,7 @@ import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
+import com.web.root.board.service.BoardForProgramService;
 import com.web.root.board.service.BoardService;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
@@ -49,6 +50,9 @@ public class BoardController implements MemberSession{
 	
 	@Autowired
 	BoardFileService bfs;
+	
+	@Autowired
+	BoardForProgramService bfps;
 	
 	@Autowired
 	MemberService ms;
@@ -149,6 +153,9 @@ public class BoardController implements MemberSession{
       String board_searchKeyword = request.getParameter("board_searchKeyword");      // 검색 키워드 저장
       //===================================
       
+      //(1-6) 마이페이지 찜한 게시판에서 온 경우 : 구별자 가져오기
+      String toMyDibsBoard = request.getParameter("toMyDibsBoard"); // 있으면 yes, 없으면 null이다.
+      
       //(2) 정보 담기
       model.addAttribute("dto", boardDTO);      // board 정보 model에 담기
       model.addAttribute("kakaoIdCheck", id); // kakaoId 구분자 담기
@@ -160,6 +167,8 @@ public class BoardController implements MemberSession{
       model.addAttribute("board_category", board_category);          // 요청온 카테고리 옵션 저장
       model.addAttribute("board_searchCategory", board_searchCategory); // 요청온 검색 카테고리 저장
       model.addAttribute("board_searchKeyword", board_searchKeyword);    // 요청온 검색 키워드 저장
+      
+      model.addAttribute("toMyDibsBoard", toMyDibsBoard);	// 마이페이지 찜한 게시판에서 온 경우 구별자 저장
       
       //(3) 조회수 증가
       bs.hitplus(boardDTO);
@@ -290,6 +299,25 @@ public class BoardController implements MemberSession{
 		bs.myDibsBoardAllList(model, num, request, id);
 		
 		return "board/myDibsBoard";
+	}
+	
+	@RequestMapping("myDibsProgramBoard")
+	public String myDibsProgramBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
+		
+		// (1-2) 로그인값 불러오기
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
+		}
+		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
+		model.addAttribute("admin", ADMIN);
+		
+		// 내가 찜한 게시판 가져오기
+		bfps.myDibsProgramBoardAllList(model, num, request, id);
+		
+		return "board/myDibsProgramBoard";
 	}
 	
 	

@@ -114,6 +114,12 @@ public interface BoardMapper {
 	// 게시판이 받은 찜의 갯수 가져오기
 	public int getdibsNumByWriteNo(@Param("write_no") int write_no);
 	
+	// 내가 찜한 프로그램게시판 리스트 가져오기
+	public List<ProgramBoardDTO> myDibsProgramBoardAllList(@Param("s") int start,@Param("e") int end,@Param("id") String id);
+	
+	// 내가 찜한 프로그램게시판 수 가져오기
+	public int selectMyDibsProgramBoardCount(@Param("id") String id);
+	
 	//============================ 주진욱 끝 ===========================================
 	
 	

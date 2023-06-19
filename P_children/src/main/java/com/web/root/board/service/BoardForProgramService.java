@@ -37,6 +37,11 @@ public interface BoardForProgramService {
 	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map);
 	
 	
+	// 프로그램 게시판 찜하기 관련 기능 ---------------------------------------
+	
+	public void myDibsProgramBoardAllList(Model model, int num, HttpServletRequest request, String id);
+	
+	
 	//========================== 윤희 시작 보류(확인 후 삭제될 수 있습니다.) =============================
 	
 	// 마이페이지 프로그램 게시글 정보 필요

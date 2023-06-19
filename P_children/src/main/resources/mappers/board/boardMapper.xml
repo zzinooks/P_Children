@@ -354,7 +354,24 @@
 		SELECT count(*) FROM dibs WHERE write_no = #{write_no} AND dibs_state=1
 	</select>
 	
+	<!-- 내가 찜한 프로그램게시판 수 가져오기 -->
+	<select id="selectMyDibsProgramBoardCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM programBoard
+		WHERE write_no IN (SELECT write_no FROM dibs WHERE id=#{id} AND dibs_state=1)
+	</select>
 	
+	<!-- 내가 찜한 프로그램 게시판 리스트 가져오기 -->
+	<select id="myDibsProgramBoardAllList" resultMap="programBoard">
+		SELECT B.* FROM
+    		(SELECT ROWNUM rn, A.* FROM
+        		(SELECT *
+        		 FROM programBoard
+        		 WHERE write_no IN (SELECT write_no FROM dibs WHERE id=#{id} AND dibs_state=1)
+    			 ORDER BY SAVEDATE DESC)A
+    		 ) B
+    	WHERE rn BETWEEN #{s} AND #{e}
+	</select>	
 	
 	
 	<!--  ======================== 진욱 끝 ==========================   -->
