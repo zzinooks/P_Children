@@ -138,6 +138,10 @@
 		UPDATE member SET certified='N' WHERE id=#{id}
 	</update>
 	
+	<!-- host 인증 신청이 거절되면 DB에서 file_name 이름 nan 변경 (임시로 갖고있기) -->
+	<!-- <update id="hostCertificationDBfile_nameDelete">
+		UPDATE hostCertify SET file_name='nan' WHERE id=#{id} and certify_no=#{certify_no}
+	</update> -->
 	
 	<!--  ======================== 윤희 끝 ==========================   -->
 	
