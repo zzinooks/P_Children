@@ -14,6 +14,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.qna.dto.QnaDTO;
 import com.web.root.qna.dto.Qna_RepDTO;
 
@@ -66,7 +67,7 @@ public interface BoardService {
 	public void myDibsBoardAllList(Model model, int num, HttpServletRequest request, String id);
 	
 	public int getdibsNumByWriteNo(int write_no);
-	
+		
 	//============================ 주진욱 끝 ===========================================
 	
 	

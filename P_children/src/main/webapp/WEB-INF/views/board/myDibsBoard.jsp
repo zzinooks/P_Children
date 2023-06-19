@@ -19,7 +19,6 @@
 	<c:import url="../default/header.jsp"/>
 	<section>
 		<h1> 내가 찜한 게시판 ♥ </h1>
-		<div class="imsi"></div>
 		<div class="wrap board_table">
 			<table class="table table-striped">
 				<tr>
@@ -160,6 +159,7 @@
 			</form>
 		</div>
 		-->
+		</div>
 	</section>
 	<c:import url="../default/footer.jsp"/>
 </body>
