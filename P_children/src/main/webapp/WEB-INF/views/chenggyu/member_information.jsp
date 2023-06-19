@@ -87,6 +87,9 @@
             	<input type="button" value="내가 작성한 게시글" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList'" class="but_1">
             </c:if>
             <!-- 0616_최윤희 끝 -->
+            <!-- ================ 박성수 : 내가 결제한 프로그램 목록  -->
+            <input type="button" value="내가 결제한 프로그램" onclick="location.href='${contextPath }/mypageBoard/write/paidProgramInfoList'" class="but_1">
+            <!-- 0614_최윤희 끝 -->
             <input type="button" value="문의" onclick="location.href='${contextPath }/board/member_qna'" class="but_1">
             <input type="button" value="회원 탈퇴" onclick="location.href='member_leave'" class="but_1">
          </div>

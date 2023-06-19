@@ -15,6 +15,7 @@
 		<result property="hit" column="hit"/>
 		<result property="file_name" column="file_name"/>
 		<result property="id" column="id"/>
+		<result property="dibsCount" column="dibsCount"/> <!-- DB에는 없는 count -->
 	</resultMap>
 	
 	<!-- 프로그램 게시판 -->
@@ -89,6 +90,14 @@
 	<resultMap id="qna_rep" type="com.web.root.qna.dto.Qna_RepDTO" >
 		<id property="write_group" column="write_group"/>
 		<result property="content" column="content"/>
+	</resultMap>
+	
+	<!-- 성수 : 내가 결제한 프로그램 정보 저장 테이블 -->
+	<resultMap type="com.web.root.board.dto.PaidProgramInfoDTO" id="paidProgramInfo">
+		<id property="paymentId" column="paymentId"/>
+		<result property="title" column="title"/> 
+		<result property="write_no" column="write_no"/> 
+		<result property="num" column="num"/> 
 	</resultMap>
 
 	<!--  ======================== 진욱 시작 ==========================   -->
@@ -259,6 +268,22 @@
 	<delete id="deleteProgram">
 		DELETE FROM programBoard WHERE write_no=#{write_no}	
 	</delete>
+	
+	<!-- 게시판 게시글 카테고리+검색 => 해당 검색 카테고리리를 통해 각각 글 갯수 가져오기 -->
+	<select id="programBoardCountCategory" resultType="Integer"> 
+		SELECT COUNT(*) FROM programBoard where state like #{state}
+		and (title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%' and mateName like '%'||#{mateName}||'%')
+	</select>
+	
+	<!-- 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기 -->
+	<select id="programBoardSearchFormCountList" resultMap="programBoard"> 
+			SELECT B.* FROM 
+			(SELECT ROWNUM rn, A.* FROM 
+			(SELECT * FROM programBoard where 
+			(title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%' and mateName like '%'||#{mateName}||'%') 
+			and state like '%'||#{state}||'%' ORDER BY write_no DESC)A )B
+			WHERE rn BETWEEN #{s} and #{e} 
+	</select>
 	
 	<!-- 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동 (신청한 완료 뒤 : 신청한 인원 < 총원 )  -->
 	<update id="paidProgramContentView">
@@ -448,6 +473,9 @@
 		WHERE rn=1
 	</select>
 	
+	<insert id="insertPaidProgramInfo">
+		INSERT INTO paidProgramInfo VALUES(#{paymentId}, #{title}, #{write_no}, #{num})
+	</insert>
 	
 	<!-- 	// =============================== 성수 끝 ================================== -->
 	

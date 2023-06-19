@@ -22,13 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardForProgramService;
-import com.web.root.kakao.resource.KakaoDeveloper;
 import com.web.root.board.service.BoardService;
+import com.web.root.kakao.resource.KakaoDeveloper;
 import com.web.root.kakao.service.KakaoService;
 import com.web.root.member.dto.MemberDTO;
 import com.web.root.member.service.MemberService;
@@ -83,20 +82,22 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 	public String programBoardAllList(HttpSession session, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num, HttpServletRequest request ) {
 		bfps.programBoardAllList(model, num, request);
 		
-		// (1-2) 로그인값 불러오기
-	      String id = (String) session.getAttribute(LOGIN);
-	      if(id == null) { // 비로그인인 경우
-	         model.addAttribute("id", id);
-	      } else {   // 일반 로그인인 경우
-	         ms.userInfo(id, model);
-	      }
-		model.addAttribute("admin", ADMIN);
+		// 로그인값 불러오기
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
+		}
+		
+		model.addAttribute("admin", ADMIN); // grade 확인을 위한 admin(='gold') 정보담기
 		
 		return "/programBoard/programBoardAllList";  
 		
 	}
 	
 	// 프로그램 contentView
+
    @RequestMapping("programContentView")
    public String programContentView(Model model, HttpServletRequest request, HttpSession session) {
       
@@ -207,6 +208,43 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 		out.println(message);		
 	}
 	
+	// 프로그램 게시판 카테고리 + 검색 조회
+	@RequestMapping("programBoardSearchForm")
+	public String selectingCategory(HttpServletRequest request, @RequestParam(value="num", required = false, defaultValue="1") int num,
+			Model model, HttpSession session) {
+
+		// (1) 정보 가져오기
+		// (1-1) 로그인값 불러오기
+		  String id = (String) session.getAttribute(LOGIN);
+		  if(id == null) { // 비로그인인 경우
+			  model.addAttribute("id", id);
+		  } else {   // 일반 로그인인 경우
+		     ms.userInfo(id, model);
+		  }
+		
+		// (1-2) 검색 정보 가져오기
+		String programBoard_state = request.getParameter("programBoard_state");				// 카테고리 옵션 저장
+		String programBoard_searchCategory = request.getParameter("programBoard_searchCategory");	// 검색 카테고리 옵션 저장
+		String programBoard_searchKeyword = request.getParameter("programBoard_searchKeyword");		// 검색 키워드 저장
+		
+		// (2) 받은 정보 DB 처리하기 : 검색 결과값 받아 정보 넘기기
+		bfps.programBoardSearchForm(programBoard_state, programBoard_searchCategory, programBoard_searchKeyword, model, num); 	// 서비스에게 내용 넘겨줌
+
+		// 서비스에서 요청을 받지않은 이유는 처음 값 
+		// (카테고리: programBoardAll, 검색카테고리: 제목, 검색키워드: "") 을 저장하기 위해서
+		// 서비스에서는 쿼리문 조회를 위해서 해당 내용들을 "%%"로 바꾸기 때문에 .jsp에서는 "%%"가 사용불가
+		// 즉 서비스에서 요청내용을 받게되면 처음 쿼리문으로 전체를 "%%"로 변경 -> 다시 ""로 변환해줘야한다.
+		
+		// (3) 정보 model에 담아서 view로 보내기
+		model.addAttribute("num", num); 		// 페이지 번호 저장
+		model.addAttribute("admin", ADMIN); 	// 관리자 아이디 저장
+		model.addAttribute("programBoard_state", programBoard_state); 			// 요청온 카테고리 옵션 저장
+		model.addAttribute("programBoard_searchCategory", programBoard_searchCategory); // 요청온 검색 카테고리 저장
+		model.addAttribute("programBoard_searchKeyword", programBoard_searchKeyword); 	// 요청온 검색 키워드 저장	
+		model.addAttribute("admin", ADMIN); // 관리자 아이디 저장
+		return "programBoard/programBoardAllList";
+	}
+	
 	// 카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
 	@RequestMapping("paidProgramContentView")
 	public void paidProgramContentView(HttpServletRequest request, HttpServletResponse response, @RequestParam("pg_token") String pg_token, HttpSession session, Model model) throws IOException {
@@ -221,8 +259,8 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
 		// 카카오 페이 결제 승인
 		ms.kakaoPaymentApprove(KAKAO_PAYMENT_APPROVE_URL, ADMIN_KEY, pg_token, session);
 		
-		// 카카오 페이 승인 결과 DB에 연동
-		String message = bfps.paidProgramContentView(request);
+		// 카카오 페이 승인 결과 DB에 연동 -> 성수 : id 저장을 위해 session 추가
+		String message = bfps.paidProgramContentView(request, session);
 		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();

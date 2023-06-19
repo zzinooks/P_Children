@@ -97,6 +97,7 @@ public class BoardController implements MemberSession{
 		out.println(message);
 	}
 	
+
    // board Read 기능 : content 하나 보기
    @RequestMapping("contentView")
    public String contentView(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
@@ -228,32 +229,26 @@ public class BoardController implements MemberSession{
 	@RequestMapping("boardSearchForm")
 	public String selectingCategory(HttpServletRequest request, @RequestParam(value="num", required = false, defaultValue="1") int num,
 			Model model, HttpSession session) {
-	
-		model.addAttribute("num",num); // 페이지 번호 저장
-		
-		
-		// (1-2) 로그인값 불러오기
-	      String id = (String) session.getAttribute(LOGIN);
-	      if(id == null) { // 비로그인인 경우
-	         model.addAttribute("id", id);
-	      } else {   // 일반 로그인인 경우
-	         ms.userInfo(id, model);
-	      }
+		// 로그인값 불러오기
+		  String id = (String) session.getAttribute(LOGIN);
+		  if(id == null) { // 비로그인인 경우
+			  model.addAttribute("id", id);
+		  } else {   // 일반 로그인인 경우
+		     ms.userInfo(id, model);
+		  }
 		
 		String board_category = request.getParameter("board_category");				// 카테고리 옵션 저장
 		String board_searchCategory = request.getParameter("board_searchCategory");	// 검색 카테고리 옵션 저장
 		String board_searchKeyword = request.getParameter("board_searchKeyword");		// 검색 키워드 저장
 		
 		bs.boardSearchForm(board_category, board_searchCategory, board_searchKeyword, model, num); 	// 서비스에게 내용 넘겨줌
-		
-		model.addAttribute("num", num); 		// 페이지 번호 저장
-		model.addAttribute("admin", ADMIN); 	// 관리자 아이디 저장
-		
 		// 서비스에서 요청을 받지않은 이유는 처음 값 
 		// (카테고리: boardAll, 검색카테고리: 제목, 검색키워드: "") 을 저장하기 위해서
 		// 서비스에서는 쿼리문 조회를 위해서 해당 내용들을 "%%"로 바꾸기 때문에 .jsp에서는 "%%"가 사용불가
 		// 즉 서비스에서 요청내용을 받게되면 처음 쿼리문으로 전체를 "%%"로 변경 -> 다시 ""로 변환해줘야한다.
-		
+
+		model.addAttribute("num", num); 		// 페이지 번호 저장
+		model.addAttribute("admin", ADMIN); 	// 관리자 아이디 저장
 		model.addAttribute("board_category", board_category); 			// 요청온 카테고리 옵션 저장
 		model.addAttribute("board_searchCategory", board_searchCategory); // 요청온 검색 카테고리 저장
 		model.addAttribute("board_searchKeyword", board_searchKeyword); 	// 요청온 검색 키워드 저장
@@ -284,13 +279,12 @@ public class BoardController implements MemberSession{
 	public String myDibsBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
 		
 		// (1-2) 로그인값 불러오기
-	      String id = (String) session.getAttribute(LOGIN);
-	      if(id == null) { // 비로그인인 경우
-	         model.addAttribute("id", id);
-	      } else {   // 일반 로그인인 경우
-	         ms.userInfo(id, model);
-	      }
-		
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
+		}
 		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
 		model.addAttribute("admin", ADMIN);		
 		

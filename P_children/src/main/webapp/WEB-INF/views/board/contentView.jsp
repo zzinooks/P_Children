@@ -15,12 +15,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>board/contentView.jsp</title>
+<title>Mate With 게시판 글보기</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
    // 본문 관련 기능 시작 -------------------------------------------------------------------------------------------------------
 
+   // 수정, 삽입 등 변환 발생시 임시로 데이터 저장해두는 장소
+   let htmlStorage = "";
+   let storagePosition = "";
+   let htmlStorageRecomment = "";
+   let storagePositionRecomment = "";
+   
    // 파일 업로드 시 img 태그에 그림 화면 보이기
    function readURL(input){
       var file = input.files[0]; // 파일 정보
@@ -42,19 +48,6 @@
    
    // 본문 관련 기능 끝 -------------------------------------------------------------------------------------------------------
    // 댓글 관련 기능 시작 -------------------------------------------------------------------------------------------------------
-   
-   // 댓글 입력창 보이기
-   function slide_click() {
-      $("#first").slideDown("slow");
-      $("#modal_wrap").show();
-   }
-   
-   // 댓글 입력창 숨기기
-   function slide_hide() {
-      $("#first").slideUp("fast");
-      $("#modal_wrap").hide();
-      $("#content").html(" ");
-   }
    
    // 댓글 추가
    function rep() {
@@ -172,15 +165,16 @@
 	   
 	   $("div.rep").addClass("hidden");
       
+      
       // 다른 댓글 수정창 켜져있을 경우 종료
       if($('#updateContent').val() != null){
-    	  
-         replyData();
+    	 cancelUpdateReply();
+         //replyData();
       }
       
       // 대댓글 수정 창 켜져있을 경우 종료
       if($('#updateReCommentContent').val() != null){
-         $('.updateReComment').remove();
+    	  cancleUpdateReComment();
       }
       
       // 대댓글 입력 창 켜져있을 경우 종료
@@ -190,17 +184,22 @@
       
       
       let replyView = ""
-      replyView += "<b>"+ $("#user").val() +"</b>"
-      replyView += "<div align='left'><form  id='updateResultFrm' action='${contextPath }/board/updateReply?num=<%=num2%>'><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
+      replyView += "<div align='left' id='updateContentDiv"+reply_no +"'><b>"+ $("#user").val() +"</b>"
+      replyView += "<form  id='updateResultFrm' action='${contextPath }/board/updateReply?num=<%=num2%>'><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
       replyView += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"
       replyView += "<input type='hidden' id='updateReply_no' name='updateReply_no' value='" + reply_no + "'>"
-      replyView += "<textarea id='updateContent' name='updateContent' rows='5' cols='30' autofocus>" + $('#rep' + reply_no).children('.reply_innerDiv').children('.repContent').text() + "</textarea><br></div>"
+      replyView += "<textarea id='updateContent' name='updateContent' rows='5' cols='30' autofocus>" + $('#rep' + reply_no).children('.reply_innerDiv').children('.repContent').text() + "</textarea><br>"
       replyView += "<div class='replyView'>"
       replyView += "<input type='button' onclick='updateReplyConfirm()' value='수정'>"
-      replyView += "<input type='button' onclick='replyData()' value='취소'></form><br>"
-      replyView += "</div>"
+      replyView += "<input type='button' onclick='cancelUpdateReply()' value='취소'></form><br>"
+      replyView += "</div></div>"
+      
+      // 수정으로 대체될 영역 정보 저장
+      htmlStorage = $('#rep'+ reply_no).html();
+      storagePosition = reply_no;
       $('#rep'+ reply_no).replaceWith(replyView);
-      $('#rep'+ reply_no).children('#updateContent').focus();   
+      $('#rep'+ reply_no).children('#updateContent').focus();
+      $('div.rep').hide();
    }
    
    // 댓글 수정 확인
@@ -208,9 +207,14 @@
       if(!confirm('수정하시겠습니까?')){
          return false;
       } else {
-    	 $("div.rep").show();
+        $("div.rep").show();
          $("#updateResultFrm").submit();
       }
+   }
+   // 댓글 수정 취소
+   function cancelUpdateReply(){
+	   $('#updateContentDiv'+ storagePosition).replaceWith("<div class='reply' align='left' id='rep"+ storagePosition +"'>"+htmlStorage+"</div>");
+	   $("div.rep").show();
    }
    
    // 댓글 관련 기능 끝 -------------------------------------------------------------------------------------------------------
@@ -221,7 +225,7 @@
       
       // 대댓글 수정창이 켜져 있을 떄
       if($('#updateReCommentContent').val() != null) {
-         $('.updateReComment').replaceWith(""); // 대댓글 수정 div 삭제
+         $("div > id[value~='updateReComment']").replaceWith(""); // 대댓글 수정 div 삭제
       }
       
       if($("#rep" + reply_no).children(".reComment").length > 0) { // 대댓글(답글)이 나와 있을 경우
@@ -301,10 +305,10 @@
    function ShowAddReCommentForm(reply_no){ // 답글 삽입 폼 생성
 	   
 	   $("div.rep").addClass("hidden");
-	   
+   
       // 다른 댓글 켜져있을 경우 종료
       if($('#updateContent').val() != null){
-         replyData();   
+    	  cancelUpdateReply(); 
       }
       
       // 대댓글 수정 창 켜져있을 경우 종료
@@ -312,13 +316,14 @@
           $('.updateReComment').remove();
       }
       
-       if($(".ShowAddReComment").length > 0) {
+      // 다른 대댓글 창이 켜져 있을 경우 종료
+      if($(".ShowAddReComment").length > 0) {
           cancelAddReComment();
       } else {
       
       let htm = "";
       
-      htm += "<div class='ShowAddReComment'>";
+      htm += "<div class='ShowAddReComment' id='addReComment' "+ reply_no+">";
       htm += "<form method='post' id='addReCommentFrm' action='#'><b> "+$("#user").val()+"</b>";
       htm += "<input type='hidden' id='cGroup' name='cGroup' value='"+ reply_no +"'>";          // cGroup
       htm += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"      // write_Group
@@ -330,6 +335,10 @@
       htm += "</div>"
       
       $("div.rep").addClass("hidden");
+      
+      //htmlStorageRecomment = $('#reComment'+ reply_no).html();
+      //storagePositionRecomment = reply_no;
+      
       $("#rep" + reply_no).children(".reply_innerDiv").append(htm);
       
       }
@@ -337,7 +346,7 @@
    
    // 대댓글 생성 화면 지우기
    function cancelAddReComment(){
-  	 $("div.rep").show();
+      $("div.rep").show();
       $(".ShowAddReComment").remove();
    }
    
@@ -377,7 +386,7 @@
       
       // 댓글 수정 창 켜져있을 경우 종료
       if($('#updateContent').val() != null){
-         replyData();
+    	  cancelUpdateReply();
       }
       
       // 대댓글 입력창이 켜져있을 경우 종료
@@ -385,29 +394,36 @@
           cancelAddReComment();
       }
       
-      // 대댓글 해당하는 댓글(부모댓글)의 reply_no 값'
+      // 대댓글 해당하는 댓글(부모댓글)의 reply_no 값
       let cGroup = $('#reComment'+ reply_no).siblings('.reply_innerDiv').children('.replyNo').val();
       
       // 다른 대댓글 수정창이 켜져있을 경우 종료
       if($('#updateReCommentContent').val() != null){
-         // 다른 대댓글 수정창이 같은 댓글에 있을 때 
+    	  cancleUpdateReComment();
+         /* // 다른 대댓글 수정창이 같은 댓글에 있을 때 
          if(cGroup == $('.updateReComment').siblings('.reply_innerDiv').children('.replyNo').val()) {
             cancleUpdateReComment(cGroup);
          } else { // 다른 대댓글 수정창이 다른 댓글에 있을 때
             let otherCGroup = $('.updateReComment').siblings('.reply_innerDiv').children('.replyNo').val();
             cancleUpdateReComment(otherCGroup);
-         }
+         } */
       }
       
       let replyView = ""
-      replyView += "<div align='left' class='updateReComment'><form id='updateReCommentResultFrm' action='${contextPath }/board/updateReComment?num=<%=num2%>'><b>"+ $("#user").val() +"</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
+      replyView += "<div align='left' id='updateRecomment"+ reply_no +"' class='updateReComment'><form id='updateReCommentResultFrm' action='${contextPath }/board/updateReComment?num=<%=num2%>'><b>"+ $("#user").val() +"</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>";
       replyView += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"
       replyView += "<input type='hidden' id='updateReCommentReply_no' name='updateReCommentReply_no' value='" + $('#reComment' + reply_no).children('.replyNo').val() + "'>"
       replyView += "<textarea id='updateReCommentContent' name='updateReCommentContent' rows='5' cols='30' autofocus>" + $('#reComment' + reply_no).children('.repContent').text() + "</textarea><br>"
       replyView += "<div class='replyView'>"
       replyView += "<input type='button' onclick='updateReCommentConfirm()' value='수정'>"
-      replyView += "<input type='button' onclick='cancleUpdateReComment("+$('#reComment'+ reply_no).siblings('.reply_innerDiv').children('.replyNo').val()+")' value='취소'></form><br></div>"
+      replyView += "<input type='button' onclick='cancleUpdateReComment()' value='취소'></form><br></div>"
+      //"+$('#reComment'+ reply_no).siblings('.reply_innerDiv').children('.replyNo').val()+"
       replyView += "</div>"
+      
+      htmlStorageRecomment = $('#reComment'+ reply_no).html();
+      storagePositionRecomment = reply_no;
+      console.log(htmlStorageRecomment);
+      
       $('#reComment'+ reply_no).replaceWith(replyView);
       $('#reComment'+ reply_no).children('#updateReCommentContent').focus();   
    }
@@ -423,12 +439,12 @@
    }
    
    // 대댓글 수정 취소
-   function cancleUpdateReComment(cGroup) {
-      $('.updateReComment').replaceWith(""); // 대댓글 수정 div 삭제
+   function cancleUpdateReComment() {
+     /*  $('.updateReComment').replaceWith(""); // 대댓글 수정 div 삭제
       $("#rep" + cGroup).children(".reComment").remove(); // 댓글에 해당하는 대댓글들 모두 삭제 (reComment에서 .reComment가 하나라도 있으면 안 열림)
-      //replyData();
- 	 $("div.rep").show();
-      reComment(cGroup);
+     $("div.rep").show();
+      reComment(cGroup); */
+	   $('#updateRecomment'+ storagePositionRecomment).replaceWith("<div class='reComment' align='left' id='reComment"+storagePositionRecomment+"'>" + htmlStorageRecomment + "</div>");
    }
    
    // 대댓글 관련 기능 끝 -------------------------------------------------------------------------------------------------------
@@ -640,11 +656,11 @@ button{
 }
  textarea{
     border-radius: 5px;
-  	 border: 2px solid #A996DB;
-     padding: 10px;
-     width: 100%;
-     height: 100px;
-     resize: none;
+	border: 2px solid #A996DB;
+    padding: 10px;
+    width: 100%;
+    height: 100px;
+    resize: none;
   }
   .replyView{
   	text-align: right;
@@ -839,7 +855,6 @@ button{
                   </li>
                 </ul>
                 </c:if> 
-                
                <c:if test="${loginUser != dto.id }"><!-- 작성자x 비로그인 -->
                <ul class="menu">
                <li>
@@ -865,7 +880,6 @@ button{
 	               	</li>
 				</ul>
               </c:if>
-           
       </div>
    </section>
    

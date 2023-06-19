@@ -56,6 +56,10 @@ public class ProgramBoardDTO {
 	private int end;					// DB에 컬럼 없음
 	//=====0616_최윤희 끝	
 	
+	//=====0616_주진욱 추가
+	private int dibsCount;
+	//=====0616_주진욱 끝
+	
 	
 	// 생성자
 	public ProgramBoardDTO() {
@@ -233,6 +237,16 @@ public class ProgramBoardDTO {
 	}
 	
 	//==== 0616_윤희 끝 =====
+	
+	//==== 0616_진욱 시작 =====
+	
+	public int getDibsCount() {
+		return dibsCount;
+	}
+	public void setDibsCount(int dibsCount) {
+		this.dibsCount = dibsCount;
+	}
+	//==== 0616_진욱 끝 =====
 
 	
 

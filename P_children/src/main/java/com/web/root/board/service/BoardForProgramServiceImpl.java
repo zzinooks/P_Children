@@ -1,6 +1,12 @@
 package com.web.root.board.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,14 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.web.root.board.dto.BoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.kakao.dto.ProgramMapDTO;
 import com.web.root.kakao.service.KakaoServiceImp1;
 import com.web.root.mybatis.board.BoardMapper;
 import com.web.root.mybatis.kakao.KakaoMapper;
+import com.web.root.session.name.MemberSession;
 
 @Service
-public class BoardForProgramServiceImpl implements BoardForProgramService {
+public class BoardForProgramServiceImpl implements BoardForProgramService, MemberSession {
 
 	@Autowired
 	BoardMapper mapper;
@@ -108,9 +117,19 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		int endPage = startPage + block - 1;
 		if (endPage > totalPage) endPage = totalPage;
 		
+		
+		// 좋아요 불러오기
+		List<ProgramBoardDTO> programBoardList = mapper.programBoardAllList(start, end);
+		
+		// 각 게시판 마다 속한 좋아요 숫자를 불러온다
+		for (ProgramBoardDTO programBoardDTO : programBoardList) {
+			programBoardDTO.setDibsCount(mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
+			System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
+		}
+		
 		// 정보 담기
 		model.addAttribute("repeat", repeat);
-		model.addAttribute("programBoardList", mapper.programBoardAllList(start, end));
+		model.addAttribute("programBoardList", programBoardList);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("block", block);
@@ -201,15 +220,106 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		}
 		return bfs.getMessage(request, msg, url);
 	}
-
 	
+	// 프로그램 게시판 카테고리 + 검색 조회
+	@Override
+	public void programBoardSearchForm(String programBoard_state, String programBoard_searchCategory,
+			String programBoard_searchKeyword, Model model, int num) {
+		List<ProgramBoardDTO> programBoardDTOList = new ArrayList<ProgramBoardDTO>(); // board 검색에 따라 List 담기
+		
+		// 예약 현황 카테고리에서 전체를 선택할 때 요청값을 "%%"로 변환 -> 쿼리문 like 사용한 검색을 위해서
+		if(programBoard_state.equals("total") || programBoard_state == null) {
+			programBoard_state = "%%";
+		}
+
+		// 검색 키워드를 입력하지 않았을때 빈 요청값을 "%%"로 변환 -> 쿼리문 like 사용한 검색을 위해서
+		if(programBoard_searchKeyword.equals("") || programBoard_searchKeyword == null) {
+			programBoard_searchKeyword = "%%"; 
+		}
+		
+		
+		Map<String, String> map = new HashMap<String, String>();	// Page Count(*)의 크기를 담는 DTO (각 검색 카테고리별로)	
+		map.put("state", programBoard_state); 						// 예약 현황 카테고리 옵션 저장
+		map.put("keyword",programBoard_searchKeyword);  			// 검색 키워드 저장
+		
+		
+		// 검색 카테고리 선택  -> 값 저장
+		if(programBoard_searchCategory.equals("title")) { // 제목으로 검색 
+			map.put("title",programBoard_searchKeyword); 		// 제목열에 키워드 값 저장
+			map.put("content", "%%"); 					// 나머지 전체 셋팅
+			map.put("id","%%"); 						// 나머지 전체 셋팅
+			map.put("mateName", "%%");					// 나머지 전체 셋팅
+			
+		}else if(programBoard_searchCategory.equals("content")) { // 내용으로 검색
+			
+			map.put("content", programBoard_searchKeyword); 	// 내용열에 키워드 값 저장	
+			map.put("title","%%");					 	// 나머지 전체 셋팅
+			map.put("id","%%"); 						// 나머지 전체 셋팅
+			map.put("mateName", "%%");					// 나머지 전체 셋팅
+			
+		}else if(programBoard_searchCategory.equals("id")) {  // 작성자로 검색
+			
+			map.put("id", programBoard_searchKeyword);			// 아이디열에 키워드 값 저장
+			map.put("title", "%%");						// 나머지 전체 셋팅
+			map.put("content", "%%"); 					// 나머지 전체 셋팅
+			map.put("mateName", "%%");					// 나머지 전체 셋팅
+			
+		}else if(programBoard_searchCategory.equals("mateName")) {  // 강아지 이름로 검색
+			
+			map.put("mateName", programBoard_searchKeyword);			// 아이디열에 키워드 값 저장
+			map.put("id","%%"); 						// 나머지 전체 셋팅
+			map.put("title", "%%");						// 나머지 전체 셋팅
+			map.put("content", "%%"); 					// 나머지 전체 셋팅
+		}
+
+		
+		int pageLetter = 10;  // 한 페이지 당 글 목록수
+		int allCount = mapper.programBoardCountCategory(map); // 카테고리가 ex)제목 등 해당 목록 전체 수 
+		int repeat = allCount/pageLetter; // 마지막 페이지 번호
+		if(allCount % pageLetter != 0) {
+		   repeat += 1;
+		}
+		int end = num * pageLetter;
+		int start = end + 1 - pageLetter;
+		  
+		// 페이징
+		int totalPage = (allCount - 1)/pageLetter + 1;
+		int block = 3;
+		int startPage = (num - 1)/block * block + 1;
+		int endPage = startPage + block - 1;
+		if (endPage > totalPage) endPage = totalPage;
+		
+		// 페이징 범위 저장
+		map.put("s", Integer.toString(start));  // 시작 저장
+		map.put("e",Integer.toString(end));		 // 끝 저장
+		   
+		// 상단에 만들어둔 List 변수에 내용들을 담아 리스트 불러오기
+		programBoardDTOList = mapper.programBoardSearchFormCountList(map);       
+			
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("programBoardList", programBoardDTOList); // 시작과 끝 페이지 안에서 내용 가져오기
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("block", block);
+		model.addAttribute("totalPage", totalPage);
+		
+	}
+
 	//카카오 페이 승인 시 프로그램 결재 완료 후 승인 대기로 이동
 	@Override
-	public String paidProgramContentView(HttpServletRequest request) {
+	public String paidProgramContentView(HttpServletRequest request, HttpSession session) {
 		
 		// url 결과값 받기
 		String write_no = request.getParameter("write_no");
 		String num = request.getParameter("num");
+		String title = request.getParameter("title");
+		String paymentId = (String) session.getAttribute(LOGIN);
+		
+		PaidProgramInfoDTO paidProgramInfoDTO = new PaidProgramInfoDTO();
+		paidProgramInfoDTO.setId(paymentId);
+		paidProgramInfoDTO.setTitle(title);
+		paidProgramInfoDTO.setWrite_no(Integer.parseInt(write_no));
+		paidProgramInfoDTO.setNum(Integer.parseInt(num));
 		
 		int result = 0; // "결재 완료 후 승인 대기" 로 변경 성공유무 결과값 (1: 성공, 0: 실패)
 		
@@ -230,6 +340,8 @@ public class BoardForProgramServiceImpl implements BoardForProgramService {
 		
 		String msg, url;
 		if(result == 1) {
+			// 성수 : DB에 결제한 프로그램 정보 저장.
+			mapper.insertPaidProgramInfo(paidProgramInfoDTO);
 			msg = "결제가 최종완료되었습니다";
 			url = "/programBoard/programContentView?write_no=" + write_no + "&num=" + num;
 		} else {

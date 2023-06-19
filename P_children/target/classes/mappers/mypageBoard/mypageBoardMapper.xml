@@ -51,7 +51,16 @@
 		<result property="state" column="state"/>
 		<result property="savedate" column="savedate"/>
 	</resultMap>
-	
+
+	<!-- 성수 -->
+	<resultMap type="com.web.root.board.dto.PaidProgramInfoDTO" id="paidProgram">
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="write_no" column="write_no"/>
+		<result property="num" column="num"/>
+		<result property="cancel_request" column="cancel_request"/>
+	</resultMap>
+
 	
 	<!--  ======================== 윤희 시작 ==========================   -->
 	
@@ -132,7 +141,41 @@
 	
 	<!--  ======================== 윤희 끝 ==========================   -->
 	
-
+	<!-- ======================================= 박성수 시작 ================================================= -->
+	
+	<select id="selectPaidProgramInfoCount" resultType="Integer">
+		SELECT COUNT(*) FROM paidProgramInfo
+	</select>	
+	
+	<select id="selectPaidProgramList" resultMap="paidProgram">
+		SELECT B.* FROM 
+		(SELECT ROWNUM rn, A.* FROM 
+		(SELECT * FROM paidProgramInfo where id=#{id} ORDER BY write_no DESC)A )B 
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<update id="updateCancelRequest">
+		UPDATE paidProgramInfo SET cancel_request = 'Y' where id = #{id} and write_no = #{num}
+	</update>
+	
+	<!-- ======================================= 박성수 끝 ================================================= -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

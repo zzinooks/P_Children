@@ -9,6 +9,7 @@ import com.web.root.board.dto.BoardDTO;
 import com.web.root.board.dto.BoardDibsDTO;
 import com.web.root.board.dto.BoardRepDTO;
 import com.web.root.board.dto.NoticeBoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.qna.dto.QnaDTO;
 import com.web.root.qna.dto.Qna_RepDTO;
@@ -81,6 +82,13 @@ public interface BoardMapper {
 	public int modifySaveForProgramWithFile(ProgramBoardDTO programBoardDTO);
 	
 	public int deleteProgram(int write_no);
+	
+	// 게시판 게시글 카테고리 수
+	public int programBoardCountCategory(Map<String, String> map); 
+
+	// 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
+	public List<ProgramBoardDTO> programBoardSearchFormCountList(Map<String, String> map);
+	
 	
 	
 	// 찜하기 기능 -----------------------------------------------
@@ -174,9 +182,9 @@ public interface BoardMapper {
 
 	public ProgramBoardDTO selectProgramInfo();
 
-	//public int writeSaveForProgram_test(ProgramBoardDTO_test dto);
+	public void insertPaidProgramInfo(PaidProgramInfoDTO paidProgramInfoDTO);
 
-	//public ProgramBoardDTO_test selectProgramInfo(String program_key);
+
 	
 	
 	// =============================== 성수 끝 ==================================

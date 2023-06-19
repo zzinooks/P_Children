@@ -2,7 +2,10 @@ package com.web.root.board.service;
 
 
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,9 +56,19 @@ public class BoardServiceImpl implements BoardService {
 		int endPage = startPage + block - 1;
 		if (endPage > totalPage) endPage = totalPage;
 
+		// 좋아요 불러오기
+		List<BoardDTO> boardList = mapper.boardAllList(start, end);
+		
+		// 각 게시판 마다 속한 좋아요 숫자를 불러온다
+		for (BoardDTO boardDTO : boardList) {
+			boardDTO.setDibsCount(mapper.getdibsNumByWriteNo(boardDTO.getWrite_no()));
+			System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(boardDTO.getWrite_no()));
+		}
+		
 	
+		// 정보 담기
 		model.addAttribute("repeat", repeat);
-		model.addAttribute("boardList", mapper.boardAllList(start, end));
+		model.addAttribute("boardList", boardList);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("block", block);
@@ -84,7 +97,6 @@ public class BoardServiceImpl implements BoardService {
 //			File saveFile = new File(IMAGE_REPO+"/"+sysFileName);
 //			
 //			// DB에 파일 이름 정보 저장
-//			dto.setImage_file_name(sysFileName);
 			
 			dto.setFile_name(bfs.saveFile(file));
 			
@@ -219,7 +231,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void boardSearchForm(String board_category, String board_searchCategory, String board_searchKeyword,
 			Model model, int num) {
-		List<BoardDTO> BoardDTOList = new ArrayList<BoardDTO>(); // board 검색에 따라 List 담기
+		List<BoardDTO> boardDTOList = new ArrayList<BoardDTO>(); // board 검색에 따라 List 담기
 		
 		// 카테고리 전체를 선택할 때 요청값을 "%%"로 변환 -> 쿼리문 like 사용한 검색을 위해서
 		if(board_category.equals("total") || board_category == null) {
@@ -278,10 +290,10 @@ public class BoardServiceImpl implements BoardService {
 		map.put("e",Integer.toString(end));		 // 끝 저장
 		   
 		// 상단에 만들어둔 List 변수에 내용들을 담아 리스트 불러오기
-		BoardDTOList = mapper.boardSearchFormCountList(map);       
+		boardDTOList = mapper.boardSearchFormCountList(map);       
 			
 		model.addAttribute("repeat", repeat);
-		model.addAttribute("boardList", BoardDTOList); // 시작과 끝 페이지 안에서 내용 가져오기
+		model.addAttribute("boardList", boardDTOList); // 시작과 끝 페이지 안에서 내용 가져오기
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("block", block);
