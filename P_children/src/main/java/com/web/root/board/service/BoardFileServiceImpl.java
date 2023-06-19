@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.web.root.member.dto.HostCertifyDTO;
 import com.web.root.mybatis.board.BoardMapper;
 
 @Service
@@ -107,7 +108,6 @@ public class BoardFileServiceImpl implements BoardFileService {
 		File deletefile = new File(IMAGE_NOTICE_REPO + "\\" + file_name);
 		deletefile.delete();
 	}
-	
 	
 	//============================ 최윤희 끝 ===========================================
 	

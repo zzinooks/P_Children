@@ -2,8 +2,9 @@ package com.web.root.board.service;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.web.root.member.dto.HostCertifyDTO;
 
 public interface BoardFileService {
 	

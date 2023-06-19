@@ -96,7 +96,6 @@ public interface BoardService {
 	public void noticeSearchForm(@Param("notice_category") String notice_category, 
 								 @Param("notice_searchCategory") String notice_searchCategory, 
 								 @Param("notice_searchKeyword") String notice_searchKeyword, Model m, int num);
-
 	
 	//============================ 최윤희 끝 ===========================================
 	

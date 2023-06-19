@@ -720,7 +720,6 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 	
-	
 		
 	//============================ 최윤희 끝 ===========================================
 	

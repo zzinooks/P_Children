@@ -43,6 +43,15 @@
 		<result property="end" column="end"/>				<!-- 0615_윤희 추가: DB 컬럼 없음, 변수만 있음 -->
 	</resultMap>
 	
+	<!-- host 인증 보드 -->
+	<resultMap id="hostCertify" type="com.web.root.member.dto.HostCertifyDTO">
+		<id property="certify_no" column="certify_no"/> <!-- property는 DTO랑 column은 DB랑 같아야함  -->
+		<result property="id" column="id"/>
+		<result property="file_name" column="file_name"/>
+		<result property="state" column="state"/>
+		<result property="savedate" column="savedate"/>
+	</resultMap>
+
 	<!-- 성수 -->
 	<resultMap type="com.web.root.board.dto.PaidProgramInfoDTO" id="paidProgram">
 		<result property="id" column="id"/>
@@ -51,6 +60,7 @@
 		<result property="num" column="num"/>
 		<result property="cancel_request" column="cancel_request"/>
 	</resultMap>
+
 	
 	<!--  ======================== 윤희 시작 ==========================   -->
 	
@@ -80,6 +90,55 @@
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 
+	
+	<!-- =============== 인증신청 =================================-->
+
+	<!-- host 인증신청 -->
+	<insert id="hostCertificationWriteSave">
+		INSERT INTO hostCertify(certify_no, id, file_name)
+		VALUES(certifyBoard_seq.NEXTVAL, #{id}, #{file_name})
+	</insert>
+	
+	<!-- host 인증 신청하고 대기중 표시 G로 업데이트 -->
+	<update id="hostCertificationCertified">
+		UPDATE member SET certified='G' WHERE id=#{id}	
+	</update>
+	
+	<!-- (관리자 로그인) 신청 전체 항목 갯수 가져오기 -->
+	<select id="hostCertificationApplyCount" resultType="Integer"> 
+		SELECT COUNT(*) FROM hostCertify
+	</select>
+	<!-- where state='apply' -->
+	
+	<!-- (관리자 로그인) 신청목록 전체 페이징 -->
+	<select id="hostCertificationApplyList" resultMap="hostCertify"> 
+		SELECT B.* FROM 
+		(SELECT ROWNUM rn, A.* FROM 
+		(SELECT * FROM hostCertify ORDER BY certify_no DESC)A )B 
+		WHERE rn BETWEEN #{start} and #{end} 
+	</select>
+
+	<!-- (관리자 로그인) host 인증 신청 수락 -->
+	<update id="hostCertificationOk">
+		UPDATE hostCertify SET state='approve' WHERE certify_no=#{certify_no}
+	</update>
+
+	<!-- host 인증 신청이 수락되면 member 테이블 certified 값 변경 Y -->
+	<update id="hostCertificationMemberOk">
+		UPDATE member SET certified='Y' WHERE id=#{id}
+	</update>
+	
+	<!-- (관리자 로그인) host 인증 신청 거절 -->
+	<update id="hostCertificationNo">
+		UPDATE hostCertify SET state='refusal' WHERE certify_no=#{certify_no}
+	</update>
+	
+	<!-- host 인증 신청이 거절되면 member 테이블 certified 값 변경 N -->
+	<update id="hostCertificationMemberNo">
+		UPDATE member SET certified='N' WHERE id=#{id}
+	</update>
+	
+	
 	<!--  ======================== 윤희 끝 ==========================   -->
 	
 	<!-- ======================================= 박성수 시작 ================================================= -->
