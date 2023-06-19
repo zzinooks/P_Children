@@ -21,7 +21,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.web.root.board.service.BoardForProgramService;
 import com.web.root.kakao.resource.KakaoDeveloper;
 import com.web.root.kakaoPay.dto.ItemDTO;
+import com.web.root.member.dto.HostCertifyDTO;
 import com.web.root.member.dto.MemberDTO;
+import com.web.root.member.service.HostCertificationService;
 import com.web.root.member.service.MemberService;
 import com.web.root.session.name.MemberSession;
 
@@ -35,6 +37,9 @@ public class MemberController implements MemberSession, KakaoDeveloper{
 	@Autowired	// kakaoPay 지불 완료 후 해당 프로그램 보드로 이동
 	BoardForProgramService bfps;
 	
+	@Autowired
+	private HostCertificationService hcs; 
+	
 	//============================ 임청규 ===========================================
 	
 	// 회원정보 
@@ -47,11 +52,6 @@ public class MemberController implements MemberSession, KakaoDeveloper{
 	public String member_information( Model model, HttpServletRequest request, HttpSession session) {
 		String id = (String) session.getAttribute(LOGIN);
 		MemberDTO dto = ms.member_information(id);
-		
-		//===0615_최윤희 추가: 프로그램게시판 정보 필요
-		//ProgramBoardDTO programBoardDTO = bfps.programBoardInformation(id);
-		//model.addAttribute("programBoardDTO", programBoardDTO);
-		//0615_최윤희 끝
 		
 		model.addAttribute("dto", dto);
 		return "chenggyu/member_information";

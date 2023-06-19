@@ -49,6 +49,9 @@
 				<input type="button" value="사용자 관리" onclick="location.href='manager_memberList'" class="but_1">
 				<input type="button" value="문의 관리" onclick="location.href='${contextPath }/board/manager_qna'" class="but_1">
 				<input type="button" value="카카오페이 승인 목록" onclick="location.href='kakaoPaymentApproveList'" class="but_1">
+				<!-- 0615_최윤희 추가 -->
+				<input type="button" value="HOST 신청 목록" onclick="location.href='${contextPath }/mypageBoard/certified/hostCertificationApplyList'" class="but_1">
+				<!-- 0615_최윤희 끝 -->
 			</div>
 		</form>
 		</div>

@@ -140,9 +140,6 @@ public interface BoardMapper {
 	
 	// 공지사항 게시글 카테고리+검색 => 해당 검색 카테고리리를 통해 각각 글 갯수 가져오기
 	public int noticeBoardCountCategory(NoticeBoardDTO notice_pageDTO);
-	
-	// 공지사항 게시글 카테고리 수  ================== 검색 관련 수정 중 입니다. =============================
-	public int noticeSearchFormCount(String notice_category); 
 
 	// 공지사항 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
 	public List<NoticeBoardDTO> noticeSearchFormCountList(NoticeBoardDTO notice_pageDTO);
