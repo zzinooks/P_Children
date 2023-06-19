@@ -7,22 +7,16 @@
 	padding: 0;
 	font-family: 'Poppins', sans-serif;
 }
-body{
-	background: #FFFFD3;
-	color: black;
-}
-.container {
-	border-left: 450px solid #C5FAD5;
-	border-bottom: 100vh solid #C5FAD5;
-	border-right: 400px solid transparent;
-	position: absolute;
-	z-index: -20;
-}
 /* 홈페이지 바디 */
+body{
+	background-image : url('../../resources/chenggyu/main03.jpg');
+	background-size: cover;
+	height: 100vh;
+}
 section{
 	display: flex;
-	padding-top: 5%;
-	padding-bottom: 5%;
+	padding-top: 10%;
+	padding-bottom: 10%;
 	min-height: 100vh;
 	justify-content: center;
 	align-items: center;
@@ -33,9 +27,8 @@ section{
 	max-width: 800px;
 	width: 100%;
 	padding: 25px 30px;
-	border: 2px solid #A996DB;
+	border: 2px solid #C19681;
 	border-radius: 20px;
-	backdrop-filter: blur(15px);
 }
 /* 타이틀 */
 .form-box .title{
@@ -51,7 +44,7 @@ section{
 	bottom: 0;
 	height: 3px;
 	width: 120px;
-	background: #A996DB;
+	background: #C19681;
 }
 /* 메인 */
 .form-box form .user-details{
@@ -68,7 +61,7 @@ section{
 	width: 100%;
 	height: 40px;
 	border-radius: 40px;
-	background: #A996DB;
+	background: #C19681;
 	border: none;
 	outline: none;
 	cursor: pointer;
@@ -80,7 +73,7 @@ section{
 	width: 100%;
 	height: 40px;
 	border-radius: 40px;
-	background: #A996DB;
+	background: #C19681;
 	border: none;
 	outline: none;
 	cursor: pointer;
@@ -125,7 +118,7 @@ from .user-details .input-box_addr{
 	width: 500px;
 	outline: none;
 	border-radius: 5px;
-	border: 1px solid #A996DB;
+	border: 1px solid #A16F63;
 	padding-left: 10px;
 	font-size: 15px;
 	margin-bottom: 5px;
@@ -140,7 +133,7 @@ from .user-details .input-box_addr{
 	font-weight: 50%;
 	margin: 5px;
 	border-radius: 50%;
-	background: #A996DB;
+	background: #A16F63;
 	text-decoration: none;
 }
 .form-box-list .title{
@@ -156,22 +149,22 @@ from .user-details .input-box_addr{
 	bottom: 0;
 	height: 3px;
 	width: 120px;
-	background: #A996DB;
+	background: #A16F63;
 }
+
 .form-box-list{
 	max-width: 1400px;
 	width: 100%;
 	padding: 25px 30px;
-	border: 2px solid #A996DB;
+	border: 2px solid #A16F63;
 	border-radius: 20px;
-	backdrop-filter: blur(15px);
 }
 /* 메뉴바 */
 .menu {
   width: 100%;
   overflow: hidden;
   border-radius: 40px;
- background: #A996DB;
+ background: #A16F63;
  margin-top: 10px;
  font-size: 1em;
  font-weight: 600;
@@ -183,7 +176,7 @@ from .user-details .input-box_addr{
   text-align: center;
   line-height: 40px;
   border-radius: 40px;
-  background: #A996DB;
+  background: #A16F63;
   font-size: 1em;
   font-weight: 600;
     text-decoration-line: none;
@@ -196,7 +189,7 @@ from .user-details .input-box_addr{
 
 .submenu > li {
   line-height: 50px;
-  background-color: #A996DB;
+  background-color: #C19681;
 }
 
 .submenu {
@@ -205,7 +198,7 @@ from .user-details .input-box_addr{
 }
 .submenu_ > li {
   line-height: 50px;
-  background-color: #A996DB;
+  background-color: #C19681;
 }
 
 .submenu_ {
@@ -214,7 +207,7 @@ from .user-details .input-box_addr{
 }
 
 .menu > li:hover {
-  background-color: #A996DB;
+  background-color: #A16F63;
   transition-duration: 1s;
 }
 

@@ -2,6 +2,7 @@ package com.web.root.board.dto;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /*
 CREATE TABLE programBoard(
@@ -59,7 +60,9 @@ public class ProgramBoardDTO {
 	//=====0616_주진욱 추가
 	private int dibsCount;
 	//=====0616_주진욱 끝
-	
+	//=====0619_주진욱 추가
+	private List<PaidProgramInfoDTO> paidProgramInfoDTO;
+	//=====0619_주진욱 끝
 	
 	// 생성자
 	public ProgramBoardDTO() {
@@ -248,6 +251,15 @@ public class ProgramBoardDTO {
 	}
 	//==== 0616_진욱 끝 =====
 
+
+	//==== 0616_진욱 시작 =====
+	public List<PaidProgramInfoDTO> getPaidProgramInfoDTO() {
+		return paidProgramInfoDTO;
+	}
+	public void setPaidProgramInfoDTO(List<PaidProgramInfoDTO> paidProgramInfoDTO) {
+		this.paidProgramInfoDTO = paidProgramInfoDTO;
+	}	
+	//==== 0616_진욱 끝 =====
 	
 
 }

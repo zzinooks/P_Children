@@ -78,7 +78,7 @@
          </div>
          <div class="button">
             <input type="button" value="개인정보 수정" onclick="location.href='member_modify'" class="but_1">
-            <input type="button" value="내가 찜한 게시글" onclick="location.href='${contextPath }/board/myDibsBoard'" class="but_1">
+            <input type="button" value="내가 찜한 게시글" onclick="location.href='${contextPath }/mypageBoard/myDibsBoard'" class="but_1">
             <!-- 0616_최윤희 : 게시글 버튼 추가 -->
             <c:if test="${dto.userSelect == 'host'}">
             	<input type="button" value="내가 작성한 게시글" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardProgramWriteList'" class="but_1">

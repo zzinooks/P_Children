@@ -7,9 +7,7 @@
 	font-family: 'Poppins', sans-serif;
 }
 body{
-	background-image : url('../../resources/chenggyu/index.jpg');
+	background-image : url('../../resources/chenggyu/main02_new.jpg');
 	background-size: cover;
+	height: 100vh;
 }	
-main {
-  padding: 20px;
-}

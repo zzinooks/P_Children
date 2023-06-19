@@ -281,45 +281,6 @@ public class BoardController implements MemberSession{
 		return returnMap;
 	}
 	
-	// 내가 찜한 게시글 보기 페이지로 이동
-	@RequestMapping("myDibsBoard")
-	public String myDibsBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
-		
-		// (1-2) 로그인값 불러오기
-		String id = (String) session.getAttribute(LOGIN);
-		if(id == null) { // 비로그인인 경우
-			model.addAttribute("id", id);
-		} else {	// 일반 로그인인 경우
-			ms.userInfo(id, model);
-		}
-		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
-		model.addAttribute("admin", ADMIN);
-		
-		// 내가 찜한 게시판 가져오기
-		bs.myDibsBoardAllList(model, num, request, id);
-		
-		return "board/myDibsBoard";
-	}
-	
-	@RequestMapping("myDibsProgramBoard")
-	public String myDibsProgramBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
-		
-		// (1-2) 로그인값 불러오기
-		String id = (String) session.getAttribute(LOGIN);
-		if(id == null) { // 비로그인인 경우
-			model.addAttribute("id", id);
-		} else {	// 일반 로그인인 경우
-			ms.userInfo(id, model);
-		}
-		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
-		model.addAttribute("admin", ADMIN);
-		
-		// 내가 찜한 게시판 가져오기
-		bfps.myDibsProgramBoardAllList(model, num, request, id);
-		
-		return "board/myDibsProgramBoard";
-	}
-	
 	
 	//============================ 주진욱 끝 ===========================================
 	
@@ -573,7 +534,8 @@ public class BoardController implements MemberSession{
 	
 	// 고객센터 
 	@RequestMapping("service_center")
-	public String service_center() {
+	public String service_center(Model model, HttpSession session) {
+		String id = (String) session.getAttribute(LOGIN);
 		return "board/service/service_center";
 	}
 	

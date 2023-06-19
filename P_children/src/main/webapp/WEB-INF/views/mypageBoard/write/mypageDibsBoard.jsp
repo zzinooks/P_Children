@@ -18,10 +18,10 @@
 	function chooseBoard() {
 		
 		if($("#selectBoard").val() =='내가찜한게시글') {
-			location.href="${contextPath}/board/myDibsBoard?num=1"
+			location.href="${contextPath}/mypageBoard/myDibsBoard?num=1"
 		}
 		if($("#selectBoard").val() =='내가찜한프로그램게시글') {
-			location.href = "${contextPath}/board/myDibsProgramBoard?num=1";
+			location.href = "${contextPath}/mypageBoard/myDibsProgramBoard?num=1";
 		}
 		
 	}
@@ -29,7 +29,7 @@
 </script>
 </head>
 <body>
-	<c:import url="../default/header.jsp"/>
+	<c:import url="../../default/header.jsp"/>
 	<section>
 		<h1> 내가 찜한 게시판 ♥ </h1>
 		<select name="selectBoard" id="selectBoard" onchange="chooseBoard()">
@@ -104,18 +104,18 @@
 							<!-- 자유 게시판에 들어가자마자 나오는 페이징  -->
 							<c:if test="${board_category == null}">
 								<c:if test="${startPage > block }">
-									[ <a href="${contextPath }/board/myDibsBoard?num=${startPage-1 }" id="paging"> 이전 </a> ]
+									[ <a href="${contextPath }/mypageBoard/myDibsBoard?num=${startPage-1 }" id="paging"> 이전 </a> ]
 								</c:if>
 								<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
 									<c:if test="${i == num}">
-										[ <a href="${contextPath }/board/myDibsBoard?num=${i }" id="currentPaging"> ${i } </a> ]
+										[ <a href="${contextPath }/mypageBoard/myDibsBoard?num=${i }" id="currentPaging"> ${i } </a> ]
 									</c:if>
 									<c:if test="${i != num}">
-										[ <a href="${contextPath }/board/myDibsBoard?num=${i }" id="paging"> ${i } </a> ]
+										[ <a href="${contextPath }/mypageBoard/myDibsBoard?num=${i }" id="paging"> ${i } </a> ]
 									</c:if>
 								</c:forEach>
 								<c:if test="${endPage < totalPage }">
-									[ <a href="${contextPath }/board/myDibsBoard?num=${endPage+1 }" id="paging"> 다음 </a> ]
+									[ <a href="${contextPath }/mypageBoard/myDibsBoard?num=${endPage+1 }" id="paging"> 다음 </a> ]
 								</c:if>
 							</c:if>
 							<!-- 검색 클릭시 페이징  
@@ -177,6 +177,6 @@
 		</div>
 		-->
 	</section>
-	<c:import url="../default/footer.jsp"/>
+	<c:import url="../../default/footer.jsp"/>
 </body>
 </html>

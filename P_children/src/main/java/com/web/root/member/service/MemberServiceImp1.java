@@ -122,10 +122,9 @@ public class MemberServiceImp1 implements MemberService {
 
 	// 회원 정보 저장
 	@Override
-	public void userInfo(String userid, Model model) {
-		MemberDTO dto = mapper.getMember(userid);
-		model.addAttribute("info", dto);
-		
+	public void userInfo(String id, Model model) {
+		MemberDTO dto = mapper.getMember(id);
+		model.addAttribute("info", dto);	
 	}
 	
 	// 회원삭제

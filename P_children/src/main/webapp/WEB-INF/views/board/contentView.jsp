@@ -850,7 +850,7 @@ button{
                   </li>
                 </ul>
                 </c:if> 
-               <c:if test="${loginUser != dto.id }"><!-- 작성자x 비로그인 -->
+               <c:if test="${loginUser != dto.id  &&  info.grade != admin}"><!-- 작성자x 비로그인 -->
                <ul class="menu">
                <li>
                  <a href="#">메뉴</a>
@@ -858,7 +858,7 @@ button{
 				<ul class="submenu_">
                     <c:choose>
 	                     <c:when test="${toMyDibsBoard == 'yes' }">
-	                        <li><a href="${contextPath }/board/myDibsBoard?num=<%=num2%>">목록</a></li>
+	                        <li><a href="${contextPath }/mypageBoard/myDibsBoard?num=<%=num2%>">목록</a></li>
 	                     </c:when>
 	                     <c:otherwise>
 	                        <c:choose>

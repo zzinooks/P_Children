@@ -438,7 +438,7 @@ h1 {
 	            <tr>
 	               <th><b> 견 종 </b><br></th>
 	               <td>
-	                  <input list="petKind_list" id="petKind" name="petKind" placeholder="견종을 검색해보세요">
+	                  <input list="petKind_list" id="petKind" name="petKind" value="${info.mateBreed }" placeholder="견종을 검색해보세요">
 	                  <datalist id="petKind_list">
 	                     <option value="아이누" label="아이누(Ainu)"/>
 	                     <option value="에어덜테리어" label="에어덜 테리어(Airdale Terrier)"/> 
@@ -617,7 +617,7 @@ h1 {
 	                  </datalist>
 	                  </td>
 	               <th><b> 강아지 이름 </b></th>
-	               <td><input type="text" name="mateName" /></td>
+	               <td><input type="text" name="mateName" value="${info.mateName }" /></td>
 	            </tr>
 	            <tr>
 	               <th> 강아지 사진 </th>

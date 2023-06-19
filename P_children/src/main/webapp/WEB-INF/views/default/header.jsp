@@ -21,7 +21,6 @@
 </head>
 <body>
 
-	<div class="container"></div>
 	<header class="header" >
 		<a href="${contextPath }/index" class="logo"><i class='bx bxs-dog'></i><span>Mate With</span></a>
 		<nav class="navbar">
