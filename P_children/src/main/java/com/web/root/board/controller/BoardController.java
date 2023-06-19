@@ -197,10 +197,8 @@ public class BoardController implements MemberSession{
 		
 		BoardDTO dto = bs.contentView(model, request);
 		
-		// 수정 파일 존재시 실제 저장된 파일 삭제
-		if(file.getSize() != 0) {
-			bfs.deleteFile(dto.getFile_name());
-		}
+		// 이전에 업로드된 이미지 파일 삭제
+		bfs.deleteFile(dto.getFile_name());
 		
 		// board 입력 및 결과 메시지 출력
 		String message = bs.modifySave(mul,request);
@@ -286,7 +284,10 @@ public class BoardController implements MemberSession{
 			ms.userInfo(id, model);
 		}
 		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
-		model.addAttribute("admin", ADMIN);		
+		model.addAttribute("admin", ADMIN);
+		
+		// 내가 찜한 게시판 가져오기
+		bs.myDibsBoardAllList(model, num, request, id);
 		
 		return "board/myDibsBoard";
 	}

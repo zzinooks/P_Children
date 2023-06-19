@@ -3,6 +3,7 @@ package com.web.root.board.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.web.root.board.dto.BoardDibsDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
 import com.web.root.board.service.BoardFileService;
 import com.web.root.board.service.BoardForProgramService;
@@ -138,7 +140,16 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
       }
       
       // (1-4) 게시판 찜한 숫자 가져오기
-      int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(request.getParameter("write_no"))); 
+      int dibsNum = bs.getdibsNumByWriteNo(Integer.parseInt(request.getParameter("write_no")));
+      
+      // (1-5) 프로그램 게시판 결재 목록 불러오기
+      Map<String, Object> mapForPaidProgramBoard = new HashMap<String, Object>();
+      
+      mapForPaidProgramBoard.put("write_no", Integer.parseInt(request.getParameter("write_no")));
+      List<PaidProgramInfoDTO> paidProgramInfoList = bs.paidProgramInfoByHostIdAndWriteNo(mapForPaidProgramBoard);
+      for (PaidProgramInfoDTO paidProgramInfoDTO : paidProgramInfoList) {
+		System.out.println("제목 :" + paidProgramInfoDTO.getTitle());
+	}
       
       // (2) 정보 담기
       model.addAttribute("programBoardDTO", programBoardDTO);
@@ -147,6 +158,8 @@ public class BoardForProgramController implements MemberSession, KakaoDeveloper{
       model.addAttribute("admin", ADMIN);
       
       model.addAttribute("dibsNum", dibsNum);
+      
+      model.addAttribute("paidProgramInfoList", paidProgramInfoList);
       // (3) 조회수 증가
       bfps.programHitplus(programBoardDTO);
       

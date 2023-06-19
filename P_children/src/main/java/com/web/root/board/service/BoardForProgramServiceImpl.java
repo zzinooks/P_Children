@@ -317,7 +317,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		String paymentId = (String) session.getAttribute(LOGIN);
 		
 		PaidProgramInfoDTO paidProgramInfoDTO = new PaidProgramInfoDTO();
-		paidProgramInfoDTO.setPaymentId(paymentId);
+		//paidProgramInfoDTO.setPaymentId(paymentId);
 		paidProgramInfoDTO.setTitle(title);
 		paidProgramInfoDTO.setWrite_no(Integer.parseInt(write_no));
 		paidProgramInfoDTO.setNum(Integer.parseInt(num));

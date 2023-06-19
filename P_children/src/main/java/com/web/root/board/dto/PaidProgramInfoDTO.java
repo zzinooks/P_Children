@@ -1,16 +1,24 @@
 package com.web.root.board.dto;
 
 public class PaidProgramInfoDTO {
-	private String paymentId;
+	private String id;
 	private String title;
 	private int write_no;
 	private int num;
+	private String cancel_request;
 	
-	public String getPaymentId() {
-		return paymentId;
+	
+	public String getId() {
+		return id;
 	}
-	public void setPaymentId(String paymentId) {
-		this.paymentId = paymentId;
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getCancel_request() {
+		return cancel_request;
+	}
+	public void setCancel_request(String cancel_request) {
+		this.cancel_request = cancel_request;
 	}
 	public String getTitle() {
 		return title;

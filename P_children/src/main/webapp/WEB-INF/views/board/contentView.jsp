@@ -463,18 +463,13 @@
          data: JSON.stringify(form),
          contentType: "application/json; charset=utf-8",
          success: function(data) {
-            alert("찜 토글하기 성공~!");
-            alert(data.result);
-            alert(data.changedDibsNum);
             if(data.result == 1) { // (처음으로 누른 경우) insert 결과가 1 이거나,(처음이 아닌 경우) dibs_state 가 1 일 때 
-               alert("토글 값은 1")
                $("#dibs_image").attr("src", "https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714");
             }
             if(data.result == 0) { // dibs_state가 0일 때
-               alert("토글 값은 0")
                $("#dibs_image").attr("src", "https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb");
             }
-            $("#dibsNumPoint").html(data.changedDibsNum);
+            $("#dibsNumChangePoint").html(data.changedDibsNum);
          },
          error: function() {
             alert("찜하기 실패...")
@@ -729,7 +724,7 @@ button{
       
       <section ><!-- body -->
          <div class="form-box-list"> <!--  container  -->
-         <div class="title" >게시판 ${state }</div>
+         <div class="title" >게시판</div>
          <table>
             <tr>
                <th>제목</th>
@@ -768,7 +763,7 @@ button{
                <th>찜하기</th>
                   <td>
                      <button class="btn btn-light" id="dibsNum">
-                        <div id="dibsNumPoint">${dibsNum} 명이 찜했습니다!</div>
+                        <div id="dibsNumPoint"><div id="dibsNumChangePoint">${dibsNum}</div> 명이 찜했습니다!</div>
                      </button>
                      <button class="btn btn-light" 
                                  onclick= <c:choose>
