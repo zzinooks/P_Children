@@ -51,6 +51,9 @@ public interface MypageBoardMapper {
 	
 	// host 인증 신청이 거절되면 member 테이블 certified 값 변경 N
 	public void hostCertificationMemberNo(String id);
+	
+	// host 인증 신청 거절하면 DB에서 file_name 이름 nan 으로 변경 (임시로 갖고있기)
+	//public void hostCertificationDBfile_nameDelete(@Param("id") String id, @Param("certify_no") int certify_no);
 
 	
 	//============================ 최윤희 끝 ===========================================

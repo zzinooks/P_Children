@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.root.member.service.HostCertificationFileService;
 import com.web.root.member.service.HostCertificationService;
@@ -114,18 +112,26 @@ public class HostCertificationController implements MemberSession {
 		String id = (String) session.getAttribute(LOGIN);  // 로그인 아이디 문자열로 저장
 		model.addAttribute("userid", id);				   // jsp에 전달하기 위해 model에 저장
 
-		hcs.hostCertificationNo(request, num, model);	   // 인증 신청 승인
+		hcs.hostCertificationNo(request, num, model);	   // 인증 신청 거절
+		
+		// 인증 신청 제출 자료 삭제(파일삭제)
+		//this.hostCertificationDeleteFile(request); 	   // 파일 이름 넘김
+		
+		// DB 테이블에도 file_name 이름 nan으로 변경
+		//hcs.hostCertificationDBfile_nameDelete(request);
 	
 		return "mypageBoard/certified/hostCertificationApplyList";
 	}
 	
-	//(관리자) 인증 신청 거절하면 제출자료 삭제
+	// (관리자) 인증 신청 거절하면 제출자료 삭제 (임시로 갖고있기)
 //	@RequestMapping("certified/hostCertificationDeleteFile")
-//	public void hostCertificationDeleteFile(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-//		// 파일 삭제 (파일 이름값 넘김)
+//	public String hostCertificationDeleteFile(HttpServletRequest request) {
+//		// 파일 삭제 (파일 이름값 + 글번호 넘김)
 //		hostFile.hostCertificationDeleteFile(request.getParameter("file_name"));
-//
+//		
+//		return "mypageBoard/certified/hostCertificationApplyList";
 //	}
+	
 	
 }
 

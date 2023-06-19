@@ -44,7 +44,7 @@ public class HostCertificationFileServiceImpl implements HostCertificationFileSe
 	}
 	
 	
-	// host 인증 신청 거절하면 제출서류 삭제
+	// host 인증 신청 거절하면 제출서류 삭제 (임시로 갖고있기)
 //	@Override
 //	public void hostCertificationDeleteFile(String file_name) {
 //		File deletefile = new File(IMAGE_HOST_CERTIFICATION_REPO + "\\" + file_name);

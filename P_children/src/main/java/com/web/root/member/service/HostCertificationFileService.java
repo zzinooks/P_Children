@@ -2,6 +2,7 @@ package com.web.root.member.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface HostCertificationFileService {

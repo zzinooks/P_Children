@@ -22,15 +22,14 @@
 	
 	//인증 신청 자료 확인 -> 인증 신청 거절
 	function hostCertificationNoCheck(){
-		let file_name = ("#file_name").val;
 		if(!confirm('승인 거절 하겠습니까?')){
 			return false;
 		} else {
-			document.hostCertificationNo.submit();
-			//location.href='${contextPath }/mypageBoard/certified/hostCertificationDeleteFile?file_name='+file_name;
+			$("#hostCertificationNo").submit();
 			alert("HOST 인증 신청을 거절하였습니다.");
 		}	
 	}
+	
 </script>
 <style type="text/css">
 	table, th, tr, td {
@@ -81,9 +80,10 @@
 								<input type="hidden" name="userId" id="userId" value="${hostApplyList.id }">
 								<input type="button" value="승인" onclick="hostCertificationOkCheck()">
 							</form>
-							<form name="hostCertificationNo" action="${contextPath}/mypageBoard/certified/hostCertificationNo" method="post">
+							<form name="hostCertificationNo" id="hostCertificationNo" action="${contextPath}/mypageBoard/certified/hostCertificationNo" method="post">
 								<input type="hidden" name="certify_no" id="certify_no" value="${hostApplyList.certify_no}">
 								<input type="hidden" name="userId" id="userId" value="${hostApplyList.id }">
+								<input type="hidden" name="file_name" id="file_name" value="${hostApplyList.file_name}">
 								<input type="button" value="거절" onclick="hostCertificationNoCheck()">
 							</form>
 						</td>

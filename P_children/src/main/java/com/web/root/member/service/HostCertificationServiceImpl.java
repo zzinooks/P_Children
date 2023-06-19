@@ -166,9 +166,15 @@ public class HostCertificationServiceImpl implements HostCertificationService {
 		
 	}
 	
-
-
 	
+	//(관리자) host 인증 신청 거절하고 DB에서 file_name -> nan으로 변경 (임시로 갖고있기)
+//	@Override
+//	public void hostCertificationDBfile_nameDelete(HttpServletRequest request) {
+//		String id = request.getParameter("userId");
+//		int certify_no = Integer.parseInt(request.getParameter("certify_no"));
+//		mapper.hostCertificationDBfile_nameDelete(id, certify_no);
+//	}
+
 }
 
 
