@@ -33,8 +33,8 @@
 	<section>
 		<h1> 내가 찜한 게시판 ♥ </h1>
 		<select name="selectBoard" id="selectBoard" onchange="chooseBoard()">
-			<option value="내가찜한게시글" oncheck>내가찜한게시글</option>
 			<option value="내가찜한프로그램게시글" checked>내가찜한프로그램게시글</option>
+			<option value="내가찜한게시글">내가찜한게시글</option>
 		</select>
 		<!-- 내가 찜한 프로그램 게시판 -->
 		</div>

@@ -24,6 +24,11 @@
 		}
 		
 	}
+	
+	// 로그인 요청 알림창
+	function loginPlease(){
+		alert("로그인 후 기능 이용 가능합니다.");
+	}
 </script>
 <style type="text/css">
 table             { 
@@ -144,9 +149,14 @@ table             {
 				</c:choose>
 				</table>
 				<div class="button">
-					<c:if test="${loginUser != 'noLogin' || kakaoId != null}">
+					<c:choose>
+						<c:when test="${id == null && info.id == null}">
+							<input type="button" value="글작성" onclick="loginPlease()" class="but_2">
+						</c:when>
+						<c:otherwise>
 							<input type="button" value="글작성" onclick="location.href='${contextPath }/board/writeForm'" class="but_2">
-					</c:if>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			<!-- 검색 -->
 			<div  class="page_wrap">

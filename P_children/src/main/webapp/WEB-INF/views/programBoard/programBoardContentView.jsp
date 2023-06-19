@@ -198,7 +198,7 @@ h1 {
 	         		<input type="hidden" id="write_no" name="write_no" value="${programBoardDTO.write_no }"><br>
 	         		<input type="hidden" name="num" value="<%=num2 %>"><br>
 	         		<c:if test="${programBoardDTO.currentRegisterCount < totalRegisterCount}">	         			
-	         		<c:if test="${user != null }"><button onclick="confirmToPay()">결제하기</button></c:if>
+	         		<c:if test="${1 == 1 }"><button onclick="confirmToPay()">결제하기</button></c:if>
 	         		</c:if>
 	         	</form>
 	         	</td>
