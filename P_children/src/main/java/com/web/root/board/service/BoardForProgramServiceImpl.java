@@ -124,7 +124,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		// 각 게시판 마다 속한 좋아요 숫자를 불러온다
 		for (ProgramBoardDTO programBoardDTO : programBoardList) {
 			programBoardDTO.setDibsCount(mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
-			System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
+			//System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
 		}
 		
 		// 정보 담기

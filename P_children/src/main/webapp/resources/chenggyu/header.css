@@ -6,26 +6,18 @@
 	box-sizing: border-box;;
 	font-family: 'Poppins', sans-serif;
 }
-body{
-	background: #FFFFD3;
-	color: black;
-}
-.container {
-	border-left: 450px solid #C5FAD5;
-	border-bottom: 100vh solid #C5FAD5;
-	border-right: 400px solid transparent;
-	position: absolute;
-	z-index: -20;
-}
 .header{
 	position: fixed;
-	top: 0;
+	top: 5px;
 	left: 0;
 	width: 100%;
 	display: flex;
+	border: 2px solid #A16F63;
+	background: #A16F63;
+	border-radius: 20px;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px 5%;
+	padding: 10px 2%;
 	z-index: 20;
 }
 a{
@@ -46,16 +38,43 @@ a{
 	cursor: pointer;
 }
 .navbar a{
-	font-size: 18px;
+	font-size: 20px;
 	display: inline-block;
-	margin-left: 45px;
+	margin-left: 35px;
 	font-weight: 500;
 	text-decoration: none;
+	color: #020715; 
 }
 .navbar a.active{
-	color: #201F20;
+	color: #020715; 
 }
 .navbar a:hover{
-	color: #A996DB;
+	color: #020715; 
 }
-
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  height: 250px; /* 적당한 높이를 지정하세요 */
+}
+.sub-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+.section_main{
+	margin-top: 200px;
+	margin-bottom: 50px;
+}
+	

@@ -10,12 +10,6 @@ body{
 	background: #FFFFD3;
 	color: black;
 }
-.container {
-	border-left: 450px solid #C5FAD5;
-	border-bottom: 100vh solid #C5FAD5;
-	border-right: 400px solid transparent;
-	position: absolute;
-}
 section{
 	display: flex;
 	min-height: 100vh;
