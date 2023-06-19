@@ -855,7 +855,7 @@ button{
                   </li>
                 </ul>
                 </c:if> 
-               <c:if test="${loginUser != dto.id }"><!-- 작성자x 비로그인 -->
+               <c:if test="${loginUser != dto.id  &&  info.grade != admin}"><!-- 작성자x 비로그인 -->
                <ul class="menu">
                <li>
                  <a href="#">메뉴</a>

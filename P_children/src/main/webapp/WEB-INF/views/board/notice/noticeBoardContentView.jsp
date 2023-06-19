@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Mate With 공지사항</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 
 	// 파일 업로드 시 img 태그에 그림 화면 보이기
@@ -56,11 +56,11 @@ table             {
     padding-right: 8px;
     text-align:left;
     }  
- th { background-color: #A996DB; 
+ th { background-color: #C19681;
  width: auto;}
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
   a{

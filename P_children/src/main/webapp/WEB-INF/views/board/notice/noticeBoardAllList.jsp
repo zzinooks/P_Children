@@ -8,9 +8,9 @@
 <meta charset="UTF-8">
 <title>Mate With 공지사항</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<script src="${contextPath }/resources/yoonhee/js/noticeBoardScript.js?v=2"></script>
+<script src="${contextPath }/resources/yoonhee/js/noticeBoardScript.js?v=1"></script>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	// 게시글 삭제 문구 알림창
 	function noticeBoardDeleteConfirm(write_no, file_name) {
@@ -59,13 +59,13 @@ table             {
 
   thead tr  { 
     height:40px;
-    background:#A996DB;
+    background:#C19681;
     font-size:16px;
   }
   
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid #C19681;
     &:last-child  { border:0; }
   }
   .valueHiddenView {

@@ -550,7 +550,8 @@ public class BoardController implements MemberSession{
 	
 	// 고객센터 
 	@RequestMapping("service_center")
-	public String service_center() {
+	public String service_center(Model model, HttpSession session) {
+		String id = (String) session.getAttribute(LOGIN);
 		return "board/service/service_center";
 	}
 	

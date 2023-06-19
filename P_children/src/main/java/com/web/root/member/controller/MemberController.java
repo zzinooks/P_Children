@@ -39,7 +39,7 @@ public class MemberController implements MemberSession, KakaoDeveloper{
 	
 	// 회원정보 
 	public void userInfo(String id, Model model){
-		ms.userInfo(id,model);
+		ms.userInfo(id, model);
 	} 
 	
 	// 개인정보 관리자정보 
