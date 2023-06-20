@@ -313,12 +313,14 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		String num = request.getParameter("num");
 		String title = request.getParameter("title");
 		String paymentId = (String) session.getAttribute(LOGIN);
+		String tid = (String)session.getAttribute("tid");
 		
 		PaidProgramInfoDTO paidProgramInfoDTO = new PaidProgramInfoDTO();
 		paidProgramInfoDTO.setId(paymentId);
 		paidProgramInfoDTO.setTitle(title);
 		paidProgramInfoDTO.setWrite_no(Integer.parseInt(write_no));
 		paidProgramInfoDTO.setNum(Integer.parseInt(num));
+		paidProgramInfoDTO.setTid(tid);
 		
 		int result = 0; // "결재 완료 후 승인 대기" 로 변경 성공유무 결과값 (1: 성공, 0: 실패)
 		

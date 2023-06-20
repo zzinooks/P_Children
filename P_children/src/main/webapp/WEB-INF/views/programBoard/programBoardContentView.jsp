@@ -202,6 +202,17 @@ table             {
          <c:choose>
          <c:when test="${programBoardDTO.currentRegisterCount < programBoardDTO.totalRegisterCount && user != null}">
          	<button onclick="confirmToPay()" class="but_1">결제하기</button>
+         	<form action="${contextPath }/member/kakaoPayBtn" method="get" id="programPayForm">
+               <input type="hidden" name="title" value="${programBoardDTO.title }"><br>
+               <input type="hidden" name="quantity" value="1"><br>
+               <input type="hidden" name="total_amount" value="${programBoardDTO.priceForProgram }"><br>
+               <input type="hidden" id="write_no" name="write_no" value="${programBoardDTO.write_no }"><br>
+               <input type="hidden" name="num" value="<%=num2 %>"><br>
+               <c:if test="${programBoardDTO.state != '결재 완료'}">                     
+               <c:if test="${user != null }"><button onclick="confirmToPay()">결제하기</button></c:if>
+               </c:if>
+            </form>
+         	
          </c:when>
          <c:otherwise>
          	<button onclick="impossibleToPay()" class="but_1">결재 불가</button>
