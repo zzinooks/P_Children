@@ -31,13 +31,13 @@ table             {
 
   thead tr  { 
     height:50px;
-    background:#A996DB;
+    background:#C19681;
     font-size:16px;
   }
   
   tbody tr     { 
   height:48px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
 </style>
@@ -77,7 +77,7 @@ table             {
 				</tr>
 			</c:forEach>	
 		</table>
-		<input type="button" value="작성" onclick="location.href='${contextPath }/board/member_writeForm'"  class="but_2">
+
 			<div class="page_wrap">
 			   <div class="page_nation">
 			      <!-- <a class="arrow pprev" href="#"></a> -->
@@ -86,7 +86,17 @@ table             {
 					</c:forEach>
 			      <!-- <a class="arrow nnext" href="#"></a> -->
 			   </div>
-			</div>					
+			</div>
+		<input type="button" value="작성" onclick="location.href='${contextPath }/board/member_writeForm'"  class="but_2">
+			<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<li><a href="${contextPath }/member/member_information">이전</a></li>
+					</ul>
+				</li>
+			</ul>
+			</div>				
 		</div>
 	</section>
 

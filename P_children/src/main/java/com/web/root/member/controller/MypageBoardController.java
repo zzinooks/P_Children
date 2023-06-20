@@ -125,7 +125,7 @@ public class MypageBoardController implements MemberSession {
 	// ======================================= 박성수 시작 =================================================
 	// ======================================= 주진욱 시작 =================================================
 	// 내가 찜한 게시글 보기 페이지로 이동
-	@RequestMapping("myDibsBoard")
+	@RequestMapping("mypageDibsBoard")
 	public String myDibsBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
 		
 		// 로그인값 불러오기
@@ -144,7 +144,7 @@ public class MypageBoardController implements MemberSession {
 		return "mypageBoard/write/mypageDibsBoard";
 	}
 	
-	@RequestMapping("myDibsProgramBoard")
+	@RequestMapping("mypageDibsProgramBoard")
 	public String myDibsProgramBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
 		
 		// 로그인값 불러오기

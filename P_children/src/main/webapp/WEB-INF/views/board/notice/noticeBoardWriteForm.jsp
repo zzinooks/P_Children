@@ -57,11 +57,11 @@ table             {
     padding-right: 8px;
     text-align:center;
     }  
- th { background-color: #A996DB; 
+ th { background-color: #C19681; 
  width: auto;}
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
  textarea{
@@ -129,22 +129,23 @@ a{
 			</table>
 			</form>
 						<input type="button" onclick="noticeBoardWriteFormCheck()" value="완료" class="but_1">
-				<ul class="menu">
-			      <li>
-			        <a href="">메뉴</a>
-			        <ul class="submenu_">
-				         <hr>
-				         <c:choose>
-					         <c:when test="${notice_category != null}">
-					          	<li><a href="${contextPath }/board/notice/noticeSearchForm?num=${num}&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}">목록</a></li>
-							 </c:when>
-							<c:otherwise>			          
-				          	<li><a href="${contextPath }/board/notice/noticeBoardAllList?num=${num}">목록</a></li>
-				          	</c:otherwise>
-				          </c:choose>	
-				        </ul>
-				      </li>
-			    	</ul> 
+			<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<c:choose>
+							<c:when test="${notice_category != null}">
+								<li><a
+									href="${contextPath }/board/notice/noticeSearchForm?num=${num}&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}">목록</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a
+									href="${contextPath }/board/notice/noticeBoardAllList?num=${num}">목록</a></li>
+							</c:otherwise>
+						</c:choose>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</section>
 	

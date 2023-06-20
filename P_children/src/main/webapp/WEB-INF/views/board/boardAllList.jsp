@@ -11,7 +11,7 @@
 <title>Mate With 게시판</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=3" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	//게시글 삭제 문구 알림창
@@ -49,13 +49,13 @@ table             {
 
   thead tr  { 
     height:40px;
-    background:#A996DB;
+    background:#C19681;
     font-size:16px;
   }
   
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid #C19681;
     &:last-child  { border:0; }
   }
   .valueHiddenView {
@@ -84,7 +84,7 @@ table             {
 		
 		<section ><!-- body -->
 			<div class="form-box-list"> <!--  container  -->
-				<div class="title" > 게시판 </div>
+				<div class="title" >자유 게시판 </div>
 				<table >
 				<thead>
 					<tr>
@@ -93,7 +93,7 @@ table             {
 							<th>작성자</th>
 							<th> 작성일 </th>
 							<th> 조회수 </th>
-							<th> 좋아요 </th>
+							<th><img width="18px" height="18px"  src="https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714"></th>
 							<c:if test ="${info.grade == admin}">
 							<th>관리자 권한</th>
 							</c:if>

@@ -186,7 +186,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		}
 		// DB에서 Modify 실행
 		
-		
+
 		// 실패
 		String msg, url;
 		if(result == 1) {
@@ -208,6 +208,8 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		
 		int write_no = Integer.parseInt(request.getParameter("write_no"));
 		result = mapper.deleteProgram(write_no);
+		
+		System.out.println(result);
 		
 		String msg, url;
 		if(result == 1) {

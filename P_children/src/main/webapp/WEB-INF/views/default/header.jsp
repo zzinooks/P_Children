@@ -25,9 +25,9 @@
 		<a href="${contextPath }/index" class="logo"><i class='bx bxs-dog'></i><span>Mate With</span></a>
 		<nav class="navbar">
 			<a href="${contextPath }/index" class="active">메인</a>
-			<a href="${contextPath }/board/notice/noticeBoardAllList">공지 사항</a>
-			<a href="${contextPath }/board/boardAllList">게시판</a>
-			<a href="${contextPath }/programBoard/programBoardAllList">프로그램</a>
+			<a href="${contextPath }/board/notice/noticeBoardAllList">공지 게시판</a>
+			<a href="${contextPath }/board/boardAllList">자유 게시판</a>
+			<a href="${contextPath }/programBoard/programBoardAllList">프로그램 게시판</a>
 			<a href="${contextPath }/board/service_center">고객센터</a>
 		<c:choose>
 			<c:when test="${loginUser == 'noLogin' || loginUser == null && kakaoId == null  }">

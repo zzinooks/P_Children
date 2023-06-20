@@ -8,8 +8,9 @@
 <meta charset="UTF-8">
 <title>Mate With 비밀번호 찾기 결과</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=1"></script>
+<script src="${contextPath}/resources/yoonhee/js/memberLoginScript.js?v=3"></script>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=2" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/body.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 function userUpdatePwd(){
     let id = $("#id").val();

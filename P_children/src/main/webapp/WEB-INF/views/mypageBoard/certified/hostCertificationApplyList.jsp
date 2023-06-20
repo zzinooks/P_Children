@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With HOST 인증 신청 목록</title>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
@@ -32,27 +34,54 @@
 	
 </script>
 <style type="text/css">
-	table, th, tr, td {
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-	
-	.valueHiddenView {
-		display: none;
-	}
+table             { 
+  border-spacing: 1; 
+  border-collapse: collapse; 
+  background:white;
+  border-radius:6px;
+  overflow:hidden;
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  }
+    td,th{ 
+    padding-left:8px;
+    padding-right: 8px;
+    text-align:center;
+    }
+
+  thead tr  { 
+    height:40px;
+    background: #C19681;
+    font-size:16px;
+  }
+  
+  tbody tr     { 
+  height:40px; 
+  border-bottom:1px solid white;
+    &:last-child  { border:0; }
+  }
 </style>
 </head>
 <body>
+
+	<c:import url="../../default/header.jsp"/>
+	
+		<section ><!-- body -->
+		<div class="form-box-list"> <!--  container  -->	
 	<h1>HOST 신청 목록</h1>
 	<table>
 		<!-- 제목 부분 시작 -->
+		<thead>
 		<tr>
+			<th>번 호</th>
 			<th>신청인</th>
 			<th>제출자료</th>
 			<!-- <th>신청상태</th> -->
 			<th>신청일</th>
-			<th>승인/거절</th>
+			<th>승인 / 거절</th>
 		</tr>
+		</thead>
 		<!-- 제목 부분 끝 -->
 		
 		<!-- 신청 리스트들 시작 -->
@@ -65,7 +94,6 @@
 				<%-- <img src="${contextPath }/resources/image/hostCertificationDocument/${hostApplyList.file_name }" width="100px" height="100px"> --%> 
 			</td>
 			<td>${hostApplyList.savedate }</td>
-				
 					<c:if test="${hostApplyList.state == 'approve' }">
 						<td>승인 완료</td>
 					</c:if>
@@ -114,8 +142,18 @@
 				</div>
 			</div>
 		<!-- 페이징 끝 -->
+					<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<li><a href="${contextPath }/member/manager_information">이전</a></li>
+					</ul>
+				</li>
+			</ul>
+			</div>
+		</section>
 		
-		<a href="${contextPath}/member/manager_information">마이페이지로 이동</a>
+		<c:import url="../../default/footer.jsp"/>
 
 </body>
 </html>

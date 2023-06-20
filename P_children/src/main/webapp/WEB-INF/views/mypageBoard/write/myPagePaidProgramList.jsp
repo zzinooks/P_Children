@@ -58,13 +58,13 @@ table             {
 
   thead tr  { 
     height:40px;
-    background:#A996DB;
+    background:#C19681;
     font-size:16px;
   }
   
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid #C19681;
     &:last-child  { border:0; }
   }
 </style>
@@ -75,7 +75,7 @@ table             {
 	
 		<section ><!-- body -->
 		<div class="form-box-list"> <!--  container  -->
-		<div class="title" >내가 결제한 프로그램</div>
+		<div class="title" >결제한 프로그램</div>
 		<table >
 		<thead>
 			<tr>
@@ -121,9 +121,20 @@ table             {
 						</c:if>
 			      <!-- <a class="arrow nnext" href="#"></a> -->
 			   </div>
-			</div>			
+			</div>
+			<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<li><a href="${contextPath }/member/member_information">이전</a></li>
+					</ul>
+				</li>
+			</ul>			
+						
 		</div>
 	</section>
+	
+	
 		
 	<c:import url="../../default/footer.jsp"/>
 	
