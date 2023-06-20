@@ -30,7 +30,7 @@
       <div class="title" >회원 정보</div>
       
       <!-- 0616_최윤희 추가: 호스트 인증 버튼 : 버튼 디자인, 위치 바뀌어도 상관없습니다~ -->
-      	<c:if test="${dto.certified  == 'N' }">
+      	<c:if test="${dto.certified  == 'N' && dto.userSelect == 'host' }">
       		<button onclick="location.href='${contextPath }/mypageBoard/certified/hostCertificationForm'">HOST 인증 신청하기</button>
       	</c:if>
       	<c:if test="${dto.certified  == 'G' }">
