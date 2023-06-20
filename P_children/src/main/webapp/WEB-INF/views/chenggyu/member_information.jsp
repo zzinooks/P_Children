@@ -90,7 +90,7 @@
 						<hr>
 							<li><a href="${contextPath }/member/member_modify">회원 정보 수정</a></li>
 						<hr>
-							<li><a href="${contextPath }/board/myDibsBoard">찜한 게시물</a></li>
+							<li><a href="${contextPath }/mypageBoard/mypageDibsBoard">찜한 게시물</a></li>
 						<hr>
 						<li>
 						<c:if test="${dto.userSelect == 'host'}">

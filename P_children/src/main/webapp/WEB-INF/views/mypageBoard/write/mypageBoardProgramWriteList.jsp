@@ -60,16 +60,16 @@ table             {
 				<th>작성자</th>
 				<th>작성일</th>
 				<th>예약현황</th>
-				<th>조회수</th>		
+				<th>조회수</th>
+				<th>프로그램 참여 인원</th>	
 			</tr>
 		</thead>
 			<!-- // 제목 칼럼 끝 -->
-			
 			<!-- 내용 시작 -->
 			<c:choose>
 				<c:when test="${empty mypageBoardProgramList}">
 					<tr>
-						<td colspan="6">등록된 글이 없습니다.</td>
+						<td colspan="7">등록된 글이 없습니다.</td>
 					</tr>
 				</c:when>
 				<c:otherwise>
@@ -82,7 +82,26 @@ table             {
 							<td>${mypageBoardProgramList.savedate}</td>
 							<td>${mypageBoardProgramList.state}</td>
 							<td>${mypageBoardProgramList.hit}</td>
+							<td>${mypageBoardProgramList.currentRegisterCount} / ${mypageBoardProgramList.totalRegisterCount}</td>
 						</tr>
+						<tr>
+							<th> id </th>
+							<th colspan="5"> 결재 상황 </th>
+							<th>취소 승인 버튼</th>
+						</tr>
+							<c:forEach var="paidProgramInfoDTO" items="${mypageBoardProgramList.paidProgramInfoDTO }">
+								<tr>
+									<td>${paidProgramInfoDTO.id }</td>
+									<c:if test="${paidProgramInfoDTO.cancel_request == 'Y'}">
+			      						<td colspan="5">취소 요청</td>
+			      					</c:if>
+			      					<c:if test="${paidProgramInfoDTO.cancel_request == 'N'}">
+			      						<td>결재 완료</td>
+			      					</c:if>
+			      					<td><button>취소 승인(구현중)</button></td>
+								</tr>
+							</c:forEach>
+						
 					</c:forEach>
 				</c:otherwise>
 			</c:choose>

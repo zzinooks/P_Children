@@ -124,7 +124,6 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		// 각 게시판 마다 속한 좋아요 숫자를 불러온다
 		for (ProgramBoardDTO programBoardDTO : programBoardList) {
 			programBoardDTO.setDibsCount(mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
-			//System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(programBoardDTO.getWrite_no()));
 		}
 		
 		// 정보 담기
@@ -187,7 +186,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		}
 		// DB에서 Modify 실행
 		
-		
+
 		// 실패
 		String msg, url;
 		if(result == 1) {
@@ -209,6 +208,8 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		
 		int write_no = Integer.parseInt(request.getParameter("write_no"));
 		result = mapper.deleteProgram(write_no);
+		
+		System.out.println(result);
 		
 		String msg, url;
 		if(result == 1) {
@@ -314,12 +315,14 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		String num = request.getParameter("num");
 		String title = request.getParameter("title");
 		String paymentId = (String) session.getAttribute(LOGIN);
+		String tid = (String)session.getAttribute("tid");
 		
 		PaidProgramInfoDTO paidProgramInfoDTO = new PaidProgramInfoDTO();
 		paidProgramInfoDTO.setId(paymentId);
 		paidProgramInfoDTO.setTitle(title);
 		paidProgramInfoDTO.setWrite_no(Integer.parseInt(write_no));
 		paidProgramInfoDTO.setNum(Integer.parseInt(num));
+		paidProgramInfoDTO.setTid(tid);
 		
 		int result = 0; // "결재 완료 후 승인 대기" 로 변경 성공유무 결과값 (1: 성공, 0: 실패)
 		
@@ -363,12 +366,20 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 	}
 	
 	// 프로그램 보드 결재 게시판 기능 관련 ------------------------
+	
+	// 게시판 기준 Paid ProgramInfoDTO 불러오기
 	@Override
-	public List<PaidProgramInfoDTO> paidProgramInfoByHostIdAndWriteNo(Map<String, Object> map) {
-		return mapper.paidProgramInfoByHostIdAndWriteNo(map);
-	}		
+	public List<PaidProgramInfoDTO> paidProgramInfoByWriteNo(Map<String, Object> map) {
+		return mapper.paidProgramInfoByWriteNo(map);
+	}
 	
-	
+	// host 기준 Paid ProgramInfoDTO 불러오기
+	@Override
+	public List<PaidProgramInfoDTO> paidProgramInfoById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	// MyPage board List 기능
 	@Override
 	public void myDibsProgramBoardAllList(Model model, int num, HttpServletRequest request, String id) {

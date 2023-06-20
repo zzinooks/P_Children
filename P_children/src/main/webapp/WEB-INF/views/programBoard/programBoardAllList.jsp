@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 프로그램 게시판</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=3" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=3" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=2" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	function deleteConfirm(write_no, file_name){
 		
@@ -105,7 +105,16 @@ table             {
 							<tr>
 								<td>${dto.write_no }</td>
 								<td>${dto.id }</td>                                       
-								<td><a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a></td>
+								<td>
+									<c:choose>
+										<c:when test="${programBoard_state == null}">
+											<a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>&programBoard_state=${programBoard_state }&programBoard_searchCategory=${programBoard_searchCategory}&programBoard_searchKeyword=${programBoard_searchKeyword}">${dto.title }</a>
+										</c:otherwise>
+									</c:choose>
+								</td>
 								<td>${dto.savedate }</td>
 								<td>${dto.state } &nbsp; ${dto.currentRegisterCount } / ${dto.totalRegisterCount }</td>
 								<td>${dto.hit }</td>
@@ -122,7 +131,8 @@ table             {
 				<c:if test="${info.userSelect == 'host'}">
 					<input type="button" value="글작성" onclick="location.href='${contextPath }/programBoard/writeFormForProgram'" class="but_2">
 				</c:if>			
-			</div>		
+			</div>
+					
 			<!-- 검색 -->
 			<div class="page_wrap">
 				<form name="programBoardSearchForm" action="${contextPath }/programBoard/programBoardSearchForm" method="get">
@@ -144,7 +154,7 @@ table             {
 				</form>
 			</div>
 			<!-- 페이징 -->
-			<c:if test="${notice_category == null}">
+			<c:if test="${programBoard_state == null}">
 			<div  class="page_wrap">
 					<div class="page_nation">
 							<c:if test="${startPage > block }">
@@ -165,7 +175,7 @@ table             {
 				</div>
 			</c:if>
 			<!-- 검색 페이징-->
-			<c:if test="${notice_category != null }">
+			<c:if test="${programBoard_state != null }">
 					<div  class="page_wrap">
 						<div class="page_nation">	
 										<c:if test="${startPage > block }">

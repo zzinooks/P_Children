@@ -775,12 +775,12 @@ button{
                      </button>
                      <button class="btn btn-light"  id="dibs_image_"
                                  onclick= <c:choose>
-                                                <c:when test="${loginUser == 'null'}">"loginPlease()"</c:when>
+                                                <c:when test="${id == null && loginUser == null}">"loginPlease()"</c:when>
                                                 <c:otherwise>"toggleDibs()"</c:otherwise>
                                              </c:choose>
                      >
                      <img id="dibs_image" width="20px" height="20px" alt="버튼"
-                               src= <c:if test="${state == 0}">
+                               src= <c:if test="${state == 0 || id == null}">
                                            "https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb" 
                                       </c:if>
                                       <c:if test="${state == 1}">
@@ -866,7 +866,7 @@ button{
 				<ul class="submenu_">
                     <c:choose>
 	                     <c:when test="${toMyDibsBoard == 'yes' }">
-	                        <li><a href="${contextPath }/board/myDibsBoard?num=<%=num2%>">목록</a></li>
+	                        <li><a href="${contextPath }/mypageBoard/myDibsBoard?num=<%=num2%>">목록</a></li>
 	                     </c:when>
 	                     <c:otherwise>
 	                        <c:choose>

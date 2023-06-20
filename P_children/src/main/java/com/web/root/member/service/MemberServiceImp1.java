@@ -389,7 +389,7 @@ public class MemberServiceImp1 implements MemberService {
 			kakaoPaymentApproveResultDTO.setPayload(payload);
 			
 			kakaoPayMapper.registKakaoPaymentApproveResult(kakaoPaymentApproveResultDTO);
-			session.removeAttribute("tid");
+//			session.removeAttribute("tid");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

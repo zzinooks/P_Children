@@ -1,5 +1,9 @@
 package com.web.root.member.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.web.root.board.dto.BoardDTO;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.board.dto.ProgramBoardDTO;
+import com.web.root.board.service.BoardForProgramService;
 import com.web.root.board.service.BoardService;
 import com.web.root.member.service.MemberService;
 import com.web.root.member.service.MypageBoardService;
@@ -31,6 +37,11 @@ public class MypageBoardController implements MemberSession {
 	
 	@Autowired
 	private BoardService bs;
+	
+	// 진욱 추가 (06/19)	-----------------
+	@Autowired
+	private BoardForProgramService bfps;
+	// 진욱 추가 끝(06/19)	-----------------
 	
 	// (커뮤니티) 마이페이지 작성한 게시글 목록
 	@RequestMapping("write/mypageBoardWriteList")
@@ -84,7 +95,7 @@ public class MypageBoardController implements MemberSession {
 		//===
 		
 		mbs.mypageBoardProgramWriteList(id, m, num); // 프로그램 게시판 페이징, 카운트 얻는 mbs: 아이디, 모델, 페이지번호 넘겨줌
-
+	    
 		m.addAttribute("num", num); 		 		 // 페이지 번호 저장
 		
 		return "mypageBoard/write/mypageBoardProgramWriteList";
@@ -112,10 +123,47 @@ public class MypageBoardController implements MemberSession {
 	
 	
 	// ======================================= 박성수 시작 =================================================
+	// ======================================= 주진욱 시작 =================================================
+	// 내가 찜한 게시글 보기 페이지로 이동
+	@RequestMapping("mypageDibsBoard")
+	public String myDibsBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
+		
+		// 로그인값 불러오기
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
+		}
+		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
+		model.addAttribute("admin", ADMIN);
+		
+		// 내가 찜한 게시판 가져오기
+		bs.myDibsBoardAllList(model, num, request, id);
+		
+		return "mypageBoard/write/mypageDibsBoard";
+	}
 	
+	@RequestMapping("mypageDibsProgramBoard")
+	public String myDibsProgramBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
+		
+		// 로그인값 불러오기
+		String id = (String) session.getAttribute(LOGIN);
+		if(id == null) { // 비로그인인 경우
+			model.addAttribute("id", id);
+		} else {	// 일반 로그인인 경우
+			ms.userInfo(id, model);
+		}
+		// 로그인 유저 grade 확인을 위한 "admin" 모델에 추가하기
+		model.addAttribute("admin", ADMIN);
+		
+		// 내가 찜한 게시판 가져오기
+		bfps.myDibsProgramBoardAllList(model, num, request, id);
+		
+		return "mypageBoard/write/mypageDibsProgramBoard";
+	}	
 	
-	
-	
+	// ======================================= 주진욱 끝 =================================================
 	
 	
 	
