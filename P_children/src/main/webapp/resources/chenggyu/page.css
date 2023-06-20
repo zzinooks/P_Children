@@ -16,7 +16,7 @@
 	display:block;
 	margin:0 3px;
 	float:left;
-	border:1px solid #A16F63;
+	border:1px solid #C19681;
 	width:28px;
 	height:28px;
 	line-height:28px;
@@ -46,10 +46,8 @@
 	margin-right:0;
 }
 .page_nation a.active {
-	background-color: #A16F63;
+	background-color: #C19681;
 	color:#fff;
 	border-radius: 50%;
-	border:1px solid #A16F63;
+	border:1px solid #C19681;
 }
-
-

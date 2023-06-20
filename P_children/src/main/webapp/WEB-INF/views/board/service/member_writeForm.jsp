@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Mate With 문의 작성</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	function valueCheck() {
 		
@@ -52,10 +52,10 @@ table             {
     padding-right: 8px;
     text-align:center;
     }  
- th { background-color: #A996DB; }
+ th { background-color: #C19681; }
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white ;
     &:last-child  { border:0; }
   }
 textarea{
@@ -97,6 +97,15 @@ textarea{
 				</tr>
 		</table>
 		</form>
+			<ul class="menu">
+			      <li>
+			        <a href="#">메뉴</a>
+			        <ul class="submenu_">
+			         <hr>	          
+			          	<li><a href="${contextPath }/board/member_qna">이전</a></li>
+			        </ul>
+			      	</li>
+			    </ul> 	
 		</div>
 	</section>
 

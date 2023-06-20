@@ -107,6 +107,7 @@
 		<result property="write_no" column="write_no"/> 	<!-- 프로그램 게시판의 write_no  -->
 		<result property="num" column="num"/>				<!-- num -->
 		<result property="cancel_request" column="cancel_request"/> <!-- 취소 진행 여부 -->
+		<result property="tid" column="tid"/> <!-- 취소 진행 여부 -->
 	</resultMap>
 
 	<!--  ======================== 진욱 시작 ==========================   -->
@@ -503,9 +504,9 @@
 		WHERE rn=1
 	</select>
 	
-<!-- 	<insert id="insertPaidProgramInfo">
-		INSERT INTO paidProgramInfo VALUES(#{paymentId}, #{title}, #{write_no}, #{num})
-	</insert> -->
+	<insert id="insertPaidProgramInfo">
+		INSERT INTO paidProgramInfo VALUES(#{id}, #{title}, #{write_no}, #{num}, DEFAULT, #{tid})
+	</insert>
 	
 	<!-- 	// =============================== 성수 끝 ================================== -->
 	

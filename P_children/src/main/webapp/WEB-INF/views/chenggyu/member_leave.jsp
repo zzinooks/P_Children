@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,6 +64,14 @@ function leave(){
 				<input type="button" value="확인" onclick="leave()" class="but_1">
 			</div>
 		</form>
+			<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<li><a href="${contextPath }/member/member_information">이전</a></li>
+					</ul>
+				</li>
+			</ul>		
 		</div>
 	</section>
 	

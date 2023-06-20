@@ -60,11 +60,11 @@ table             {
     padding-right: 8px;
     text-align:center;
     }  
- th { background-color: #A996DB; 
+ th { background-color: #C19681;
  width: auto;}
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
  textarea{

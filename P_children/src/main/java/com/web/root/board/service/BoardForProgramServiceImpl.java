@@ -186,7 +186,7 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		}
 		// DB에서 Modify 실행
 		
-		
+
 		// 실패
 		String msg, url;
 		if(result == 1) {
@@ -208,6 +208,8 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		
 		int write_no = Integer.parseInt(request.getParameter("write_no"));
 		result = mapper.deleteProgram(write_no);
+		
+		System.out.println(result);
 		
 		String msg, url;
 		if(result == 1) {
@@ -313,12 +315,14 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		String num = request.getParameter("num");
 		String title = request.getParameter("title");
 		String paymentId = (String) session.getAttribute(LOGIN);
+		String tid = (String)session.getAttribute("tid");
 		
 		PaidProgramInfoDTO paidProgramInfoDTO = new PaidProgramInfoDTO();
 		paidProgramInfoDTO.setId(paymentId);
 		paidProgramInfoDTO.setTitle(title);
 		paidProgramInfoDTO.setWrite_no(Integer.parseInt(write_no));
 		paidProgramInfoDTO.setNum(Integer.parseInt(num));
+		paidProgramInfoDTO.setTid(tid);
 		
 		int result = 0; // "결재 완료 후 승인 대기" 로 변경 성공유무 결과값 (1: 성공, 0: 실패)
 		

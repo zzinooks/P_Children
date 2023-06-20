@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 문의 관리</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=3" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 table             { 
@@ -31,13 +31,13 @@ table             {
 
   thead tr  { 
     height:50px;
-    background:#A996DB;
+    background:#C19681;
     font-size:16px;
   }
   
   tbody tr     { 
   height:48px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid #C19681;
     &:last-child  { border:0; }
   }
  
@@ -87,6 +87,14 @@ table             {
 			      <!-- <a class="arrow nnext" href="#"></a> -->
 			   </div>
 			</div>		
+			<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<li><a href="${contextPath }/member/manager_information">이전</a></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</section>
 	
