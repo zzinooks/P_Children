@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Mate With 회원정보</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 
@@ -21,6 +22,11 @@
    }
 	*/
 </script>
+<style type="text/css">
+#certified{
+	text-align: right;
+}
+</style>
 </head>
 <body>
    <c:import url="../default/header.jsp"/>
@@ -30,12 +36,14 @@
       <div class="title" >회원 정보</div>
       
       <!-- 0616_최윤희 추가: 호스트 인증 버튼 : 버튼 디자인, 위치 바뀌어도 상관없습니다~ -->
-      	<c:if test="${dto.certified  == 'N' }">
-      		<button onclick="location.href='${contextPath }/mypageBoard/certified/hostCertificationForm'">HOST 인증 신청하기</button>
-      	</c:if>
-      	<c:if test="${dto.certified  == 'G' }">
-      		<button>HOST 인증 심사중</button>
-      	</c:if>
+      <div id="certified">
+	      	<c:if test="${dto.certified  == 'N' && dto.userSelect == 'host'}">
+	      		<button onclick="location.href='${contextPath }/mypageBoard/certified/hostCertificationForm'">HOST 인증</button>
+	      	</c:if>
+	      	<c:if test="${dto.certified  == 'G' }">
+	      		<button>HOST 인증 접수</button>
+	      	</c:if>
+      	</div>
       <!-- 0616_최윤희 끝 --> 
       
       <form>
@@ -57,8 +65,8 @@
                <input type="text" value="${dto.email }" readonly="readonly">
             </div>
             <div class="input-box">
-               <span class="details">등급</span>
-               <input type="text" value="${dto.grade }" readonly="readonly">
+               <span class="details">MemberShip</span>
+               <input type="text" value="${dto.userSelect}" readonly="readonly">
             </div>
             <div class="input-box_addr" >
                <span class="details_addr">주소</span>
@@ -73,27 +81,38 @@
             </c:if>
             <%-- 호스트 인증되면 나타나는 인증마크 이미지 --%>
             <c:if test="${dto.certified  == 'Y' && dto.grade != 'gold' }">
-            	<img src="${contextPath }/resources/image/hostMark/certification.png" width="100px" height="100px">
+            	<i class='bx bxs-dog' id="dog"></i>
 			</c:if> 
          </div>
-         <div class="button">
-            <input type="button" value="개인정보 수정" onclick="location.href='member_modify'" class="but_1">
-            <input type="button" value="내가 찜한 게시글" onclick="location.href='${contextPath }/mypageBoard/myDibsBoard'" class="but_1">
-            <!-- 0616_최윤희 : 게시글 버튼 추가 -->
-            <c:if test="${dto.userSelect == 'host'}">
-            	<input type="button" value="내가 작성한 게시글" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardProgramWriteList'" class="but_1">
-            </c:if>
-            <c:if test="${dto.userSelect == 'member'}">
-            	<input type="button" value="내가 작성한 게시글" onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList'" class="but_1">
-            </c:if>
-            <!-- 0616_최윤희 끝 -->
-            <!-- ================ 박성수 : 내가 결제한 프로그램 목록  -->
-            <input type="button" value="내가 결제한 프로그램" onclick="location.href='${contextPath }/mypageBoard/write/paidProgramInfoList'" class="but_1">
-            <!-- 0614_최윤희 끝 -->
-            <input type="button" value="문의" onclick="location.href='${contextPath }/board/member_qna'" class="but_1">
-            <input type="button" value="회원 탈퇴" onclick="location.href='member_leave'" class="but_1">
-         </div>
-      </form>
+      		<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_member">
+						<hr>
+							<li><a href="${contextPath }/member/member_modify">회원 정보 수정</a></li>
+						<hr>
+							<li><a href="${contextPath }/mypageBoard/mypageDibsBoard">찜한 게시물</a></li>
+						<hr>
+						<li>
+						<c:if test="${dto.userSelect == 'host'}">
+								<input type="button" value="작성한 게시글"
+									onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardProgramWriteList'"
+									class="but_1">
+							</c:if> <c:if test="${dto.userSelect == 'member'}">
+								<input type="button" value="작성한 게시글"
+									onclick="location.href='${contextPath }/mypageBoard/write/mypageBoardWriteList'"
+									class="but_1">
+							</c:if>
+							</li>
+						<hr>
+						<li><a href="${contextPath }/mypageBoard/write/paidProgramInfoList">결제한 프로그램</a></li>														
+						<hr>						
+						<li><a href="${contextPath }/board/member_qna">1:1 문의</a></li>														
+						<hr>
+							<li><a href="${contextPath }/member/member_leave">회원 탈퇴</a></li>														
+					</ul>
+				</li>
+			</ul>
+		 </form>
       </div>
    </section>
    

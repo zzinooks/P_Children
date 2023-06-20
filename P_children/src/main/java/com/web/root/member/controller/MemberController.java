@@ -270,6 +270,12 @@ public class MemberController implements MemberSession, KakaoDeveloper{
 	@GetMapping("kakaoPaymentOrderInfo")
 	public String kakaoPaymentOrder(Model model, HttpServletRequest request) {
 		ms.selectKakaoPaymentOrderInfo(KAKAO_PAYMENT_ORDER_URL, ADMIN_KEY,model, request);
+		
+		// 진욱(06/20) 추가 시작 ----------
+		model.addAttribute("toKakaoPaymentCancelRequestList", request.getParameter("toKakaoPaymentCancelRequestList"));
+		model.addAttribute("numForToKakaoPaymentCancelRequestList", request.getParameter("num"));
+		
+		// 진욱(06/20) 추가 끝 ------------
 		return "sungsu/kakaoPaymentOrderInfo";
 	}
 	
@@ -416,7 +422,19 @@ public class MemberController implements MemberSession, KakaoDeveloper{
 	
 	
 	//============================ 최윤희 끝 ===========================================
+	//============================ 주진욱 시작 ==========================================
 	
+	// 관리자 페이지: 결재취소요청 관리페이지 불러오기
+	@RequestMapping("kakaoPaymentCancelRequestList")
+	public String cancelRequestList(@RequestParam(value = "num", required = false, defaultValue = "1") int num,
+			HttpServletRequest request, Model model) {
+		ms.getkakaoPaymentApproveListByCancelRequest(num, request, model);
+		model.addAttribute("num", num);
+		return "/sungsu/kakaoPaymentCancelRequestList";
+	}
+	
+	
+	//============================ 주진욱 끝 ===========================================
 	
 	
 }

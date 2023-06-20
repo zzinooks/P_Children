@@ -92,7 +92,15 @@ public interface BoardMapper {
 	// 호스트의 마이페이지에서 프로그램 결재 취소 요청 보내기 기능
 	public int paidCancelRequestByTid(@Param("tid") String tid);
 	
+	// 관리자 마이페이지에서 결재 취소시 paidProgramInfo 삭제 기능
+	public void deletePaidProgramInfoByTid(@Param("tid") String tid);
 	
+	// 관리자 마이페이지에서 결재 취소시 programBoard에 정보 전닳하기 위한 paidProgramInfo 가져오기 기능
+	public PaidProgramInfoDTO getPaidProgramInfoByTid(@Param("tid") String tid);
+	
+	// 결재 취소로 발생하는 programBoard 변화 반영(state ='예약 가능', currentRegisterCount -1)
+	public void updateProgramBoardByCancel(@Param("write_no") int write_no);
+	 
 	
 	// 찜하기 기능 -----------------------------------------------
 	

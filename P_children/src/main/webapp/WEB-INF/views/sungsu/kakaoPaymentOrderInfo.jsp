@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,10 +24,10 @@ table             {
     padding-right: 8px;
     text-align:center;
     }  
- th { background-color: #A996DB; }
+ th { background-color: #C19681;}
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
 </style>
@@ -115,6 +116,23 @@ table             {
 				</tr>
 			</c:if>
 		</table>
+			<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<!-- 진욱(06/20) 수정 시작 -->
+						<li>
+							<c:if test="${toKakaoPaymentCancelRequestList == 'yes' }"> <!-- 관리자 카카오페이 결재 취소 페이지에서 넘어온 경우 -->
+								<a href="${contextPath }/member/kakaoPaymentCancelRequestList?num=${numForToKakaoPaymentCancelRequestList}">이전</a>
+							</c:if>
+							<c:if test="${toKakaoPaymentCancelRequestList != 'yes' }"> <!-- 관리자 카카오페이 결재 관리 페이지에서 넘어온 경우 -->
+								<a href="${contextPath }/member/kakaoPaymentApproveList">이전</a>
+							</c:if>	
+						</li>
+						<!-- 진욱(06/20) 수정 끝 -->
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</section>
 

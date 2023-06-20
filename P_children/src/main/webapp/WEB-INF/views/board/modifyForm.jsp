@@ -12,7 +12,7 @@
 <title>Mate With 자유게시판 글 수정하기</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath}/resources/jinwook/js/boardScript.js?v=1"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=3" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	function readURL(input){
 		var file = input.files[0]; // 파일 정보
@@ -67,11 +67,11 @@ table             {
     padding-right: 8px;
     text-align:center;
     }  
- th { background-color: #A996DB; 
+ th { background-color: #C19681;
  width: auto;}
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
  textarea{

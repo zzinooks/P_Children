@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="path" value="${pageContext.request.contextPath }"/>    
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +12,8 @@
 <title>Mate With 회원정보 수정</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/body.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/regist.css?v=1" rel="stylesheet" type="text/css">
 <script src="${path }/resources/chenggyu/js/memberModify.js?v=1"></script>
 <script>	
@@ -169,7 +171,8 @@ function valueCheck() {
 				<div class="input-box-addr">
 					<input type="button" value="우편번호찾기" onclick="findAddr()">
 				</div>
-				<c:if test="${dto.userSelect == 'host' }">
+			<input type="hidden" id="userSelect" name="userSelect" value="${dto.userSelect}">
+			<c:if test="${dto.userSelect == 'host' }">
 				<div class="input-box">
 					<span class="details">메이트 정보</span>
 					<input type="text" id="mateName" name="mateName" oninput="deleteSpan_mateName()" value="${dto.mateName} ">
@@ -181,6 +184,14 @@ function valueCheck() {
 			</div>
 				<input type="button" value="완료" onclick="valueCheck()" class="but_1">
 		</form>
+			<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<li><a href="${contextPath }/member/member_information">이전</a></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</section>
 	

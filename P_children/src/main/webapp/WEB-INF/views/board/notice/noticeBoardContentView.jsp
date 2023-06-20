@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Mate With 공지사항</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 
 	// 파일 업로드 시 img 태그에 그림 화면 보이기
@@ -45,6 +45,13 @@ table             {
   width:100%;
   margin:0 auto;
   position:relative;
+  }
+   textarea{
+  	padding: 25px;
+  	width: 100%;
+  	height: 250px;
+	resize: none;
+	border: none;
   }
     th{ 
     padding-left:8px;
@@ -99,7 +106,7 @@ table             {
 				</tr>
 				<tr>
 					<th>내용</th>
-					<td colspan="3" >${noticeBoardDTO.content }</td>
+					<td colspan="3" ><textarea name="content" rows="10" cols="50" readonly>${noticeBoardDTO.content }</textarea></td>
 				</tr>
 				<tr>
 					<th>이미지</th>

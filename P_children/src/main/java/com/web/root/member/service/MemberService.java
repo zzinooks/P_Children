@@ -102,4 +102,13 @@ public interface MemberService {
 	
 	//============================ 최윤희 끝 ===========================================
 	
+	
+	
+	
+	
+	//============================ 주진욱 시작 ==========================================
+	// 관리자 페이지: 결재 취소 요청 정보 가져오기(tid, cancel_request 기준으로)
+	public void getkakaoPaymentApproveListByCancelRequest(int num, HttpServletRequest request, Model model);
+	//============================ 주진욱 끝 ===========================================
+	
 }

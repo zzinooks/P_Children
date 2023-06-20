@@ -8,7 +8,8 @@
 <meta charset="UTF-8">
 <title>Mate With 회원가입</title><<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/regist.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/body.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/regist.css?v=2" rel="stylesheet" type="text/css">
 <script src="${path }/resources/sungsu/js/memberRegistForm.js?v=2"></script>
 <script>	
 	window.onload = function(){

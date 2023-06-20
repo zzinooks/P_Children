@@ -76,6 +76,25 @@
 	</select>
 	
 	
+	<!-- 주진욱 시작 -->
+	<!-- 취소 요청이 들어온 kakaopay 객체의 숫자 가져오기 -->
+	<select id="selectKakaoPaymentApproveCountByCancelRequest" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM kakaopay_approve_result
+		WHERE TID IN (SELECT TID FROM paidprograminfo WHERE CANCEL_REQUEST = 'P')	
+	</select>
+	
+	<!-- 취소 요청이 들어온 kakopay 객체 list 가져오기 -->
+	<select id="selectKakaoPaymentApproveListByCancelRequest" resultMap="kakaoPaymAppRes">
+		SELECT B.* FROM
+			(SELECT ROWNUM rn, A.* FROM
+					(SELECT * FROM kakaopay_approve_result
+        			 WHERE TID IN (SELECT TID FROM paidprograminfo WHERE CANCEL_REQUEST = 'P')
+        			 ORDER BY approved_at DESC)A )B
+		WHERE rn BETWEEN 1 and 5
+	</select>
+	<!-- 주진욱 끝 -->
+	
 
 </mapper>
 

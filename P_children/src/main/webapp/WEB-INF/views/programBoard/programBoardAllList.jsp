@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 프로그램 게시판</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=3" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=2" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	function deleteConfirm(write_no, file_name){
 		
@@ -37,6 +37,9 @@ table             {
     padding-right: 8px;
     text-align:center;
     }
+    th{
+    background-color: #C19681;
+    }
 
   thead tr  { 
     height:40px;
@@ -46,7 +49,7 @@ table             {
   
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid #C19681;
     &:last-child  { border:0; }
   }
   .valueHiddenView {
@@ -75,7 +78,7 @@ table             {
 	
 		<section ><!-- body -->
 			<div class="form-box-list"> <!--  container  -->
-			<div class="title" >프로그램 게시판</div>
+			<div class="title" >프로그램 게시판</div><button id="programMap" onclick="location.href='kakaoMapLatLng_json'">지도에서 프로그램 찾기</button>
 			<table >
 			<thead>
 				<tr>
@@ -85,7 +88,7 @@ table             {
 						<th>작성일</th>
 						<th>예약 현황 ( 신청인원 / 총원 )</th>
 						<th>조회수</th>
-						<th><img width="30px" height="30px" src="https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714"></th>
+						<th><img width="18px" height="18px" src="https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714"></th>
 						<c:if test ="${info.grade == admin}">
 						<th>관리자 권한</th>
 						</c:if>
@@ -102,7 +105,7 @@ table             {
 							<tr>
 								<td>${dto.write_no }</td>
 								<td>${dto.id }</td>                                       
-								<td><a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a>
+								<td>
 									<c:choose>
 										<c:when test="${programBoard_state == null}">
 											<a href="${contextPath }/programBoard/programContentView?write_no=${dto.write_no}&num=<%=request.getParameter("num")%>">${dto.title }</a>

@@ -533,7 +533,7 @@ h1 {
 .reply {
    background-color: white;
    width: 100%;
-   border: 2px solid #A996DB;
+   border: 2px solid #C19681;
    padding: 5px;
    margin-top: 5px;
    border-radius: 5px;
@@ -607,11 +607,11 @@ table             {
     padding-right: 8px;
     text-align:left;
     }  
- th { background-color: #A996DB; 
+ th { background-color: #C19681;
  width: auto;}
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
   a{
@@ -635,7 +635,7 @@ button{
    width: 100%;
    height: 40px;
    border-radius: 40px;
-   background: #A996DB;
+   background: #C19681;
    border: none;
    outline: none;
    cursor: pointer;
@@ -645,13 +645,13 @@ button{
    margin-bottom: 5px;
 }
 .rep{
-   border: 1px solid #A996DB;
+   border: 1px solid #C19681;
    border-radius: 40px;
    border: none;
 }
  textarea{
     border-radius: 5px;
-	border: 2px solid #A996DB;
+	border: 2px solid #C19681;
     padding: 10px;
     width: 100%;
     height: 100px;
@@ -685,11 +685,19 @@ button{
 }
 .no_reply{
     border-radius: 5px;
-  	 border: 2px solid #A996DB;
+  	 border: 2px solid #C19681;
   	 background: white;
      padding: 10px;
      width: 100%;
      height: 100px;
+}
+#dibsNum{
+	background-color:transparent;
+	border:none;
+}
+#dibs_image_{
+	background-color:transparent;
+	border:none;
 }
 </style>
 </head>
@@ -765,7 +773,7 @@ button{
                      <button class="btn btn-light" id="dibsNum">
                         <div id="dibsNumPoint"><div id="dibsNumChangePoint">${dibsNum}</div> 명이 찜했습니다!</div>
                      </button>
-                     <button class="btn btn-light" 
+                     <button class="btn btn-light"  id="dibs_image_"
                                  onclick= <c:choose>
                                                 <c:when test="${id == null && loginUser == null}">"loginPlease()"</c:when>
                                                 <c:otherwise>"toggleDibs()"</c:otherwise>

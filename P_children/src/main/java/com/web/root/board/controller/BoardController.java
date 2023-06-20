@@ -539,7 +539,6 @@ public class BoardController implements MemberSession{
 		return "board/service/service_center";
 	}
 	
-	
 	//============================임청규 끝==========================================
 	
 }

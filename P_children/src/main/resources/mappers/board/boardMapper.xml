@@ -314,6 +314,24 @@
 		UPDATE paidprograminfo SET cancel_request = 'P' WHERE tid=#{tid}
 	</update>
 	
+	<!-- 관리자 마이페이지에서 결재 취소시 paid에서도 삭제 기능 -->
+	<delete id="deletePaidProgramInfoByTid" >
+		DELETE FROM paidprograminfo WHERE tid=#{tid} AND cancel_request = 'P'
+	</delete>
+	
+	<!-- 관리자 마이페이지에서 결재 취소시 programBoard에 정보 전닳기 위한 paidProgramInfo 가져오기 기능 -->
+	<select id="getPaidProgramInfoByTid" resultMap="paidProgramInfo">
+		SELECT * FROM paidprograminfo where tid=#{tid}
+	</select>
+	
+	<!-- 결재 취소로 발생하는 programBoard 변화 반영(state ='예약 가능', currentRegisterCount -1) -->
+	<update id="updateProgramBoardByCancel">
+		UPDATE programBoard SET state='예약가능', currentRegisterCount = currentRegisterCount - 1 WHERE write_no = #{write_no}
+	</update>
+	
+	
+	
+	
 	<!-- 찜하기 기능 -->
 	
 	<!-- 처음으로 하트 누른 것인지 확인 -->
