@@ -21,7 +21,7 @@ img{
 	max-width: 750px;
 	width: 100%;
 	padding: 25px 30px;
-	border: 2px solid #A996DB;
+	border: 2px solid #C19681;
 	border-radius: 20px;
 }
 .form-box_center .title{

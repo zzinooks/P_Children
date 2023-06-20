@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 호스트 인증 신청</title>
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	/*
@@ -42,6 +44,8 @@
 </script>
 </head>
 <body>
+	
+	
 	<!-- 회원 정보(메이트 네임 등등) 불러와지고 인증 서류(ex. pdf파일, 이미지 등을 받아야한다.) -->
 	<h1>Mate With HOST 인증 신청</h1>
 	

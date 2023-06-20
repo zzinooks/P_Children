@@ -59,10 +59,10 @@ table             {
     padding-right: 8px;
     text-align:center;
     }  
- th { background-color: #A996DB; }
+ th { background-color: #C19681; }
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
 textarea{
@@ -111,7 +111,7 @@ textarea{
 					<c:if test="${info.grade != admin}">
 						<tr>
 							<th >내용</th>
-							<td ><textarea name="content" id="content"  readonl>${qna_rep_dto.content }</textarea></td>
+							<td ><textarea name="content" id="content"  readonly>${qna_rep_dto.content }</textarea></td>
 						</tr>
 					</c:if>
 				</table>
@@ -129,14 +129,34 @@ textarea{
 					<th >내용</th>
 					<td ><textarea name="content" id="content" <c:if test="${qna_rep_dto.content != null}">readonly</c:if>>${qna_rep_dto.content }</textarea></td>
 				</tr>		
-				<c:if test="${qna_rep_dto.content == null}">
-					<tr>
-					<th colspan="3"><input type="button" value="확인" onclick="valueCheck()" class="but_1"></th>
-					</tr>
-				</c:if>
 			</table>
+				<c:if test="${qna_rep_dto.content == null}">
+					<input type="button" value="확인" onclick="valueCheck()" class="but_1">				
+				</c:if>
 			</form>
 		</c:if>
+		<c:if test="${info.grade != admin}">
+				<ul class="menu">
+			      <li>
+			        <a href="#">메뉴</a>
+			        <ul class="submenu_">
+			         <hr>	          
+			          	<li><a href="${contextPath }/board/member_qna">목록</a></li>
+			        </ul>
+			      	</li>
+			    </ul> 	
+			   </c:if>
+		<c:if test="${info.grade == admin}">
+				<ul class="menu">
+			      <li>
+			        <a href="#">메뉴</a>
+			        <ul class="submenu_">
+			         <hr>	          
+			          	<li><a href="${contextPath }/board/manager_qna">목록</a></li>
+			        </ul>
+			      	</li>
+			    </ul> 	
+			   </c:if>
 			</div>
 	</section>
 

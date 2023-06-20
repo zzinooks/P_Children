@@ -97,7 +97,7 @@ from .user-details .input-box{
 	width: 100%;
 	outline: none;
 	border-radius: 5px;
-	border: 1px solid #A996DB;
+	border: 1px solid #C19681;
 	padding-left: 10px;
 	font-size:  15px;
 	margin-bottom: 5px;
@@ -133,7 +133,7 @@ from .user-details .input-box_addr{
 	font-weight: 50%;
 	margin: 5px;
 	border-radius: 50%;
-	background: #A16F63;
+	background: #C19681;
 	text-decoration: none;
 }
 .form-box-list .title{
@@ -149,14 +149,14 @@ from .user-details .input-box_addr{
 	bottom: 0;
 	height: 3px;
 	width: 120px;
-	background: #A16F63;
+	background: #C19681;
 }
 
 .form-box-list{
 	max-width: 1400px;
 	width: 100%;
 	padding: 25px 30px;
-	border: 2px solid #A16F63;
+	border: 2px solid #C19681;
 	border-radius: 20px;
 }
 /* 메뉴바 */
@@ -164,7 +164,7 @@ from .user-details .input-box_addr{
   width: 100%;
   overflow: hidden;
   border-radius: 40px;
- background: #A16F63;
+ background: #C19681;
  margin-top: 10px;
  font-size: 1em;
  font-weight: 600;
@@ -176,7 +176,7 @@ from .user-details .input-box_addr{
   text-align: center;
   line-height: 40px;
   border-radius: 40px;
-  background: #A16F63;
+  background: #C19681;
   font-size: 1em;
   font-weight: 600;
     text-decoration-line: none;
@@ -191,23 +191,38 @@ from .user-details .input-box_addr{
   line-height: 50px;
   background-color: #C19681;
 }
+.submenu_ > li {
+  line-height: 50px;
+  background-color: #C19681;
+}
+.submenu_manger > li {
+  line-height: 50px;
+  background-color: #C19681;
+}
+.submenu_member > li {
+  line-height: 50px;
+  background-color: #C19681;
+}
 
 .submenu {
   height: 0; /*ul의 높이를 안보이게 처리*/
   overflow: hidden;
 }
-.submenu_ > li {
-  line-height: 50px;
-  background-color: #C19681;
-}
-
 .submenu_ {
+  height: 0; /*ul의 높이를 안보이게 처리*/
+  overflow: hidden;
+}
+.submenu_manger {
+  height: 0; /*ul의 높이를 안보이게 처리*/
+  overflow: hidden;
+}
+.submenu_member {
   height: 0; /*ul의 높이를 안보이게 처리*/
   overflow: hidden;
 }
 
 .menu > li:hover {
-  background-color: #A16F63;
+  background-color: #C19681;
   transition-duration: 1s;
 }
 
@@ -218,8 +233,22 @@ from .user-details .input-box_addr{
 .menu > li:hover .submenu_ {
   height: 50px; /*서브메뉴 li한개의 높이 50*5*/
   transition-duration: 1s;
-
 }
+.menu > li:hover .submenu_manger {
+  height: 200px; /*서브메뉴 li한개의 높이 50*5*/
+  transition-duration: 1s;
+}
+.menu > li:hover .submenu_member {
+  height: 300px; /*서브메뉴 li한개의 높이 50*5*/
+  transition-duration: 1s;
+}
+
 a{
 	text-decoration-line: none;
+}
+#dog{
+	font-size: 50px;
+}
+#certified{
+	text-align: right;
 }

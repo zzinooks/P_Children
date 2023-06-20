@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,10 +24,10 @@ table             {
     padding-right: 8px;
     text-align:center;
     }  
- th { background-color: #A996DB; }
+ th { background-color: #C19681;}
   tbody tr     { 
   height:40px; 
-  border-bottom:1px solid #E3F1D5 ;
+  border-bottom:1px solid white;
     &:last-child  { border:0; }
   }
 </style>
@@ -115,6 +116,14 @@ table             {
 				</tr>
 			</c:if>
 		</table>
+			<ul class="menu">
+				<li><a href="">메뉴</a>
+					<ul class="submenu_">
+						<hr>
+						<li><a href="${contextPath }/member/kakaoPaymentApproveList">이전</a></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</section>
 

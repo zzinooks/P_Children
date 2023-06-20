@@ -7,7 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 아이디 찾기 결과</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=3" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/login.css?v=2" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/body.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
