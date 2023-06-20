@@ -8,6 +8,20 @@
 <title>카카오페이 결제 승인 목록 페이지</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function choosePage() {
+		
+		if($("#categoryOfKakaoPayment").val() =='카카오페이관리') {
+			location.href="${contextPath}/member/kakaoPaymentApproveList"
+		}
+		if($("#categoryOfKakaoPayment").val() =='결재취소요청관리') {
+			location.href = "${contextPath}/member/kakaoPaymentCancelRequestList";
+		}
+		
+	}
+
+</script>
 <style type="text/css">
 table             { 
   border-spacing: 1; 
@@ -45,7 +59,11 @@ table             {
 		<section ><!-- body -->
 		<div class="form-box-list"> <!--  container  -->
 		<div class="title" >카카오페이 관리</div>
-		<table >
+		<select name="categoryOfKakaoPayment" id="categoryOfKakaoPayment" onchange="choosePage()">
+			<option value="카카오페이관리">카카오페이관리</option>
+			<option value="결재취소요청관리">결재취소요청관리</option>
+		</select>
+		<table>
 		<thead>
 			<tr>
 					<th>cid</th>

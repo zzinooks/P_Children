@@ -134,7 +134,6 @@ table             {
 				<!-- 페이징 -->
 				<div class="page_wrap">
 				   <div class="page_nation">
-						<c:if test="${board_category == null}">
 							<c:if test="${startPage > block }">
 								<a href="${contextPath }/mypageBoard/mypageDibsBoard?num=${startPage-1 }" class="arrow prev"> 이전 </a>
 							</c:if>
@@ -149,7 +148,6 @@ table             {
 							<c:if test="${endPage < totalPage }">
 								<a href="${contextPath }/mypageBoard/mypageDibsBoard?num=${endPage+1 }" class="arrow next"> 다음 </a>
 							</c:if>
-						</c:if>
 					</div>
 				</div>
 			</div>

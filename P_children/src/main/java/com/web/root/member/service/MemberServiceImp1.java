@@ -20,12 +20,14 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.root.board.dto.PaidProgramInfoDTO;
 import com.web.root.kakaoPay.dto.ItemDTO;
 import com.web.root.kakaoPay.dto.KakaoPaymentApproveResultDTO;
 import com.web.root.kakaoPay.dto.KakaoPaymentOrderInfoDTO;
 import com.web.root.member.dto.KakaoLoginDTO;
 //github.com/ssp930/P_Children
 import com.web.root.member.dto.MemberDTO;
+import com.web.root.mybatis.board.BoardMapper;
 import com.web.root.mybatis.kakao.KakaoMapper;
 import com.web.root.mybatis.member.MemberMapper;
 
@@ -43,6 +45,13 @@ public class MemberServiceImp1 implements MemberService {
 	
 	@Autowired
 	KakaoMapper kakaoPayMapper;
+	
+    // 주진욱(06/20) 추가 시작-----------------------------
+	@Autowired
+	BoardMapper boardMapper;
+    
+    // 주진욱(06/20) 추가 끝------------------------------
+
 	
 	// 회원정보
 	@Override
@@ -530,6 +539,18 @@ public class MemberServiceImp1 implements MemberService {
         		restTemplate.postForEntity(kakaoPaymentCancelUrl, entity, String.class);
         
         kakaoPayMapper.cancelCheck(request.getParameter("tid"));
+        
+        // 주진욱(06/20) 추가 시작-----------------------------
+        // ProgramBoard에 결재 취소 정보 전달: currentRegisterCount -1 하고 state '예약가능'으로 번경하기
+        PaidProgramInfoDTO paidProgramInfoDTO = boardMapper.getPaidProgramInfoByTid(request.getParameter("tid"));
+        
+        boardMapper.updateProgramBoardByCancel(paidProgramInfoDTO.getWrite_no());
+        
+        // PaidProgramInfo에 결재 취소 정보 전달 : delete해서 삭제
+        boardMapper.deletePaidProgramInfoByTid(request.getParameter("tid"));
+        
+        
+        // 주진욱(06/20) 추가 끝------------------------------
 	}
 	
 	
@@ -601,7 +622,36 @@ public class MemberServiceImp1 implements MemberService {
 
 	
 	//============================ 최윤희 끝 ===========================================
+	//============================ 주진욱 시작 ==========================================
 	
+	// 관리자 페이지: 결재취소요청 관리페이지 불러오기
+	@Override
+	public void getkakaoPaymentApproveListByCancelRequest(int num, HttpServletRequest request, Model model) { 
+		// num = 현재 페이지
+		int pageLetter = 5; // 한 페이지 당 글 목록수
+		int allCount= kakaoPayMapper.selectKakaoPaymentApproveCountByCancelRequest(); // 전체 글수
+		int repeat = allCount/pageLetter; // 마지막 페이지 번호
+		if(allCount % pageLetter != 0)
+			repeat += 1;
+		int end = num * pageLetter; // start ~ end -> 각 페이지에 불러올 글을 위한 쿼리용 숫자.
+		int start = end +1 - pageLetter;
+		
+		// 페이징
+		int totalPage = (allCount - 1)/pageLetter + 1;
+		int block = 3;
+		int startPage = (num - 1)/block*block + 1;
+		int endPage = startPage + block - 1;
+		if (endPage > totalPage) endPage = totalPage;
+	
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("kakaoPaymAppListByCancelRequest", kakaoPayMapper.selectKakaoPaymentApproveListByCancelRequest(start, end));
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("block", block);
+		model.addAttribute("totalPage", totalPage);
+	}
+	
+	//============================ 주진욱 끝 ===========================================
 	
 	
 }

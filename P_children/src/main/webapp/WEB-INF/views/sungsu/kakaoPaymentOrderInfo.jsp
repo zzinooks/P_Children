@@ -120,7 +120,16 @@ table             {
 				<li><a href="">메뉴</a>
 					<ul class="submenu_">
 						<hr>
-						<li><a href="${contextPath }/member/kakaoPaymentApproveList">이전</a></li>
+						<!-- 진욱(06/20) 수정 시작 -->
+						<li>
+							<c:if test="${toKakaoPaymentCancelRequestList == 'yes' }"> <!-- 관리자 카카오페이 결재 취소 페이지에서 넘어온 경우 -->
+								<a href="${contextPath }/member/kakaoPaymentCancelRequestList?num=${numForToKakaoPaymentCancelRequestList}">이전</a>
+							</c:if>
+							<c:if test="${toKakaoPaymentCancelRequestList != 'yes' }"> <!-- 관리자 카카오페이 결재 관리 페이지에서 넘어온 경우 -->
+								<a href="${contextPath }/member/kakaoPaymentApproveList">이전</a>
+							</c:if>	
+						</li>
+						<!-- 진욱(06/20) 수정 끝 -->
 					</ul>
 				</li>
 			</ul>

@@ -779,14 +779,14 @@ button{
                                                 <c:otherwise>"toggleDibs()"</c:otherwise>
                                              </c:choose>
                      >
-                     <img id="dibs_image" width="20px" height="20px" alt="버튼"
-                               src= <c:if test="${state == 0 || id == null}">
-                                           "https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb" 
-                                      </c:if>
-                                      <c:if test="${state == 1}">
-                                          "https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714" 
-                                      </c:if>
-                     >
+                           <img id="dibs_image" width="20px" height="20px" alt="버튼" src=
+                           <c:if test="${state == 0 || user == null}">
+                           "https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb" 
+                           </c:if>
+                           <c:if test="${state == 1}">
+                           "https://cdn-icons-png.flaticon.com/512/138/138533.png?w=826&t=st=1686704293~exp=1686704893~hmac=6f355d28e7dbaf3380f00e77d046efe85cf73ab4f5d2adcf464457a3b814b714" 
+                           </c:if>
+                           >
                   </button>
                      <form id="dibs_info" action="" method="post" name="dibs_info">
                         <input type="hidden" name="write_no"  value="${dto.write_no }">

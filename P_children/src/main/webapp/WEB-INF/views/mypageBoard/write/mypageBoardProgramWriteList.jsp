@@ -1,12 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath }"/>    
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>  
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Mate With 작성한 게시글 보기</title>
+<script type="text/javascript">
+
+	function confirmToCancel(tid){
+		
+		if(!confirm('취송승인하시겠습니까?')){
+			return false;
+		} else {
+			alert('tid : ' + tid + ' 취소되었습니다~!');
+			
+			$.ajax({
+				url: "paidCancelRequest/"+tid,
+				type: "post",
+				contentType: "application/json; charset=utf-8",
+				success: function(data){
+					alert("반환값은 " + data);
+				}, // success end
+				error: function() {
+					alert("Error!!")
+				}
+				
+			}) // ajax end
+			return true;
+		}
+	}
+</script>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=3" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/page.css" rel="stylesheet" type="text/css">
 <style type="text/css">
@@ -92,13 +118,28 @@ table             {
 							<c:forEach var="paidProgramInfoDTO" items="${mypageBoardProgramList.paidProgramInfoDTO }">
 								<tr>
 									<td>${paidProgramInfoDTO.id }</td>
+									<td colspan="5" id=" ${paidProgramInfoDTO.tid}">
 									<c:if test="${paidProgramInfoDTO.cancel_request == 'Y'}">
-			      						<td colspan="5">취소 요청</td>
+			      						취소 요청
 			      					</c:if>
 			      					<c:if test="${paidProgramInfoDTO.cancel_request == 'N'}">
-			      						<td>결재 완료</td>
+			      						결재 완료
 			      					</c:if>
-			      					<td><button>취소 승인(구현중)</button></td>
+			      					<c:if test="${paidProgramInfoDTO.cancel_request == 'P'}">
+			      						관리자 취소 승인 대기
+			      					</c:if>
+			      					</td>
+			      					<td>
+			      						<c:if test="${paidProgramInfoDTO.cancel_request == 'Y'}">
+			      							<button onclick="confirmToCancel('${paidProgramInfoDTO.tid}')">취소 승인</button>
+			      						</c:if>
+			      						<c:if test="${paidProgramInfoDTO.cancel_request == 'N'}">
+			      							<p>결재 완료한 고객입니다</p>
+			      						</c:if>
+			      						<c:if test="${paidProgramInfoDTO.cancel_request == 'P'}">
+			      							<p> 결채 취소 완료시 삭제 예정</p>
+			      						</c:if>
+			      					</td>
 								</tr>
 							</c:forEach>
 						

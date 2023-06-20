@@ -11,18 +11,23 @@ import com.web.root.kakaoPay.dto.KakaoPaymentApproveResultDTO;
 
 public interface KakaoMapper {
 
-	void registKakaoPaymentApproveResult(KakaoPaymentApproveResultDTO kakaoPaymentApproveResultDTO);
+	public void registKakaoPaymentApproveResult(KakaoPaymentApproveResultDTO kakaoPaymentApproveResultDTO);
 
-	int selectKakaoPaymentApproveCount();
+	public int selectKakaoPaymentApproveCount();
 
-	List<KakaoPaymentApproveResultDTO> selectKakaoPaymentApproveList(@Param("start") int start, @Param("end") int end);
+	public List<KakaoPaymentApproveResultDTO> selectKakaoPaymentApproveList(@Param("start") int start, @Param("end") int end);
 
-	void cancelCheck(@Param("tid") String tid);
+	public void cancelCheck(@Param("tid") String tid);
 
-	void insertProgramMapInfo(ProgramMapDTO programMapDTO);
+	public void insertProgramMapInfo(ProgramMapDTO programMapDTO);
 
-	List<ProgramMapDTO> selectProgramMapInfo();
+	public List<ProgramMapDTO> selectProgramMapInfo();
+	
+	// 진욱 추가 ----------------------------------------------------------------------
+	public int selectKakaoPaymentApproveCountByCancelRequest();
+	
+	public List<KakaoPaymentApproveResultDTO> selectKakaoPaymentApproveListByCancelRequest(@Param("start") int start, @Param("end") int end);
 
-
+	// 진욱 끝 ----------------------------------------------------------------------
 
 }

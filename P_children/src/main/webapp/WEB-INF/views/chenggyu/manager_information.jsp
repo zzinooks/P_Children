@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 관리자 정보</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=4" rel="stylesheet" type="text/css">
 </head>
 <body>
 		<c:import url="../default/header.jsp"/>
