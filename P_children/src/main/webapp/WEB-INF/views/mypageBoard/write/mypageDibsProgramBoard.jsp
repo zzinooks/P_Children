@@ -72,7 +72,7 @@
 								<c:if test ="${info.grade == admin}">
 									<td><button onclick="deleteConfirm('${dto.write_no}', '${dto.mateImage }')">삭제</button></td>
 								</c:if>
-							<tr>
+							</tr>
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>

@@ -33,7 +33,7 @@
 	<section>
 		<h1> 내가 찜한 게시판 ♥ </h1>
 		<select name="selectBoard" id="selectBoard" onchange="chooseBoard()">
-			<option value="내가찜한게시글" checked>내가찜한게시글</option>
+			<option value="내가찜한게시글">내가찜한게시글</option>
 			<option value="내가찜한프로그램게시글">내가찜한프로그램게시글</option>
 		</select>
 		<div class="wrap board_table myDibsBoard">
@@ -91,14 +91,16 @@
 					</c:otherwise>
 				</c:choose>
 				<tr>
+				<td 
 					<c:choose>
 						<c:when test="${info.grade == admin}">
-							<td colspan="7" align="center">
+							colspan="7"
 						</c:when>
 						<c:otherwise>
-							<td colspan="6" align="center">
+							colspan="6"
 						</c:otherwise>
 					</c:choose>
+				 align="center">
 						<!-- 페이징 -->
 						<div id="paging_block">
 							<!-- 자유 게시판에 들어가자마자 나오는 페이징  -->
@@ -118,64 +120,10 @@
 									[ <a href="${contextPath }/mypageBoard/myDibsBoard?num=${endPage+1 }" id="paging"> 다음 </a> ]
 								</c:if>
 							</c:if>
-							<!-- 검색 클릭시 페이징  
-							<c:if test="${board_category != null}">
-								<c:if test="${startPage > block }">
-									[ <a href="${contextPath }/board/boardSearchForm?num=${startPage-1 }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="paging"> 이전 </a> ]
-								</c:if>
-								<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
-									<c:if test="${i == num}">
-										[ <a href="${contextPath }/board/boardSearchForm?num=${i }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="currentPaging"> ${i } </a> ]
-									</c:if>
-									<c:if test="${i != num}">
-										[ <a href="${contextPath }/board/boardSearchForm?num=${i }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="paging"> ${i } </a> ]
-									</c:if>
-								</c:forEach>
-								<c:if test="${endPage < totalPage }">
-									[ <a href="${contextPath }/board/boardSearchForm?num=${endPage+1 }&board_category=${board_category }&board_searchCategory=${board_searchCategory}&board_searchKeyword=${board_searchKeyword}" id="paging"> 다음 </a> ]
-								</c:if>
-							</c:if>
-							-->
 						</div>
 					</td>
 				</tr>
-				<%-- <tr>
-					<c:choose>
-						<c:when test="${info.grade == admin}">
-							<td colspan="7" align="center">
-						</c:when>
-						<c:otherwise>
-							<td colspan="6" align="center">
-						</c:otherwise>
-					</c:choose>
-						<c:if test="${loginUser != 'noLogin' || kakaoId != null}">
-						<a href="${contextPath }/board/writeForm">글작성</a>
-						</c:if>
-					</td>
-				</tr> --%>
 			</table>
-			
-			<!-- 검색 버튼 
-			<form name="boardSearchForm" action="${contextPath }/board/boardSearchForm" method="get">
-				<select name="board_category" id="board_category">
-					<option value="total" <c:if test="${board_category == 'total' }">selected</c:if>>전체</option>
-					<option value="informationSharing" <c:if test="${board_category == 'informationSharing' }">selected</c:if>>정보 공유</option>
-					<option value="friendshipPromotion" <c:if test="${board_category == 'friendshipPromotion' }">selected</c:if>>친목 도모</option>
-					<option value="petSneak" <c:if test="${board_category == 'petSneak' }">selected</c:if>>펫 간식</option>
-					<option value="smallChat" <c:if test="${board_category == 'smallChat' }">selected</c:if>>잡담</option>
-					<option value="lookForPetFriend" <c:if test="${board_category == 'lookForPetFriend' }">selected</c:if>>펫 프랜드 구합니다</option>
-					<option value="BeingPetFriend" <c:if test="${board_category == 'BeingPetFriend' }">selected</c:if>>펫 프랜드 합니다</option>
-				</select>
-				<select name="board_searchCategory" id="board_searchCategory">
-					<option value="title" <c:if test="${board_searchCategory == 'title' }">selected</c:if>>제목</option>
-					<option value="content" <c:if test="${board_searchCategory == 'content' }">selected</c:if>>내용</option>
-					<option value="id" <c:if test="${board_searchCategory == 'id' }">selected</c:if>>작성자</option>
-				</select>
-				<input type="text" id="board_searchKeyword" name="board_searchKeyword" value="${board_searchKeyword }">
-				<input type="submit" id="search_btn" value="검색">
-			</form>
-		</div>
-		-->
 	</section>
 	<c:import url="../../default/footer.jsp"/>
 </body>

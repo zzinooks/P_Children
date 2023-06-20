@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -144,6 +146,7 @@ public class MypageBoardController implements MemberSession {
 		return "mypageBoard/write/mypageDibsBoard";
 	}
 	
+	// 내가 찜한 프로그램 게시글 보기 페이지로 이동
 	@RequestMapping("myDibsProgramBoard")
 	public String myDibsProgramBoard(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="num", required = false, defaultValue="1") int num ) {
 		
@@ -161,7 +164,16 @@ public class MypageBoardController implements MemberSession {
 		bfps.myDibsProgramBoardAllList(model, num, request, id);
 		
 		return "mypageBoard/write/mypageDibsProgramBoard";
-	}	
+	}
+	
+	// 
+	@PostMapping(value="write/paidCancelRequest/{tid}", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public int addReply(@PathVariable("tid") String tid) {
+		// System.out.println(tid + " 받았습니다~!");
+		int result = bfps.paidCancelRequestByTid(tid);
+		return result;
+	}
 	
 	// ======================================= 주진욱 끝 =================================================
 	

@@ -309,6 +309,11 @@
 		UPDATE programBoard SET currentRegisterCount = currentRegisterCount+1, state='결재 완료' WHERE write_no = #{write_no}
 	</update>
 	
+	<!-- 호스트의 마이페이지에서 프로그램 결재 취소 요청 보내기 기능 -->
+	<update id="paidCancelRequestByTid">
+		UPDATE paidprograminfo SET cancel_request = 'P' WHERE tid=#{tid}
+	</update>
+	
 	<!-- 찜하기 기능 -->
 	
 	<!-- 처음으로 하트 누른 것인지 확인 -->

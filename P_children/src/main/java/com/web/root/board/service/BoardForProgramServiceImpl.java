@@ -406,8 +406,17 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		model.addAttribute("block", block);
 		model.addAttribute("totalPage", totalPage);
 	}
+	
+	// 호스트의 마이페이지에서 프로그램 결재 취소 요청 보내기 기능
+	@Override
+	public int paidCancelRequestByTid(String tid) {
+		return mapper.paidCancelRequestByTid(tid);
+	}	
+	
 	//============================ 윤희 시작 =============================================
 	
+
+
 	@Override
 	public ProgramBoardDTO programBoardInformation(String id) {
 		

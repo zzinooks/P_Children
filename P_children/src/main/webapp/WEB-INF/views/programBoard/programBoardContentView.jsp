@@ -248,6 +248,7 @@ table             {
            		</li>
 			</ul> 
       </div>
+      <a href="" onclick="confirmDelete()">삭제</a>
    </section>
    <!-- 좋아요 기능 담당하는 부분(삭제하지 말아주세요) -->
     <form id="dibs_info" action="" method="post" name="dibs_info">

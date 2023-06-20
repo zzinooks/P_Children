@@ -89,6 +89,9 @@ public interface BoardMapper {
 	// 게시판 게시글 카테고리+검색 => 요청 내용들에 따라 해당 리스트들 불러오기
 	public List<ProgramBoardDTO> programBoardSearchFormCountList(Map<String, String> map);
 	
+	// 호스트의 마이페이지에서 프로그램 결재 취소 요청 보내기 기능
+	public int paidCancelRequestByTid(@Param("tid") String tid);
+	
 	
 	
 	// 찜하기 기능 -----------------------------------------------
