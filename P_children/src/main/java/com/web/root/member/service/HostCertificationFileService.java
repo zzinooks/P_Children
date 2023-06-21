@@ -9,7 +9,9 @@ public interface HostCertificationFileService {
 
 	// host 파일 저장 위치
 	public static final String IMAGE_HOST_CERTIFICATION_REPO = "C:\\Users\\tkrhk\\git\\P_Children\\P_children\\src\\main\\webapp\\resources\\image\\hostCertificationDocument";
-	
+	// 진욱 임시 수정 (06/21)
+	//public static final String IMAGE_HOST_CERTIFICATION_REPO = "C:\\Users\\ju\\git\\P_Children\\P_children\\src\\main\\webapp\\resources\\image\\hostCertificationDocument";
+	// 임시 수정 끝
 	// host 인증 파일 저장
 	public String hostCertificationSaveFile(MultipartFile file);
 	

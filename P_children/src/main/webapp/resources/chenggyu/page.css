@@ -52,10 +52,17 @@
   border-radius: 50%;
   border: 1px solid #A16F63;
 }
+.page_nation a.no_active {
+	/* 선택안된 페이지 번호 스타일 */
+	background-color: #C19681;
+	color: white;
+	border-radius: 50%;
+	border: 1px solid #A16F63;
+}
 .page_nation a.active {
-  /* 선택된 페이지 번호 스타일 */
-  background-color: #A16F63;
-  color: white;
-  border-radius: 50%;
-  border: 1px solid #C19681;
+	/* 선택된 페이지 번호 스타일 */
+	background-color: #A16F63;
+	color:white;
+	border-radius: 50%;
+	border:1px solid #C19681;
 }

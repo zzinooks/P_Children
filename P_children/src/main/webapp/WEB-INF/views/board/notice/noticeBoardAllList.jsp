@@ -9,7 +9,8 @@
 <title>Mate With 공지게시판</title>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath }/resources/yoonhee/js/noticeBoardScript.js?v=1"></script>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
+<<<<<<< HEAD
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=2" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=4" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	// 게시글 삭제 문구 알림창

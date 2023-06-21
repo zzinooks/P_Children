@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Mate With 프로그램 게시판</title>
-<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=3" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=2" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=5" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=5" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	function deleteConfirm(write_no, file_name){
 		
@@ -165,7 +165,7 @@ table             {
 									<a href="programBoardAllList?num=${i }" class="active"> ${i } </a>
 								</c:if>
 								<c:if test="${i != num}">
-									<a href="programBoardAllList?num=${i }" class="active"> ${i }  </a>
+									<a href="programBoardAllList?num=${i }" class="no_active"> ${i }  </a>
 								</c:if>
 							</c:forEach>
 							<c:if test="${endPage < totalPage }">
@@ -186,7 +186,7 @@ table             {
 												 <a href="${contextPath }/programBoard/programBoardSearchForm?num=${i }&programBoard_state=${programBoard_state }&programBoard_searchCategory=${programBoard_searchCategory}&programBoard_searchKeyword=${programBoard_searchKeyword}" class="active"> ${i } </a> 
 											</c:if>
 											<c:if test="${i != num}">
-												 <a href="${contextPath }/programBoard/programBoardSearchForm?num=${i }&programBoard_state=${programBoard_state }&programBoard_searchCategory=${programBoard_searchCategory}&programBoard_searchKeyword=${programBoard_searchKeyword}" class="active"> ${i } </a> 
+												 <a href="${contextPath }/programBoard/programBoardSearchForm?num=${i }&programBoard_state=${programBoard_state }&programBoard_searchCategory=${programBoard_searchCategory}&programBoard_searchKeyword=${programBoard_searchKeyword}" class="no_active"> ${i } </a> 
 											</c:if>
 										</c:forEach>
 										<c:if test="${endPage < totalPage }">
