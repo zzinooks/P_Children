@@ -122,7 +122,7 @@ table             {
 								<a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${i }" class="active"> ${i } </a>
 							</c:if>
 							<c:if test="${i != num}">
-								<a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${i }" class="active"> ${i } </a>
+								<a href="${contextPath }/mypageBoard/write/mypageBoardWriteList?num=${i }" class="no_active"> ${i } </a>
 							</c:if>
 						</c:forEach>
 						<c:if test="${endPage < totalPage }">

@@ -68,13 +68,23 @@ public class MemberServiceImp1 implements MemberService {
 		dto.setPwd(request.getParameter("new_pwd"));
 		dto.setNickname(request.getParameter("nickname"));
 		dto.setPhone(request.getParameter("phone"));
-		if(request.getParameter("userSelect") =="host") {
-		dto.setMateName(request.getParameter("mateName"));
-		dto.setMateBreed(request.getParameter("mateBreed"));
-		}else {
-			dto.setMateName("(null)");
-			dto.setMateBreed("(null)");		
-		}
+		System.out.println(request.getParameter("userSelect") + "입니다");
+		String aa = request.getParameter("userSelect");
+		
+		if(aa.equals("host")) {
+			dto.setMateName(request.getParameter("mateName"));
+			dto.setMateBreed(request.getParameter("mateBreed"));
+			}else {
+				dto.setMateName("(null)");
+				dto.setMateBreed("(null)");		
+			}
+//		if(request.getParameter("userSelect") =="host") {
+//		dto.setMateName(request.getParameter("mateName"));
+//		dto.setMateBreed(request.getParameter("mateBreed"));
+//		}else {
+//			dto.setMateName("(null)");
+//			dto.setMateBreed("(null)");		
+//		}
 		String addrMerge = request.getParameter("addr1") + "/" 
 				  +request.getParameter("addr2") + "/"
 				  +request.getParameter("addr3") + "/"

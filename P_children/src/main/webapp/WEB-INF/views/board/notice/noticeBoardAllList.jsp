@@ -10,7 +10,7 @@
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script src="${contextPath }/resources/yoonhee/js/noticeBoardScript.js?v=1"></script>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=3" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=4" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	// 게시글 삭제 문구 알림창
 	function noticeBoardDeleteConfirm(write_no, file_name) {
@@ -175,7 +175,6 @@ table             {
 					<option value="title" <c:if test="${notice_searchCategory == 'title' }">selected</c:if>>제목</option>
 					<option value="content" <c:if test="${notice_searchCategory == 'content' }">selected</c:if>>내용</option>
 					<option value="id" <c:if test="${notice_searchCategory == 'id' }">selected</c:if>>작성자</option>
-					<option value="titleContent" <c:if test="${notice_searchCategory == 'titleContent' }">selected</c:if>>제목+내용</option><!-- 제목+내용 아직 구현 안됐습니다. -->
 				</select>
 				<input type="text" id="notice_searchKeyword" name="notice_searchKeyword" value="${notice_searchKeyword }">
 				<input type="submit" id="search_btn" value="검색">
@@ -193,7 +192,7 @@ table             {
 									<a href="${contextPath }/board/notice/noticeBoardAllList?num=${i }" class="active"> ${i } </a>
 								</c:if>
 								<c:if test="${i != num}">
-									<a href="${contextPath }/board/notice/noticeBoardAllList?num=${i }" class="active"> ${i } </a>
+									<a href="${contextPath }/board/notice/noticeBoardAllList?num=${i }" class="no_active"> ${i } </a>
 								</c:if>
 							</c:forEach>		
 							<c:if test="${endPage < totalPage }">
@@ -214,7 +213,7 @@ table             {
 										<a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="active"> ${i } </a>
 									</c:if>
 									<c:if test="${i != num}">
-										<a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="active"> ${i } </a>
+										<a href="${contextPath }/board/notice/noticeSearchForm?num=${i }&notice_category=${notice_category }&notice_searchCategory=${notice_searchCategory}&notice_searchKeyword=${notice_searchKeyword}" class="no_active"> ${i } </a>
 									</c:if>
 								</c:forEach>
 								<c:if test="${endPage < totalPage }">
