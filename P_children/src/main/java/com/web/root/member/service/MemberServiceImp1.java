@@ -68,10 +68,10 @@ public class MemberServiceImp1 implements MemberService {
 		dto.setPwd(request.getParameter("new_pwd"));
 		dto.setNickname(request.getParameter("nickname"));
 		dto.setPhone(request.getParameter("phone"));
-		System.out.println(request.getParameter("userSelect") + "입니다");
-		String aa = request.getParameter("userSelect");
 		
-		if(aa.equals("host")) {
+		String userSelect = request.getParameter("userSelect");
+		
+		if(userSelect.equals("host")) {
 			dto.setMateName(request.getParameter("mateName"));
 			dto.setMateBreed(request.getParameter("mateBreed"));
 			}else {

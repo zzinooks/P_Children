@@ -63,7 +63,7 @@ public class BoardServiceImpl implements BoardService {
 		// 각 게시판 마다 속한 좋아요 숫자를 불러온다
 		for (BoardDTO boardDTO : boardList) {
 			boardDTO.setDibsCount(mapper.getdibsNumByWriteNo(boardDTO.getWrite_no()));
-			System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(boardDTO.getWrite_no()));
+			//System.out.println("좋아요 숫자 :" + mapper.getdibsNumByWriteNo(boardDTO.getWrite_no()));
 		}
 		
 	

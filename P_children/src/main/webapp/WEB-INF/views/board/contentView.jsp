@@ -112,7 +112,7 @@
                       }
                      htm += "<a onclick='reComment("+ redata.reply_no +")'><b>더보기</b></a> "
                      
-
+                     C:\0900_JAVA_jjw\7_github\workSpaceForChildren2
                      
                      // 댓글 작성자와 현재 유저가 일치하는 경우
                      if(redata.id == $("#user").val() || $("#userGrade").val() == $("#admin").val()) {
@@ -304,9 +304,10 @@
    // 대댓글 삽입 폼
    function ShowAddReCommentForm(reply_no){ // 답글 삽입 폼 생성
 	   
-	   $("div.rep").addClass("hidden");
+	  // 댓글 삽입 폼 숨기기
+	  $("div.rep").hide();
    
-      // 다른 댓글 켜져있을 경우 종료
+      // 댓글 수정창이 켜져있을 경우 종료
       if($('#updateContent').val() != null){
     	  cancelUpdateReply(); 
       }
@@ -317,30 +318,33 @@
       }
       
       // 다른 대댓글 창이 켜져 있을 경우 종료
-      if($(".ShowAddReComment").length > 0) {
+      if($(".ShowAddReComment").length > 0 && $("#addReComment"+reply_no).length == 0) {
+    	  //alert($("#addReComment"+reply_no).length + "입니다 그리고 .ShowAdd는" + $(".ShowAddReComment").length);
           cancelAddReComment();
+      } 
+      
+      if($("#addReComment"+reply_no).length > 0) {
+    	  cancelAddReComment();
       } else {
-      
-      let htm = "";
-      
-      htm += "<div class='ShowAddReComment' id='addReComment' "+ reply_no+">";
-      htm += "<form method='post' id='addReCommentFrm' action='#'><b> "+$("#user").val()+"</b>";
-      htm += "<input type='hidden' id='cGroup' name='cGroup' value='"+ reply_no +"'>";          // cGroup
-      htm += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"      // write_Group
-      htm += "</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>"; // id
-      htm += "<textarea name='reCommentContent'></textarea>"
-      htm += "<div class='recom'>"
-      htm += "<input type='button' onclick='addReComment("+ reply_no +")' value='답글'>  &nbsp; "
-      htm += "</form><button onclick='cancelAddReComment()'> 취소 </button></div>"
-      htm += "</div>"
-      
-      $("div.rep").addClass("hidden");
-      
-      //htmlStorageRecomment = $('#reComment'+ reply_no).html();
-      //storagePositionRecomment = reply_no;
-      
-      $("#rep" + reply_no).children(".reply_innerDiv").append(htm);
-      
+	      let htm = "";
+	      
+	      htm += "<div class='ShowAddReComment' id='addReComment"+ reply_no+"'>";
+	      htm += "<form method='post' id='addReCommentFrm' action='#'><b> "+$("#user").val()+"</b>";
+	      htm += "<input type='hidden' id='cGroup' name='cGroup' value='"+ reply_no +"'>";          // cGroup
+	      htm += "<input type='hidden'  name='write_no'  value='" + $('#write_no').val() + "'>"      // write_Group
+	      htm += "</b><input type='hidden' name='id' value='" + $("#user").val() + "' readonly><br>"; // id
+	      htm += "<textarea name='reCommentContent'></textarea>"
+	      htm += "<div class='recom'>"
+	      htm += "<input type='button' onclick='addReComment("+ reply_no +")' value='답글'>  &nbsp; "
+	      htm += "</form><button onclick='cancelAddReComment()'> 취소 </button></div>"
+	      htm += "</div>"
+	      
+	      //htmlStorageRecomment = $('#reComment'+ reply_no).html();
+	      //storagePositionRecomment = reply_no;
+	      
+	      $("#rep" + reply_no).children(".reply_innerDiv").append(htm);
+	      $("div.rep").hide();
+	      //alert($("#addReComment"+reply_no).length + "입니다 그리고 .ShowAdd는" + $(".ShowAddReComment").length);
       }
    } // ShowAddReCommentForm end
    
@@ -780,7 +784,7 @@ button{
                                              </c:choose>
                      >
                            <img id="dibs_image" width="20px" height="20px" alt="버튼" src=
-                           <c:if test="${state == 0 || user == null}">
+                           <c:if test="${state == 0 || info.id == null}">
                            "https://cdn-icons-png.flaticon.com/512/1222/1222392.png?w=826&t=st=1686704242~exp=1686704842~hmac=c1303f6f53b624870cb23578a1d29c709520f8bab476386e8427893ab06117fb" 
                            </c:if>
                            <c:if test="${state == 1}">
