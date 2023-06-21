@@ -15,7 +15,8 @@
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=1" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/body.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/chenggyu/regist.css?v=1" rel="stylesheet" type="text/css">
-<script src="${path }/resources/chenggyu/js/memberModify.js?v=1"></script>
+<script src="${contextPath }/resources/chenggyu/js/memberModify.js?v=1"></script>
+
 <script>	
 	window.onload = function(){
 		if(${cookie.userSelect.value == "host"}){
@@ -92,7 +93,7 @@ function valueCheck() {
 					success: function(data){
 						$("#count").text(data)
 						console.log("성공");
-						 window.location.href = "${path }/member/member_information" ;
+						 window.location.href = "${contextPath }/member/member_information" ;
 					},
 					error: function(){
 						console.log("실패");
@@ -109,7 +110,7 @@ function valueCheck() {
 				success: function(data){
 					$("#count").text(data)
 					console.log("성공");
-					 window.location.href = "${path }/member/member_information" ;
+					 window.location.href = "${contextPath }/member/member_information" ;
 				},
 				error: function(){
 					console.log("실패");
@@ -162,10 +163,10 @@ function valueCheck() {
 				</div>
 				<div class="input-box" >
 					<span class="details">주소</span>
-					<input type="text" id="zonecode" name="zonecode" size="5" placeholder="우편번호">
-					<input type="text" id="addr1" name="addr1" size="30" placeholder="주소">
-					<input type="text" id="addr2" name="addr2" placeholder="상세주소" oninput="deleteSpan_addr2()">
-					<input type="text" id="addr3" name="addr3" size="15" placeholder="참고항목">
+					<input type="text" id="zonecode" name="zonecode" size="5" placeholder="우편번호" value="${zonecode }">
+					<input type="text" id="addr1" name="addr1" size="30" placeholder="주소" value="${addr1 }">
+					<input type="text" id="addr2" name="addr2" placeholder="상세주소" oninput="deleteSpan_addr2()" value="${addr2 }">
+					<input type="text" id="addr3" name="addr3" size="15" placeholder="참고항목" value="${addr3 }">
 					<span id="addr_"></span>
 				</div>
 				<div class="input-box-addr">
@@ -175,9 +176,9 @@ function valueCheck() {
 			<c:if test="${dto.userSelect == 'host' }">
 				<div class="input-box">
 					<span class="details">메이트 정보</span>
-					<input type="text" id="mateName" name="mateName" oninput="deleteSpan_mateName()" value="${dto.mateName} ">
+					<input type="text" id="mateName" name="mateName" oninput="deleteSpan_mateName()" value="${dto.mateName}"> <!-- oninput="deleteSpan_mateName()" -->
 					<span id="mateName_"></span>
-					<input type="text" id="mateBreed" name="mateBreed" oninput="deleteSpan_mateBreed()" value="${dto.mateBreed}">
+					<input type="text" id="mateBreed" name="mateBreed" oninput="deleteSpan_mateBreed()" value="${dto.mateBreed}"> <!-- oninput="deleteSpan_mateBreed()" -->
 					<span id="mateBreed_"></span>
 				</div>
 				</c:if>

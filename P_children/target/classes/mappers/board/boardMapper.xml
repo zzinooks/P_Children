@@ -248,7 +248,7 @@
 		UPDATE programBoard
 		SET title=#{title},
 			petKind=#{petKind},
-			mateName=#{mateName},
+			mateName=#{mateName}
 			content=#{content},
 			position1=#{position1},
 			position2=#{position2},
