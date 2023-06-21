@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.web.root.member.dto.HostCertifyDTO;
 import com.web.root.mybatis.board.BoardMapper;
 
+
 @Service
 public class BoardFileServiceImpl implements BoardFileService {
 
@@ -61,6 +62,7 @@ public class BoardFileServiceImpl implements BoardFileService {
 		// TODO Auto-generated method stub
 		File deletefile = new File(IMAGE_REPO + "\\" + file_name);
 		deletefile.delete();
+		boardMapper.modifyToDeleteFileName(file_name);
 		
 	}
 	

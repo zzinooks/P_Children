@@ -32,6 +32,8 @@ public interface BoardMapper {
 	
 	public int modifySaveWithFile(BoardDTO dto);
 	
+	public int modifyToDeleteFileName(@Param("file_name") String file_name);
+	
 	public int deleteBoard(int write_no);
 	
 	public int selectBoardCountByCategory(@Param("category") String category);
