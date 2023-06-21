@@ -60,9 +60,32 @@ public class MemberController implements MemberSession, KakaoDeveloper{
 	// 개인정보 수정
 	@RequestMapping("member_modify")
 	public String member_modify(HttpSession session,Model model) {
+		
 		String id = (String) session.getAttribute(LOGIN);
 		MemberDTO dto = ms.member_information(id);
 		model.addAttribute("dto", dto);
+		
+		//=== 0621_최윤희 추가: 주소 나누기
+		String str = dto.getAddr();
+		
+		String data[] = str.split("/");
+        
+		// 주소 출력 확인
+        //for(int i=0 ; i<data.length ; i++)
+        //{
+        //    System.out.println("data["+i+"] : "+data[i]);
+        //}
+        String zonecode = data[3];
+        String addr1 = data[0];
+        String addr2 = data[1];
+        String addr3 = data[2];
+        
+        model.addAttribute("zonecode", zonecode);
+        model.addAttribute("addr1", addr1);
+        model.addAttribute("addr2", addr2);
+        model.addAttribute("addr3", addr3);
+		//=== 0621_최윤희 끝
+		
 		return "chenggyu/member_modify";
 	}
 	

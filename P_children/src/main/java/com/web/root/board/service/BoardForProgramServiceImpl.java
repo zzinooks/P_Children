@@ -182,7 +182,8 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 			result = mapper.modifySaveForProgramWithFile(programBoardDTO);
 			
 		} else {
-			result = mapper.modifySaveForProgram(programBoardDTO);
+			programBoardDTO.setMateImage("nan");	// 수정 파일첨부가 없다면 file_name = nan 으로 변경
+			result = mapper.modifySaveForProgramWithFile(programBoardDTO); // DB에도 값 nan으로 저장
 		}
 		// DB에서 Modify 실행
 		
