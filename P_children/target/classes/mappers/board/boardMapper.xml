@@ -152,6 +152,10 @@
 		UPDATE board2 SET title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
 	</update>
 	
+	<update id="modifyToDeleteFileName" parameterType="com.web.root.board.dto.BoardDTO">
+		UPDATE board2 SET file_name = 'nan' WHERE file_name=#{file_name}
+	</update>
+	
 	<delete id="deleteBoard">
 		DELETE FROM board2 WHERE write_no=#{write_no}
 	</delete>

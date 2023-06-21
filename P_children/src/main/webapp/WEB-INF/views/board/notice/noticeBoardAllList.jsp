@@ -175,7 +175,6 @@ table             {
 					<option value="title" <c:if test="${notice_searchCategory == 'title' }">selected</c:if>>제목</option>
 					<option value="content" <c:if test="${notice_searchCategory == 'content' }">selected</c:if>>내용</option>
 					<option value="id" <c:if test="${notice_searchCategory == 'id' }">selected</c:if>>작성자</option>
-					<option value="titleContent" <c:if test="${notice_searchCategory == 'titleContent' }">selected</c:if>>제목+내용</option><!-- 제목+내용 아직 구현 안됐습니다. -->
 				</select>
 				<input type="text" id="notice_searchKeyword" name="notice_searchKeyword" value="${notice_searchKeyword }">
 				<input type="submit" id="search_btn" value="검색">

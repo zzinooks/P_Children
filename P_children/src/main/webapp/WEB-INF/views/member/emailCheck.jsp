@@ -28,7 +28,7 @@
 					}
 				},
 				error: function(){
-					alert("Error");
+					//alert("Error");
 				}
 			});
 		});
@@ -59,7 +59,7 @@
 					$("#email_code").val(code);
 				},
 				error: function(){
-					alert("Error");
+					//alert("Error");
 				}	
 			});
 		} else {
