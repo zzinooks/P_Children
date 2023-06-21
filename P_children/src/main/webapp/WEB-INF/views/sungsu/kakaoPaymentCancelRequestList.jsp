@@ -99,7 +99,7 @@ table             {
 								<a href="${contextPath }/member/kakaoPaymentCancelRequestList?num=${i }"  class="active"> ${i } </a>
 							</c:if>
 							<c:if test="${i != num}">
-								<a href="${contextPath }/member/kakaoPaymentCancelRequestList?num=${i }" class="active"> ${i } </a>
+								<a href="${contextPath }/member/kakaoPaymentCancelRequestList?num=${i }" class="no_active"> ${i } </a>
 							</c:if>
 						</c:forEach>
 						<c:if test="${endPage < totalPage }">

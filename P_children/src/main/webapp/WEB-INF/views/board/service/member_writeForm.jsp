@@ -84,11 +84,11 @@ textarea{
 		<table>
 			<tr>
 				<th>제목</th>
-				<td><input type="text"  name="title" id="title"></td>
+				<td><input type="text"  name="title" id="title" maxlength="100"></td>
 			</tr>
 			<tr>
 				<th >내용</th>
-				<td ><textarea name="content" id="content"></textarea></td>
+				<td ><textarea name="content" id="content" maxlength="100"></textarea></td>
 			</tr>
 				<tr>
 					<th colspan="3">
