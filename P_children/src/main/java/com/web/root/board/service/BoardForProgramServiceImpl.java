@@ -212,13 +212,13 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		System.out.println(result);
 		
 		String msg, url;
-		if(result == 1) {
+		//if(result == 1) {
 			msg = "글이 삭제 되었습니다";
 			url = "/programBoard/programBoardAllList";
-		} else {
-			msg = "글삭제 실패~";
-			url = "/programBoard/programBoardContentView?write_no=" + write_no;
-		}
+//		} else {
+//			msg = "글삭제 실패~";
+//			url = "/programBoard/programBoardContentView?write_no=" + write_no;
+//		}
 		return bfs.getMessage(request, msg, url);
 	}
 	
@@ -408,8 +408,17 @@ public class BoardForProgramServiceImpl implements BoardForProgramService, Membe
 		model.addAttribute("block", block);
 		model.addAttribute("totalPage", totalPage);
 	}
+	
+	// 호스트의 마이페이지에서 프로그램 결재 취소 요청 보내기 기능
+	@Override
+	public int paidCancelRequestByTid(String tid) {
+		return mapper.paidCancelRequestByTid(tid);
+	}	
+	
 	//============================ 윤희 시작 =============================================
 	
+
+
 	@Override
 	public ProgramBoardDTO programBoardInformation(String id) {
 		

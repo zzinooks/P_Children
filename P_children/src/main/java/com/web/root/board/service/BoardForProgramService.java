@@ -42,6 +42,9 @@ public interface BoardForProgramService {
 	
 	public void myDibsProgramBoardAllList(Model model, int num, HttpServletRequest request, String id);
 	
+	// 호스트의 마이페이지에서 프로그램 결재 취소 요청 보내기 기능
+	public int paidCancelRequestByTid(String tid);
+	
 	
 	//========================== 윤희 시작 보류(확인 후 삭제될 수 있습니다.) =============================
 	
