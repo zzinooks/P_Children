@@ -19,7 +19,6 @@ section{
 	padding: 25px 30px;
 	border: 2px solid #C19681;
 	border-radius: 20px;
-	backdrop-filter: blur(15px);
 }
 .form-box .title{
 	font-size: 25px;

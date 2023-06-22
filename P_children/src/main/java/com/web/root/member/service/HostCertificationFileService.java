@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface HostCertificationFileService {
 
 	// host 파일 저장 위치
-	public static final String IMAGE_HOST_CERTIFICATION_REPO = "C:\\Users\\tkrhk\\git\\P_Children\\P_children\\src\\main\\webapp\\resources\\image\\hostCertificationDocument";
+	public static final String IMAGE_HOST_CERTIFICATION_REPO = "C:\\Users\\92779\\git\\P_Children\\P_children\\src\\main\\webapp\\resources\\image\\hostCertificationDocument";
 	// 진욱 임시 수정 (06/21)
 	//public static final String IMAGE_HOST_CERTIFICATION_REPO = "C:\\Users\\ju\\git\\P_Children\\P_children\\src\\main\\webapp\\resources\\image\\hostCertificationDocument";
 	// 임시 수정 끝

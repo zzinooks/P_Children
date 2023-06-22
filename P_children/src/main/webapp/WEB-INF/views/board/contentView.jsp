@@ -112,8 +112,6 @@
                       }
                      htm += "<a onclick='reComment("+ redata.reply_no +")'><b>더보기</b></a> "
                      
-                     C:\0900_JAVA_jjw\7_github\workSpaceForChildren2
-                     
                      // 댓글 작성자와 현재 유저가 일치하는 경우
                      if(redata.id == $("#user").val() || $("#userGrade").val() == $("#admin").val()) {
                         htm += "<a class='deleteUpdateButton' onclick='confirmDeleteReply(" + redata.reply_no + ","+ redata.write_group +")' >삭제</a>&nbsp;"

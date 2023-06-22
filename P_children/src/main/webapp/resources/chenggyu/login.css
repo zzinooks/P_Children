@@ -22,6 +22,16 @@ section{
 	justify-content: center;
 	align-items: center;
 }
+.form-box_{
+	position: relative;
+	width: 450px;
+	height: 550px;
+	border: 2px solid #C19681;
+	border-radius: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 h2{
 	font-size: 2em;
 	color: #201F20;

@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Mate With 프로그램 게시판</title>
 <link href="${pageContext.request.contextPath}/resources/chenggyu/board.css?v=5" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=5" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/chenggyu/page.css?v=6" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	function deleteConfirm(write_no, file_name){
 		
@@ -70,6 +70,18 @@ table             {
 #search_btn{
 	margin: 5px;
 }
+.map{
+	text-align: right;
+	margin: 10px;
+}
+.map button {
+	width: 15%;
+	height: 30px;
+    background: linear-gradient( 25deg, #C19681 50%, #A16F63);
+    color: black;
+    border:none;
+    border-radius:10px;	
+}
 </style>
 </head>
 <body>
@@ -78,7 +90,10 @@ table             {
 	
 		<section ><!-- body -->
 			<div class="form-box-list"> <!--  container  -->
-			<div class="title" >프로그램 게시판</div><button id="programMap" onclick="location.href='kakaoMapLatLng_json'">지도에서 프로그램 찾기</button>
+			<div class="title" >프로그램 게시판</div>
+			<div class="map">
+			<button id="programMap" onclick="location.href='kakaoMapLatLng_json'">지도에서 프로그램 찾기</button>
+			</div>
 			<table >
 			<thead>
 				<tr>
