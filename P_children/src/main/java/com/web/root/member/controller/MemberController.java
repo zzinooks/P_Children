@@ -225,6 +225,8 @@ public class MemberController implements MemberSession, KakaoDeveloper{
 			HttpServletRequest request, 
 			HttpServletResponse response, 
 			HttpSession session) throws IOException {
+		
+		// 로그아웃
 		if(request.getParameter("kakaoLogout") != null && request.getParameter("kakaoLogout").equals("true")) {
 			String kakaoLogoutId = ms.kakaoLogout((String)session.getAttribute("kakaoAccessToken"), kakaoLogoutURL);
 			if(kakaoLogoutId.equals((String)session.getAttribute(LOGIN))) {
@@ -232,10 +234,12 @@ public class MemberController implements MemberSession, KakaoDeveloper{
 			}
 			return "redirect:/index";
 		}
+		
 		String code = request.getParameter("code");
 		String token = ms.getkakaoToken(code, tokenURL);
 		String kakaoId = ms.registKakaoUser(token, kakaoIdURL, session);
 		
+		// 로그인 실패
 		if(kakaoId == null) {
 			String message = null;
 			String path = request.getContextPath();

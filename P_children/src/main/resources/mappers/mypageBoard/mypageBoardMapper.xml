@@ -66,14 +66,14 @@
 	
 	<!-- (커뮤니티) 해당 아이디에 담겨있는 전체 글 수 -->
 	<select id="mypageBoardAllCount" resultType="Integer"> 
-		SELECT COUNT(*) FROM board2 WHERE id=#{id}
+		SELECT COUNT(*) FROM board WHERE id=#{id}
 	</select>
 	
 	<!-- (커뮤니티) 해당 아이디 게시글 페이징 -->
 	<select id="mypageBoardList" resultMap="board"> 
 		SELECT B.* FROM 
 		(SELECT ROWNUM rn, A.* FROM 
-		(SELECT * FROM board2 where id=#{id} ORDER BY write_no DESC)A )B 
+		(SELECT * FROM board where id=#{id} ORDER BY write_no DESC)A )B 
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	

@@ -1,13 +1,141 @@
 SELECT 'DROP TABLE " '|| TABLE_NAME ||' " CASCADE CONSTRAINTS;' FROM USER_tables;
 
+ CREATE TABLE member(
+id NVARCHAR2(15) PRIMARY KEY,
+pwd NVARCHAR2(16) NOT NULL,
+nickname NVARCHAR2(30) NOT NULL,
+phone NVARCHAR2(11) NOT NULL,
+email NVARCHAR2(50) NOT NULL,
+addr NVARCHAR2(50) NOT NULL,
+grade NVARCHAR2(20) DEFAULT 'bronze',
+userSelect NVARCHAR2(10) NOT NULL,
+mateName NVARCHAR2(20),
+mateBreed NVARCHAR2(20),
+certified NVARCHAR2(1) DEFAULT 'N' NOT NULL
+);
 
-CREATE TABLE member(
-    id NVARCHAR2(15) PRIMARY KEY,
-    pwd NVARCHAR2(16) NOT NULL,
-    nickname NVARCHAR2(30) NOT NULL,
-    phone NUMBER(11) NOT NULL,
-    email NVARCHAR2(50) NOT NULL,
-    addr NVARCHAR2(50) NOT NULL
+CREATE SEQUENCE board_seq
+START WITH 1
+INCREMENT BY 1;
+
+CREATE TABLE board(
+write_no NUMBER(10) PRIMARY KEY,
+category VARCHAR2(100),
+title VARCHAR2(100),
+CONTENT NVARCHAR2(3000),
+savedate DATE DEFAULT SYSDATE,
+hit NUMBER(10) DEFAULT 0,
+file_name VARCHAR2(100),
+id VARCHAR2(20) NOT NULL
+);
+
+CREATE TABLE reply (
+reply_no NUMBER(10) PRIMARY KEY,
+depth NUMBER(2),
+cGroup NUMBER(10),
+id VARCHAR2(20),
+content VARCHAR2(300),
+write_group NUMBER(10),
+write_date DATE DEFAULT SYSDATE
+);
+
+CREATE TABLE QNA(
+write_no NUMBER(38) PRIMARY KEY,
+id VARCHAR2(20),
+title NVARCHAR2(100),
+content VARCHAR2(300),
+savedate DATE,
+status VARCHAR2(1)
+);
+
+CREATE TABLE notice(
+write_no NUMBER(10) PRIMARY KEY,
+category VARCHAR2(100),
+title VARCHAR2(100),
+CONTENT NVARCHAR2(3000),
+savedate DATE DEFAULT SYSDATE,
+hit NUMBER(10) DEFAULT 0,
+file_name VARCHAR2(100),
+id VARCHAR2(20) NOT NULL
+);
+
+CREATE SEQUENCE noticeBoard_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE programBoard(
+write_no NUMBER(10) PRIMARY KEY,
+id VARCHAR2(15) NOT NULL,
+title VARCHAR2(100) NOT NULL,
+petKind VARCHAR2(40) NOT NULL,
+mateName VARCHAR2(40) NOT NULL,
+mateImage VARCHAR2(100),
+CONTENT NVARCHAR2(3000),
+position1 VARCHAR2(100),
+position2 VARCHAR2(100),
+startDate VARCHAR2(20),
+startTime VARCHAR2(20),
+endDate VARCHAR2(20),
+endTime VARCHAR2(20),
+priceForProgram NUMBER(20),
+savedate DATE DEFAULT SYSDATE,
+hit NUMBER(10) DEFAULT 0,
+state VARCHAR2(20
+) DEFAULT '예약가능',
+currentRegisterCount NUMBER(10) DEFAULT 0,
+totalRegisterCount NUMBER(10)
+);
+
+CREATE TABLE kakaouser(
+kakaoid VARCHAR2(30) PRIMARY KEY,
+kakaologinemail VARCHAR2(50)
+);
+
+CREATE TABLE kakaopay_approve_result(
+aid NVARCHAR2(40) NOT NULL,
+tid NVARCHAR2(40) NOT NULL,
+cid NVARCHAR2(40) NOT NULL,
+sid NVARCHAR2(40),
+partner_order_id NVARCHAR2(40),
+partner_user_id NVARCHAR2(40),
+payment_method_type NVARCHAR2(40),
+amount NVARCHAR2(1000),
+card_info NVARCHAR2(1000),
+item_name NVARCHAR2(40),
+item_code NVARCHAR2(40),
+quantity NVARCHAR2(5),
+created_at NVARCHAR2(40),
+approved_at NVARCHAR2(40),
+payload NVARCHAR2(100)
+);
+
+CREATE TABLE dibs(
+id NVARCHAR2(15) NOT NULL,
+write_no NUMBER(10) NOT NULL,
+dibs_no NUMBER(10) NOT NULL,
+dibs_state NUMBER(2) DEFAULT 1,
+CONSTRAINT fk_test FOREIGN KEY(id) REFERENCES member(id) ON DELETE CASCADE
+);
+
+CREATE TABLE hostCertify(
+certify_no NUMBER(10) PRIMARY KEY,
+id NVARCHAR2(30),
+file_name NVARCHAR2(100),
+state NVARCHAR2(30) DEFAULT 'apply',
+savedate DATE DEFAULT SYSDATE
+);
+
+CREATE TABLE paidProgramInfo (
+id NVARCHAR2(15),
+title NVARCHAR2(100),
+write_no NUMBER,
+num NUMBER,
+cancel_request NVARCHAR2(1),
+tid NVARCHAR2(40) PRIMARY KEY,
+CONSTRAINT paidProgramInfo_FK FOREIGN KEY(id) REFERENCES member(id)
+);
+
+CREATE TABLE QNA_rep(
+content VARCHAR2(300),
+write_group VARCHAR2(100) PRIMARY KEY
 );
 
 

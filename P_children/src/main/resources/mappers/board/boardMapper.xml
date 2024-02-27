@@ -382,6 +382,20 @@
 		SELECT count(*) FROM dibs WHERE write_no = #{write_no} AND dibs_state=1
 	</select>
 	
+	<!--  게시판 정보와 게시판이 받은 찜의 갯수 동시에 가져오기!!
+	SELECT A.*,C.co
+	FROM (SELECT J.* FROM
+			(SELECT ROWNUM rn, K.* FROM
+				(SELECT * FROM board2 ORDER BY write_no DESC)K )J
+		  WHERE rn BETWEEN #{s} and #{e}) A, (
+										SELECT B.write_no,COUNT(D.write_no) as dibs_count
+										FROM board2 B, dibs D
+										WHERE  B.write_no = D.write_no(+)
+										GROUP BY B.write_no) C
+	WHERE A.write_no = C.write_no
+	ORDER BY A.write_no;
+	-->
+	
 	<!-- 내가 찜한 프로그램게시판 수 가져오기 -->
 	<select id="selectMyDibsProgramBoardCount" resultType="Integer">
 		SELECT COUNT(*)

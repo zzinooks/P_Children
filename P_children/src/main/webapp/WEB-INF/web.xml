@@ -30,6 +30,11 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	<!-- 시작 페이지 설정 -->
+	<welcome-file-list>
+		<welcom-file-list>/WEB-INF/views/chenggyu/index.jsp</welcom-file-list>
+	</welcome-file-list>
+	
 	<!-- 한글 깨짐 처리 -->
 	<filter>
 	   <filter-name>encodingFilter</filter-name>
