@@ -115,65 +115,65 @@
 	<select id="manager_board" resultMap="board">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
-		(SELECT * FROM board2 ORDER BY write_no DESC)A )B
+		(SELECT * FROM board ORDER BY write_no DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 	
 	<select id="boardAllList" resultMap="board">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
-		(SELECT * FROM board2 ORDER BY write_no DESC)A )B
+		(SELECT * FROM board ORDER BY write_no DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 
  	<select id="selectBoardCount" resultType="Integer">
-		SELECT COUNT(*) FROM board2
+		SELECT COUNT(*) FROM board
 	</select>
 	
 	<insert id="writeSave">
-		INSERT INTO board2(write_no, category, id, title, content, file_name)
+		INSERT INTO board(write_no, category, id, title, content, file_name)
 		VALUES(board_seq.NEXTVAL, #{category}, #{id}, #{title}, #{content}, #{file_name})
 	</insert>
 	
 	<select id="contentView" resultMap="board">
-		SELECT * FROM board2 WHERE write_no=#{write_no}
+		SELECT * FROM board WHERE write_no=#{write_no}
 	</select>
 
 
 	<update id="hitplus" parameterType="com.web.root.board.dto.BoardDTO">
-		UPDATE board2 SET hit = hit+1 WHERE write_no=#{write_no}
+		UPDATE board SET hit = hit+1 WHERE write_no=#{write_no}
 	</update>
 	
 	<update id="modifySave" parameterType="com.web.root.board.dto.BoardDTO">
-		UPDATE board2 SET title=#{title}, content=#{content} WHERE write_no=#{write_no}
+		UPDATE board SET title=#{title}, content=#{content} WHERE write_no=#{write_no}
 	</update>
 	
 	<update id="modifySaveWithFile" parameterType="com.web.root.board.dto.BoardDTO">
-		UPDATE board2 SET title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
+		UPDATE board SET title=#{title}, content=#{content}, file_name=#{file_name} WHERE write_no=#{write_no}
 	</update>
 	
 	<update id="modifyToDeleteFileName" parameterType="com.web.root.board.dto.BoardDTO">
-		UPDATE board2 SET file_name = 'nan' WHERE file_name=#{file_name}
+		UPDATE board SET file_name = 'nan' WHERE file_name=#{file_name}
 	</update>
 	
 	<delete id="deleteBoard">
-		DELETE FROM board2 WHERE write_no=#{write_no}
+		DELETE FROM board WHERE write_no=#{write_no}
 	</delete>
 	
 	<select id="selectBoardCountByCategory" resultType="Integer">
-		SELECT COUNT(*) FROM board2 where category=#{category}
+		SELECT COUNT(*) FROM board where category=#{category}
 	</select>
 	
 	<select id="boardAllListByCategory" resultMap="board">
 		SELECT B.* FROM
 		(SELECT ROWNUM rn, A.* FROM
-		(SELECT * FROM board2 WHERE category=#{category} ORDER BY write_no DESC)A )B
+		(SELECT * FROM board WHERE category=#{category} ORDER BY write_no DESC)A )B
 		WHERE rn BETWEEN #{s} and #{e}
 	</select>
 	
 	<!-- 게시판 게시글 카테고리+검색 => 해당 검색 카테고리리를 통해 각각 글 갯수 가져오기 -->
 	<select id="boardCountCategory" resultType="Integer"> 
-		SELECT COUNT(*) FROM board2 where category like #{category}
+		SELECT COUNT(*) FROM board where category like #{category}
 		and (title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%')
 	</select>
 		
@@ -181,7 +181,7 @@
 	<select id="boardSearchFormCountList" resultMap="board"> 
 			SELECT B.* FROM 
 			(SELECT ROWNUM rn, A.* FROM 
-			(SELECT * FROM board2 where 
+			(SELECT * FROM board where 
 			(title like '%'||#{title}||'%' and content like '%'||#{content}||'%' and id like '%'||#{id}||'%') 
 			and category like '%'||#{category}||'%' ORDER BY write_no DESC)A )B
 			WHERE rn BETWEEN #{s} and #{e} 
@@ -189,34 +189,34 @@
 	
 	<!-- 댓글 기능 -->
 	<insert id="addReply">
-		INSERT INTO reply2 VALUES(reply_seq.NEXTVAL, 0, 0, #{id}, #{content},#{write_no} ,SYSDATE)
+		INSERT INTO reply VALUES(reply_seq.NEXTVAL, 0, 0, #{id}, #{content},#{write_no} ,SYSDATE)
 	</insert>
 	
 	<select id="getRepList" resultMap="reply">
-		SELECT * FROM reply2 WHERE write_group=#{write_group}
+		SELECT * FROM reply WHERE write_group=#{write_group}
 		ORDER BY write_date DESC
 	</select>
 
 	<delete id="deleteReply">
-		DELETE FROM reply2 WHERE reply_no=#{reply_no} AND write_group=#{write_group}
+		DELETE FROM reply WHERE reply_no=#{reply_no} AND write_group=#{write_group}
 	</delete>
 	
 	<update id="updateReply">
-		UPDATE reply2 SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
+		UPDATE reply SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
 	</update>
 	
 	<!-- 답글 기능 -->
 	<select id="getReCommentList" resultMap="reply">
-		SELECT * FROM reply2 WHERE cGroup = #{reply_no}
+		SELECT * FROM reply WHERE cGroup = #{reply_no}
 		ORDER BY write_date
 	</select>
 	
 	<insert id="addReComment">
-		INSERT INTO reply2 VALUES(reply_seq.NEXTVAL, 1, #{cGroup}, #{id}, #{reCommentContent},#{write_no} ,SYSDATE)
+		INSERT INTO reply VALUES(reply_seq.NEXTVAL, 1, #{cGroup}, #{id}, #{reCommentContent},#{write_no} ,SYSDATE)
 	</insert>
 	
 	<update id="updateReComment">
-		UPDATE reply2 SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
+		UPDATE reply SET content=#{updateContent} WHERE id=#{id} AND reply_no=#{updateReply_no}
 	</update>
 	
 	<!-- 프로그램 게시판 -->
@@ -361,7 +361,7 @@
 	<!-- 내가 찜한 게시판 수 가져오기 -->
 	<select id="selectMyDibsBoardCount" resultType="Integer">
 		SELECT COUNT(*)
-		FROM board2
+		FROM board
 		WHERE write_no IN (SELECT write_no FROM dibs WHERE id=#{id} AND dibs_state=1)
 	</select>
 	
@@ -370,7 +370,7 @@
 		SELECT B.* FROM
     		(SELECT ROWNUM rn, A.* FROM
         		(SELECT *
-        		 FROM board2
+        		 FROM board
         		 WHERE write_no IN (SELECT write_no FROM dibs WHERE id=#{id} AND dibs_state=1)
     			 ORDER BY SAVEDATE DESC)A
     		 ) B
@@ -386,10 +386,10 @@
 	SELECT A.*,C.co
 	FROM (SELECT J.* FROM
 			(SELECT ROWNUM rn, K.* FROM
-				(SELECT * FROM board2 ORDER BY write_no DESC)K )J
+				(SELECT * FROM board ORDER BY write_no DESC)K )J
 		  WHERE rn BETWEEN #{s} and #{e}) A, (
 										SELECT B.write_no,COUNT(D.write_no) as dibs_count
-										FROM board2 B, dibs D
+										FROM board B, dibs D
 										WHERE  B.write_no = D.write_no(+)
 										GROUP BY B.write_no) C
 	WHERE A.write_no = C.write_no
